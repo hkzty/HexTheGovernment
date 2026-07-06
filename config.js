@@ -128,7 +128,7 @@ window.ABRAXAS_CONFIG = {
   comingSoon: [
     {
       title: "Saintless Code",
-      date: "May 2026",
+      date: "TBA",
       type: "Single",
       blurb: "Upcoming single with a colder vocal bed, denser low-end, and a stronger visual package built for teaser campaigns.",
       image: ""
