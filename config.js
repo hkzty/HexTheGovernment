@@ -124,29 +124,9 @@ window.ABRAXAS_CONFIG = {
     }
   ],
 
-  /* ---- Coming soon ------------------------------------------------------ */
+  /* ---- Coming soon (REMOVED FALSE TOUR DATA) ----------------------------
+     Tour dates and locations removed. Use for real announcements only.    */
   comingSoon: [
-    {
-      title: "Saintless Code",
-      date: "TBA",
-      type: "Single",
-      blurb: "Upcoming single with a colder vocal bed, denser low-end, and a stronger visual package built for teaser campaigns.",
-      image: ""
-    },
-    {
-      title: "Purple Mourning",
-      date: "July 2026",
-      type: "EP",
-      blurb: "Multi-track release expanding the catalog with more structured sequencing, heavier atmosphere, and better repeat pull.",
-      image: ""
-    },
-    {
-      title: "Null Cathedral Video",
-      date: "Visual",
-      type: "HTG Rollout",
-      blurb: "Dark visual piece aligned with the next track cycle, shaped for shorts, reels, and a full video release.",
-      image: ""
-    }
   ],
 
   /* ---- Gallery -----------------------------------------------------------
@@ -170,6 +150,16 @@ window.ABRAXAS_CONFIG = {
     { value: 34, label: "Night Sessions Logged" },
     { value: 4,  label: "Cities Routed Next" }
   ],
+
+  /* ---- Albums Configuration (NEW - Auto-scraper) ------------------------ */
+  albums: {
+    enabled: true,
+    pageSize: 12,
+    platforms: ['instagram', 'youtube', 'tiktok'],
+    defaultFilter: 'all',
+    defaultSort: 'latest',
+    updateInterval: 21600000  // 6 hours in milliseconds
+  },
 
   /* ---- Contact -----------------------------------------------------------
      The contact form opens the visitor's email app with the message
