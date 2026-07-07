@@ -1,0 +1,35 @@
+# Rebuilds assets/gallery/manifest.json whenever photos are added or removed.
+# Drop image files into assets/gallery/, push (or upload via the GitHub web
+# UI), and the site's gallery updates itself — no code edits needed.
+name: Gallery manifest
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "assets/gallery/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build manifest.json from image files
+        run: |
+          cd assets/gallery
+          ls -1 2>/dev/null | grep -iE '\.(jpe?g|png|webp|gif|avif)$' | sort \
+            | jq -R -s 'split("\n") | map(select(length > 0))' > manifest.json
+          echo "Manifest contents:"
+          cat manifest.json
+
+      - name: Commit manifest if it changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/gallery/manifest.json
+          git diff --cached --quiet || { git commit -m "Update gallery manifest"; git push; }

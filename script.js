@@ -1,265 +1,249 @@
-const body = document.body;
-const menuToggle = document.querySelector('.menu-toggle');
-const mobileMenu = document.querySelector('.mobile-menu');
-const navLinks = document.querySelectorAll('a[href^="#"]');
-const sideLinks = document.querySelectorAll('.side-link');
-const sections = document.querySelectorAll('[data-section]');
-const reveals = document.querySelectorAll('.reveal');
-const counters = document.querySelectorAll('[data-counter]');
-const backToTop = document.querySelector('.back-to-top');
-const scrollBar = document.querySelector('.scroll-meter-bar');
-const parallaxItems = document.querySelectorAll('.parallax');
-const galleryItems = document.querySelectorAll('.gallery-item');
-const lightbox = document.getElementById('lightbox');
-const lightboxImage = document.getElementById('lightboxImage');
-const lightboxClose = document.querySelector('.lightbox-close');
-const contactForm = document.getElementById('contactForm');
-const formFeedback = document.getElementById('formFeedback');
+    const topbar = document.getElementById('topbar');
+    const menuToggle = document.getElementById('menuToggle');
+    const nav = document.getElementById('site-nav');
+    const navLinks = [...document.querySelectorAll('.nav-list a')];
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const counters = document.querySelectorAll('[data-counter]');
+    const toTop = document.getElementById('toTop');
+    const sections = [...document.querySelectorAll('main section[id]')];
+    const parallaxLayers = document.querySelectorAll('.parallax-layer');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-if (menuToggle && mobileMenu) {
-  menuToggle.addEventListener('click', () => {
-    const isOpen = menuToggle.classList.toggle('is-open');
-    mobileMenu.classList.toggle('is-open', isOpen);
-    body.classList.toggle('menu-open', isOpen);
-    menuToggle.setAttribute('aria-expanded', String(isOpen));
-  });
-
-  mobileMenu.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      menuToggle.classList.remove('is-open');
-      mobileMenu.classList.remove('is-open');
-      body.classList.remove('menu-open');
-      menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggle.querySelector('span:last-child').textContent = isOpen ? 'Close Menu' : 'Open Menu';
     });
-  });
-}
 
-navLinks.forEach((link) => {
-  link.addEventListener('click', (event) => {
-    const href = link.getAttribute('href');
-    if (!href || href === '#') return;
-
-    const target = document.querySelector(href);
-    if (!target) return;
-
-    event.preventDefault();
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
-
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('in-view');
-      revealObserver.unobserve(entry.target);
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 820) {
+          nav.classList.remove('open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+          menuToggle.querySelector('span:last-child').textContent = 'Open Menu';
+        }
+      });
     });
-  },
-  { threshold: 0.14 }
-);
 
-reveals.forEach((item) => revealObserver.observe(item));
+    const onScrollFrame = () => {
+      const scrolled = window.scrollY > 16;
+      topbar.classList.toggle('scrolled', scrolled);
+      toTop.classList.toggle('show', window.scrollY > 720);
 
-const counterObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
+      if (!prefersReducedMotion) {
+        const scrollY = window.scrollY;
+        parallaxLayers.forEach(layer => {
+          const speed = Number(layer.dataset.speed || 0.1);
+          layer.style.transform = `translate3d(0, ${scrollY * speed}px, 0)`;
+        });
+      }
 
-      const el = entry.target;
+      let currentId = sections[0]?.id || '';
+      const offset = window.scrollY + 180;
+      for (const section of sections) {
+        if (offset >= section.offsetTop) currentId = section.id;
+      }
+      navLinks.forEach(link => {
+        const isActive = link.getAttribute('href') === `#${currentId}`;
+        link.classList.toggle('active', isActive);
+      });
+    };
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          onScrollFrame();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+    onScrollFrame();
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14 });
+
+    fadeEls.forEach(el => {
+      if (!el.classList.contains('visible')) revealObserver.observe(el);
+    });
+
+    const animateCounter = (el) => {
       const target = Number(el.dataset.counter || 0);
-      let frame = 0;
-      const totalFrames = 60;
-
-      const tick = () => {
-        frame += 1;
-        const progress = frame / totalFrames;
+      if (prefersReducedMotion) {
+        el.textContent = target.toString();
+        return;
+      }
+      const duration = 1300;
+      const start = performance.now();
+      const tick = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
-        const value = Math.round(target * eased);
-        el.textContent = value;
-
-        if (frame < totalFrames) {
+        el.textContent = Math.floor(eased * target).toString();
+        if (progress < 1) {
           requestAnimationFrame(tick);
         } else {
-          el.textContent = target;
+          el.textContent = target.toString();
         }
       };
-
       requestAnimationFrame(tick);
-      counterObserver.unobserve(el);
+    };
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.55 });
+
+    counters.forEach(counter => counterObserver.observe(counter));
+
+    toTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
     });
-  },
-  { threshold: 0.45 }
-);
 
-counters.forEach((counter) => counterObserver.observe(counter));
+    const cursor = document.querySelector('.cursor');
+    const cursorDot = document.querySelector('.cursor-dot');
+    const HOVERABLE_SELECTOR = 'a, button, input, textarea, .gallery-item';
 
-const setActiveSection = () => {
-  const midpoint = window.scrollY + window.innerHeight * 0.35;
+    if (window.matchMedia('(pointer: fine)').matches) {
+      let cursorVisible = false;
+      window.addEventListener('mousemove', (event) => {
+        const { clientX, clientY } = event;
+        cursor.style.left = `${clientX}px`;
+        cursor.style.top = `${clientY}px`;
+        cursorDot.style.left = `${clientX}px`;
+        cursorDot.style.top = `${clientY}px`;
+        if (!cursorVisible) {
+          cursor.classList.add('active');
+          cursorDot.classList.add('active');
+          cursorVisible = true;
+        }
+      });
 
-  sections.forEach((section) => {
-    const top = section.offsetTop;
-    const bottom = top + section.offsetHeight;
-    const isActive = midpoint >= top && midpoint < bottom;
-
-    if (isActive) {
-      sideLinks.forEach((link) => {
-        link.classList.toggle('active', link.getAttribute('href') === `#${section.id}`);
+      // Delegated so gallery rebuilds and injected players still count
+      document.addEventListener('mouseover', (event) => {
+        if (event.target.closest(HOVERABLE_SELECTOR)) cursor.classList.add('link-hover');
+      });
+      document.addEventListener('mouseout', (event) => {
+        if (event.target.closest(HOVERABLE_SELECTOR)) cursor.classList.remove('link-hover');
       });
     }
-  });
-};
 
-const updateScrollUI = () => {
-  const doc = document.documentElement;
-  const scrollable = doc.scrollHeight - window.innerHeight;
-  const progress = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+    const getGalleryButtons = () => [...document.querySelectorAll('[data-gallery-index]')];
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+    let currentGalleryIndex = 0;
 
-  if (scrollBar) {
-    scrollBar.style.width = `${Math.min(progress, 100)}%`;
-  }
+    const setLightbox = (index) => {
+      const item = getGalleryButtons()[index];
+      if (!item) return;
+      currentGalleryIndex = index;
+      lightboxImage.src = item.dataset.full;
+      lightboxImage.alt = item.querySelector('img')?.alt || 'Expanded gallery image';
+      lightboxCaption.textContent = item.dataset.caption || 'Gallery image';
+    };
 
-  if (backToTop) {
-    backToTop.classList.toggle('visible', window.scrollY > 500);
-  }
+    let lightboxReturnFocus = null;
 
-  setActiveSection();
-};
+    const openLightbox = (index) => {
+      setLightbox(index);
+      lightboxReturnFocus = document.activeElement;
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      // After the next style recalc the dialog is visible and can take focus
+      requestAnimationFrame(() => lightboxClose.focus());
+    };
 
-const updateParallax = () => {
-  const y = window.scrollY;
-  parallaxItems.forEach((item) => {
-    const speed = Number(item.dataset.speed || 0);
-    item.style.transform = `translate3d(0, ${y * speed}px, 0)`;
-  });
-};
-
-window.addEventListener('scroll', () => {
-  updateScrollUI();
-  updateParallax();
-}, { passive: true });
-
-window.addEventListener('load', () => {
-  updateScrollUI();
-  updateParallax();
-});
-
-if (backToTop) {
-  backToTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-}
-
-const finePointer = window.matchMedia('(pointer: fine)').matches;
-if (finePointer) {
-  const cursorDot = document.querySelector('.cursor-dot');
-  const cursorRing = document.querySelector('.cursor-ring');
-
-  let ringX = window.innerWidth / 2;
-  let ringY = window.innerHeight / 2;
-  let mouseX = ringX;
-  let mouseY = ringY;
-
-  const animateCursor = () => {
-    ringX += (mouseX - ringX) * 0.18;
-    ringY += (mouseY - ringY) * 0.18;
-
-    if (cursorDot) cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-    if (cursorRing) cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
-
-    requestAnimationFrame(animateCursor);
-  };
-
-  window.addEventListener('mousemove', (event) => {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-  });
-
-  document.querySelectorAll('a, button, input, textarea, label').forEach((interactive) => {
-    interactive.addEventListener('mouseenter', () => body.classList.add('cursor-hover'));
-    interactive.addEventListener('mouseleave', () => body.classList.remove('cursor-hover'));
-  });
-
-  animateCursor();
-}
-
-const openLightbox = (src, alt) => {
-  if (!lightbox || !lightboxImage) return;
-  lightboxImage.src = src;
-  lightboxImage.alt = alt || 'Expanded gallery image';
-  lightbox.classList.add('is-open');
-  lightbox.setAttribute('aria-hidden', 'false');
-  body.classList.add('lightbox-open');
-};
-
-const closeLightbox = () => {
-  if (!lightbox || !lightboxImage) return;
-  lightbox.classList.remove('is-open');
-  lightbox.setAttribute('aria-hidden', 'true');
-  lightboxImage.src = '';
-  body.classList.remove('lightbox-open');
-};
-
-galleryItems.forEach((item) => {
-  item.addEventListener('click', () => {
-    const src = item.dataset.lightboxSrc;
-    const img = item.querySelector('img');
-    openLightbox(src, img ? img.alt : 'Expanded gallery image');
-  });
-});
-
-if (lightboxClose) {
-  lightboxClose.addEventListener('click', closeLightbox);
-}
-
-if (lightbox) {
-  lightbox.addEventListener('click', (event) => {
-    if (event.target === lightbox) closeLightbox();
-  });
-}
-
-window.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') closeLightbox();
-});
-
-const isEmailValid = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-
-if (contactForm && formFeedback) {
-  contactForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    const fields = [...contactForm.querySelectorAll('input[required], textarea[required]')];
-    let isValid = true;
-
-    fields.forEach((field) => {
-      const value = field.value.trim();
-      field.classList.remove('invalid');
-
-      if (!value) {
-        field.classList.add('invalid');
-        isValid = false;
-        return;
+    const closeLightbox = () => {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lightboxReturnFocus && typeof lightboxReturnFocus.focus === 'function') {
+        lightboxReturnFocus.focus();
       }
+    };
 
-      if (field.type === 'email' && !isEmailValid(value)) {
-        field.classList.add('invalid');
-        isValid = false;
-        return;
-      }
+    const stepLightbox = (direction) => {
+      const count = getGalleryButtons().length;
+      if (!count) return;
+      currentGalleryIndex = (currentGalleryIndex + direction + count) % count;
+      setLightbox(currentGalleryIndex);
+    };
 
-      if (field.minLength > 0 && value.length < field.minLength) {
-        field.classList.add('invalid');
-        isValid = false;
-      }
+    document.querySelector('.gallery-grid')?.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-gallery-index]');
+      if (button) openLightbox(Number(button.dataset.galleryIndex));
     });
 
-    if (!isValid) {
-      formFeedback.textContent = 'Validation failed. Check the highlighted fields and try again.';
-      formFeedback.style.color = 'var(--danger)';
-      return;
-    }
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('click', () => stepLightbox(-1));
+    lightboxNext.addEventListener('click', () => stepLightbox(1));
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
 
-    formFeedback.textContent = 'Transmission accepted. Front-end demo passed. Connect a form endpoint to receive real submissions.';
-    formFeedback.style.color = 'var(--accent)';
-    contactForm.reset();
-  });
-}
+    window.addEventListener('keydown', (event) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (event.key === 'Escape') closeLightbox();
+      if (event.key === 'ArrowLeft') stepLightbox(-1);
+      if (event.key === 'ArrowRight') stepLightbox(1);
+    });
+
+    const contactForm = document.getElementById('contactForm');
+    const formError = document.getElementById('formError');
+    const formStatus = document.getElementById('formStatus');
+
+    contactForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      formError.textContent = '';
+      formStatus.textContent = '';
+
+      const formData = new FormData(contactForm);
+      const name = (formData.get('name') || '').toString().trim();
+      const email = (formData.get('email') || '').toString().trim();
+      const subject = (formData.get('subject') || '').toString().trim();
+      const message = (formData.get('message') || '').toString().trim();
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (name.length < 2) {
+        formError.textContent = 'Enter a real name with at least 2 characters.';
+        return;
+      }
+      if (!emailPattern.test(email)) {
+        formError.textContent = 'Enter a valid email address.';
+        return;
+      }
+      if (subject.length < 3) {
+        formError.textContent = 'Subject needs at least 3 characters.';
+        return;
+      }
+      if (message.length < 12) {
+        formError.textContent = 'Message is too short. Add some actual detail.';
+        return;
+      }
+
+      const contactEmail = ((window.ABRAXAS_CONFIG || {}).contactEmail || '').trim();
+      if (contactEmail) {
+        const body = `${message}\n\n— ${name} (${email})`;
+        window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        formStatus.textContent = `Opening your email app to send this to ${contactEmail}…`;
+      } else {
+        formStatus.textContent = 'Message validated. Add contactEmail in config.js (or hook a form service) to make submissions live.';
+      }
+      contactForm.reset();
+    });
+  
