@@ -1,0 +1,40 @@
+name: Content sync (auto-scraper)
+
+on:
+  schedule:
+    - cron: "0 */6 * * *" # every 6 hours, matching config.js albums.updateInterval
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: content-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run scraper
+        env:
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+        run: node scripts/scraper.js
+
+      - name: Commit and push if content changed
+        run: |
+          git config user.name "htg-content-sync[bot]"
+          git config user.email "actions@github.com"
+          git add assets/data/content.json assets/gallery/
+          if git diff --cached --quiet; then
+            echo "No content changes."
+          else
+            git commit -m "Auto-sync: refresh content.json and gallery"
+            git push
+          fi

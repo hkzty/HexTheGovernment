@@ -91,6 +91,33 @@ The contact form validates the message, then opens the visitor's email app pre-a
 
 ---
 
+## Auto content sync (scraper)
+
+`scripts/scraper.js` keeps the site's catalog current without anyone editing files by hand.
+It runs on a schedule via `.github/workflows/content-sync.yml` (every 6 hours, plus a
+manual **Run workflow** button in the Actions tab), commits any changes, and GitHub Pages
+redeploys automatically.
+
+**What it does with no API keys at all:** reads the Spotify / SoundCloud URLs already in
+`config.js` (`sequence.albums`, `sequence.highlights`, `outNowEmbeds`, `socials.soundcloud`),
+resolves each through the platform's public oEmbed endpoint for the real title and cover art,
+and writes `assets/data/content.json`. `render.js` reads that file and appends the results to
+the New Releases grid as `AUTO-SYNC` cards. If the file is missing or empty the site simply
+shows the hand-written releases — nothing breaks.
+
+**Instagram photos (needs one tap from the artist):** the artist authorizes a Meta app once
+via Instagram Login; store the resulting long-lived token as the repo secret
+`INSTAGRAM_ACCESS_TOKEN`. The scraper then pulls his posts, downloads any new images into
+`assets/gallery/`, and the existing `gallery-manifest.yml` Action makes them appear in the
+gallery. Without the secret this step is skipped with a log line and everything else still runs.
+
+Run it locally with `npm run scrape` (Node 18+, no dependencies to install).
+
+> Note: the scraper needs outbound access to `open.spotify.com` and `soundcloud.com`. Some
+> sandboxed environments block these; GitHub Actions runners do not.
+
+---
+
 ## Regenerating mobile.html
 
 After editing `index.html` or `style.css`, rebuild the one-page mobile version:
