@@ -181,6 +181,34 @@
     }));
   }
 
+  /* ---- Auto-synced catalog (assets/data/content.json) ---------------------
+     Written by scripts/scraper.js (run on a schedule by the content-sync
+     GitHub Action). Real album titles + cover art resolved from the URLs in
+     config.js — appended to the releases grid as auto-synced cards.        */
+  const albumsCfg = cfg.albums || {};
+  if (albumsCfg.enabled !== false && releaseGrid) {
+    fetch('assets/data/content.json')
+      .then(res => (res.ok ? res.json() : null))
+      .then(data => {
+        const items = (data && Array.isArray(data.items) ? data.items : [])
+          .filter(i => i.kind === 'album' && i.thumbnail && i.title)
+          .slice(0, albumsCfg.pageSize || 12);
+        if (!items.length) return;
+        releaseGrid.append(...items.map((item, index) => {
+          const link = el('a', { class: 'inline-link', href: item.url, target: '_blank', rel: 'noreferrer', text: 'Listen Now' });
+          return el('article', { class: 'release-card fade-in visible' }, [
+            el('img', { class: 'release-cover', src: item.thumbnail, alt: `Cover art for ${item.title}`, loading: 'lazy', decoding: 'async', width: 900, height: 900 }),
+            el('div', { class: 'release-body' }, [
+              el('div', { class: 'meta-row' }, [el('span', { text: `Album ${String(index + 1).padStart(2, '0')}` }), el('span', { text: 'Auto-Sync' })]),
+              el('div', {}, [el('h3', { text: item.title })]),
+              el('div', { class: 'pill-links' }, [link])
+            ])
+          ]);
+        }));
+      })
+      .catch(() => { /* no synced content yet */ });
+  }
+
   /* ---- Coming soon -------------------------------------------------------- */
   const comingGrid = document.querySelector('.coming-grid');
   if (comingGrid && Array.isArray(cfg.comingSoon) && cfg.comingSoon.length) {
