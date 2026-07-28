@@ -22,7 +22,10 @@ jobs:
       - name: Build manifest.json from image files
         run: |
           cd assets/gallery
-          ls -1 2>/dev/null | grep -iE '\.(jpe?g|png|webp|gif|avif)$' | sort \
+          # grep exits 1 when the folder holds no images yet (or the last photo
+          # was just removed). Actions runs bash with -o pipefail, so that would
+          # fail the job — `|| true` lets an empty gallery produce an empty [].
+          { ls -1 2>/dev/null | grep -iE '\.(jpe?g|png|webp|gif|avif)$' || true; } | sort \
             | jq -R -s 'split("\n") | map(select(length > 0))' > manifest.json
           echo "Manifest contents:"
           cat manifest.json
