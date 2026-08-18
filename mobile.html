@@ -1480,6 +1480,235 @@
     .insta-grid iframe {
       background: #fff;
     }
+  
+    /* =====================================================================
+       Empty states + Suit Purge (game.js)
+       ===================================================================== */
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .empty-state {
+      padding: 1.5rem;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(140, 3, 252, 0.04), rgba(26, 26, 26, 0.9));
+      display: grid;
+      gap: 1.1rem;
+      justify-items: start;
+    }
+
+    .empty-state p {
+      color: var(--muted);
+      max-width: 62ch;
+    }
+
+    .game-stage {
+      position: relative;
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 1.5rem auto 0;
+      aspect-ratio: 16 / 9;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #0b0217;
+      box-shadow: var(--shadow);
+    }
+
+    .game-canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      image-rendering: pixelated;
+      touch-action: manipulation;
+    }
+
+    .game-canvas.is-playing {
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .game-hud {
+      position: absolute;
+      top: 0.6rem;
+      left: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      pointer-events: none;
+    }
+
+    .hud-cell {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(11, 2, 23, 0.72);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14rem;
+      color: var(--muted);
+    }
+
+    .hud-cell b {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .game-overlay {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 0.85rem;
+      padding: 1.25rem;
+      text-align: center;
+      background: radial-gradient(circle at center, rgba(31, 3, 53, 0.84), rgba(6, 1, 12, 0.96));
+    }
+
+    .game-kicker {
+      color: var(--accent);
+      font-size: 0.64rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3rem;
+    }
+
+    .game-overlay h2 {
+      font-family: "New Rocker", system-ui;
+      font-size: clamp(2rem, 7vw, 4rem);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .game-lead {
+      max-width: 46ch;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .game-keys {
+      max-width: 54ch;
+      color: var(--muted);
+      font-size: 0.68rem;
+    }
+
+    .game-keys b {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .game-touch {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .game-fire {
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      border: 1px solid rgba(140, 3, 252, 0.6);
+      background: rgba(140, 3, 252, 0.2);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.66rem;
+      letter-spacing: 0.16rem;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .game-bar {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.6rem;
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .game-chip {
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: rgba(11, 2, 23, 0.82);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14rem;
+      cursor: pointer;
+    }
+
+    @media (pointer: fine) {
+      .game-fire {
+        display: none;
+      }
+    }
+
+    /*
+      Both body overlays are fixed, full-viewport and masked/blended, so the
+      compositor re-blends them on every canvas repaint - measured at a 23fps
+      cost while the game runs. Drop them for the duration.
+    */
+    body.game-active::before,
+    body.game-active::after {
+      display: none;
+    }
+
+    body.game-active .cursor,
+    body.game-active .cursor-dot {
+      opacity: 0;
+    }
+    body.game-active .to-top {
+      display: none;
+    }
+
+    @media (max-width: 820px) {
+      .game-stage {
+        width: 100%;
+        aspect-ratio: auto;
+        height: 68vh;
+        height: 68dvh;
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+      }
+
+      /* Top-right collides with the HUD on a phone. */
+      .game-bar {
+        top: auto;
+        right: auto;
+        bottom: 0.6rem;
+        left: 0.6rem;
+      }
+    }
+
+    /*
+      Phone: the fixed header and the sticky call-to-action bar between them
+      ate most of the screen once you started scrolling. The header now
+      scrolls away with the page instead of pinning, and the sticky bar is
+      gone. The menu is still reachable at the top, and the back-to-top
+      button returns you to it.
+    */
+    .topbar {
+      position: static;
+    }
+
+    .sticky-cta {
+      display: none;
+    }
+
+    main {
+      padding-top: 0;
+    }
+
   </style>
 </head>
 <body>
@@ -1505,6 +1734,7 @@
           <nav class="nav" id="site-nav" aria-label="Primary navigation">
             <ul class="nav-list">
               <li><a href="#home">Home</a></li>
+              <li><a href="#game">Play</a></li>
               <li><a href="#story">Story</a></li>
               <li><a href="#out-now">Out Now</a></li>
               <li><a href="#sequence">The Sequence</a></li>
@@ -1569,6 +1799,45 @@
         </div>
       </section>
 
+      <section class="section" id="game">
+        <div class="container">
+          <div class="section-head fade-in">
+            <span class="section-kicker">Playable // Suit Purge</span>
+            <h2 class="section-title">Politicians, billionaires, trillionaires.</h2>
+            <p class="section-copy">A first-person shooter running in this page. No downloads, no plugins, no third-party code - the whole thing is generated at runtime.</p>
+          </div>
+        </div>
+
+        <div class="game-stage">
+          <canvas id="gameCanvas" class="game-canvas" role="img" aria-label="Suit Purge, a first-person maze shooter. Playing is optional - every ABRAXAS release, link and contact detail is elsewhere on this page."></canvas>
+
+          <div class="game-hud" id="gameHud" aria-hidden="true">
+            <div class="hud-cell"><span>HP</span><b id="hudHealth">100</b></div>
+            <div class="hud-cell"><span>Ammo</span><b id="hudAmmo">60</b></div>
+            <div class="hud-cell"><span>Wave</span><b id="hudWave">1</b></div>
+            <div class="hud-cell"><span>Cleared</span><b id="hudKills">0</b></div>
+          </div>
+
+          <div class="game-overlay" id="gameOverlay">
+            <p class="game-kicker">HTG // Hex The Government</p>
+            <h2 id="gameOverlayTitle">SUIT PURGE</h2>
+            <p class="game-lead" id="gameOverlayText">Politicians, billionaires, trillionaires and high command are loose in the maze. Clear the floor, wave after wave, until they clear you.</p>
+            <button class="btn btn-primary" type="button" id="gamePlay">Enter the maze</button>
+            <p class="game-keys"><b>Desktop</b> WASD move &middot; mouse aim &middot; click fire &middot; Esc pause. <b>Phone</b> left thumb moves &middot; right thumb aims &middot; FIRE shoots.</p>
+          </div>
+
+          <div class="game-touch" id="gameTouch" hidden>
+            <button class="game-fire" id="gameFire" type="button" aria-label="Fire weapon">FIRE</button>
+          </div>
+
+          <div class="game-bar">
+            <button class="game-chip" type="button" id="gameExit" hidden>Exit to music</button>
+            <button class="game-chip" type="button" id="gameMute" aria-pressed="false">Sound on</button>
+          </div>
+        </div>
+      </section>
+
+
       <section class="section" id="story">
         <div class="container">
           <div class="section-head fade-in">
@@ -1621,25 +1890,17 @@
         <div class="container">
           <div class="section-head fade-in">
             <span class="section-kicker">Signal Metrics</span>
-            <h2 class="section-title">Numbers, until the real ones get worse.</h2>
-            <p class="section-copy">Animated placeholder stats ready to swap for real streams, drops, sessions, and cities once the catalog is fully live.</p>
+            <h2 class="section-title">Counted, not invented.</h2>
+            <p class="section-copy">Only numbers that come from the catalog itself.</p>
           </div>
           <div class="stats-grid">
             <article class="stat-card fade-in">
-              <div class="stat-value" data-counter="9">0</div>
-              <div class="stat-label">Tracks in Rotation</div>
+              <div class="stat-value" data-counter="13">0</div>
+              <div class="stat-label">Albums in the Sequence</div>
             </article>
             <article class="stat-card fade-in">
-              <div class="stat-value" data-counter="5">0</div>
-              <div class="stat-label">Drops Scheduled</div>
-            </article>
-            <article class="stat-card fade-in">
-              <div class="stat-value" data-counter="34">0</div>
-              <div class="stat-label">Night Sessions Logged</div>
-            </article>
-            <article class="stat-card fade-in">
-              <div class="stat-value" data-counter="4">0</div>
-              <div class="stat-label">Cities Routed Next</div>
+              <div class="stat-value" data-counter="3">0</div>
+              <div class="stat-label">Stretty Highlights</div>
             </article>
           </div>
         </div>
@@ -1703,62 +1964,19 @@
         <div class="container">
           <div class="section-head fade-in">
             <span class="section-kicker">New Releases</span>
-            <h2 class="section-title">Current release stack.</h2>
-            <p class="section-copy">Same release layout and interaction model as the Stretty build, just shifted into the ABRAXAS palette and mood. Miracles do happen, apparently.</p>
+            <h2 class="section-title">The catalog is the Sequence.</h2>
+            <p class="section-copy">Every ABRAXAS release that exists is in the Sequence above, playable in order. Individual release cards appear here when there is something to single out.</p>
           </div>
 
-          <div class="release-grid">
-            <article class="release-card fade-in">
-              <img class="release-cover" loading="lazy" decoding="async" width="900" height="900" src="https://picsum.photos/seed/abraxasrelease1/900/900?grayscale" alt="Placeholder cover art for release one" />
-              <div class="release-body">
-                <div class="meta-row">
-                  <span>Single</span>
-                  <span>Dark Emo</span>
-                </div>
-                <div>
-                  <h3>Black Halo Error</h3>
-                  <p>A lead single built on clipped drums, cold synth haze, and a vocal line that sounds like it barely held together on export.</p>
-                </div>
-                <div class="pill-links">
-                  <a class="inline-link" href="#out-now">Listen Now</a>
-                </div>
-              </div>
-            </article>
-
-            <article class="release-card fade-in">
-              <img class="release-cover" loading="lazy" decoding="async" width="900" height="900" src="https://picsum.photos/seed/abraxasrelease2/900/900?grayscale" alt="Placeholder cover art for release two" />
-              <div class="release-body">
-                <div class="meta-row">
-                  <span>EP</span>
-                  <span>Alt Rap</span>
-                </div>
-                <div>
-                  <h3>Violet Static</h3>
-                  <p>Short-run EP material with more melodic damage, sharper textures, and a tighter visual frame under the HTG banner.</p>
-                </div>
-                <div class="pill-links">
-                  <a class="inline-link" href="#out-now">Open Players</a>
-                </div>
-              </div>
-            </article>
-
-            <article class="release-card fade-in">
-              <img class="release-cover" loading="lazy" decoding="async" width="900" height="900" src="https://picsum.photos/seed/abraxasrelease3/900/900?grayscale" alt="Placeholder cover art for release three" />
-              <div class="release-body">
-                <div class="meta-row">
-                  <span>Visual Drop</span>
-                  <span>HTG</span>
-                </div>
-                <div>
-                  <h3>Crash Prayer</h3>
-                  <p>Visual-first release block for reel edits, short teasers, and sharper promo assets tied back to the main one-page site.</p>
-                </div>
-                <div class="pill-links">
-                  <a class="inline-link" href="#gallery">View Visuals</a>
-                </div>
-              </div>
-            </article>
+          <div class="empty-state fade-in">
+            <p>Thirteen albums and three Stretty highlights, all streaming now.</p>
+            <div class="pill-links">
+              <a class="inline-link" href="#sequence">Play the Sequence</a>
+              <a class="inline-link" data-social="spotify" href="#out-now" target="_blank" rel="noreferrer">Open Spotify</a>
+            </div>
           </div>
+
+          <div class="release-grid"></div>
         </div>
       </section>
 
@@ -1766,42 +1984,19 @@
         <div class="container">
           <div class="section-head fade-in">
             <span class="section-kicker">Coming Soon</span>
-            <h2 class="section-title">Next wave already compiling.</h2>
-            <p class="section-copy">Teaser cards for the next releases, visual drops, and rollout phases. Replace dates when the real release plan stops mutating.</p>
+            <h2 class="section-title">Nothing announced yet.</h2>
+            <p class="section-copy">No release date is public right now. Titles and dates land here only once they are locked - no teaser cards for tracks that do not exist yet.</p>
           </div>
 
-          <div class="coming-grid">
-            <article class="coming-card fade-in">
-              <img class="coming-image" loading="lazy" decoding="async" width="900" height="900" src="https://picsum.photos/seed/abraxascoming1/900/900?grayscale" alt="Placeholder visual for upcoming single" />
-              <div class="coming-body">
-                <div class="meta-row"><span>May 2026</span><span>Single</span></div>
-                <div>
-                  <h3>Saintless Code</h3>
-                  <p>Upcoming single with a colder vocal bed, denser low-end, and a stronger visual package built for teaser campaigns.</p>
-                </div>
-              </div>
-            </article>
-            <article class="coming-card fade-in">
-              <img class="coming-image" loading="lazy" decoding="async" width="900" height="900" src="https://picsum.photos/seed/abraxascoming2/900/900?grayscale" alt="Placeholder visual for upcoming EP" />
-              <div class="coming-body">
-                <div class="meta-row"><span>July 2026</span><span>EP</span></div>
-                <div>
-                  <h3>Purple Mourning</h3>
-                  <p>Multi-track release expanding the catalog with more structured sequencing, heavier atmosphere, and better repeat pull.</p>
-                </div>
-              </div>
-            </article>
-            <article class="coming-card fade-in">
-              <img class="coming-image" loading="lazy" decoding="async" width="900" height="900" src="https://picsum.photos/seed/abraxascoming3/900/900?grayscale" alt="Placeholder visual for upcoming video" />
-              <div class="coming-body">
-                <div class="meta-row"><span>Visual</span><span>HTG Rollout</span></div>
-                <div>
-                  <h3>Null Cathedral Video</h3>
-                  <p>Dark visual piece aligned with the next track cycle, shaped for shorts, reels, and a full video release.</p>
-                </div>
-              </div>
-            </article>
+          <div class="empty-state fade-in">
+            <p>The next ABRAXAS drop gets announced here and on Spotify at the same time. Follow the artist profile to catch it without checking back.</p>
+            <div class="pill-links">
+              <a class="inline-link" data-social="spotify" href="#out-now" target="_blank" rel="noreferrer">Follow on Spotify</a>
+              <a class="inline-link" href="#sequence">Hear the Sequence</a>
+            </div>
           </div>
+
+          <div class="coming-grid"></div>
         </div>
       </section>
 
@@ -1855,50 +2050,15 @@
         <div class="container">
           <div class="section-head fade-in">
             <span class="section-kicker">Upcoming Tours</span>
-            <h2 class="section-title">Next rooms, next cities, next damage.</h2>
-            <p class="section-copy">Tour cards stay built like a standalone page but inside the one-page flow. Keep or remove dates depending on how close you are to dragging this thing on stage.</p>
+            <h2 class="section-title">No dates on the calendar.</h2>
+            <p class="section-copy">There are no confirmed ABRAXAS shows right now. Real dates go up here with the real venue, city and ticket link - nothing before that.</p>
           </div>
 
-          <div class="tour-grid">
-            <article class="tour-card fade-in">
-              <div class="tour-head">
-                <div class="tour-date">16 MAY</div>
-                <div class="tour-status">Tickets Soon</div>
-              </div>
-              <div class="tour-body">
-                <div>
-                  <h3>Sydney / Black Terminal Room</h3>
-                  <p>Dark room set under the HTG banner with hard visuals, stripped staging, and enough pressure to prove the project live.</p>
-                </div>
-                <div class="meta-row"><span>Doors 8PM</span><span>18+</span></div>
-              </div>
-            </article>
-            <article class="tour-card fade-in">
-              <div class="tour-head">
-                <div class="tour-date">02 JUN</div>
-                <div class="tour-status">Hold</div>
-              </div>
-              <div class="tour-body">
-                <div>
-                  <h3>Melbourne / Basement Signal</h3>
-                  <p>Placeholder routing card for a tighter venue with purple-black visual loops and room-level energy instead of bloated nonsense.</p>
-                </div>
-                <div class="meta-row"><span>Set 9:30PM</span><span>Alt Lineup</span></div>
-              </div>
-            </article>
-            <article class="tour-card fade-in">
-              <div class="tour-head">
-                <div class="tour-date">24 JUN</div>
-                <div class="tour-status">Announcing</div>
-              </div>
-              <div class="tour-body">
-                <div>
-                  <h3>Brisbane / Violet Box</h3>
-                  <p>Future routing block for the next push once releases, visuals, and merch all lock in together under the same feed.</p>
-                </div>
-                <div class="meta-row"><span>Venue TBA</span><span>HTG Night</span></div>
-              </div>
-            </article>
+          <div class="empty-state fade-in">
+            <p>Booking enquiries are open. Send the city, venue, date and lineup through the contact form and it gets answered directly.</p>
+            <div class="pill-links">
+              <a class="inline-link" href="#contact">Send a Booking Enquiry</a>
+            </div>
           </div>
         </div>
       </section>
@@ -2063,6 +2223,7 @@
 
   <script src="config.js"></script>
   <script src="render.js"></script>
+  <script src="game.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

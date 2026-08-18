@@ -94,34 +94,14 @@ window.ABRAXAS_CONFIG = {
   instagramPosts: [
   ],
 
-  /* ---- Releases (real titles — swap covers/links when ready) ------------
+  /* ---- Releases ----------------------------------------------------------
+     The three entries that used to live here were invented placeholders and
+     have been removed. Add a release only when it actually exists.
      cover: local file ("assets/cover.jpg") or public image URL.
      link:  streaming URL for the release ("" = points to Out Now section). */
   releases: [
-    {
-      title: "Black Halo Error",
-      type: "Single",
-      tag: "Occult Rap",
-      blurb: "A lead single built on clipped drums, cold synth haze, and a vocal line that sounds like it barely held together on export.",
-      cover: "",
-      link: ""
-    },
-    {
-      title: "Violet Static",
-      type: "EP",
-      tag: "Alt Rap",
-      blurb: "Short-run EP material with more melodic damage, sharper textures, and a tighter visual frame under the HTG banner.",
-      cover: "",
-      link: ""
-    },
-    {
-      title: "Crash Prayer",
-      type: "Visual Drop",
-      tag: "HTG",
-      blurb: "Visual-first release block for reel edits, short teasers, and sharper promo assets tied back to the main one-page site.",
-      cover: "",
-      link: ""
-    }
+    // Empty = the New Releases section shows an honest "catalog is the
+    // Sequence" state. Add an entry only for a real, released title.
   ],
 
   /* ---- Coming soon (REMOVED FALSE TOUR DATA) ----------------------------
@@ -143,12 +123,10 @@ window.ABRAXAS_CONFIG = {
     { thumb: "https://picsum.photos/seed/abraxasgallery6/900/900?grayscale", full: "https://picsum.photos/seed/abraxasgallery6/1600/1200?grayscale", caption: "Visual frame / violet signal" }
   ],
 
-  /* ---- Stats (placeholder numbers — edit freely) ------------------------ */
+  /* ---- Stats — counted from the Sequence above, not invented. ---------- */
   stats: [
     { value: 13, label: "Albums in the Sequence" },
-    { value: 3,  label: "Stretty Highlights" },
-    { value: 34, label: "Night Sessions Logged" },
-    { value: 4,  label: "Cities Routed Next" }
+    { value: 3,  label: "Stretty Highlights" }
   ],
 
   /* ---- Albums Configuration (NEW - Auto-scraper) ------------------------ */

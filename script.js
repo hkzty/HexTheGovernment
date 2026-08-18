@@ -9,6 +9,20 @@
     const parallaxLayers = document.querySelectorAll('.parallax-layer');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    /*
+      --nav-height drives the top padding that keeps content clear of the
+      fixed header, but the header's real height depends on viewport width
+      and on the webfont landing. Measure it instead of hardcoding a guess.
+    */
+    const syncNavHeight = () => {
+      if (!topbar) return;
+      document.documentElement.style.setProperty('--nav-height', `${topbar.offsetHeight}px`);
+    };
+
+    syncNavHeight();
+    window.addEventListener('resize', syncNavHeight);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncNavHeight);
+
     menuToggle.addEventListener('click', () => {
       const isOpen = nav.classList.toggle('open');
       menuToggle.setAttribute('aria-expanded', String(isOpen));
