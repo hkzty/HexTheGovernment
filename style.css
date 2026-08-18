@@ -1443,3 +1443,212 @@
     .insta-grid iframe {
       background: #fff;
     }
+
+    /* =====================================================================
+       Empty states + Suit Purge (game.js)
+       ===================================================================== */
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .empty-state {
+      padding: 1.5rem;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(140, 3, 252, 0.04), rgba(26, 26, 26, 0.9));
+      display: grid;
+      gap: 1.1rem;
+      justify-items: start;
+    }
+
+    .empty-state p {
+      color: var(--muted);
+      max-width: 62ch;
+    }
+
+    .game-stage {
+      position: relative;
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 1.5rem auto 0;
+      aspect-ratio: 16 / 9;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #0b0217;
+      box-shadow: var(--shadow);
+    }
+
+    .game-canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      image-rendering: pixelated;
+      touch-action: manipulation;
+    }
+
+    .game-canvas.is-playing {
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .game-hud {
+      position: absolute;
+      top: 0.6rem;
+      left: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      pointer-events: none;
+    }
+
+    .hud-cell {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(11, 2, 23, 0.72);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14rem;
+      color: var(--muted);
+    }
+
+    .hud-cell b {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .game-overlay {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 0.85rem;
+      padding: 1.25rem;
+      text-align: center;
+      background: radial-gradient(circle at center, rgba(31, 3, 53, 0.84), rgba(6, 1, 12, 0.96));
+    }
+
+    .game-kicker {
+      color: var(--accent);
+      font-size: 0.64rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3rem;
+    }
+
+    .game-overlay h2 {
+      font-family: "New Rocker", system-ui;
+      font-size: clamp(2rem, 7vw, 4rem);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .game-lead {
+      max-width: 46ch;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .game-keys {
+      max-width: 54ch;
+      color: var(--muted);
+      font-size: 0.68rem;
+    }
+
+    .game-keys b {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .game-touch {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .game-fire {
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      border: 1px solid rgba(140, 3, 252, 0.6);
+      background: rgba(140, 3, 252, 0.2);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.66rem;
+      letter-spacing: 0.16rem;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .game-bar {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.6rem;
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .game-chip {
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: rgba(11, 2, 23, 0.82);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14rem;
+      cursor: pointer;
+    }
+
+    @media (pointer: fine) {
+      .game-fire {
+        display: none;
+      }
+    }
+
+    /*
+      Both body overlays are fixed, full-viewport and masked/blended, so the
+      compositor re-blends them on every canvas repaint - measured at a 23fps
+      cost while the game runs. Drop them for the duration.
+    */
+    body.game-active::before,
+    body.game-active::after {
+      display: none;
+    }
+
+    body.game-active .cursor,
+    body.game-active .cursor-dot {
+      opacity: 0;
+    }
+    body.game-active .to-top {
+      display: none;
+    }
+
+    @media (max-width: 820px) {
+      .game-stage {
+        width: 100%;
+        aspect-ratio: auto;
+        height: 68vh;
+        height: 68dvh;
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+      }
+
+      /* Top-right collides with the HUD on a phone. */
+      .game-bar {
+        top: auto;
+        right: auto;
+        bottom: 0.6rem;
+        left: 0.6rem;
+      }
+    }

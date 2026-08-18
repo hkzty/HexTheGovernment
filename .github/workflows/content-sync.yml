@@ -1,8 +1,20 @@
 name: Content sync (auto-scraper)
 
+# PAUSED. The 6-hourly schedule is commented out deliberately.
+#
+# Every one of the 83 runs to date failed, and the job has never once
+# produced assets/data/content.json. All sources fail the same way:
+#   403 Forbidden for https://open.spotify.com/oembed?url=...
+# Spotify's oEmbed endpoint appears to reject datacenter IPs, and Actions
+# runners are datacenter IPs, which fits a job that has never succeeded
+# rather than one that broke. The scraper then hits its own guard,
+# "No items resolved - refusing to overwrite content.json", and exits 1.
+#
+# Re-enable by uncommenting the schedule once the fetch path is fixed.
+# workflow_dispatch is left on so it can still be run by hand to test.
 on:
-  schedule:
-    - cron: "0 */6 * * *" # every 6 hours, matching config.js albums.updateInterval
+  # schedule:
+  #   - cron: "0 */6 * * *" # every 6 hours, matching config.js albums.updateInterval
   workflow_dispatch: {}
 
 permissions:
