@@ -1652,3 +1652,24 @@
         left: 0.6rem;
       }
     }
+
+/*
+  Phone chrome (mobile.html only). The fixed header and the sticky
+  call-to-action bar between them ate most of the screen once you started
+  scrolling. On the mobile page the header scrolls away with the page
+  instead of pinning, and the sticky bar is gone. The menu is still
+  reachable at the top, and the back-to-top button returns you to it.
+  Scoped to .page-mobile (added by mobile.html's inline script) so the
+  shared desktop page keeps its fixed header and sticky bar.
+*/
+.page-mobile .topbar {
+  position: static;
+}
+
+.page-mobile .sticky-cta {
+  display: none;
+}
+
+.page-mobile main {
+  padding-top: 0;
+}
