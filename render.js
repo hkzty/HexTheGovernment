@@ -159,7 +159,7 @@
   }
 
   /* ---- Releases ---------------------------------------------------------- */
-  const releaseCover = (item, index) => item.cover || `https://picsum.photos/seed/abraxasrelease${index + 1}/900/900?grayscale`;
+  const releaseCover = (item, index) => item.cover || `assets/placeholders/gallery-${((index) % 6) + 1}.svg`;
   const releaseGrid = document.querySelector('.release-grid');
   if (releaseGrid && Array.isArray(cfg.releases) && cfg.releases.length) {
     releaseGrid.replaceChildren(...cfg.releases.map((item, index) => {
@@ -213,7 +213,7 @@
   const comingGrid = document.querySelector('.coming-grid');
   if (comingGrid && Array.isArray(cfg.comingSoon) && cfg.comingSoon.length) {
     comingGrid.replaceChildren(...cfg.comingSoon.map((item, index) => el('article', { class: 'coming-card fade-in' }, [
-      el('img', { class: 'coming-image', src: item.image || `https://picsum.photos/seed/abraxascoming${index + 1}/900/900?grayscale`, alt: `Visual for ${item.title}`, loading: 'lazy', decoding: 'async', width: 900, height: 900 }),
+      el('img', { class: 'coming-image', src: item.image || `assets/placeholders/gallery-${((index) % 6) + 1}.svg`, alt: `Visual for ${item.title}`, loading: 'lazy', decoding: 'async', width: 900, height: 900 }),
       el('div', { class: 'coming-body' }, [
         el('div', { class: 'meta-row' }, [el('span', { text: item.date || 'TBA' }), el('span', { text: item.type || 'Drop' })]),
         el('div', {}, [el('h3', { text: item.title }), el('p', { text: item.blurb || '' })])

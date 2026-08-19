@@ -49,7 +49,7 @@ window.ABRAXAS_CONFIG = {
   /* ---- Hero video -------------------------------------------------------
      Local file in the repo or any public direct .mp4 URL.                 */
   heroVideo: "assets/htg-hero.mp4",
-  heroPoster: "https://picsum.photos/seed/abraxashero/1920/1080?grayscale",
+  heroPoster: "assets/placeholders/hero-poster.svg",
 
   /* ---- THE SEQUENCE ------------------------------------------------------
      The full playthrough, in order. Every URL becomes an embedded player.
@@ -115,12 +115,12 @@ window.ABRAXAS_CONFIG = {
      by the GitHub Action on every upload). The list below is only the
      fallback shown until real photos exist.                               */
   gallery: [
-    { thumb: "https://picsum.photos/seed/abraxasgallery1/900/900?grayscale", full: "https://picsum.photos/seed/abraxasgallery1/1600/1200?grayscale", caption: "Night session / purple terminal room" },
-    { thumb: "https://picsum.photos/seed/abraxasgallery2/900/900?grayscale", full: "https://picsum.photos/seed/abraxasgallery2/1600/1200?grayscale", caption: "Backstage static / blackout wash" },
-    { thumb: "https://picsum.photos/seed/abraxasgallery3/900/900?grayscale", full: "https://picsum.photos/seed/abraxasgallery3/1600/1200?grayscale", caption: "Cover shoot / corrupted glow" },
-    { thumb: "https://picsum.photos/seed/abraxasgallery4/900/900?grayscale", full: "https://picsum.photos/seed/abraxasgallery4/1600/1200?grayscale", caption: "Venue check / monitors down" },
-    { thumb: "https://picsum.photos/seed/abraxasgallery5/900/900?grayscale", full: "https://picsum.photos/seed/abraxasgallery5/1600/1200?grayscale", caption: "Merch prep / box stack" },
-    { thumb: "https://picsum.photos/seed/abraxasgallery6/900/900?grayscale", full: "https://picsum.photos/seed/abraxasgallery6/1600/1200?grayscale", caption: "Visual frame / violet signal" }
+    { thumb: "assets/placeholders/gallery-1.svg", full: "assets/placeholders/gallery-1.svg", caption: "Night session / purple terminal room" },
+    { thumb: "assets/placeholders/gallery-2.svg", full: "assets/placeholders/gallery-2.svg", caption: "Backstage static / blackout wash" },
+    { thumb: "assets/placeholders/gallery-3.svg", full: "assets/placeholders/gallery-3.svg", caption: "Cover shoot / corrupted glow" },
+    { thumb: "assets/placeholders/gallery-4.svg", full: "assets/placeholders/gallery-4.svg", caption: "Venue check / monitors down" },
+    { thumb: "assets/placeholders/gallery-5.svg", full: "assets/placeholders/gallery-5.svg", caption: "Merch prep / box stack" },
+    { thumb: "assets/placeholders/gallery-6.svg", full: "assets/placeholders/gallery-6.svg", caption: "Visual frame / violet signal" }
   ],
 
   /* ---- Stats — counted from the Sequence above, not invented. ---------- */
