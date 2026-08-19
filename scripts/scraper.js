@@ -31,16 +31,55 @@ function loadConfig() {
   return windowShim.ABRAXAS_CONFIG || {};
 }
 
-async function fetchJson(url) {
-  const res = await fetch(url, { headers: { 'user-agent': 'HTG-content-sync/1.0' } });
+// Spotify's oEmbed endpoint now 403s any request that doesn't look like a real
+// browser — send a desktop UA and an explicit JSON Accept.
+const BROWSER_HEADERS = {
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+  'accept': 'application/json,text/html;q=0.9,*/*;q=0.8',
+  'accept-language': 'en-US,en;q=0.9'
+};
+
+async function fetchJson(url, headers = { 'user-agent': 'HTG-content-sync/1.0' }) {
+  const res = await fetch(url, { headers });
   if (!res.ok) throw new Error(`${res.status} ${res.statusText} for ${url}`);
   return res.json();
 }
 
+async function fetchText(url, headers = BROWSER_HEADERS) {
+  const res = await fetch(url, { headers });
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText} for ${url}`);
+  return res.text();
+}
+
+function ogTag(html, prop) {
+  const re = new RegExp(`<meta[^>]+property=["']${prop}["'][^>]+content=["']([^"']+)["']`, 'i');
+  const m = html.match(re);
+  return m ? m[1].replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'") : '';
+}
+
 /* ---- keyless oEmbed resolvers ------------------------------------------ */
 async function spotifyItem(url, kind) {
-  const data = await fetchJson(`https://open.spotify.com/oembed?url=${encodeURIComponent(url)}`);
-  return { platform: 'spotify', kind, url, title: data.title || '', thumbnail: data.thumbnail_url || '' };
+  const oembed = `oembed?url=${encodeURIComponent(url)}`;
+  // 1. Real oEmbed on open.spotify.com — needs a browser UA or it 403s.
+  try {
+    const data = await fetchJson(`https://open.spotify.com/${oembed}`, BROWSER_HEADERS);
+    return { platform: 'spotify', kind, url, title: data.title || '', thumbnail: data.thumbnail_url || '' };
+  } catch (err) {
+    if (!/^40[0-9]/.test(err.message)) throw err;
+  }
+  // 2. Older mirror still serves oEmbed JSON when the primary blocks us.
+  try {
+    const data = await fetchJson(`https://embed.spotify.com/${oembed}`, BROWSER_HEADERS);
+    return { platform: 'spotify', kind, url, title: data.title || '', thumbnail: data.thumbnail_url || '' };
+  } catch (err) {
+    if (!/^40[0-9]/.test(err.message)) throw err;
+  }
+  // 3. Last resort: pull og: tags out of the public share page's HTML.
+  const html = await fetchText(url);
+  const title = ogTag(html, 'og:title') || ogTag(html, 'twitter:title');
+  const thumbnail = ogTag(html, 'og:image') || ogTag(html, 'twitter:image');
+  if (!title && !thumbnail) throw new Error(`no metadata for ${url}`);
+  return { platform: 'spotify', kind, url, title, thumbnail };
 }
 
 async function soundcloudItem(url, kind) {
@@ -82,7 +121,11 @@ async function syncInstagram(token) {
 }
 
 /* ---- main ---------------------------------------------------------------- */
-(async () => {
+if (require.main === module) main();
+
+module.exports = { spotifyItem, soundcloudItem, ogTag, BROWSER_HEADERS };
+
+async function main() {
   const cfg = loadConfig();
   const seq = cfg.sequence || {};
   const sources = [
@@ -138,4 +181,4 @@ async function syncInstagram(token) {
 
   console.log(`wrote ${path.relative(ROOT, OUT_FILE)} — ${unique.length} items`);
   if (errors.length) console.log(`warnings:\n${errors.join('\n')}`);
-})();
+}
