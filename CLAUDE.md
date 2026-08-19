@@ -117,9 +117,15 @@ out of view, on Escape, and when the tab is hidden.
   blocked. Gating on LOS left them standing inert in rooms the player
   never entered; and with `dx` or `dy` at zero the axis-slide had nothing
   to slide along, so they deadlocked against head-on walls.
-- **The map is validated by flood fill.** All open cells must be
-  reachable and every spawn point must sit on open, reachable floor.
-  Re-check after editing `MAP_SRC`.
+- **The map has no runtime validator — check it by hand after editing
+  `MAP_SRC`.** There is no flood-fill or connectivity guard in the code;
+  a disconnected room or a spawn placed on a wall will ship silently. The
+  invariant to preserve: every open (`.`) cell must be reachable from the
+  player start, and every `SPAWNS` coordinate must sit on open, reachable
+  floor. Verify with a throwaway flood-fill from the start cell over
+  `MAP_SRC` that visits all open cells and confirms each spawn is among
+  them. (If this becomes a frequent edit, promoting that check into a
+  dev-only assertion in `game.js` would be worth doing.)
 
 ## `--nav-height`
 
