@@ -15,18 +15,18 @@ window.ABRAXAS_CONFIG = {
   artist: "ABRAXAS",
   tagline: "Depressions Running Deep",
   label: "HTG / Hex The Government",
-  genre: "Underground Occult Rap",
+  genre: "HEXCORE",
 
   /* Lines shown in the signal.log terminal card on the hero. */
   terminalLines: [
     "Artist: ABRAXAS",
     "Tagline: Depressions Running Deep",
     "Label: HTG / Hex The Government",
-    "Sound: underground occult rap",
+    "Sound: HEXCORE",
     "Produces as: HexBoy",
     "Mastering: Microbial Mastering",
     "Signal: 93 93/93",
-    "Status: next release compiling"
+    "Status: mid ritual"
   ],
 
   /* ---- Linked profiles (paste your public URLs here) -------------------
