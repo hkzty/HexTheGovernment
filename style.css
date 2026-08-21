@@ -57,11 +57,13 @@
       inset: 0;
       pointer-events: none;
       background:
-        linear-gradient(rgba(140, 3, 252, 0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(140, 3, 252, 0.03) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.15));
+        repeating-linear-gradient(180deg, rgba(140, 3, 252, 0.12) 0 1px, transparent 1px 5px),
+        linear-gradient(rgba(140, 3, 252, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(140, 3, 252, 0.08) 1px, transparent 1px);
+      background-size: 100% 5px, 100px 100px, 100px 100px;
+      opacity: 0.18;
       z-index: 0;
+      animation: hero-grid-drift 16s linear infinite;
     }
 
     body::after {
@@ -69,9 +71,12 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent 20%, transparent 80%, rgba(255,255,255,0.02));
-      mix-blend-mode: soft-light;
-      opacity: 0.55;
+      background-image:
+        radial-gradient(circle at 20% 25%, rgba(255,255,255,0.04) 0 1px, transparent 1px),
+        radial-gradient(circle at 70% 65%, rgba(255,255,255,0.03) 0 1px, transparent 1px),
+        radial-gradient(circle at 50% 85%, rgba(255,255,255,0.05) 0 1px, transparent 1px);
+      background-size: 160px 160px;
+      opacity: 0.28;
       z-index: 0;
     }
 
