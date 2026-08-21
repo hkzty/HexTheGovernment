@@ -20,6 +20,10 @@
   let columns = [];
   let rafId = 0;
   let paused = false;
+  let lastT = 0;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let disabled = reduceMotion.matches;
 
   const rand = (min, max) => Math.random() * (max - min) + min;
   const pickGlyph = () => GLYPHS.charAt((Math.random() * GLYPHS.length) | 0);
@@ -41,15 +45,19 @@
       y: rand(-height, 0),
       speed: rand(SPEED_MIN, SPEED_MAX),
       glyph: pickGlyph(),
-      swap: (Math.random() * 20) | 0,
+      swapT: Math.random() * 0.3,
     }));
 
     ctx.fillStyle = 'rgba(10, 10, 10, 1)';
     ctx.fillRect(0, 0, width, height);
   }
 
-  function frame() {
+  function frame(t) {
     if (paused) { rafId = 0; return; }
+    const dt = lastT ? Math.min((t - lastT) / 1000, 0.1) : 0;
+    lastT = t;
+    const step = dt * 60;
+
     ctx.fillStyle = FADE;
     ctx.fillRect(0, 0, width, height);
 
@@ -63,11 +71,11 @@
       ctx.fillStyle = TAIL;
       ctx.fillText(col.glyph, x, col.y - FONT_SIZE);
 
-      col.y += col.speed * FONT_SIZE * 0.6;
-      col.swap--;
-      if (col.swap <= 0) {
+      col.y += col.speed * FONT_SIZE * 0.6 * step;
+      col.swapT -= dt;
+      if (col.swapT <= 0) {
         col.glyph = pickGlyph();
-        col.swap = 4 + ((Math.random() * 18) | 0);
+        col.swapT = 0.08 + Math.random() * 0.3;
       }
       if (col.y > height + FONT_SIZE * 2 && Math.random() > 0.975) {
         col.y = rand(-height * 0.5, -FONT_SIZE);
@@ -79,8 +87,9 @@
   }
 
   function start() {
-    if (rafId) return;
+    if (rafId || disabled) return;
     paused = false;
+    lastT = 0;
     rafId = requestAnimationFrame(frame);
   }
   function stop() {
@@ -90,7 +99,22 @@
   }
 
   resize();
-  start();
+  if (!disabled) start();
+  else canvas.style.display = 'none';
+
+  const onReduceMotionChange = () => {
+    disabled = reduceMotion.matches;
+    if (disabled) {
+      stop();
+      canvas.style.display = 'none';
+    } else {
+      canvas.style.display = '';
+      resize();
+      start();
+    }
+  };
+  if (reduceMotion.addEventListener) reduceMotion.addEventListener('change', onReduceMotionChange);
+  else if (reduceMotion.addListener) reduceMotion.addListener(onReduceMotionChange);
 
   window.addEventListener('resize', () => {
     resize();
