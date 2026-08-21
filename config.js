@@ -139,32 +139,13 @@ window.ABRAXAS_CONFIG = {
     updateInterval: 21600000  // 6 hours in milliseconds
   },
 
-  /* ---- Shopify store (Merchandise section) -------------------------------
-     Connects the #merch section to a real Shopify store using the Buy
-     Button JS SDK. Renders live product cards with an on-page cart and
-     Shopify-hosted checkout - no separate store page needed.
-
-     Fill three things and merch goes live:
-       domain           - your *.myshopify.com host (NOT the custom domain).
-       storefrontToken  - a Storefront API access token (public, safe to
-                          commit). Shopify Admin -> Settings -> Apps and
-                          sales channels -> Develop apps -> create an app
-                          -> Configure Storefront API scopes
-                          (unauthenticated_read_product_listings, etc.)
-                          -> Install -> copy the Storefront access token.
-       products         - Shopify product IDs to feature (numeric string
-                          from the product URL, or the base64 GID).
-       collection       - Optional: a collection ID to render the entire
-                          collection instead of a hand-picked list.
-
-     Leave everything empty and the section shows the honest empty state. */
+  /* ---- Shopify store -------------------------------------------------------
+     The "Merchandise" nav link is a plain button straight to the Shopify
+     storefront - no in-page product grid. Point it at the checkout domain
+     once shop.htg.productions is verified in Shopify (Settings -> Domains);
+     until then the *.myshopify.com storefront URL works fine. */
   shop: {
-    domain: "",
-    storefrontToken: "",
-    products: [
-      // "1234567890"
-    ],
-    collection: ""
+    url: "https://strettys-merch.myshopify.com"
   },
 
   /* ---- Contact -----------------------------------------------------------
