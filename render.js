@@ -258,6 +258,121 @@
     })
     .catch(() => { /* no manifest yet — config fallback stays */ });
 
+  /* ---- Merchandise: Shopify Buy Button SDK --------------------------------
+     Loads the Shopify JS Buy SDK on demand, then mounts a product or
+     collection component into .merch-grid. Cart + checkout are hosted by
+     Shopify - no keys beyond the Storefront token (which is public).     */
+  const shop = cfg.shop || {};
+  const merchGrid = document.querySelector('[data-merch-grid]');
+  const merchEmpty = document.querySelector('[data-merch-empty]');
+  const hasShop = shop.domain && shop.storefrontToken && (
+    (Array.isArray(shop.products) && shop.products.some(id => String(id || '').trim())) ||
+    (shop.collection && String(shop.collection).trim())
+  );
+
+  if (merchGrid && hasShop) {
+    const SDK_SRC = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+    const loadSDK = () => new Promise((resolve, reject) => {
+      if (window.ShopifyBuy && window.ShopifyBuy.UI) return resolve(window.ShopifyBuy);
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = SDK_SRC;
+      s.onload = () => resolve(window.ShopifyBuy);
+      s.onerror = () => reject(new Error('Shopify Buy SDK failed to load'));
+      document.head.append(s);
+    });
+
+    const componentStyles = {
+      product: {
+        styles: {
+          product: {
+            'text-align': 'left',
+            '@media (min-width: 601px)': { 'max-width': '100%', 'margin-left': '0', 'margin-bottom': '0' }
+          },
+          title: { 'font-family': 'inherit', 'color': '#f4f0ff' },
+          price: { 'font-family': 'inherit', 'color': '#b892ff' },
+          compareAt: { 'font-family': 'inherit', 'color': '#7a6a99' },
+          button: {
+            'font-family': 'inherit',
+            'background-color': '#8c03fc',
+            ':hover': { 'background-color': '#a233ff' },
+            ':focus': { 'background-color': '#a233ff' },
+            'border-radius': '4px'
+          }
+        },
+        contents: { img: true, title: true, price: true },
+        text: { button: 'Add to cart' }
+      },
+      cart: {
+        styles: {
+          button: {
+            'font-family': 'inherit',
+            'background-color': '#8c03fc',
+            ':hover': { 'background-color': '#a233ff' },
+            ':focus': { 'background-color': '#a233ff' },
+            'border-radius': '4px'
+          }
+        },
+        text: { total: 'Subtotal', notice: '', button: 'Checkout' }
+      },
+      toggle: {
+        styles: {
+          toggle: {
+            'font-family': 'inherit',
+            'background-color': '#8c03fc',
+            ':hover': { 'background-color': '#a233ff' },
+            ':focus': { 'background-color': '#a233ff' }
+          }
+        }
+      }
+    };
+
+    loadSDK().then(ShopifyBuy => {
+      const client = ShopifyBuy.buildClient({
+        domain: shop.domain,
+        storefrontAccessToken: shop.storefrontToken
+      });
+      const ui = ShopifyBuy.UI.init(client);
+
+      const collectionId = String(shop.collection || '').trim();
+      const productIds = (shop.products || []).map(id => String(id || '').trim()).filter(Boolean);
+
+      const mounts = [];
+      if (collectionId) {
+        mounts.push(ui.createComponent('collection', {
+          id: collectionId,
+          node: merchGrid,
+          moneyFormat: '%24%7B%7Bamount%7D%7D',
+          options: {
+            ...componentStyles,
+            productSet: {
+              styles: { products: { '@media (min-width: 601px)': { 'margin-left': '-20px' } } }
+            }
+          }
+        }));
+      } else {
+        productIds.forEach(pid => {
+          const mount = el('div', { class: 'merch-card fade-in visible shopify-mount' });
+          merchGrid.append(mount);
+          mounts.push(ui.createComponent('product', {
+            id: pid,
+            node: mount,
+            moneyFormat: '%24%7B%7Bamount%7D%7D',
+            options: componentStyles
+          }));
+        });
+      }
+
+      Promise.all(mounts).then(() => {
+        if (merchEmpty) merchEmpty.remove();
+      }).catch(err => {
+        console.warn('[shop] Buy Button mount failed:', err);
+      });
+    }).catch(err => {
+      console.warn('[shop]', err.message, '- keeping empty state.');
+    });
+  }
+
   /* ---- Instagram post embeds (Gallery section) ----------------------------- */
   const instaCodes = (cfg.instagramPosts || []).map(raw => {
     let u;
