@@ -1283,6 +1283,26 @@
       border: 0;
     }
 
+    .skip-link {
+      position: fixed;
+      top: 0.5rem;
+      left: 0.5rem;
+      z-index: 2000;
+      padding: 0.6rem 0.9rem;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      transform: translateY(-200%);
+      transition: transform var(--transition);
+    }
+    .skip-link:focus {
+      transform: translateY(0);
+      outline: 2px solid #fff;
+      outline-offset: 2px;
+    }
+
     @media (max-width: 1080px) {
       .hero-content,
       .story-layout,
@@ -1724,6 +1744,7 @@
 </head>
 <body>
   <canvas id="matrix-rain" aria-hidden="true"></canvas>
+  <a class="skip-link" href="#home">Skip to content</a>
   <div class="cursor" aria-hidden="true"></div>
   <div class="cursor-dot" aria-hidden="true"></div>
 
@@ -1764,9 +1785,10 @@
 
     <main>
       <section class="hero" id="home">
-        <video class="hero-video parallax-layer" data-speed="0.18" autoplay muted loop playsinline preload="metadata" poster="https://picsum.photos/seed/abraxashero/1920/1080?grayscale" aria-hidden="true">
-          <source src="assets/htg-hero.mp4" type="video/mp4" />
-        </video>
+        <img class="hero-video parallax-layer" data-speed="0.18" src="https://picsum.photos/seed/abraxashero/1920/1080?grayscale" alt="" aria-hidden="true" loading="eager" decoding="async" />
+        <!-- Mobile: use a static poster image instead of the 25MB htg-hero.mp4
+             to keep the initial page weight bearable on cellular data. -->
+
         <div class="hero-overlay"></div>
         <div class="hero-grid parallax-layer" data-speed="0.08"></div>
         <div class="hero-noise parallax-layer" data-speed="0.05"></div>
@@ -1931,28 +1953,28 @@
               <h3>Spotify</h3>
               <p>Main streaming route for reach, repeat plays, and algorithm exposure once the release starts moving outside your own devices.</p>
               <div class="pill-links">
-                <a class="inline-link" data-platform="spotify" href="https://open.spotify.com/" target="_blank" rel="noreferrer">Open Spotify</a>
+                <a class="inline-link" data-platform="spotify" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">Open Spotify</a>
               </div>
             </article>
             <article class="info-card fade-in">
               <h3>Apple Music</h3>
               <p>Clean platform slot for the listeners who still like curated libraries and minimal visual clutter with their emotional damage.</p>
               <div class="pill-links">
-                <a class="inline-link" data-platform="appleMusic" href="https://music.apple.com/" target="_blank" rel="noreferrer">Open Apple Music</a>
+                <a class="inline-link" data-platform="appleMusic" href="https://music.apple.com/" target="_blank" rel="noopener noreferrer">Open Apple Music</a>
               </div>
             </article>
             <article class="info-card fade-in">
               <h3>YouTube Music</h3>
               <p>Use this block for official uploads, lyric videos, visualisers, and anything that benefits from search plus replay.</p>
               <div class="pill-links">
-                <a class="inline-link" data-platform="youtubeMusic" href="https://music.youtube.com/" target="_blank" rel="noreferrer">Open YouTube Music</a>
+                <a class="inline-link" data-platform="youtubeMusic" href="https://music.youtube.com/" target="_blank" rel="noopener noreferrer">Open YouTube Music</a>
               </div>
             </article>
             <article class="info-card fade-in">
               <h3>SoundCloud</h3>
               <p>Best slot for rougher cuts, demos, alternate mixes, or anything that should still feel slightly unfinished and dangerous.</p>
               <div class="pill-links">
-                <a class="inline-link" data-platform="soundcloud" href="https://soundcloud.com/" target="_blank" rel="noreferrer">Open SoundCloud</a>
+                <a class="inline-link" data-platform="soundcloud" href="https://soundcloud.com/" target="_blank" rel="noopener noreferrer">Open SoundCloud</a>
               </div>
             </article>
           </div>
@@ -1967,7 +1989,7 @@
             <p class="section-copy">01 → 13. No words.</p>
           </div>
           <div class="pill-links sequence-fallback">
-            <a class="inline-link" href="https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19" target="_blank" rel="noreferrer">Open the artist on Spotify</a>
+            <a class="inline-link" href="https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19" target="_blank" rel="noopener noreferrer">Open the artist on Spotify</a>
           </div>
         </div>
       </section>
@@ -1984,7 +2006,7 @@
             <p>Thirteen albums and three Stretty highlights, all streaming now.</p>
             <div class="pill-links">
               <a class="inline-link" href="#sequence">Play the Sequence</a>
-              <a class="inline-link" data-social="spotify" href="#out-now" target="_blank" rel="noreferrer">Open Spotify</a>
+              <a class="inline-link" data-social="spotify" href="#out-now" target="_blank" rel="noopener noreferrer">Open Spotify</a>
             </div>
           </div>
 
@@ -2003,7 +2025,7 @@
           <div class="empty-state fade-in">
             <p>The next ABRAXAS drop gets announced here and on Spotify at the same time. Follow the artist profile to catch it without checking back.</p>
             <div class="pill-links">
-              <a class="inline-link" data-social="spotify" href="#out-now" target="_blank" rel="noreferrer">Follow on Spotify</a>
+              <a class="inline-link" data-social="spotify" href="#out-now" target="_blank" rel="noopener noreferrer">Follow on Spotify</a>
               <a class="inline-link" href="#sequence">Hear the Sequence</a>
             </div>
           </div>
@@ -2183,16 +2205,16 @@
               </div>
             </div>
             <div class="social-links" aria-label="Social media links">
-              <a class="social-link" data-social="instagram" href="https://instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram">
+              <a class="social-link" data-social="instagram" href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2.2A2.8 2.8 0 0 0 4.2 7v10A2.8 2.8 0 0 0 7 19.8h10a2.8 2.8 0 0 0 2.8-2.8V7A2.8 2.8 0 0 0 17 4.2H7Zm10.3 1.6a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2ZM12 6.2A5.8 5.8 0 1 1 6.2 12 5.8 5.8 0 0 1 12 6.2Zm0 2.2A3.6 3.6 0 1 0 15.6 12 3.6 3.6 0 0 0 12 8.4Z"/></svg>
               </a>
-              <a class="social-link" data-social="youtube" href="https://youtube.com/" target="_blank" rel="noreferrer" aria-label="YouTube">
+              <a class="social-link" data-social="youtube" href="https://youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8ZM9.6 15.7V8.3l6.4 3.7-6.4 3.7Z"/></svg>
               </a>
-              <a class="social-link" data-social="spotify" href="https://open.spotify.com/" target="_blank" rel="noreferrer" aria-label="Spotify">
+              <a class="social-link" data-social="spotify" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" aria-label="Spotify">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0a12 12 0 1 0 12 12A12 12 0 0 0 12 0Zm5.5 17.3a.9.9 0 0 1-1.2.3c-3.2-1.9-7.1-2.3-11.6-1.2a.9.9 0 0 1-.4-1.7c5-1.2 9.3-.7 12.9 1.4a.9.9 0 0 1 .3 1.2Zm1.7-3a1.1 1.1 0 0 1-1.5.4c-3.6-2.2-9.1-2.8-13.4-1.4a1.1 1.1 0 1 1-.6-2.2c5-1.5 11-.8 15.2 1.8a1.1 1.1 0 0 1 .3 1.4Zm.1-3.1c-4.4-2.6-11.6-2.8-15.9-1.5a1.3 1.3 0 1 1-.8-2.4c4.9-1.5 13-1.2 18 1.8a1.3 1.3 0 1 1-1.3 2.2Z"/></svg>
               </a>
-              <a class="social-link" data-social="tiktok" href="https://www.tiktok.com/" target="_blank" rel="noreferrer" aria-label="TikTok">
+              <a class="social-link" data-social="tiktok" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 2c.2 1.8 1.2 3.4 2.8 4.3 1 .6 2.1.9 3.4.9v3.3c-1.3 0-2.6-.2-3.8-.7-.5-.2-1-.5-1.5-.8v7.1c0 3.8-3 6.9-6.9 6.9S3 19.9 3 16s3.1-6.9 6.9-6.9c.3 0 .7 0 1 .1v3.4c-.3-.1-.6-.2-1-.2-2 0-3.5 1.6-3.5 3.5s1.5 3.5 3.5 3.5 3.5-1.6 3.5-3.5V2h2.4Z"/></svg>
               </a>
             </div>
