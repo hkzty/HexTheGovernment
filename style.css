@@ -471,7 +471,6 @@
     .release-card,
     .tour-card,
     .gallery-item,
-    .merch-card,
     .contact-card,
     .coming-card {
       background: var(--panel);
@@ -487,7 +486,6 @@
     .release-card::before,
     .tour-card::before,
     .gallery-item::before,
-    .merch-card::before,
     .contact-card::before,
     .coming-card::before {
       content: "";
@@ -681,7 +679,6 @@
     .release-grid,
     .tour-grid,
     .gallery-grid,
-    .merch-grid,
     .coming-grid,
     .player-grid,
     .footer-grid {
@@ -750,7 +747,6 @@
 
     .info-card h3,
     .release-card h3,
-    .merch-card h3,
     .coming-card h3,
     .tour-card h3,
     .contact-card h3 {
@@ -762,7 +758,6 @@
 
     .info-card p,
     .release-card p,
-    .merch-card p,
     .coming-card p,
     .tour-card p,
     .contact-card p {
@@ -795,7 +790,6 @@
 
     .release-cover,
     .gallery-thumb,
-    .merch-image,
     .coming-image {
       aspect-ratio: 1 / 1;
       object-fit: cover;
@@ -803,7 +797,6 @@
     }
 
     .release-body,
-    .merch-body,
     .coming-body,
     .tour-body {
       padding: 1.15rem;
@@ -900,7 +893,6 @@
       letter-spacing: 0.14rem;
     }
 
-    .merch-grid,
     .coming-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -1279,7 +1271,6 @@
       .release-grid,
       .tour-grid,
       .gallery-grid,
-      .merch-grid,
       .coming-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -1376,7 +1367,6 @@
       .release-grid,
       .tour-grid,
       .gallery-grid,
-      .merch-grid,
       .coming-grid,
       .form-grid {
         grid-template-columns: 1fr;

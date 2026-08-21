@@ -258,6 +258,12 @@
     })
     .catch(() => { /* no manifest yet — config fallback stays */ });
 
+  /* ---- Merchandise: nav button straight to the Shopify storefront --------- */
+  const shopUrl = (cfg.shop && cfg.shop.url || '').trim();
+  document.querySelectorAll('[data-shop-link]').forEach(a => {
+    if (shopUrl) a.href = shopUrl;
+  });
+
   /* ---- Instagram post embeds (Gallery section) ----------------------------- */
   const instaCodes = (cfg.instagramPosts || []).map(raw => {
     let u;

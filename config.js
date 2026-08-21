@@ -139,6 +139,15 @@ window.ABRAXAS_CONFIG = {
     updateInterval: 21600000  // 6 hours in milliseconds
   },
 
+  /* ---- Shopify store -------------------------------------------------------
+     The "Merchandise" nav link is a plain button straight to the Shopify
+     storefront - no in-page product grid. Point it at the checkout domain
+     once shop.htg.productions is verified in Shopify (Settings -> Domains);
+     until then the *.myshopify.com storefront URL works fine. */
+  shop: {
+    url: "https://strettys-merch.myshopify.com"
+  },
+
   /* ---- Contact -----------------------------------------------------------
      The contact form opens the visitor's email app with the message
      pre-filled, addressed to contactEmail.                                */

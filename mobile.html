@@ -508,7 +508,6 @@
     .release-card,
     .tour-card,
     .gallery-item,
-    .merch-card,
     .contact-card,
     .coming-card {
       background: var(--panel);
@@ -524,7 +523,6 @@
     .release-card::before,
     .tour-card::before,
     .gallery-item::before,
-    .merch-card::before,
     .contact-card::before,
     .coming-card::before {
       content: "";
@@ -718,7 +716,6 @@
     .release-grid,
     .tour-grid,
     .gallery-grid,
-    .merch-grid,
     .coming-grid,
     .player-grid,
     .footer-grid {
@@ -787,7 +784,6 @@
 
     .info-card h3,
     .release-card h3,
-    .merch-card h3,
     .coming-card h3,
     .tour-card h3,
     .contact-card h3 {
@@ -799,7 +795,6 @@
 
     .info-card p,
     .release-card p,
-    .merch-card p,
     .coming-card p,
     .tour-card p,
     .contact-card p {
@@ -832,7 +827,6 @@
 
     .release-cover,
     .gallery-thumb,
-    .merch-image,
     .coming-image {
       aspect-ratio: 1 / 1;
       object-fit: cover;
@@ -840,7 +834,6 @@
     }
 
     .release-body,
-    .merch-body,
     .coming-body,
     .tour-body {
       padding: 1.15rem;
@@ -937,7 +930,6 @@
       letter-spacing: 0.14rem;
     }
 
-    .merch-grid,
     .coming-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -1316,7 +1308,6 @@
       .release-grid,
       .tour-grid,
       .gallery-grid,
-      .merch-grid,
       .coming-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -1413,7 +1404,6 @@
       .release-grid,
       .tour-grid,
       .gallery-grid,
-      .merch-grid,
       .coming-grid,
       .form-grid {
         grid-template-columns: 1fr;
@@ -1773,7 +1763,7 @@
               <li><a href="#sequence">The Sequence</a></li>
               <li><a href="#releases">New Releases</a></li>
               <li><a href="#coming-soon">Coming Soon</a></li>
-              <li><a href="#merch">Merchandise</a></li>
+              <li><a data-shop-link href="#merch" target="_blank" rel="noopener noreferrer">Merchandise</a></li>
               <li><a href="#tours">Upcoming Tours</a></li>
               <li><a href="#gallery">Gallery</a></li>
               <li><a href="#contact">Contact</a></li>
@@ -2031,52 +2021,6 @@
           </div>
 
           <div class="coming-grid"></div>
-        </div>
-      </section>
-
-      <section class="section" id="merch">
-        <div class="container">
-          <div class="section-head fade-in">
-            <span class="section-kicker">Merchandise</span>
-            <h2 class="section-title">Wear the darker build.</h2>
-            <p class="section-copy">Placeholder merch cards styled the same as the last build, just shifted into the ABRAXAS world. Swap images, sizes, stock, and checkout URLs when the store is ready.</p>
-          </div>
-
-          <div class="merch-grid">
-            <article class="merch-card fade-in">
-              <img class="merch-image" loading="lazy" decoding="async" width="900" height="900" src="https://picsum.photos/seed/abraxasmerch1/900/900?grayscale" alt="Placeholder merch hoodie image" />
-              <div class="merch-body">
-                <div class="meta-row"><span>HTG Hoodie</span><span>Heavyweight</span></div>
-                <div>
-                  <h3>Violet Terminal Drop</h3>
-                  <p>Oversized black hoodie with ABRAXAS front mark, HTG back print, and darker panel detailing built for night fits.</p>
-                </div>
-                <div class="price-tag">AUD $95</div>
-              </div>
-            </article>
-            <article class="merch-card fade-in">
-              <img class="merch-image" loading="lazy" decoding="async" width="900" height="900" src="https://picsum.photos/seed/abraxasmerch2/900/900?grayscale" alt="Placeholder merch tee image" />
-              <div class="merch-body">
-                <div class="meta-row"><span>Tour Tee</span><span>Box Fit</span></div>
-                <div>
-                  <h3>Depressions Running Deep</h3>
-                  <p>Front print tee with sharper gothic-type treatment, muted purple details, and a back hit built for live dates.</p>
-                </div>
-                <div class="price-tag">AUD $55</div>
-              </div>
-            </article>
-            <article class="merch-card fade-in">
-              <img class="merch-image" loading="lazy" decoding="async" width="900" height="900" src="https://picsum.photos/seed/abraxasmerch3/900/900?grayscale" alt="Placeholder merch accessory image" />
-              <div class="merch-body">
-                <div class="meta-row"><span>Accessory</span><span>Limited</span></div>
-                <div>
-                  <h3>Signal Sigil Pack</h3>
-                  <p>Sticker and patch pack for laptops, cases, and other objects people keep pretending are personality traits.</p>
-                </div>
-                <div class="price-tag">AUD $20</div>
-              </div>
-            </article>
-          </div>
         </div>
       </section>
 
