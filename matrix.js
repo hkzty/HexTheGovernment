@@ -12,8 +12,8 @@
   const SPEED_MAX = 0.95;
   const FADE_ALPHA_PER_SEC = 4.8;
   const RESET_CHANCE_PER_SEC = 1.5;
-  const HEAD = 'rgba(190, 120, 255, 0.95)';
-  const TAIL = 'rgba(140, 3, 252, 0.75)';
+  const HEAD = 'rgba(240, 240, 240, 0.95)';
+  const TAIL = 'rgba(140, 140, 140, 0.6)';
 
   let width = 0;
   let height = 0;

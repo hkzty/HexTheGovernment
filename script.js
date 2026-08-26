@@ -261,6 +261,17 @@
       }
       contactForm.reset();
     });
+  
+
+    /* Roster slide-down splits: toggle .open + aria-expanded on each panel. */
+    document.querySelectorAll('[data-split] .split-toggle').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const split = btn.closest('[data-split]');
+        if (!split) return;
+        const open = split.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+    });
 
     /*
       Suit Purge easter egg.

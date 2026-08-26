@@ -87,7 +87,7 @@
       if (m) return { src: `https://open.spotify.com/embed/${m[1]}/${m[2]}?utm_source=generator&theme=0`, height: 352, title: 'Spotify player' };
     }
     if (host === 'soundcloud.com' || host === 'on.soundcloud.com' || host === 'm.soundcloud.com') {
-      return { src: `https://w.soundcloud.com/player/?url=${encodeURIComponent(raw)}&color=%238c03fc&auto_play=false&show_teaser=false`, height: 166, title: 'SoundCloud player' };
+      return { src: `https://w.soundcloud.com/player/?url=${encodeURIComponent(raw)}&color=%23ffffff&auto_play=false&show_teaser=false`, height: 166, title: 'SoundCloud player' };
     }
     if (host === 'youtube.com' || host === 'music.youtube.com' || host === 'youtu.be') {
       const id = host === 'youtu.be'
