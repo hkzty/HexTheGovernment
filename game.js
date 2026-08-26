@@ -439,7 +439,7 @@
     // Receiver, with the site's accent as a heat strip.
     gctx.fillStyle = '#232329';
     gctx.fillRect(cx - 11, 30 + y, 22, 14);
-    gctx.fillStyle = '#8c03fc';
+    gctx.fillStyle = '#ffffff';
     gctx.fillRect(cx - 9, 33 + y, 18, 2);
 
     // Grip.
