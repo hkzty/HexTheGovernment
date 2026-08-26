@@ -55,6 +55,7 @@
       let currentId = sections[0]?.id || '';
       const offset = window.scrollY + 180;
       for (const section of sections) {
+        if (section.hidden) continue; // e.g. the locked Suit Purge easter egg
         if (offset >= section.offsetTop) currentId = section.id;
       }
       navLinks.forEach(link => {
@@ -260,4 +261,100 @@
       }
       contactForm.reset();
     });
-  
+
+    /*
+      Suit Purge easter egg.
+
+      The #game section ships with the `hidden` attribute and is left out of
+      the nav, so a first-time visitor never sees it. It unlocks three ways so
+      it is findable on any device:
+
+        - the Konami code:  ↑ ↑ ↓ ↓ ← → ← → B A
+        - typing the word "purge" anywhere on the page (desktop)
+        - tapping the ABRAXAS wordmark five times quickly (touch)
+
+      Once unlocked we stash a flag in sessionStorage so a refresh mid-session
+      keeps the maze available without having to re-enter the code.
+    */
+    (() => {
+      const gameSection = document.getElementById('game');
+      if (!gameSection) return;
+
+      const STORAGE_KEY = 'htg-suit-purge-unlocked';
+      let unlocked = false;
+
+      const revealGame = (scroll) => {
+        // First unlock: drop `hidden`, animate in, and tell the game engine to
+        // size its canvas now that the section actually has a box.
+        if (!unlocked) {
+          unlocked = true;
+          gameSection.hidden = false;
+          gameSection.classList.add('egg-reveal');
+          try { sessionStorage.setItem(STORAGE_KEY, '1'); } catch (e) { /* private mode */ }
+          // game.js listens on window 'resize' to rebuild its render buffers.
+          window.dispatchEvent(new Event('resize'));
+        }
+        if (scroll) {
+          gameSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const playButton = document.getElementById('gamePlay');
+          if (playButton) {
+            try { playButton.focus({ preventScroll: true }); } catch (e) { playButton.focus(); }
+          }
+        }
+      };
+
+      // Restore for the rest of the session after a reload — no scroll, so the
+      // page still opens at the top.
+      try {
+        if (sessionStorage.getItem(STORAGE_KEY) === '1') revealGame(false);
+      } catch (e) { /* private mode */ }
+
+      // Konami code.
+      const konami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+      let konamiPos = 0;
+
+      // Rolling buffer for the typed word.
+      const secretWord = 'purge';
+      let typed = '';
+
+      window.addEventListener('keydown', (event) => {
+        // Ignore keys aimed at a form field so typing "purge" in Contact
+        // doesn't accidentally unlock anything.
+        const el = event.target;
+        if (el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable)) return;
+
+        konamiPos = event.code === konami[konamiPos] ? konamiPos + 1 : (event.code === konami[0] ? 1 : 0);
+        if (konamiPos === konami.length) {
+          konamiPos = 0;
+          revealGame(true);
+          return;
+        }
+
+        if (event.key && event.key.length === 1) {
+          typed = (typed + event.key.toLowerCase()).slice(-secretWord.length);
+          if (typed === secretWord) revealGame(true);
+        }
+      });
+
+      // Touch: five quick taps on the ABRAXAS wordmark.
+      const wordmark = document.querySelector('.brand-title') || document.querySelector('.brand-mark');
+      if (wordmark) {
+        let taps = 0;
+        let tapTimer = null;
+        wordmark.addEventListener('click', () => {
+          taps += 1;
+          clearTimeout(tapTimer);
+          tapTimer = setTimeout(() => { taps = 0; }, 1200);
+          if (taps >= 5) {
+            taps = 0;
+            revealGame(true);
+          }
+        });
+      }
+
+      // A breadcrumb for anyone who opens the console.
+      try {
+        console.log('%cHTG // there is a maze hidden in this page. ↑ ↑ ↓ ↓ ← → ← → B A', 'color:#b794f6');
+      } catch (e) { /* no console */ }
+    })();
+
