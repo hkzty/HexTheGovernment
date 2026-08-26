@@ -13,14 +13,14 @@ window.ABRAXAS_CONFIG = {
 
   /* ---- Artist ---------------------------------------------------------- */
   artist: "ABRAXAS",
-  tagline: "Noah of the Hex",
+  tagline: "Depressions Running Deep",
   label: "HTG / Hex The Government",
   genre: "HEXCORE",
 
   /* Lines shown in the signal.log terminal card on the hero. */
   terminalLines: [
     "Artist: ABRAXAS",
-    "Role: Noah of the Hex",
+    "Tagline: Depressions Running Deep",
     "Label: HTG / Hex The Government",
     "Sound: HEXCORE",
     "Produces as: HexBoy",

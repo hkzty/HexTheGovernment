@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ABRAXAS · HEXCORE — HTG</title>
+  <title>ABRAXAS | Depressions Running Deep — HTG</title>
   <meta name="description" content="ABRAXAS — HEXCORE out of HTG (Hex The Government). Noah of the Hex: distorted hooks, purple static, all teeth. Releases, the Sequence, merch, gallery, contact." />
   <meta name="theme-color" content="#1f0335" />
   <meta name="author" content="HTG — Hex The Government" />
   <meta name="copyright" content="© HTG — Hex The Government. All rights reserved." />
   <meta name="robots" content="index, follow" />
-  <meta property="og:title" content="ABRAXAS — Noah of the Hex" />
+  <meta property="og:title" content="ABRAXAS — Depressions Running Deep" />
   <meta property="og:description" content="HEXCORE out of HTG. Purple static, all teeth. First one off the ark." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://picsum.photos/seed/abraxashero/1920/1080?grayscale" />
@@ -25,6 +25,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
+    <style>
+      /* ABRAXAS is the purple deck. style.css is now the shared white/black
+         theme (used by the HTG landing); these overrides paint this page
+         purple. Everything downstream is tokenised, so re-pointing the palette
+         is all it takes. */
+      :root {
+        --bg: #1f0335;
+        --bg-soft: #10011c;
+        --line: rgba(180, 120, 255, 0.20);
+        --line-strong: rgba(180, 120, 255, 0.45);
+        --line-neutral: rgba(180, 120, 255, 0.12);
+        --accent: #b478ff;
+        --accent-soft: #2a0b40;
+        --shadow: 0 0 0 1px rgba(180, 120, 255, 0.18), 0 24px 60px rgba(0, 0, 0, 0.6);
+      }
+    </style>
 </head>
 <body data-rain="purple">
   <canvas id="matrix-rain" aria-hidden="true"></canvas>
@@ -39,7 +55,7 @@
           <div class="brand-mark">
             <span class="brand-title">ABRAXAS</span>
           </div>
-          <p class="brand-subtitle">Noah of the Hex // HEXCORE // HTG - Hex The Government</p>
+          <p class="brand-subtitle">Depressions Running Deep // HEXCORE // HTG - Hex The Government</p>
         </div>
 
         <div class="nav-wrap">
@@ -79,7 +95,7 @@
         <div class="hero-content">
           <div class="hero-copy fade-in visible">
             <div class="eyebrow">HEXCORE — HTG</div>
-            <h1>ABRAXAS<span>Noah of the Hex</span></h1>
+            <h1>ABRAXAS<span>Depressions Running Deep</span></h1>
             <p class="hero-lead">
               HEXCORE out of HTG. First one off the ark and the loudest — distorted hooks, purple static, all teeth. Hymns for the flood, made for everyone the system left to drown. Play it loud or drown quiet.
             </p>
