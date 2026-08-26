@@ -55,6 +55,7 @@
       let currentId = sections[0]?.id || '';
       const offset = window.scrollY + 180;
       for (const section of sections) {
+        if (section.hidden) continue; // e.g. the locked Suit Purge easter egg
         if (offset >= section.offsetTop) currentId = section.id;
       }
       navLinks.forEach(link => {
@@ -271,3 +272,117 @@
         btn.setAttribute('aria-expanded', String(open));
       });
     });
+
+    /*
+      Suit Purge easter egg.
+
+      The #game section ships with the `hidden` attribute and is left out of
+      the nav, so a first-time visitor never sees it. It unlocks lots of ways
+      so it is easy to stumble on, on any device:
+
+        - the Konami code — with or without the trailing B A
+        - typing any of several secret words (purge, play, game, suit, htg…)
+        - tapping any brand mark or the footer three times quickly (touch)
+        - a shareable link: #game / #play in the URL, or ?play / ?egg
+
+      Once unlocked we stash a flag in sessionStorage so a refresh mid-session
+      keeps the maze available without having to re-enter anything.
+    */
+    (() => {
+      const gameSection = document.getElementById('game');
+      if (!gameSection) return;
+
+      const STORAGE_KEY = 'htg-suit-purge-unlocked';
+      let unlocked = false;
+
+      const revealGame = (scroll) => {
+        // First unlock: drop `hidden`, animate in, and tell the game engine to
+        // size its canvas now that the section actually has a box.
+        if (!unlocked) {
+          unlocked = true;
+          gameSection.hidden = false;
+          gameSection.classList.add('egg-reveal');
+          try { sessionStorage.setItem(STORAGE_KEY, '1'); } catch (e) { /* private mode */ }
+          // game.js listens on window 'resize' to rebuild its render buffers.
+          window.dispatchEvent(new Event('resize'));
+        }
+        if (scroll) {
+          gameSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const playButton = document.getElementById('gamePlay');
+          if (playButton) {
+            try { playButton.focus({ preventScroll: true }); } catch (e) { playButton.focus(); }
+          }
+        }
+      };
+
+      // Restore for the rest of the session after a reload — no scroll, so the
+      // page still opens at the top.
+      try {
+        if (sessionStorage.getItem(STORAGE_KEY) === '1') revealGame(false);
+      } catch (e) { /* private mode */ }
+
+      // Shareable link: #game / #play in the hash, or ?play / ?game / ?egg.
+      const urlWantsGame = () => {
+        const hash = (location.hash || '').toLowerCase();
+        const query = (location.search || '').toLowerCase();
+        return hash === '#game' || hash === '#play' ||
+          /[?&](play|game|egg|purge)(=|&|$)/.test(query);
+      };
+      if (urlWantsGame()) revealGame(false);
+      window.addEventListener('hashchange', () => {
+        if (urlWantsGame()) revealGame(true);
+      });
+
+      // Konami code. Completing just the arrows is enough; the classic B A
+      // ending still works too.
+      const konami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+      const arrowsDone = 8; // index reached once the eight arrows are entered
+      let konamiPos = 0;
+
+      // Any of these typed anywhere unlocks it. Longest first so the rolling
+      // buffer is sized to the longest word.
+      const secretWords = ['purge', 'suit', 'play', 'game', 'htg', 'hex'];
+      const bufferLen = Math.max(...secretWords.map((w) => w.length));
+      let typed = '';
+
+      window.addEventListener('keydown', (event) => {
+        // Ignore keys aimed at a form field so typing in Contact doesn't
+        // accidentally unlock anything.
+        const el = event.target;
+        if (el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable)) return;
+
+        konamiPos = event.code === konami[konamiPos] ? konamiPos + 1 : (event.code === konami[0] ? 1 : 0);
+        if (konamiPos === arrowsDone || konamiPos === konami.length) {
+          konamiPos = 0;
+          revealGame(true);
+          return;
+        }
+
+        if (event.key && event.key.length === 1) {
+          typed = (typed + event.key.toLowerCase()).slice(-bufferLen);
+          if (secretWords.some((w) => typed.endsWith(w))) revealGame(true);
+        }
+      });
+
+      // Touch: three quick taps on any brand mark or the footer brand.
+      const tapTargets = document.querySelectorAll('.brand-title, .brand-mark, .brand-subtitle, .footer-brand, .brand');
+      tapTargets.forEach((target) => {
+        let taps = 0;
+        let tapTimer = null;
+        target.addEventListener('click', () => {
+          taps += 1;
+          clearTimeout(tapTimer);
+          tapTimer = setTimeout(() => { taps = 0; }, 1200);
+          if (taps >= 3) {
+            taps = 0;
+            revealGame(true);
+          }
+        });
+      });
+
+      // A breadcrumb for anyone who opens the console.
+      try {
+        console.log('%cHTG // there is a maze hidden in this page. Try the Konami code, type "purge", or tap the logo three times.', 'color:#b794f6');
+      } catch (e) { /* no console */ }
+    })();
+
