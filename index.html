@@ -19,9 +19,15 @@
     // (a single ABRAXAS scroll) now live on abraxas.html. Forward old
     // #section links there so shared/indexed URLs still reach the content.
     (function () {
-      var moved = ['game','story','stats','out-now','sequence','releases','coming-soon','tours','gallery','contact'];
-      var h = (location.hash || '').replace(/^#/, '');
-      if (h && moved.indexOf(h) !== -1) location.replace('abraxas.html#' + h);
+      // Section anchors that used to live on the single-page ABRAXAS scroll,
+      // plus '#play' (a Suit Purge easter-egg alias script.js honours).
+      var moved = ['game','play','story','stats','out-now','sequence','releases','coming-soon','tours','gallery','contact'];
+      var h = (location.hash || '').replace(/^#/, '').toLowerCase();
+      // The easter egg is also shareable via ?play / ?game / ?egg / ?purge.
+      var wantsGameQuery = /[?&](play|game|egg|purge)(=|&|$)/.test(location.search || '');
+      if ((h && moved.indexOf(h) !== -1) || wantsGameQuery) {
+        location.replace('abraxas.html' + location.search + location.hash);
+      }
     })();
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
