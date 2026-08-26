@@ -607,6 +607,21 @@
       position: relative;
     }
 
+    /* Suit Purge easter egg: the #game section ships hidden and is unlocked
+       at runtime by script.js (Konami code / type "purge" / tap wordmark). */
+    #game[hidden] {
+      display: none !important;
+    }
+
+    #game.egg-reveal {
+      animation: eggReveal 0.9s ease both;
+    }
+
+    @keyframes eggReveal {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: none; }
+    }
+
     .section-head {
       display: grid;
       gap: 0.85rem;
@@ -1760,7 +1775,6 @@
           <nav class="nav" id="site-nav" aria-label="Primary navigation">
             <ul class="nav-list">
               <li><a href="#home">Home</a></li>
-              <li><a href="#game">Play</a></li>
               <li><a href="#story">Story</a></li>
               <li><a href="#out-now">Out Now</a></li>
               <li><a href="#sequence">The Sequence</a></li>
@@ -1826,7 +1840,10 @@
         </div>
       </section>
 
-      <section class="section" id="game">
+      <!-- Hidden easter egg: Suit Purge. Not linked from the nav. Reveal it
+           with the Konami code, by typing "purge", or on touch by tapping the
+           ABRAXAS wordmark five times. See the reveal logic in script.js. -->
+      <section class="section" id="game" hidden>
         <div class="container">
           <div class="section-head fade-in">
             <span class="section-kicker">Playable // Suit Purge</span>
