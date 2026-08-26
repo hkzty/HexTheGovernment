@@ -6,11 +6,24 @@
   <title>HTG — Hex The Government</title>
   <meta name="description" content="HTG — Hex The Government. A private vessel on corporate waters. Home of ABRAXAS and Stretty." />
   <meta name="theme-color" content="#0a0a0a" />
+  <meta name="author" content="HTG — Hex The Government" />
+  <meta name="copyright" content="© HTG — Hex The Government. All rights reserved." />
+  <meta name="robots" content="index, follow" />
   <meta property="og:title" content="HTG — Hex The Government" />
   <meta property="og:description" content="A vessel on corporate waters. Two names aboard: ABRAXAS and Stretty." />
   <meta property="og:type" content="website" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0a0a'/%3E%3Ctext x='50' y='72' font-size='52' text-anchor='middle' fill='%23f2f2f2' font-family='Georgia, serif'%3EH%3C/text%3E%3C/svg%3E" />
-  <script>document.documentElement.classList.add('js');</script>
+  <script>
+    document.documentElement.classList.add('js');
+    // Legacy deep links: the artist sections that used to live on this page
+    // (a single ABRAXAS scroll) now live on abraxas.html. Forward old
+    // #section links there so shared/indexed URLs still reach the content.
+    (function () {
+      var moved = ['game','story','stats','out-now','sequence','releases','coming-soon','tours','gallery','contact'];
+      var h = (location.hash || '').replace(/^#/, '');
+      if (h && moved.indexOf(h) !== -1) location.replace('abraxas.html#' + h);
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -259,8 +272,10 @@
 
     <footer class="foot">
       <p>HTG · Hex The Government · recruiting — <a href="mailto:Bookings@htg.productions">Bookings@htg.productions</a></p>
+      <p style="margin-top:0.8rem;font-size:0.66rem;"><a href="legal.html">Legal &amp; Privacy</a> · © <span id="legal-year">2026</span> HTG — Hex The Government. All rights reserved.</p>
       <span class="nod">sad · tired · still here</span>
     </footer>
+    <script>(function(){var y=document.getElementById('legal-year');if(y)y.textContent=new Date().getFullYear();})();</script>
   </div>
 
   <script src="matrix.js"></script>

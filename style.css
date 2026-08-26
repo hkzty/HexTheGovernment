@@ -567,6 +567,21 @@
       position: relative;
     }
 
+    /* Suit Purge easter egg: the #game section ships hidden and is unlocked
+       at runtime by script.js (Konami code / type "purge" / tap wordmark). */
+    #game[hidden] {
+      display: none !important;
+    }
+
+    #game.egg-reveal {
+      animation: eggReveal 0.9s ease both;
+    }
+
+    @keyframes eggReveal {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: none; }
+    }
+
     .section-head {
       display: grid;
       gap: 0.85rem;
@@ -1673,3 +1688,36 @@
         left: 0.6rem;
       }
     }
+
+    /* ---- Legal footer block --------------------------------------------- */
+    .legal-footer {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(140, 3, 252, 0.25);
+      font-family: "IBM Plex Mono", monospace;
+    }
+    .legal-footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1.25rem;
+      margin-bottom: 1rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .legal-footer-links a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .legal-footer-links a:hover,
+    .legal-footer-links a:focus-visible {
+      color: #c48cff;
+    }
+    .legal-footer-copy {
+      font-size: 0.78rem;
+      line-height: 1.65;
+      color: var(--muted);
+      margin: 0 0 0.7rem;
+    }
+    .legal-footer-copy:last-child { margin-bottom: 0; }
