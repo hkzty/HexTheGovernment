@@ -12,8 +12,31 @@
   const SPEED_MAX = 0.95;
   const FADE_ALPHA_PER_SEC = 4.8;
   const RESET_CHANCE_PER_SEC = 1.5;
-  const HEAD = 'rgba(190, 120, 255, 0.95)';
-  const TAIL = 'rgba(140, 3, 252, 0.75)';
+
+  /* ---- Tri-colour palette --------------------------------------------------
+     Each column is randomly assigned one of these inks. The per-page weighting
+     is read from <body data-rain="…">: white-dominant on the HTG landing,
+     purple on ABRAXAS, green on Stretty, an even mix on shared pages.        */
+  const INKS = {
+    white:  { head: 'rgba(240, 240, 240, 0.95)', tail: 'rgba(170, 170, 170, 0.55)' },
+    purple: { head: 'rgba(190, 120, 255, 0.95)', tail: 'rgba(140, 3, 252, 0.75)' },
+    green:  { head: 'rgba(150, 255, 170, 0.95)', tail: 'rgba(20, 200, 90, 0.70)' },
+  };
+  // Weighted bags — repeated keys raise the odds of that ink for a column.
+  const MIXES = {
+    white:  ['white', 'white', 'white', 'white', 'white', 'purple', 'green'],
+    purple: ['purple', 'purple', 'purple', 'purple', 'purple', 'white', 'green'],
+    green:  ['green', 'green', 'green', 'green', 'green', 'white', 'purple'],
+    mixed:  ['white', 'purple', 'green'],
+  };
+  function currentBag() {
+    const mode = (document.body && document.body.dataset.rain) || 'purple';
+    return MIXES[mode] || MIXES.mixed;
+  }
+  function pickInk() {
+    const bag = currentBag();
+    return INKS[bag[(Math.random() * bag.length) | 0]];
+  }
 
   let width = 0;
   let height = 0;
@@ -47,6 +70,7 @@
       speed: rand(SPEED_MIN, SPEED_MAX),
       glyph: pickGlyph(),
       swapT: Math.random() * 0.3,
+      ink: pickInk(),
     }));
 
     ctx.fillStyle = 'rgba(10, 10, 10, 1)';
@@ -68,10 +92,10 @@
       const col = columns[i];
       const x = i * FONT_SIZE;
 
-      ctx.fillStyle = HEAD;
+      ctx.fillStyle = col.ink.head;
       ctx.fillText(col.glyph, x, col.y);
 
-      ctx.fillStyle = TAIL;
+      ctx.fillStyle = col.ink.tail;
       ctx.fillText(col.glyph, x, col.y - FONT_SIZE);
 
       col.y += col.speed * FONT_SIZE * 0.6 * step;
@@ -83,6 +107,7 @@
       if (col.y > height + FONT_SIZE * 2 && Math.random() < resetChance) {
         col.y = rand(-height * 0.5, -FONT_SIZE);
         col.speed = rand(SPEED_MIN, SPEED_MAX);
+        col.ink = pickInk();   // re-roll the ink so the mix keeps shifting
       }
     }
 
