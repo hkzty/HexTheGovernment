@@ -59,7 +59,7 @@ window.ABRAXAS_CONFIG = {
     title: "Play it through. In order.",
     note: "01 → 13. No words.",
     artist: "https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19",
-    highlightTag: "STRETTY",
+    highlightTag: "PINNED",
     highlights: [
       "https://open.spotify.com/track/7Az3pwgwCk09ZfQzlH8slr",
       "https://open.spotify.com/track/2oGrGX4T83boP9ZMIl2gZd",
@@ -126,7 +126,7 @@ window.ABRAXAS_CONFIG = {
   /* ---- Stats — counted from the Sequence above, not invented. ---------- */
   stats: [
     { value: 13, label: "Albums in the Sequence" },
-    { value: 3,  label: "Stretty Highlights" }
+    { value: 3,  label: "Pinned Highlights" }
   ],
 
   /* ---- Albums Configuration (NEW - Auto-scraper) ------------------------ */
