@@ -279,7 +279,7 @@
     }
 
     main {
-      padding-top: calc(var(--nav-height) + 1.4rem);
+      padding-top: 0;
     }
 
     section {
@@ -293,10 +293,15 @@
 
     .hero {
       position: relative;
-      min-height: min(100vh, 980px);
+      /* No hero video ships, so the section hugs its content instead of
+         reserving a full viewport of empty gradient. The top padding clears
+         the fixed header (main no longer reserves that space) so the wordmark
+         sits high on landing with no dead space above it. */
+      min-height: auto;
       display: grid;
-      align-items: end;
+      align-items: start;
       overflow: hidden;
+      padding-top: calc(var(--nav-height) + 1.75rem);
       padding-bottom: clamp(2rem, 5vw, 4rem);
       border-bottom: 1px solid var(--line-neutral);
     }
@@ -578,6 +583,41 @@
 
     #game.egg-reveal {
       animation: eggReveal 0.9s ease both;
+    }
+
+    /* A quiet on-page nod that the hidden maze exists. */
+    .egg-hint {
+      margin-top: 1rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      opacity: 0.7;
+      transition: opacity var(--transition);
+    }
+
+    .egg-hint:hover {
+      opacity: 1;
+    }
+
+    .egg-hint kbd {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.72em;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.15em 0.45em;
+      border: 1px solid var(--line-strong);
+      border-radius: 3px;
+      color: var(--accent);
+    }
+
+    .egg-hint a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    .egg-hint a:hover {
+      border-bottom-color: var(--accent);
     }
 
     @keyframes eggReveal {
@@ -1354,7 +1394,7 @@
       }
 
       .hero {
-        min-height: 92vh;
+        min-height: auto;
       }
 
       .hero h1 {
@@ -1381,7 +1421,7 @@
 
     @media (max-width: 640px) {
       main {
-        padding-top: calc(var(--nav-height) + 1.2rem);
+        padding-top: 0;
       }
 
       .container {
