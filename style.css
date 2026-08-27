@@ -20,6 +20,10 @@
       --transition: 220ms ease;
       --section-space: clamp(4rem, 8vw, 7rem);
       --cursor-size: 42px;
+      /* Vertical space the fixed bottom CTA bar occupies. It is fixed, so it
+         takes no flow space of its own: this reserves it, and lifts the
+         back-to-top button clear. Zero once the bar is hidden on phones. */
+      --cta-space: 6.5rem;
     }
 
     * {
@@ -1151,7 +1155,7 @@
     .to-top {
       position: fixed;
       right: 1rem;
-      bottom: 6.7rem;
+      bottom: calc(var(--cta-space) + max(1rem, env(safe-area-inset-bottom)));
       z-index: 990;
       width: 50px;
       height: 50px;
@@ -1174,6 +1178,11 @@
       opacity: 1;
       visibility: visible;
       transform: translateY(0);
+    }
+
+    /* Without this the end of the page sits underneath the bar unreachable. */
+    body:has(.sticky-cta) {
+      padding-bottom: var(--cta-space);
     }
 
     .sticky-cta {
@@ -1273,6 +1282,11 @@
     }
 
     @media (max-width: 1080px) {
+      :root {
+        /* The bar wraps to two rows at this width. */
+        --cta-space: 9.5rem;
+      }
+
       .hero-content,
       .story-layout,
       .contact-wrap,
@@ -1298,6 +1312,7 @@
     @media (max-width: 820px) {
       :root {
         --nav-height: 92px;
+        --cta-space: 0rem;
       }
 
       body {
@@ -1346,12 +1361,13 @@
         font-size: clamp(2.7rem, 14vw, 4.5rem);
       }
 
-      .sticky-cta-inner {
-        flex-direction: column;
-        align-items: stretch;
+      /* The bottom CTA bar is desktop-only. Stacked on a phone it grew to
+         two full-width buttons plus two lines of copy, permanently covering
+         a third of the viewport and sitting over the footer. */
+      .sticky-cta {
+        display: none;
       }
 
-      .sticky-actions,
       .hero-cta,
       .pill-links,
       .social-links {
@@ -1404,8 +1420,6 @@
         font-size: clamp(1.8rem, 9vw, 2.4rem);
       }
 
-      .sticky-actions .btn,
-      .sticky-actions .inline-link,
       .hero-cta .btn,
       .hero-cta .inline-link {
         width: 100%;
@@ -1413,7 +1427,6 @@
 
       .to-top {
         right: 0.8rem;
-        bottom: 8.6rem;
       }
     }
 
@@ -1665,6 +1678,11 @@
       opacity: 0;
     }
     body.game-active .to-top {
+      display: none;
+    }
+
+    /* The bar is fixed over everything, including the game viewport. */
+    body.game-active .sticky-cta {
       display: none;
     }
 
