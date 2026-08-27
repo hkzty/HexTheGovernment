@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suit Purge | ABRAXAS — HTG</title>
+  <meta name="description" content="Suit Purge — the ABRAXAS in-browser shooter. Politicians, billionaires, trillionaires and high command are loose in the maze. No downloads, dependency-free, generated at runtime." />
+  <meta name="theme-color" content="#1f0335" />
+  <meta property="og:title" content="Suit Purge — ABRAXAS" />
+  <meta property="og:description" content="A first-person maze shooter running entirely in the page. Fictional class archetypes only." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231f0335'/%3E%3Ctext x='50' y='74' font-size='68' text-anchor='middle' fill='%238c03fc' font-family='Georgia, serif'%3EA%3C/text%3E%3C/svg%3E" />
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --bg: #1f0335;
+      --bg-soft: #10011c;
+      --line: rgba(180, 120, 255, 0.20);
+      --line-strong: rgba(180, 120, 255, 0.45);
+      --line-neutral: rgba(180, 120, 255, 0.12);
+      --accent: #b478ff;
+      --accent-soft: #2a0b40;
+      --shadow: 0 0 0 1px rgba(180, 120, 255, 0.18), 0 24px 60px rgba(0, 0, 0, 0.6);
+    }
+    .standalone-shell { position: relative; z-index: 2; width: min(72rem, 92vw); margin: 0 auto; padding: 1.4rem 0 3rem; }
+    .standalone-topline { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0 1.6rem; font-size: 0.72rem; letter-spacing: 0.14em; font-family: "IBM Plex Mono", ui-monospace, monospace; color: var(--ink); }
+    .standalone-topline a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+    .standalone-topline a:hover { border-color: var(--accent); color: var(--accent); }
+    .standalone-topline .tag { color: var(--dim); letter-spacing: 0.3em; text-transform: uppercase; }
+    .standalone-head { padding-bottom: 1.4rem; }
+    .standalone-head h1 { font-family: "New Rocker", "IBM Plex Mono", serif; font-weight: 400; font-size: clamp(2.2rem, 8vw, 4.5rem); text-shadow: 0 0 34px rgba(180, 120, 255, 0.35); }
+    .standalone-head p { max-width: 44rem; margin-top: 0.8rem; color: var(--dim); font-size: 0.95rem; }
+    .standalone-foot { margin-top: 2.4rem; padding-top: 1.4rem; border-top: 1px solid var(--line); font-size: 0.74rem; color: var(--dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .standalone-foot a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+    .standalone-foot a:hover { border-color: var(--accent); color: var(--accent); }
+    @media (max-width: 560px) { .standalone-foot { flex-direction: column; } }
+  </style>
+</head>
+<body data-rain="purple">
+  <canvas id="matrix-rain" aria-hidden="true"></canvas>
+  <div class="standalone-shell">
+    <div class="standalone-topline">
+      <a href="abraxas.html">← ABRAXAS</a>
+      <span class="tag">Hex The Government</span>
+      <a href="sequence.html">The Sequence →</a>
+    </div>
+
+    <header class="standalone-head">
+      <h1>SUIT PURGE</h1>
+      <p>Politicians, billionaires, trillionaires and high command are loose in the maze. No downloads, no plugins, no third-party code — the whole thing is generated at runtime.</p>
+      <p style="font-size:0.8rem; opacity:0.75; margin-top:0.6rem;"><strong>Fiction:</strong> all characters are invented class archetypes. No real person, name, or likeness is depicted. See the <a href="legal.html#satire" style="color:var(--accent);text-decoration:underline;">satire &amp; fiction notice</a>.</p>
+    </header>
+
+    <div class="game-stage">
+      <canvas id="gameCanvas" class="game-canvas" role="img" aria-label="Suit Purge, a first-person maze shooter."></canvas>
+
+      <div class="game-hud" id="gameHud" aria-hidden="true">
+        <div class="hud-cell"><span>HP</span><b id="hudHealth">100</b></div>
+        <div class="hud-cell"><span>Ammo</span><b id="hudAmmo">60</b></div>
+        <div class="hud-cell"><span>Wave</span><b id="hudWave">1</b></div>
+        <div class="hud-cell"><span>Cleared</span><b id="hudKills">0</b></div>
+      </div>
+
+      <div class="game-overlay" id="gameOverlay">
+        <p class="game-kicker">HTG // Hex The Government</p>
+        <h2 id="gameOverlayTitle">SUIT PURGE</h2>
+        <p class="game-lead" id="gameOverlayText">Politicians, billionaires, trillionaires and high command are loose in the maze. Clear the floor, wave after wave, until they clear you.</p>
+        <button class="btn btn-primary" type="button" id="gamePlay">Enter the maze</button>
+        <p class="game-keys"><b>Desktop</b> WASD move &middot; mouse aim &middot; click fire &middot; Esc pause. <b>Phone</b> left thumb moves &middot; right thumb aims &middot; FIRE shoots.</p>
+      </div>
+
+      <div class="game-touch" id="gameTouch" hidden>
+        <button class="game-fire" id="gameFire" type="button" aria-label="Fire weapon">FIRE</button>
+      </div>
+
+      <div class="game-bar">
+        <button class="game-chip" type="button" id="gameExit">Exit to ABRAXAS</button>
+        <button class="game-chip" type="button" id="gameMute" aria-pressed="false">Sound on</button>
+      </div>
+    </div>
+
+    <footer class="standalone-foot">
+      <span>© <span id="legal-year">2026</span> ABRAXAS · HTG — <a href="legal.html">Legal &amp; Privacy</a></span>
+      <span>Back to <a href="abraxas.html">ABRAXAS</a> · <a href="index.html">HTG</a></span>
+    </footer>
+    <script>(function(){var y=document.getElementById('legal-year');if(y)y.textContent=new Date().getFullYear();})();</script>
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    // game.js's own exit handler just pauses and looks for #out-now, which
+    // doesn't exist on this standalone page — send the player back to
+    // ABRAXAS's listen section instead.
+    (function () {
+      var exitBtn = document.getElementById('gameExit');
+      if (exitBtn) exitBtn.addEventListener('click', function () {
+        window.location.href = 'abraxas.html#out-now';
+      });
+    })();
+  </script>
+  <script src="matrix.js"></script>
+</body>
+</html>
