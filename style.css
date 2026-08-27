@@ -386,7 +386,6 @@
       line-height: 0.95;
       margin-bottom: 1rem;
       text-transform: uppercase;
-      text-shadow: 0 0 24px rgba(255, 255, 255, 0.45), 0 0 72px rgba(255, 255, 255, 0.25);
       animation: wordmark-flicker-in 1.4s ease-out 1 both;
     }
 
