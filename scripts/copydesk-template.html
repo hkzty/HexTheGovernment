@@ -1,0 +1,929 @@
+<title>HTG Copy Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* The desk borrows the site's own palette so the copy is judged against the
+   ground it will actually sit on. Committed dark, single theme — the site
+   has no light mode and a light desk would lie about the contrast. */
+:root {
+  --ink:        #f2f2f0;
+  --ink-soft:   #b9b9c0;
+  --ink-faint:  #75757f;
+  --ground:     #0b0b0c;
+  --panel:      #131317;
+  --panel-2:    #1a1a20;
+  --line:       rgba(255, 255, 255, 0.10);
+  --line-hot:   rgba(255, 255, 255, 0.22);
+  --accent:     #b478ff;
+  --accent-dim: rgba(180, 120, 255, 0.16);
+  --done:       #16c85a;
+  --done-dim:   rgba(22, 200, 90, 0.14);
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --display: "New Rocker", "IBM Plex Mono", serif;
+  --rail-h: 3.75rem;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, textarea, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---- top rail ---------------------------------------------------------- */
+.rail {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: var(--rail-h);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0 1rem;
+  background: rgba(11, 11, 12, 0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.wordmark {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.wordmark span { color: var(--accent); }
+
+.pages { display: flex; gap: 1px; overflow-x: auto; flex: 1; min-width: 0; }
+.pages::-webkit-scrollbar { height: 0; }
+.page-tab {
+  flex: 0 0 auto;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  padding: 0.35rem 0.7rem;
+  color: var(--ink-faint);
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+.page-tab:hover { color: var(--ink); }
+.page-tab[aria-selected="true"] {
+  color: var(--ink);
+  border-color: var(--line-hot);
+  background: var(--panel-2);
+}
+.page-tab b { font-weight: 500; }
+.page-tab i {
+  font-style: normal;
+  color: var(--done);
+  margin-left: 0.45rem;
+}
+
+.rail-right { display: flex; align-items: center; gap: 0.75rem; white-space: nowrap; }
+.tally { color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+.tally b { color: var(--done); font-weight: 600; }
+
+.btn {
+  background: var(--panel-2);
+  border: 1px solid var(--line-hot);
+  border-radius: 2px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn--go { background: var(--accent); border-color: var(--accent); color: #17071f; font-weight: 600; }
+.btn--go:hover { color: #17071f; filter: brightness(1.1); }
+.btn:disabled { opacity: 0.35; cursor: default; border-color: var(--line); color: var(--ink-faint); }
+
+.sync {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--ink-faint);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.sync::before {
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+}
+.sync[data-state="live"]::before { background: var(--done); box-shadow: 0 0 8px var(--done); }
+.sync[data-state="saving"]::before { background: var(--accent); }
+.sync[data-state="local"]::before { background: #e0a33c; }
+
+/* ---- stage ------------------------------------------------------------- */
+.stage {
+  display: grid;
+  grid-template-columns: minmax(24rem, 34rem) 1fr;
+  height: calc(100vh - var(--rail-h));
+}
+.desk {
+  border-right: 1px solid var(--line);
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  min-height: 0;
+  background: var(--panel);
+}
+
+/* ---- batch strip ------------------------------------------------------- */
+.batchbar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+}
+.batchbar h2 {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 500;
+  flex: 1;
+}
+.batchbar h2 b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.step {
+  background: none;
+  border: 1px solid var(--line-hot);
+  border-radius: 2px;
+  width: 1.9rem; height: 1.7rem;
+  cursor: pointer;
+  line-height: 1;
+}
+.step:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.step:disabled { opacity: 0.3; cursor: default; }
+
+.finder {
+  width: 100%;
+  background: var(--ground);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 0.45rem 0.6rem;
+  color: var(--ink);
+}
+.finder::placeholder { color: var(--ink-faint); }
+.finder-wrap { padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--line); }
+
+/* ---- queue ------------------------------------------------------------- */
+.queue-scroll { overflow-y: auto; min-height: 0; }
+.queue { list-style: none; margin: 0; padding: 0; }
+.queue li { border-bottom: 1px solid var(--line); }
+.slot-btn {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  gap: 0.6rem;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-left: 2px solid transparent;
+  padding: 0.6rem 0.9rem;
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+.slot-btn:hover { background: var(--panel-2); }
+.slot-btn[aria-current="true"] {
+  background: var(--accent-dim);
+  border-left-color: var(--accent);
+  color: var(--ink);
+}
+.slot-n {
+  color: var(--ink-faint);
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  padding-top: 0.15rem;
+}
+.slot-btn[data-edited="1"] .slot-n { color: var(--done); }
+.slot-text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.45;
+}
+.slot-where {
+  display: block;
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-top: 0.2rem;
+}
+
+/* ---- editor ------------------------------------------------------------ */
+.editor {
+  border-top: 1px solid var(--line-hot);
+  background: var(--panel-2);
+  padding: 0.9rem;
+  display: grid;
+  gap: 0.7rem;
+  align-content: start;
+}
+.editor-head { display: flex; align-items: baseline; gap: 0.6rem; }
+.tag {
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: 1px solid var(--line-hot);
+  border-radius: 2px;
+  padding: 0.1rem 0.4rem;
+  color: var(--ink-faint);
+}
+.tag--edited { color: var(--done); border-color: var(--done); }
+.tag--hidden { color: #e0a33c; border-color: #e0a33c; }
+.editor-head .where {
+  color: var(--ink-faint);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.was {
+  margin: 0;
+  color: var(--ink-faint);
+  border-left: 2px solid var(--line);
+  padding-left: 0.7rem;
+  font-size: 0.78rem;
+  max-height: 5.5rem;
+  overflow-y: auto;
+}
+.was em { font-style: normal; color: var(--ink-soft); }
+textarea.draft {
+  width: 100%;
+  min-height: 7.5rem;
+  resize: vertical;
+  background: var(--ground);
+  border: 1px solid var(--line-hot);
+  border-radius: 2px;
+  padding: 0.7rem;
+  line-height: 1.65;
+}
+textarea.draft:focus { border-color: var(--accent); outline: none; }
+.editor-foot { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.count { color: var(--ink-faint); font-variant-numeric: tabular-nums; font-size: 0.72rem; margin-left: auto; }
+.count.over { color: #e0a33c; }
+.hint { color: var(--ink-faint); font-size: 0.7rem; }
+kbd {
+  border: 1px solid var(--line-hot);
+  border-radius: 2px;
+  padding: 0 0.28rem;
+  font-size: 0.9em;
+}
+
+/* ---- preview ----------------------------------------------------------- */
+.stagepane { position: relative; overflow: hidden; background: #000; }
+.pv-note {
+  position: absolute;
+  z-index: 5;
+  top: 0.6rem; right: 0.8rem;
+  background: rgba(11, 11, 12, 0.85);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  pointer-events: none;
+}
+#preview { height: 100%; overflow-y: auto; overflow-x: hidden; }
+
+/* ---- export sheet ------------------------------------------------------ */
+dialog.sheet {
+  background: var(--panel);
+  color: var(--ink);
+  border: 1px solid var(--line-hot);
+  border-radius: 3px;
+  padding: 1rem;
+  width: min(46rem, 92vw);
+}
+dialog.sheet::backdrop { background: rgba(0, 0, 0, 0.72); }
+dialog.sheet h2 { margin: 0 0 0.3rem; font-size: 0.95rem; letter-spacing: 0.02em; }
+dialog.sheet p { margin: 0 0 0.7rem; color: var(--ink-soft); }
+dialog.sheet textarea {
+  width: 100%;
+  height: 16rem;
+  background: var(--ground);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 0.6rem;
+  font-size: 0.74rem;
+  resize: vertical;
+}
+.sheet-foot { display: flex; gap: 0.6rem; align-items: center; margin-top: 0.7rem; }
+
+@media (max-width: 900px) {
+  .stage { grid-template-columns: 1fr; height: auto; }
+  .desk { border-right: 0; border-bottom: 1px solid var(--line-hot); }
+  .queue-scroll { max-height: 40vh; }
+  #preview { height: 70vh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+</style>
+
+<div class="rail">
+  <div class="wordmark">HTG <span>copy desk</span></div>
+  <div class="pages" id="pages" role="tablist" aria-label="Pages"></div>
+  <div class="rail-right">
+    <span class="sync" id="sync" data-state="local">local only</span>
+    <span class="tally" id="tally"></span>
+    <button class="btn btn--go" id="export" type="button">Send to Claude</button>
+  </div>
+</div>
+
+<div class="stage">
+  <section class="desk" aria-label="Copy queue">
+    <div class="finder-wrap">
+      <input class="finder" id="finder" type="search" placeholder="Find a line…" aria-label="Find a line" />
+    </div>
+    <div class="batchbar">
+      <h2 id="batchLabel">Batch</h2>
+      <button class="step" id="prevBatch" type="button" aria-label="Previous batch">←</button>
+      <button class="step" id="nextBatch" type="button" aria-label="Next batch">→</button>
+    </div>
+    <div class="queue-scroll">
+      <ol class="queue" id="queue"></ol>
+    </div>
+    <div class="editor" id="editor" hidden></div>
+  </section>
+
+  <section class="stagepane" aria-label="Live page">
+    <span class="pv-note" id="pvNote">live page</span>
+    <div id="preview"></div>
+  </section>
+</div>
+
+<dialog class="sheet" id="sheet">
+  <h2>Changed lines</h2>
+  <p>Paste this back into the chat and Claude writes it into the site.</p>
+  <textarea id="sheetText" readonly spellcheck="false"></textarea>
+  <div class="sheet-foot">
+    <button class="btn btn--go" id="sheetCopy" type="button">Copy</button>
+    <button class="btn" id="sheetClose" type="button">Close</button>
+    <span class="hint" id="sheetNote"></span>
+  </div>
+</dialog>
+
+<script>
+/*__DATA__*/
+</script>
+<script>
+(function () {
+  "use strict";
+
+  var BATCH = 8;
+  var groups = DATA.slots.groups;
+  var previews = DATA.preview;
+
+  /* Edits live as { "index.html": { "32": "new text" } } — keyed by the same
+     ordinal the extractor writes back with. */
+  var edits = {};
+  var db = null;
+  var remote = {};
+  var pendingWrite = {};
+  var writeTimer = {};
+
+  var state = { group: groups[1] ? groups[1].id : groups[0].id, batch: 0, slot: null, query: "" };
+
+  var el = {
+    pages: document.getElementById("pages"),
+    queue: document.getElementById("queue"),
+    editor: document.getElementById("editor"),
+    preview: document.getElementById("preview"),
+    batchLabel: document.getElementById("batchLabel"),
+    prevBatch: document.getElementById("prevBatch"),
+    nextBatch: document.getElementById("nextBatch"),
+    finder: document.getElementById("finder"),
+    tally: document.getElementById("tally"),
+    sync: document.getElementById("sync"),
+    pvNote: document.getElementById("pvNote"),
+    sheet: document.getElementById("sheet"),
+    sheetText: document.getElementById("sheetText"),
+    sheetNote: document.getElementById("sheetNote")
+  };
+
+  function group(id) {
+    for (var i = 0; i < groups.length; i++) if (groups[i].id === id) return groups[i];
+    return groups[0];
+  }
+  function editOf(slot) {
+    var g = edits[slot.file];
+    var key = slot.kind === "config" ? String(slot.line) : String(slot.ordinal);
+    return g && Object.prototype.hasOwnProperty.call(g, key) ? g[key] : null;
+  }
+  function keyOf(slot) { return slot.kind === "config" ? String(slot.line) : String(slot.ordinal); }
+  function currentText(slot) {
+    var e = editOf(slot);
+    return e === null ? slot.original : e;
+  }
+  function isEdited(slot) {
+    var e = editOf(slot);
+    return e !== null && e !== slot.original;
+  }
+  function editedCount(g) {
+    var n = 0;
+    for (var i = 0; i < g.slots.length; i++) if (isEdited(g.slots[i])) n++;
+    return n;
+  }
+
+  /* Visible slots: the search box narrows the whole page, not just the batch,
+     so a line can be found without knowing which batch holds it. */
+  function visible() {
+    var g = group(state.group);
+    if (!state.query) return g.slots;
+    var q = state.query.toLowerCase();
+    return g.slots.filter(function (s) {
+      return s.original.toLowerCase().indexOf(q) > -1 || currentText(s).toLowerCase().indexOf(q) > -1;
+    });
+  }
+  function batchSlots() {
+    var v = visible();
+    return v.slice(state.batch * BATCH, state.batch * BATCH + BATCH);
+  }
+
+  /* ---- render: page tabs ------------------------------------------------ */
+  function renderTabs() {
+    el.pages.textContent = "";
+    groups.forEach(function (g) {
+      var b = document.createElement("button");
+      b.className = "page-tab";
+      b.type = "button";
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-selected", g.id === state.group ? "true" : "false");
+      var name = document.createElement("b");
+      name.textContent = g.short || g.label;
+      b.title = g.label;
+      b.appendChild(name);
+      var n = editedCount(g);
+      if (n) {
+        var i = document.createElement("i");
+        i.textContent = n;
+        b.appendChild(i);
+      }
+      b.addEventListener("click", function () {
+        if (state.group === g.id) return;
+        state.group = g.id;
+        state.batch = 0;
+        state.slot = null;
+        renderAll();
+        mountPreview();
+      });
+      el.pages.appendChild(b);
+    });
+  }
+
+  /* ---- render: queue ---------------------------------------------------- */
+  function renderQueue() {
+    var v = visible();
+    var total = Math.max(1, Math.ceil(v.length / BATCH));
+    if (state.batch >= total) state.batch = total - 1;
+    el.batchLabel.innerHTML = "";
+    el.batchLabel.appendChild(document.createTextNode("Batch "));
+    var b1 = document.createElement("b");
+    b1.textContent = (state.batch + 1) + " / " + total;
+    el.batchLabel.appendChild(b1);
+    el.batchLabel.appendChild(document.createTextNode(" · " + v.length + " lines"));
+    el.prevBatch.disabled = state.batch === 0;
+    el.nextBatch.disabled = state.batch >= total - 1;
+
+    el.queue.textContent = "";
+    batchSlots().forEach(function (slot, i) {
+      var li = document.createElement("li");
+      var b = document.createElement("button");
+      b.className = "slot-btn";
+      b.type = "button";
+      b.dataset.edited = isEdited(slot) ? "1" : "0";
+      b.setAttribute("aria-current", slot.id === state.slot ? "true" : "false");
+
+      var n = document.createElement("span");
+      n.className = "slot-n";
+      n.textContent = isEdited(slot) ? "✔" : String(state.batch * BATCH + i + 1);
+      b.appendChild(n);
+
+      var wrap = document.createElement("span");
+      var t = document.createElement("span");
+      t.className = "slot-text";
+      t.textContent = currentText(slot);
+      wrap.appendChild(t);
+      var w = document.createElement("span");
+      w.className = "slot-where";
+      w.textContent = label(slot);
+      wrap.appendChild(w);
+      b.appendChild(wrap);
+
+      b.addEventListener("click", function () { select(slot.id); });
+      li.appendChild(b);
+      el.queue.appendChild(li);
+    });
+  }
+
+  var WORDS = {
+    p: "paragraph", h1: "headline", h2: "heading", h3: "sub-heading", h4: "sub-heading",
+    li: "list item", a: "link", button: "button", span: "label", strong: "bold run",
+    b: "bold run", em: "italic run", label: "field label", td: "table cell",
+    th: "table heading", title: "browser tab", kbd: "key", summary: "summary"
+  };
+  function label(slot) {
+    if (slot.kind === "config") return "config · " + slot.where;
+    if (slot.kind === "attr") return slot.where + " · search / alt text";
+    return WORDS[slot.blockTag] || slot.blockTag || "text";
+  }
+
+  /* ---- render: editor --------------------------------------------------- */
+  function renderEditor() {
+    var slot = findSlot(state.slot);
+    if (!slot) { el.editor.hidden = true; return; }
+    el.editor.hidden = false;
+    el.editor.textContent = "";
+
+    var head = document.createElement("div");
+    head.className = "editor-head";
+    var tag = document.createElement("span");
+    tag.className = "tag" + (isEdited(slot) ? " tag--edited" : "");
+    tag.textContent = isEdited(slot) ? "edited" : slot.kind === "config" ? "config" : "live";
+    head.appendChild(tag);
+    if (slot.kind === "attr") {
+      var ht = document.createElement("span");
+      ht.className = "tag tag--hidden";
+      ht.textContent = "search / alt text";
+      head.appendChild(ht);
+    }
+    var where = document.createElement("span");
+    where.className = "where";
+    where.textContent = label(slot);
+    head.appendChild(where);
+    el.editor.appendChild(head);
+
+    if (isEdited(slot)) {
+      var was = document.createElement("p");
+      was.className = "was";
+      was.appendChild(document.createTextNode("was: "));
+      var em = document.createElement("em");
+      em.textContent = slot.original;
+      was.appendChild(em);
+      el.editor.appendChild(was);
+    }
+
+    var ta = document.createElement("textarea");
+    ta.className = "draft";
+    ta.value = currentText(slot);
+    ta.spellcheck = true;
+    ta.setAttribute("aria-label", "Copy for this line");
+    el.editor.appendChild(ta);
+
+    var foot = document.createElement("div");
+    foot.className = "editor-foot";
+
+    var reset = document.createElement("button");
+    reset.className = "btn";
+    reset.type = "button";
+    reset.textContent = "Revert";
+    reset.disabled = !isEdited(slot);
+    reset.addEventListener("click", function () {
+      setEdit(slot, slot.original);
+      renderAll();
+      paintPreview();
+    });
+    foot.appendChild(reset);
+
+    var next = document.createElement("button");
+    next.className = "btn";
+    next.type = "button";
+    next.textContent = "Next line";
+    next.addEventListener("click", function () { step(1); });
+    foot.appendChild(next);
+
+    var hint = document.createElement("span");
+    hint.className = "hint";
+    hint.innerHTML = "<kbd>Ctrl</kbd>+<kbd>Enter</kbd> next";
+    foot.appendChild(hint);
+
+    var count = document.createElement("span");
+    count.className = "count";
+    foot.appendChild(count);
+    el.editor.appendChild(foot);
+
+    function tick() {
+      var len = ta.value.length;
+      count.textContent = len + " / was " + slot.original.length;
+      count.className = "count" + (len > slot.original.length * 1.6 + 20 ? " over" : "");
+    }
+    tick();
+
+    ta.addEventListener("input", function () {
+      setEdit(slot, ta.value);
+      tick();
+      paintPreview();
+      queueSave(slot.file);
+      var btn = el.queue.querySelector('[aria-current="true"] .slot-text');
+      if (btn) btn.textContent = ta.value;
+    });
+    ta.addEventListener("keydown", function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); step(1); }
+    });
+    ta.focus();
+    ta.setSelectionRange(ta.value.length, ta.value.length);
+  }
+
+  function findSlot(id) {
+    if (!id) return null;
+    var g = group(state.group);
+    for (var i = 0; i < g.slots.length; i++) if (g.slots[i].id === id) return g.slots[i];
+    return null;
+  }
+
+  function setEdit(slot, text) {
+    if (!edits[slot.file]) edits[slot.file] = {};
+    if (text === slot.original) delete edits[slot.file][keyOf(slot)];
+    else edits[slot.file][keyOf(slot)] = text;
+    renderTabs();
+    renderTally();
+    saveLocal();
+  }
+
+  function select(id) {
+    state.slot = id;
+    var v = visible();
+    for (var i = 0; i < v.length; i++) {
+      if (v[i].id === id) { state.batch = Math.floor(i / BATCH); break; }
+    }
+    renderQueue();
+    renderEditor();
+    paintPreview(true);
+  }
+
+  function step(dir) {
+    var v = visible();
+    var at = -1;
+    for (var i = 0; i < v.length; i++) if (v[i].id === state.slot) { at = i; break; }
+    var nxt = v[at + dir];
+    if (nxt) select(nxt.id);
+  }
+
+  function renderTally() {
+    var done = 0, all = 0;
+    groups.forEach(function (g) { done += editedCount(g); all += g.slots.length; });
+    el.tally.textContent = "";
+    var b = document.createElement("b");
+    b.textContent = done;
+    el.tally.appendChild(b);
+    el.tally.appendChild(document.createTextNode(" of " + all + " changed"));
+  }
+
+  function renderAll() {
+    renderTabs();
+    renderQueue();
+    renderEditor();
+    renderTally();
+  }
+
+  /* ---- preview ---------------------------------------------------------- */
+  var shadow = null;
+  var mounted = null;
+
+  function mountPreview() {
+    var page = previews.pages[state.group];
+    el.pvNote.textContent = page ? "live page" : "shared strings — no page of its own";
+    if (!page) { el.preview.textContent = ""; shadow = null; mounted = null; return; }
+    if (mounted === state.group) { paintPreview(true); return; }
+
+    el.preview.textContent = "";
+    var host = document.createElement("div");
+    el.preview.appendChild(host);
+    shadow = host.attachShadow({ mode: "open" });
+    shadow.innerHTML =
+      "<style>" + previews.css + "</style>" +
+      "<style>" + page.css + "</style>" +
+      "<style>" + OVERRIDES + "</style>" +
+      '<div class="pv-html js"><div class="pv-body">' + page.html + "</div></div>";
+    mounted = state.group;
+
+    shadow.addEventListener("click", function (e) {
+      var hit = e.target.closest ? e.target.closest(".tslot") : null;
+      if (!hit) return;
+      e.preventDefault();
+      select(hit.dataset.slot);
+    });
+    /* Nothing in the preview navigates — it is a proof sheet, not the site. */
+    shadow.addEventListener("submit", function (e) { e.preventDefault(); });
+    paintPreview(true);
+  }
+
+  function paintPreview(scroll) {
+    if (!shadow) return;
+    var g = group(state.group);
+    g.slots.forEach(function (slot) {
+      if (slot.kind !== "text") return;
+      var node = shadow.querySelector('[data-slot="' + cssEscape(slot.id) + '"]');
+      if (!node) return;
+      var text = currentText(slot);
+      if (node.dataset.painted !== text) {
+        node.textContent = text;
+        node.dataset.painted = text;
+      }
+      node.classList.toggle("is-edited", isEdited(slot));
+      var active = slot.id === state.slot;
+      node.classList.toggle("is-active", active);
+      if (active && scroll) scrollPaneTo(node);
+    });
+  }
+
+  function cssEscape(v) { return v.replace(/["\\]/g, "\\$&"); }
+
+  /* scrollIntoView would walk every scrollable ancestor, taking the desk with
+     it. The preview pane is the only thing that should move. */
+  function scrollPaneTo(node) {
+    var box = node.getBoundingClientRect();
+    var pane = el.preview.getBoundingClientRect();
+    if (!box.height && !box.width) return;
+    var delta = (box.top + box.height / 2) - (pane.top + pane.height / 2);
+    el.preview.scrollTo({ top: el.preview.scrollTop + delta, behavior: "smooth" });
+  }
+
+  var OVERRIDES = [
+    ".tslot { display: contents; }",
+    ".tslot.is-edited { color: #7ef0a6; }",
+    ".tslot.is-active { display: inline; background: rgba(180,120,255,0.22); box-shadow: 0 0 0 2px #b478ff; border-radius: 2px; }",
+    /* The page's fixed chrome and its scroll-triggered reveals both assume a
+       real viewport; inside the preview pane they would float over the desk
+       or never fire at all. */
+    ".pv-body .topbar { position: static; }",
+    ".pv-body .sticky-cta, .pv-body .to-top, .pv-body .skip-link, .pv-body .cursor, .pv-body .cursor-dot { display: none; }",
+    ".pv-body .fade-in { opacity: 1; transform: none; }",
+    ".pv-body .hero { min-height: auto; padding-top: 3rem; padding-bottom: 3rem; }",
+    ".pv-body section[hidden] { display: block; }",
+    ".pv-body main { padding-top: 0; }",
+    ":host { --nav-height: 0px; }",
+    ".pv-body a { cursor: default; }"
+  ].join("\n");
+
+  /* ---- persistence ------------------------------------------------------ */
+  var LOCAL = "htg-copy-desk";
+
+  function saveLocal() {
+    try { localStorage.setItem(LOCAL, JSON.stringify(edits)); } catch (e) { /* private window */ }
+  }
+  function loadLocal() {
+    try {
+      var raw = localStorage.getItem(LOCAL);
+      if (raw) edits = JSON.parse(raw) || {};
+    } catch (e) { edits = {}; }
+  }
+
+  var seeded = {};
+
+  function mergeRemote(file, slots) {
+    remote[file] = slots || {};
+    var local = edits[file] || {};
+    var merged = {};
+    var k;
+    for (k in remote[file]) if (Object.prototype.hasOwnProperty.call(remote[file], k)) merged[k] = remote[file][k];
+    /* A line being typed right now stays the typist's — everything else takes
+       the shared value, so both desks converge without one erasing the other. */
+    var activeKey = null, activeFile = null;
+    var s = findSlot(state.slot);
+    if (s) { activeKey = keyOf(s); activeFile = s.file; }
+    /* First snapshot after connecting: work done offline is real work, so it
+       joins the shared copy rather than being overwritten by it. */
+    var carry = !seeded[file] || pendingWrite[file];
+    var extras = false;
+    for (k in local) {
+      if (!Object.prototype.hasOwnProperty.call(local, k)) continue;
+      if (file === activeFile && k === activeKey) merged[k] = local[k];
+      else if (carry && !Object.prototype.hasOwnProperty.call(merged, k)) { merged[k] = local[k]; extras = true; }
+    }
+    edits[file] = merged;
+    saveLocal();
+    if (!seeded[file]) {
+      seeded[file] = true;
+      if (extras) queueSave(file);
+    }
+  }
+
+  function queueSave(file) {
+    if (!db) return;
+    pendingWrite[file] = true;
+    el.sync.dataset.state = "saving";
+    el.sync.textContent = "saving";
+    clearTimeout(writeTimer[file]);
+    writeTimer[file] = setTimeout(function () {
+      var body = { slots: edits[file] || {}, at: new Date().toISOString() };
+      db.doc("edits/" + file).set(body).then(function () {
+        pendingWrite[file] = false;
+        el.sync.dataset.state = "live";
+        el.sync.textContent = "shared";
+      }, function () {
+        el.sync.dataset.state = "local";
+        el.sync.textContent = "local only";
+      });
+    }, 500);
+  }
+
+  function connect() {
+    if (!window.claude || !claude.use) return;
+    claude.use("db").then(function (d) {
+      if (!d) return;
+      db = d;
+      el.sync.dataset.state = "live";
+      el.sync.textContent = "shared";
+      groups.forEach(function (g) {
+        db.doc("edits/" + g.id).onSnapshot(function (snap) {
+          var data = snap.exists ? snap.data() : null;
+          mergeRemote(g.id, data && data.slots ? data.slots : {});
+          if (!snap.metadata.hasPendingWrites) {
+            renderTabs();
+            renderQueue();
+            renderTally();
+            paintPreview();
+            var open = document.activeElement;
+            if (!open || open.className !== "draft") renderEditor();
+          }
+        }, function () {
+          el.sync.dataset.state = "local";
+          el.sync.textContent = "local only";
+        });
+      });
+    });
+  }
+
+  /* ---- export ----------------------------------------------------------- */
+  function changedList() {
+    var out = [];
+    groups.forEach(function (g) {
+      g.slots.forEach(function (s) {
+        if (isEdited(s)) out.push({ id: s.id, file: s.file, was: s.original, text: currentText(s) });
+      });
+    });
+    return out;
+  }
+
+  document.getElementById("export").addEventListener("click", function () {
+    var list = changedList();
+    el.sheetText.value = list.length
+      ? JSON.stringify(list, null, 2)
+      : "Nothing changed yet.";
+    el.sheetNote.textContent = list.length + " line" + (list.length === 1 ? "" : "s");
+    el.sheet.showModal();
+    el.sheetText.select();
+  });
+  document.getElementById("sheetCopy").addEventListener("click", function () {
+    el.sheetText.select();
+    var done = false;
+    try { done = document.execCommand("copy"); } catch (e) { done = false; }
+    if (!done && navigator.clipboard) {
+      navigator.clipboard.writeText(el.sheetText.value).then(function () {
+        el.sheetNote.textContent = "copied";
+      }, function () {
+        el.sheetNote.textContent = "select the text and copy by hand";
+      });
+      return;
+    }
+    el.sheetNote.textContent = done ? "copied" : "select the text and copy by hand";
+  });
+  document.getElementById("sheetClose").addEventListener("click", function () { el.sheet.close(); });
+
+  /* ---- wiring ----------------------------------------------------------- */
+  el.prevBatch.addEventListener("click", function () {
+    if (state.batch > 0) { state.batch--; renderQueue(); }
+  });
+  el.nextBatch.addEventListener("click", function () {
+    state.batch++; renderQueue();
+  });
+  el.finder.addEventListener("input", function () {
+    state.query = el.finder.value.trim();
+    state.batch = 0;
+    renderQueue();
+  });
+
+  loadLocal();
+  renderAll();
+  mountPreview();
+  connect();
+
+  var slots = group(state.group).slots;
+  var first = null;
+  for (var i = 0; i < slots.length && !first; i++) if (slots[i].kind === "text") first = slots[i];
+  if (!first) first = slots[0];
+  if (first) select(first.id);
+})();
+</script>
