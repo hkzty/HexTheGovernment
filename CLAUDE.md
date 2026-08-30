@@ -167,3 +167,10 @@ any content change — that removed strings render nowhere.
 
 Serve locally with `python3 -m http.server` from the repo root; opening
 `file://` breaks the config/render scripts.
+
+
+## Collaboration note
+
+- **ABRAXAS:** work from Codex.
+- **Stretty:** work from the Claude AI workspace/bot.
+- Keep copy, links, and shared HTG-site changes coordinated through the Copy Desk so handoffs remain explicit.
