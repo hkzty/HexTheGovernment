@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "build": "echo 'Static site - no build needed'",
+    "build:copydesk": "node scripts/build-copydesk.js ./copydesk.html --standalone",
     "scrape": "node scripts/scraper.js"
   },
   "engines": {

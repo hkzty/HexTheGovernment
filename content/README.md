@@ -9,3 +9,13 @@ Generated copy snapshots. Nothing here is served by the site.
 
 Both are rebuilt from the pages, so a stale copy is never authoritative —
 re-run the extractor rather than editing them by hand.
+
+### copydesk.html
+
+`copydesk.html` is the built Copy Desk, served publicly by GitHub Pages at
+`/copydesk.html` so it can be opened by URL (by a person or another agent)
+without a claude.ai login. It is a generated artifact — edit
+`scripts/copydesk-template.html` and rerun `npm run build:copydesk`, never
+edit `copydesk.html` by hand. Off the claude.ai artifact host the live
+two-editor sync (the db capability) is unavailable, so it runs local-only
+with JSON export; the collaborative version is the published Artifact.
