@@ -1,9 +1,10 @@
 {
-  "generated": "2026-08-28T23:25:12.408Z",
+  "generated": "2026-09-01T02:02:30.957Z",
   "groups": [
     {
       "id": "config.js",
       "label": "Config (shared strings)",
+      "short": "Config",
       "source": "config.js",
       "slots": [
         {
@@ -142,15 +143,6 @@
           "text": "01 → 13. No words."
         },
         {
-          "id": "config.js:60",
-          "file": "config.js",
-          "line": 60,
-          "kind": "config",
-          "where": "artist",
-          "original": "https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19",
-          "text": "https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19"
-        },
-        {
           "id": "config.js:61",
           "file": "config.js",
           "line": 61,
@@ -200,6 +192,7 @@
     {
       "id": "index.html",
       "label": "Landing (HTG)",
+      "short": "Landing",
       "source": "index.html",
       "slots": [
         {
@@ -1750,8 +1743,8 @@
           "block": 75,
           "blockTag": "button",
           "where": "div > button > span",
-          "original": "Visual frame / cold signal",
-          "text": "Visual frame / cold signal"
+          "original": "Visual frame / violet signal",
+          "text": "Visual frame / violet signal"
         },
         {
           "id": "index.html:149",
@@ -2374,6 +2367,7 @@
     {
       "id": "abraxas.html",
       "label": "ABRAXAS deck",
+      "short": "ABRAXAS",
       "source": "abraxas.html",
       "slots": [
         {
@@ -2656,6 +2650,7 @@
     {
       "id": "stretty.html",
       "label": "Stretty deck",
+      "short": "Stretty",
       "source": "stretty.html",
       "slots": [
         {
@@ -2938,6 +2933,7 @@
     {
       "id": "sequence.html",
       "label": "The Sequence",
+      "short": "Sequence",
       "source": "sequence.html",
       "slots": [
         {
@@ -3220,6 +3216,7 @@
     {
       "id": "game.html",
       "label": "Suit Purge",
+      "short": "Suit Purge",
       "source": "game.html",
       "slots": [
         {
@@ -3568,6 +3565,7 @@
     {
       "id": "legal.html",
       "label": "Legal",
+      "short": "Legal",
       "source": "legal.html",
       "slots": [
         {
