@@ -193,10 +193,19 @@ Do not hardcode it again.
   implying real photos. The `gallery-manifest.yml` Action rebuilds
   `manifest.json` from whatever image files are in that folder, so real
   photos dropped in there replace them automatically.
-- **`config.heroPoster` is a picsum stock photo** — the grey mountain
-  visible until the hero video loads.
-- **`assets/htg-hero.mp4` is 25MB**, the entire weight of the repo and a
-  heavy load on mobile.
+- ~~`assets/htg-hero.mp4` is 25MB.~~ Done — the hero `<video>` now ships
+  the two 720p encodings (`htg-hero-720p.webm` ~0.5MB tried first,
+  `htg-hero-720p.mp4` ~0.9MB fallback) on every viewport; the 25MB
+  original is deleted (it survives in git history if a re-encode is ever
+  needed). `config.heroPoster` is an original branded SVG, shown alone
+  under Data Saver / 2G / reduced motion.
+- **Homepage Sequence covers depend on Spotify's oEmbed from the
+  visitor's browser.** `render.js` builds numbered click-to-play cover
+  cards and hydrates real art/titles from
+  `https://open.spotify.com/oembed`; that endpoint 403s datacenter IPs
+  (see the scraper note above), so from CI-like environments the cards
+  keep their styled numbered fallback — that is the designed degradation,
+  not a bug. `sequence.html` still renders every player directly.
 
 ## Testing
 

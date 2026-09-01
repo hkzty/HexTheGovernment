@@ -15,6 +15,14 @@
   <meta property="og:title" content="HTG — Hex The Government" />
   <meta property="og:description" content="A vessel on corporate waters. Four names aboard, led by ABRAXAS and Stretty." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.htg.productions/" />
+  <meta property="og:site_name" content="HTG — Hex The Government" />
+  <meta property="og:image" content="https://www.htg.productions/assets/share/htg.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="HTG — Hex The Government. A private ark on corporate waters." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://www.htg.productions/assets/share/htg.png" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0a0a'/%3E%3Ctext x='50' y='72' font-size='52' text-anchor='middle' fill='%23f2f2f2' font-family='Georgia, serif'%3EH%3C/text%3E%3C/svg%3E" />
   <script data-page="mobile">
     // Mark JS as available: CSS only arms the reveal animations and the
@@ -336,10 +344,10 @@
 
     .hero {
       position: relative;
-      /* No hero video ships, so the section hugs its content instead of
-         reserving a full viewport of empty gradient. The top padding clears
-         the fixed header (main no longer reserves that space) so the wordmark
-         sits high on landing with no dead space above it. */
+      /* The hero hugs its content rather than reserving a full viewport;
+         the loop plays behind whatever height the mast needs. The top
+         padding clears the fixed header (main no longer reserves that
+         space) so the wordmark sits high on landing. */
       min-height: auto;
       display: grid;
       align-items: start;
@@ -1585,6 +1593,154 @@
       text-transform: uppercase;
     }
 
+    /* Covers-first sequence: the grid shows art, the player loads on tap. */
+    .cover-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .cover-card {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      text-align: left;
+      font: inherit;
+      color: var(--text);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform var(--transition), border-color var(--transition);
+    }
+
+    .cover-card:hover,
+    .cover-card:focus-visible {
+      transform: translateY(-3px);
+      border-color: var(--line-strong);
+    }
+
+    .cover-card.highlight {
+      border-color: rgba(255, 255, 255, 0.75);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35), 0 0 34px rgba(255, 255, 255, 0.25), var(--shadow);
+    }
+
+    /* ABRAXAS deck purple as the placeholder art; a real cover from
+       Spotify's oEmbed covers it entirely once it arrives. */
+    .cover-art {
+      position: relative;
+      display: block;
+      aspect-ratio: 1 / 1;
+      min-height: 3rem;
+      background:
+        radial-gradient(120% 120% at 85% 15%, rgba(180, 120, 255, 0.42), transparent 55%),
+        linear-gradient(145deg, rgba(180, 120, 255, 0.16), rgba(10, 10, 10, 0.92) 60%),
+        var(--surface);
+    }
+
+    .cover-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cover-num {
+      position: absolute;
+      left: 0.75rem;
+      bottom: 0.4rem;
+      z-index: 1;
+      font-size: 2.1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: rgba(245, 245, 243, 0.92);
+      text-shadow: 0 0 14px rgba(0, 0, 0, 0.85);
+    }
+
+    .cover-play {
+      position: absolute;
+      right: 0.65rem;
+      bottom: 0.65rem;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 50%;
+      border: 1px solid var(--line-strong);
+      background: rgba(10, 10, 10, 0.72);
+      color: var(--accent);
+      font-size: 0.72rem;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .cover-card:hover .cover-play,
+    .cover-card:focus-visible .cover-play {
+      background: var(--accent);
+      color: #0a0a0a;
+    }
+
+    .cover-tag {
+      position: absolute;
+      top: 0.65rem;
+      left: 0.65rem;
+      z-index: 1;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: rgba(10, 10, 10, 0.72);
+      color: var(--accent);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.2rem;
+      text-transform: uppercase;
+    }
+
+    .cover-meta {
+      display: grid;
+      gap: 0.2rem;
+      padding: 0.7rem 0.85rem 0.85rem;
+    }
+
+    .cover-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .cover-sub {
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* The artist strip above the grids — the same card, laid on its side. */
+    .cover-card--artist {
+      flex-direction: row;
+      align-items: stretch;
+      max-width: 760px;
+    }
+
+    .cover-card--artist .cover-art {
+      flex: 0 0 7rem;
+      aspect-ratio: auto;
+      min-height: 7rem;
+    }
+
+    .cover-card--artist .cover-meta {
+      align-content: center;
+    }
+
+    /* A tapped card swaps to the live player and takes the full row. */
+    .cover-grid .now-playing {
+      grid-column: 1 / -1;
+    }
+
     .insta-grid iframe {
       background: #fff;
     }
@@ -2050,6 +2206,15 @@
     .mast .manifesto b { color: var(--text); font-weight: 700; }
     .mast .hero-cta { justify-content: center; margin-top: 2rem; }
 
+    /* signal.log — the boot log under the wordmark. The card itself comes
+       from style.css; this only sizes and re-aligns it inside the centered
+       mast. */
+    .mast .hero-terminal {
+      max-width: 30rem;
+      margin: 2.4rem auto 0;
+      text-align: left;
+    }
+
     /* ---- The artist doors ------------------------------------------------ */
     .doors {
       display: flex;
@@ -2206,6 +2371,13 @@
 
     <main>
       <section class="hero" id="home">
+        <!-- 6s 720p loop, ~0.5–0.9MB per encoding — behind the overlays the
+             upscale never shows. render.js strips the sources for Data Saver,
+             2G and reduced-motion visitors, leaving the poster. -->
+        <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/placeholders/hero-poster.svg" aria-hidden="true" tabindex="-1">
+          <source src="assets/htg-hero-720p.webm" type="video/webm" />
+          <source src="assets/htg-hero-720p.mp4" type="video/mp4" />
+        </video>
         <div class="hero-overlay"></div>
         <div class="hero-grid parallax-layer" data-speed="0.08"></div>
         <div class="hero-noise parallax-layer" data-speed="0.05"></div>
@@ -2226,6 +2398,23 @@
               <a class="btn btn-primary" href="#out-now">Listen</a>
               <a class="btn" href="#roster">The Roster</a>
               <a class="btn" href="#contact">Bookings</a>
+            </div>
+
+            <!-- signal.log — render.js swaps these lines for config.terminalLines;
+                 keep both layers carrying the same real values. -->
+            <div class="terminal-card hero-terminal">
+              <div class="terminal-head">
+                <span class="terminal-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+                <span class="terminal-label">signal.log</span>
+              </div>
+              <div class="terminal-line"><span>&gt;</span><span>Artist: ABRAXAS</span></div>
+              <div class="terminal-line"><span>&gt;</span><span>Tagline: Depressions Running Deep</span></div>
+              <div class="terminal-line"><span>&gt;</span><span>Label: HTG / Hex The Government</span></div>
+              <div class="terminal-line"><span>&gt;</span><span>Sound: HEXCORE</span></div>
+              <div class="terminal-line"><span>&gt;</span><span>Produces as: HexBoy</span></div>
+              <div class="terminal-line"><span>&gt;</span><span>Mastering: Microbial Mastering</span></div>
+              <div class="terminal-line"><span>&gt;</span><span>Signal: 93 93/93</span></div>
+              <div class="terminal-line"><span>&gt;</span><span>Status: mid ritual</span></div>
             </div>
           </div>
         </div>
