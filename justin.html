@@ -9,6 +9,7 @@
   <meta property="og:title" content="Justinn.clout — Depressions Running Deep" />
   <meta property="og:description" content="Video and photo out of HTG. Shooting it, cutting it — the work is on YouTube and Instagram." />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://i.ytimg.com/vi/pRW9l-BuEk4/hqdefault.jpg" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0a0a'/%3E%3Ctext x='50' y='72' font-size='52' text-anchor='middle' fill='%23ff9b3d' font-family='Georgia, serif'%3EJ%3C/text%3E%3C/svg%3E" />
   <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -69,11 +70,65 @@
     .embed-wrap { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: rgba(20, 20, 20, 0.5); }
     .embed-wrap iframe { display: block; width: 100%; border: 0; }
     .embed-note { margin-top: 0.8rem; font-size: 0.74rem; color: var(--dim); }
-    .empty {
-      border: 1px dashed var(--line); border-radius: 14px; background: rgba(20, 20, 20, 0.5);
-      padding: clamp(1.4rem, 4vw, 2.4rem); color: #cfcfcf;
+
+    /* ---- The reel — click-to-play YouTube cards -------------------------- */
+    /* Each card is a plain link to the video carrying only YouTube's own
+       thumbnail; a tiny script upgrades the click into an in-page player.
+       Four real YouTube iframes up front would cost megabytes before anyone
+       pressed play. Thumbs sit desaturated until hover so the wall reads as
+       one deck, then ignite. */
+    .yt {
+      position: relative; display: block; aspect-ratio: 16 / 9;
+      border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+      background: #141414;
     }
-    .empty b { color: var(--ink); }
+    .yt img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      /* hqdefault ships 4:3 with letterbox bars; cover crops them off */
+      object-fit: cover;
+      filter: grayscale(1) brightness(0.82) contrast(1.05);
+      transition: filter 0.35s ease, transform 0.35s ease;
+    }
+    .yt::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(180deg, rgba(255, 155, 61, 0.10), rgba(10, 10, 10, 0.55) 82%);
+      transition: opacity 0.35s ease;
+    }
+    .yt:hover img, .yt:focus-visible img { filter: none; transform: scale(1.03); }
+    .yt:hover::after, .yt:focus-visible::after { opacity: 0.35; }
+    .yt:focus-visible { outline: 2px solid var(--jus); outline-offset: 3px; }
+    .yt-play {
+      position: absolute; z-index: 1; top: 50%; left: 50%; width: 64px; height: 64px;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(255, 155, 61, 0.8); border-radius: 999px;
+      background: rgba(10, 10, 10, 0.62);
+      transition: box-shadow 0.35s ease, background 0.35s ease;
+    }
+    .yt-play::before {
+      content: ""; position: absolute; top: 50%; left: 50%;
+      transform: translate(-38%, -50%);
+      border-left: 18px solid var(--jus);
+      border-top: 11px solid transparent; border-bottom: 11px solid transparent;
+    }
+    .yt:hover .yt-play, .yt:focus-visible .yt-play {
+      box-shadow: 0 0 30px rgba(255, 155, 61, 0.45);
+      background: rgba(10, 10, 10, 0.8);
+    }
+    .yt-badge {
+      position: absolute; z-index: 1; top: 0.8rem; left: 0.8rem;
+      font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--jus); background: rgba(10, 10, 10, 0.72);
+      border: 1px solid rgba(255, 155, 61, 0.5); border-radius: 999px;
+      padding: 0.3rem 0.75rem 0.3rem 0.9rem;
+    }
+    .yt.playing iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .yt.playing::after, .yt.playing .yt-play, .yt.playing .yt-badge { display: none; }
+    .yt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; margin-top: 0.9rem; }
+    .yt-grid .yt-play { width: 52px; height: 52px; }
+    .yt-grid .yt-play::before { border-left-width: 14px; border-top-width: 9px; border-bottom-width: 9px; }
+    @media (max-width: 700px) {
+      .yt-grid { grid-template-columns: 1fr; }
+    }
 
     /* ---- Links ----------------------------------------------------------- */
     .links { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.6rem; }
@@ -92,7 +147,11 @@
     @media (max-width: 560px) {
       .foot { flex-direction: column; }
     }
-    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto; }
+      .yt img, .yt::after, .yt-play { transition: none; }
+      .yt:hover img, .yt:focus-visible img { transform: none; }
+    }
   </style>
 </head>
 <body data-rain="orange">
@@ -118,21 +177,50 @@
       </p>
     </header>
 
-    <section class="section" aria-label="Justinn.clout — the work">
-      <p class="section-kicker">The work · <b>on YouTube and Instagram</b></p>
+    <section class="section" aria-label="Justinn.clout — the reel">
+      <p class="section-kicker">The reel · <b>straight off YouTube</b></p>
 
-      <!-- No player embedded here. YouTube has no channel embed — only a video
-           or a playlist ID, and there is no pinned reel for this channel yet.
-           When Justin picks one, drop its watch URL into an .embed-wrap iframe
-           the way abraxas.html embeds its player, and cut this block. -->
-      <div class="empty">
-        <p><b>The channel is the reel.</b> Cuts go up on YouTube, stills and clips on Instagram,
-        and the credits and contact route sit on the YTJobs profile.</p>
+      <!-- Click-to-play cards, not live iframes: each is a real link to the
+           video on @justinclout, wearing YouTube's own thumbnail, and the
+           inline script at the bottom swaps a click into an embedded
+           youtube-nocookie player. To feature a different video, change the
+           watch URL, the data-yt id and the thumbnail id together. Titles and
+           view counts are YouTube's to show once the player loads — don't
+           hand-write them here, they'd only go stale. -->
+      <a class="yt yt-feature" href="https://www.youtube.com/watch?v=pRW9l-BuEk4" data-yt="pRW9l-BuEk4"
+         target="_blank" rel="noopener noreferrer"
+         aria-label="Play the most-watched video from Justinn.clout's YouTube channel">
+        <img src="https://i.ytimg.com/vi/pRW9l-BuEk4/hqdefault.jpg" alt="" loading="lazy" decoding="async" />
+        <span class="yt-badge">Most watched</span>
+        <span class="yt-play" aria-hidden="true"></span>
+      </a>
+
+      <div class="yt-grid">
+        <a class="yt" href="https://www.youtube.com/watch?v=ppEZ-0AxEUI" data-yt="ppEZ-0AxEUI"
+           target="_blank" rel="noopener noreferrer"
+           aria-label="Play the second video from Justinn.clout's YouTube channel">
+          <img src="https://i.ytimg.com/vi/ppEZ-0AxEUI/hqdefault.jpg" alt="" loading="lazy" decoding="async" />
+          <span class="yt-play" aria-hidden="true"></span>
+        </a>
+        <a class="yt" href="https://www.youtube.com/watch?v=fizEx-a5ViY" data-yt="fizEx-a5ViY"
+           target="_blank" rel="noopener noreferrer"
+           aria-label="Play the third video from Justinn.clout's YouTube channel">
+          <img src="https://i.ytimg.com/vi/fizEx-a5ViY/hqdefault.jpg" alt="" loading="lazy" decoding="async" />
+          <span class="yt-play" aria-hidden="true"></span>
+        </a>
+        <a class="yt" href="https://www.youtube.com/watch?v=i210dyJM_84" data-yt="i210dyJM_84"
+           target="_blank" rel="noopener noreferrer"
+           aria-label="Play the fourth video from Justinn.clout's YouTube channel">
+          <img src="https://i.ytimg.com/vi/i210dyJM_84/hqdefault.jpg" alt="" loading="lazy" decoding="async" />
+          <span class="yt-play" aria-hidden="true"></span>
+        </a>
       </div>
-      <p class="embed-note">All three are live sources — what's posted there is what's current.</p>
+
+      <p class="embed-note">Press one and it plays right here — the rest of the reel lives on the channel.
+      Stills and clips land on Instagram; credits and the contact route sit on the YTJobs profile.</p>
 
       <div class="links">
-        <a href="https://www.youtube.com/@justinclout" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a href="https://www.youtube.com/@justinclout" target="_blank" rel="noopener noreferrer">Full channel — @justinclout</a>
         <a href="https://www.instagram.com/justinn.clout" target="_blank" rel="noopener noreferrer">Instagram</a>
         <a href="https://ytjobs.co/talent/profile/536835?r=899" target="_blank" rel="noopener noreferrer">YTJobs profile</a>
         <a href="index.html#gallery">HTG gallery</a>
@@ -146,6 +234,45 @@
     </footer>
     <script>(function(){var y=document.getElementById('legal-year');if(y)y.textContent=new Date().getFullYear();})();</script>
   </div>
+
+  <script>
+    (function () {
+      /* Upgrade the reel cards from links into in-page players on click.
+         Without JS every card stays an ordinary link to the video. */
+      var cards = document.querySelectorAll('a[data-yt]');
+      for (var i = 0; i < cards.length; i++) {
+        (function (card) {
+          card.addEventListener('click', function (e) {
+            if (card.classList.contains('playing')) return;
+            e.preventDefault();
+            var frame = document.createElement('iframe');
+            frame.src = 'https://www.youtube-nocookie.com/embed/' +
+              card.getAttribute('data-yt') + '?autoplay=1&rel=0';
+            frame.title = card.getAttribute('aria-label') || 'YouTube player';
+            frame.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture';
+            frame.setAttribute('allowfullscreen', '');
+            card.classList.add('playing');
+            card.removeAttribute('href');
+            card.removeAttribute('target');
+            card.innerHTML = '';
+            card.appendChild(frame);
+          });
+        })(cards[i]);
+      }
+
+      /* The featured card deserves better than hqdefault's 480px. YouTube
+         answers a missing maxresdefault with a 120px stub and HTTP 200, so
+         probe and only swap in a real full-size frame. */
+      var hero = document.querySelector('.yt-feature img');
+      if (hero) {
+        var probe = new Image();
+        probe.onload = function () {
+          if (probe.naturalWidth > 1000) hero.src = probe.src;
+        };
+        probe.src = 'https://i.ytimg.com/vi/pRW9l-BuEk4/maxresdefault.jpg';
+      }
+    })();
+  </script>
 
   <script src="matrix.js"></script>
 </body>
