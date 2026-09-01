@@ -87,8 +87,13 @@
   let paused = false;
   let lastT = 0;
 
+  /* Reduced motion stills the rain, it does not delete it. Hiding the canvas
+     outright took every colour off every page for anyone with the OS setting
+     on — the site's whole backdrop, gone, with nothing in its place. What the
+     setting asks for is no animation, so we paint one still frame of the same
+     rain and never start the loop. */
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let disabled = reduceMotion.matches;
+  let stillOnly = reduceMotion.matches;
 
   const rand = (min, max) => Math.random() * (max - min) + min;
   const pickGlyph = () => GLYPHS.charAt((Math.random() * GLYPHS.length) | 0);
@@ -115,8 +120,37 @@
       ink: pickInk(i),
     }));
 
+    if (stillOnly) drawStill();
+    else {
+      ctx.fillStyle = 'rgba(10, 10, 10, 1)';
+      ctx.fillRect(0, 0, width, height);
+    }
+  }
+
+  /* One still frame: every column drawn where it stands, each with a short
+     tail above it so the glyph trails still read as falling rain. Nothing
+     moves and nothing is scheduled. */
+  const STILL_TAIL = 7;
+  function drawStill() {
     ctx.fillStyle = 'rgba(10, 10, 10, 1)';
     ctx.fillRect(0, 0, width, height);
+    for (let i = 0; i < columns.length; i++) {
+      const col = columns[i];
+      const x = i * FONT_SIZE;
+      // Spread the heads over the full height — the animated loop starts them
+      // above the fold and relies on falling to fill the screen.
+      const headY = ((col.y % height) + height) % height;
+      ctx.fillStyle = col.ink.head;
+      ctx.fillText(col.glyph, x, headY);
+      ctx.fillStyle = col.ink.tail;
+      for (let n = 1; n <= STILL_TAIL; n++) {
+        const y = headY - n * FONT_SIZE;
+        if (y < -FONT_SIZE) break;
+        ctx.globalAlpha = 1 - n / (STILL_TAIL + 1);
+        ctx.fillText(pickGlyph(), x, y);
+      }
+      ctx.globalAlpha = 1;
+    }
   }
 
   function frame(t) {
@@ -157,7 +191,7 @@
   }
 
   function start() {
-    if (rafId || disabled) return;
+    if (rafId || stillOnly) return;
     if (document.body.classList.contains('game-active')) return;
     paused = false;
     lastT = 0;
@@ -170,19 +204,13 @@
   }
 
   resize();
-  if (!disabled) start();
-  else canvas.style.display = 'none';
+  start();
 
   const onReduceMotionChange = () => {
-    disabled = reduceMotion.matches;
-    if (disabled) {
-      stop();
-      canvas.style.display = 'none';
-    } else {
-      canvas.style.display = '';
-      resize();
-      start();
-    }
+    stillOnly = reduceMotion.matches;
+    stop();
+    resize();   // repaints as a still frame or a clear ground, per the new mode
+    start();    // no-op while stillOnly
   };
   if (reduceMotion.addEventListener) reduceMotion.addEventListener('change', onReduceMotionChange);
   else if (reduceMotion.addListener) reduceMotion.addListener(onReduceMotionChange);
