@@ -69,6 +69,9 @@
     .embed-wrap { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: rgba(20, 20, 20, 0.5); }
     .embed-wrap iframe { display: block; width: 100%; border: 0; }
     .embed-note { margin-top: 0.8rem; font-size: 0.74rem; color: var(--dim); }
+    /* The cuts — same shape as Justin's reel: one featured player up top,
+       compact players in a row beneath. */
+    .cut-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0.9rem; margin-top: 0.9rem; }
 
     /* ---- Links ----------------------------------------------------------- */
     .links { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.6rem; }
@@ -113,6 +116,51 @@
         <span class="nod">aboard</span>
       </p>
     </header>
+
+    <section class="section" aria-label="ciggyholster — the cuts">
+      <p class="section-kicker">The cuts · <b>straight off Spotify</b></p>
+
+      <!-- Same shape as Justin's reel: featured player, then the rest in a
+           row. Every track here is verifiably credited to ciggyholster
+           (spotify:artist:0xMdknHv3WOTL2AeK1uHpo) — check the artist link
+           before adding one. Titles and art are Spotify's to show; nothing
+           is hand-written to go stale. -->
+      <div class="embed-wrap">
+        <iframe
+          title="Tidal Wave — featured ciggyholster cut on Spotify"
+          src="https://open.spotify.com/embed/track/19YLebLelGLMo9wW38XQCC?utm_source=generator&amp;theme=0"
+          height="352"
+          loading="lazy"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+      </div>
+      <div class="cut-grid">
+        <div class="embed-wrap">
+          <iframe
+            title="MISFITS — ciggyholster cut on Spotify"
+            src="https://open.spotify.com/embed/track/4HoXkJ6l8CMiPNRUDuQpvc?utm_source=generator&amp;theme=0"
+            height="152"
+            loading="lazy"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+        </div>
+        <div class="embed-wrap">
+          <iframe
+            title="Leptin — ciggyholster cut on Spotify"
+            src="https://open.spotify.com/embed/track/21miJ7OVY8YvuA5E4wUbD0?utm_source=generator&amp;theme=0"
+            height="152"
+            loading="lazy"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+        </div>
+        <div class="embed-wrap">
+          <iframe
+            title="Yung Chlordane — ciggyholster cut on Spotify"
+            src="https://open.spotify.com/embed/track/415XlPsdKVSi1KXJSWJSnT?utm_source=generator&amp;theme=0"
+            height="152"
+            loading="lazy"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+        </div>
+      </div>
+      <p class="embed-note">Press one and it plays right here — solo cuts and the ABRAXAS collabs, straight off his profile.</p>
+    </section>
 
     <section class="section" aria-label="ciggyholster — the catalog">
       <p class="section-kicker">The catalog · <b>live from Spotify</b></p>

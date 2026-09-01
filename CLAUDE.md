@@ -152,6 +152,30 @@ out of view, on Escape, and when the tab is hidden.
   them. (If this becomes a frequent edit, promoting that check into a
   dev-only assertion in `game.js` would be worth doing.)
 
+## The HTG mark
+
+`assets/htg-mark.svg` is the label's drawn sigil — a hexagon holding an H
+whose crossbar is a hull, over a waterline. It is the favicon on the
+HTG-branded pages (`index.html`/`mobile.html`, `game.html`, `legal.html`);
+artist decks keep their own letter icons. `assets/htg-share-card.png`
+(1200×630, referenced by `og:image` on `index.html`) is rendered from it.
+Reuse the SVG for anything that needs a stamp; don't reintroduce the old
+plain-letter "H" tile.
+
+## Roster door art & the second Stretty trap
+
+The roster doors on `index.html` carry cover-art collages resolved at
+runtime from Spotify's oEmbed endpoint (see the loader script by the
+doors). oEmbed is CORS-open in visitors' browsers even though it 403s from
+datacenter IPs; on any failure the door just stays typography-only.
+
+When adding tracks anywhere (doors, `stretty.html`, `ciggie.html`): a
+second, unrelated Spotify artist is also named **Stretty**
+(`6r59mx3rk3LO4VXSUhRXM5`). HTG's stretty is
+`spotify:artist:4yQchxxguwc9PXmCVqb9Bm` and ciggyholster is
+`spotify:artist:0xMdknHv3WOTL2AeK1uHpo` — verify the artist link on a
+release before wiring it in, same rule as the ABRAXAS ID above.
+
 ## `--nav-height`
 
 Set at runtime in `script.js` from the header's measured height, on load,
@@ -189,10 +213,15 @@ Do not hardcode it again.
 - ~~Deduplicate `mobile.html`'s inline CSS against `style.css`.~~ Done —
   `mobile.html` is generated from `style.css`, so there is only one copy
   to edit.
-- **`assets/gallery/` holds six picsum placeholders** with captions
-  implying real photos. The `gallery-manifest.yml` Action rebuilds
-  `manifest.json` from whatever image files are in that folder, so real
-  photos dropped in there replace them automatically.
+- ~~`assets/gallery/` holds six picsum placeholders.~~ Done — the gallery
+  now holds six real frames off HTG's own visuals (hero-reel stills and
+  Suit Purge gameplay), with `manifest.json` rebuilt locally by
+  `npm run build:gallery` / verified by `npm run check:gallery` (the
+  `gallery-manifest.yml` Action never runs here — see above). Real
+  session/phone shots should replace these frames as they exist: drop
+  them in the folder, rebuild the manifest, and update the fallback
+  layers (`config.gallery` and the static grid in `index.html`) to
+  match.
 - **`config.heroPoster` is a picsum stock photo** — the grey mountain
   visible until the hero video loads.
 - **`assets/htg-hero.mp4` is 25MB**, the entire weight of the repo and a

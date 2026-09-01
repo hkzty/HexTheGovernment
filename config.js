@@ -5,8 +5,9 @@
    - Leave a value as "" (empty) and the site falls back to a safe default.
    - Any Spotify / SoundCloud / YouTube URL you paste into an embed list
      is turned into an embedded player automatically.
-   - Photos: drop image files into assets/gallery/ and push — the gallery
-     updates itself (a GitHub Action rebuilds the list on every upload).
+   - Photos: drop image files into assets/gallery/, run
+     `npm run build:gallery`, and push both — the gallery picks them up.
+     (The GitHub Action that was meant to do this never runs in this repo.)
    ========================================================================= */
 
 window.ABRAXAS_CONFIG = {
@@ -110,17 +111,21 @@ window.ABRAXAS_CONFIG = {
   ],
 
   /* ---- Gallery -----------------------------------------------------------
-     EASIEST WAY: drop image files into assets/gallery/ and push — the site
-     picks them up automatically (via assets/gallery/manifest.json, rebuilt
-     by the GitHub Action on every upload). The list below is only the
-     fallback shown until real photos exist.                               */
+     EASIEST WAY: drop image files into assets/gallery/, run
+     `npm run build:gallery` (rebuilds assets/gallery/manifest.json), and
+     push both. Captions come from the filenames. The list below is only
+     the pre-JS fallback; keep it pointing at the same frames the manifest
+     holds so the grid doesn't change once the manifest loads.
+     These six are real frames off HTG's own visuals — the hero reel and
+     live Suit Purge floors. Phone shots from sessions replace them
+     whenever they exist; never add stock or invented "photos".          */
   gallery: [
-    { thumb: "assets/placeholders/gallery-1.svg", full: "assets/placeholders/gallery-1.svg", caption: "Night session / purple terminal room" },
-    { thumb: "assets/placeholders/gallery-2.svg", full: "assets/placeholders/gallery-2.svg", caption: "Backstage static / blackout wash" },
-    { thumb: "assets/placeholders/gallery-3.svg", full: "assets/placeholders/gallery-3.svg", caption: "Cover shoot / corrupted glow" },
-    { thumb: "assets/placeholders/gallery-4.svg", full: "assets/placeholders/gallery-4.svg", caption: "Venue check / monitors down" },
-    { thumb: "assets/placeholders/gallery-5.svg", full: "assets/placeholders/gallery-5.svg", caption: "Merch prep / box stack" },
-    { thumb: "assets/placeholders/gallery-6.svg", full: "assets/placeholders/gallery-6.svg", caption: "Visual frame / violet signal" }
+    { thumb: "assets/gallery/htg-hero-reel-01.jpg", full: "assets/gallery/htg-hero-reel-01.jpg", caption: "htg hero reel 01" },
+    { thumb: "assets/gallery/htg-hero-reel-02.jpg", full: "assets/gallery/htg-hero-reel-02.jpg", caption: "htg hero reel 02" },
+    { thumb: "assets/gallery/suit-purge-floor-01.jpg", full: "assets/gallery/suit-purge-floor-01.jpg", caption: "suit purge floor 01" },
+    { thumb: "assets/gallery/suit-purge-floor-02.jpg", full: "assets/gallery/suit-purge-floor-02.jpg", caption: "suit purge floor 02" },
+    { thumb: "assets/gallery/suit-purge-floor-03.jpg", full: "assets/gallery/suit-purge-floor-03.jpg", caption: "suit purge floor 03" },
+    { thumb: "assets/gallery/suit-purge-floor-04.jpg", full: "assets/gallery/suit-purge-floor-04.jpg", caption: "suit purge floor 04" }
   ],
 
   /* ---- Stats — counted from the Sequence above, not invented. ---------- */

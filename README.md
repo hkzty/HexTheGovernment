@@ -60,7 +60,9 @@ outNowEmbeds: [
 
 ### 4. Photos — just drop them in a folder
 
-Put image files in **`assets/gallery/`** and push (the GitHub web "Upload files" button works). A GitHub Action rebuilds `assets/gallery/manifest.json` automatically and the site's gallery + lightbox pick the photos up on their own — captions come from the filenames (`night-session.jpg` → "night session"). No code edits.
+Put image files in **`assets/gallery/`**, run `npm run build:gallery` (rebuilds `assets/gallery/manifest.json`), and commit both. The site's gallery + lightbox pick the photos up on their own — captions come from the filenames (`night-session.jpg` → "night session"). Run `npm run check:gallery` before pushing to catch a stale manifest. (A GitHub Action was meant to rebuild the manifest on push, but user-defined workflows never execute in this repo — see *Known broken*.)
+
+The gallery currently holds real frames off HTG's own visuals — hero-reel stills and live Suit Purge floors. Session/phone shots should replace them as they exist.
 
 Instagram: paste public post/reel URLs into `instagramPosts` in `config.js` and they appear embedded in the Gallery section.
 
@@ -108,8 +110,8 @@ shows the hand-written releases — nothing breaks.
 **Instagram photos (needs one tap from the artist):** the artist authorizes a Meta app once
 via Instagram Login; store the resulting long-lived token as the repo secret
 `INSTAGRAM_ACCESS_TOKEN`. The scraper then pulls his posts, downloads any new images into
-`assets/gallery/`, and the existing `gallery-manifest.yml` Action makes them appear in the
-gallery. Without the secret this step is skipped with a log line and everything else still runs.
+`assets/gallery/`, and `npm run build:gallery` (or the `gallery-manifest.yml` Action, if
+Actions ever works here) makes them appear in the gallery. Without the secret this step is skipped with a log line and everything else still runs.
 
 Run it locally with `npm run scrape` (Node 18+, no dependencies to install).
 
@@ -169,7 +171,7 @@ hexthegovernment/
 ├── CNAME             # custom domain (www.htg.productions) — do not delete
 ├── assets/
 │   ├── htg-hero.mp4  # hero video
-│   └── gallery/      # ← DROP PHOTOS HERE, they appear automatically
+│   └── gallery/      # ← DROP PHOTOS HERE, then `npm run build:gallery`
 └── .github/workflows/gallery-manifest.yml
 ```
 

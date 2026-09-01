@@ -66,6 +66,9 @@
     .embed-wrap { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: rgba(20, 20, 20, 0.5); }
     .embed-wrap iframe { display: block; width: 100%; border: 0; }
     .embed-note { margin-top: 0.8rem; font-size: 0.74rem; color: var(--dim); }
+    /* The cuts — same shape as Justin's reel: one featured player up top,
+       compact players in a row beneath. */
+    .cut-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0.9rem; margin-top: 0.9rem; }
 
     /* ---- Links ----------------------------------------------------------- */
     .links { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.6rem; }
@@ -109,6 +112,44 @@
         <span class="nod">still here</span>
       </p>
     </header>
+
+    <section class="section" aria-label="Stretty — the cuts">
+      <p class="section-kicker">The cuts · <b>straight off Spotify</b></p>
+
+      <!-- Same shape as Justin's reel: featured player, then the rest in a
+           row. Every track here is verifiably credited to THIS stretty
+           (spotify:artist:4yQchxxguwc9PXmCVqb9Bm) — an unrelated Spotify
+           artist is also called Stretty, so never add a track without
+           checking the artist link on it. Titles and art are Spotify's to
+           show; nothing is hand-written to go stale. -->
+      <div class="embed-wrap">
+        <iframe
+          title="Schienenzeppelin — featured Stretty cut on Spotify"
+          src="https://open.spotify.com/embed/track/2oGrGX4T83boP9ZMIl2gZd?utm_source=generator&amp;theme=0"
+          height="352"
+          loading="lazy"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+      </div>
+      <div class="cut-grid">
+        <div class="embed-wrap">
+          <iframe
+            title="Yung Goth — Stretty cut on Spotify"
+            src="https://open.spotify.com/embed/track/5wiaIGjX8ht4vIxYHYHBqG?utm_source=generator&amp;theme=0"
+            height="152"
+            loading="lazy"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+        </div>
+        <div class="embed-wrap">
+          <iframe
+            title="Clotted Thoughts — Stretty cut on Spotify"
+            src="https://open.spotify.com/embed/track/3Vs0qIyXV3UtsWpxCcvJnX?utm_source=generator&amp;theme=0"
+            height="152"
+            loading="lazy"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+        </div>
+      </div>
+      <p class="embed-note">Press one and it plays right here. Two of these ride pinned at the top of the Sequence — the hull holding up the front line.</p>
+    </section>
 
     <section class="section" aria-label="Stretty on Spotify">
       <p class="section-kicker">The catalog · <b>live from Spotify</b></p>
