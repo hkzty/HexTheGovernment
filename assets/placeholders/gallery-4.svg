@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Venue check / monitors down">
+  <defs>
+    <linearGradient id="g4-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1f0335"/>
+      <stop offset="100%" stop-color="#0a0114"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="900" fill="url(#g4-bg)"/>
+  <g stroke="#8c03fc" stroke-opacity="0.25" stroke-width="1" fill="none">
+    <rect x="120" y="200" width="200" height="150"/>
+    <rect x="360" y="200" width="200" height="150"/>
+    <rect x="600" y="200" width="200" height="150"/>
+    <rect x="120" y="400" width="200" height="150"/>
+    <rect x="360" y="400" width="200" height="150"/>
+    <rect x="600" y="400" width="200" height="150"/>
+  </g>
+  <g fill="#8c03fc" opacity="0.08">
+    <rect x="120" y="200" width="200" height="150"/>
+    <rect x="600" y="400" width="200" height="150"/>
+  </g>
+  <g font-family="'IBM Plex Mono', monospace" fill="#d7c6ea" font-size="14" letter-spacing="3" opacity="0.7" text-anchor="middle">
+    <text x="220" y="285">MON 01</text>
+    <text x="460" y="285" opacity="0.35">NO SIG</text>
+    <text x="700" y="285">MON 03</text>
+    <text x="220" y="485" opacity="0.35">NO SIG</text>
+    <text x="460" y="485" opacity="0.35">NO SIG</text>
+    <text x="700" y="485">MON 06</text>
+  </g>
+  <g font-family="'IBM Plex Mono', monospace" fill="#d7c6ea">
+    <text x="60" y="100" font-size="18" opacity="0.7" letter-spacing="5">// 04_VENUE_CHECK</text>
+    <text x="60" y="820" font-size="14" opacity="0.55" letter-spacing="4">MONITORS DOWN — 4/6 OFFLINE</text>
+  </g>
+</svg>

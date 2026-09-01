@@ -171,7 +171,7 @@ Real: artist identity, the Spotify artist page and the full Sequence (13 albums 
 
 Still placeholder (swap in `config.js` / `index.html` as they become real): gallery images until photos land in `assets/gallery/`, release cover art, merch items and prices, tour dates, Apple Music / YouTube links.
 
-Also external for now (self-host before heavy promo pushes): Google Fonts and the picsum placeholder images.
+Also external for now (self-host before heavy promo pushes): Google Fonts. Placeholder art is now bundled locally under `assets/placeholders/` — no third-party image host in the runtime path.
 
 ---
 

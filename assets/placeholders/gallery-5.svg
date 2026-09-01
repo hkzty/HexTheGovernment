@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Merch prep / box stack">
+  <defs>
+    <linearGradient id="g5-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a0546"/>
+      <stop offset="100%" stop-color="#0a0114"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="900" fill="url(#g5-bg)"/>
+  <g stroke="#8c03fc" stroke-opacity="0.5" fill="#1f0335" stroke-width="2">
+    <polygon points="230,560 470,560 470,760 230,760" fill-opacity="0.85"/>
+    <polygon points="230,560 350,510 590,510 470,560" fill-opacity="0.6"/>
+    <polygon points="470,560 590,510 590,710 470,760" fill-opacity="0.7"/>
+
+    <polygon points="440,420 620,420 620,560 440,560" fill-opacity="0.85"/>
+    <polygon points="440,420 530,380 710,380 620,420" fill-opacity="0.6"/>
+    <polygon points="620,420 710,380 710,520 620,560" fill-opacity="0.7"/>
+  </g>
+  <g font-family="'IBM Plex Mono', monospace" fill="#d7c6ea">
+    <text x="60" y="100" font-size="18" opacity="0.7" letter-spacing="5">// 05_MERCH_PREP</text>
+    <text x="60" y="820" font-size="14" opacity="0.5" letter-spacing="4">BOX STACK — SHIP QUEUE</text>
+    <text x="360" y="670" font-size="20" letter-spacing="6" opacity="0.8">HTG // 001</text>
+    <text x="530" y="500" font-size="16" letter-spacing="5" opacity="0.75">HTG // 002</text>
+  </g>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Placeholder merch hoodie">
+  <defs>
+    <linearGradient id="m1-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2a0546"/>
+      <stop offset="100%" stop-color="#0a0114"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="900" fill="url(#m1-bg)"/>
+  <g fill="#0a0114" stroke="#8c03fc" stroke-opacity="0.7" stroke-width="3">
+    <path d="M300 220 L450 180 L600 220 L680 300 L640 400 L620 400 L620 720 L280 720 L280 400 L260 400 L220 300 Z"/>
+    <path d="M450 180 L450 260 L420 300 L480 300 Z" fill="#1f0335"/>
+  </g>
+  <g font-family="'IBM Plex Mono', monospace" fill="#f5f5f3" text-anchor="middle">
+    <text x="450" y="490" font-size="70" font-weight="700" letter-spacing="12">HTG</text>
+    <text x="450" y="540" font-size="18" fill="#8c03fc" letter-spacing="8">93 93/93</text>
+  </g>
+  <g font-family="'IBM Plex Mono', monospace" fill="#d7c6ea">
+    <text x="60" y="100" font-size="18" opacity="0.7" letter-spacing="5">// MERCH_01</text>
+    <text x="60" y="820" font-size="14" opacity="0.5" letter-spacing="4">HOODIE — PLACEHOLDER</text>
+  </g>
+</svg>
