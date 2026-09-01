@@ -15,18 +15,18 @@ window.ABRAXAS_CONFIG = {
   artist: "ABRAXAS",
   tagline: "Depressions Running Deep",
   label: "HTG / Hex The Government",
-  genre: "Underground Occult Rap",
+  genre: "HEXCORE",
 
   /* Lines shown in the signal.log terminal card on the hero. */
   terminalLines: [
     "Artist: ABRAXAS",
     "Tagline: Depressions Running Deep",
     "Label: HTG / Hex The Government",
-    "Sound: underground occult rap",
+    "Sound: HEXCORE",
     "Produces as: HexBoy",
     "Mastering: Microbial Mastering",
     "Signal: 93 93/93",
-    "Status: next release compiling"
+    "Status: mid ritual"
   ],
 
   /* ---- Linked profiles (paste your public URLs here) -------------------
@@ -59,7 +59,7 @@ window.ABRAXAS_CONFIG = {
     title: "Play it through. In order.",
     note: "01 → 13. No words.",
     artist: "https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19",
-    highlightTag: "STRETTY",
+    highlightTag: "PINNED",
     highlights: [
       "https://open.spotify.com/track/7Az3pwgwCk09ZfQzlH8slr",
       "https://open.spotify.com/track/2oGrGX4T83boP9ZMIl2gZd",
@@ -126,7 +126,7 @@ window.ABRAXAS_CONFIG = {
   /* ---- Stats — counted from the Sequence above, not invented. ---------- */
   stats: [
     { value: 13, label: "Albums in the Sequence" },
-    { value: 3,  label: "Stretty Highlights" }
+    { value: 3,  label: "Pinned Highlights" }
   ],
 
   /* ---- Albums Configuration (NEW - Auto-scraper) ------------------------ */
@@ -137,6 +137,15 @@ window.ABRAXAS_CONFIG = {
     defaultFilter: 'all',
     defaultSort: 'latest',
     updateInterval: 21600000  // 6 hours in milliseconds
+  },
+
+  /* ---- Shopify store -------------------------------------------------------
+     The "Merchandise" nav link is a plain button straight to the Shopify
+     storefront - no in-page product grid. Point it at the checkout domain
+     once shop.htg.productions is verified in Shopify (Settings -> Domains);
+     until then the *.myshopify.com storefront URL works fine. */
+  shop: {
+    url: "https://strettys-merch.myshopify.com"
   },
 
   /* ---- Contact -----------------------------------------------------------
