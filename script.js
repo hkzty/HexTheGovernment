@@ -221,8 +221,24 @@
     const contactForm = document.getElementById('contactForm');
     const formError = document.getElementById('formError');
     const formStatus = document.getElementById('formStatus');
+    const contactSubmit = contactForm.querySelector('button[type="submit"]');
 
-    contactForm.addEventListener('submit', (event) => {
+    /*
+      Delivery order: POST to the form service in config.contactForm when
+      one is set, so sending works without a mail app — mailto: alone does
+      nothing, silently, for visitors without one, and bookings are the
+      site's one conversion. mailto: stays as the no-endpoint default and
+      the network-failure fallback. On the mailto path the form is NOT
+      reset: for someone with no mail app the text still sitting in the
+      form is the only copy of their message.
+    */
+    const openMailto = ({ name, email, subject, message, contactEmail, lead }) => {
+      const body = `${message}\n\n— ${name} (${email})`;
+      window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      formStatus.textContent = `${lead} If no email app opened, send it yourself to ${contactEmail} — your message is still filled in below.`;
+    };
+
+    contactForm.addEventListener('submit', async (event) => {
       event.preventDefault();
       formError.textContent = '';
       formStatus.textContent = '';
@@ -251,15 +267,56 @@
         return;
       }
 
-      const contactEmail = ((window.ABRAXAS_CONFIG || {}).contactEmail || '').trim();
-      if (contactEmail) {
-        const body = `${message}\n\n— ${name} (${email})`;
-        window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        formStatus.textContent = `Opening your email app to send this to ${contactEmail}…`;
-      } else {
-        formStatus.textContent = 'Message validated. Add contactEmail in config.js (or hook a form service) to make submissions live.';
+      // Honeypot: the field is invisible, so a filled value is a bot.
+      // Claim success and send nothing.
+      if ((formData.get('botcheck') || '').toString().trim()) {
+        contactForm.reset();
+        formStatus.textContent = 'Message sent.';
+        return;
       }
-      contactForm.reset();
+
+      const cfg = window.ABRAXAS_CONFIG || {};
+      const contactEmail = (cfg.contactEmail || '').trim();
+      const service = cfg.contactForm || {};
+      const endpoint = (service.endpoint || '').trim();
+      const accessKey = (service.accessKey || '').trim();
+
+      if (!endpoint && !contactEmail) {
+        formStatus.textContent = 'Message validated. Set contactForm.endpoint or contactEmail in config.js to make submissions live.';
+        return;
+      }
+
+      if (endpoint) {
+        // Web3Forms wants access_key + botcheck; Formspree reads its meta
+        // fields from _-prefixed keys. Shape the payload for whichever
+        // service the config points at.
+        const payload = accessKey
+          ? { access_key: accessKey, name, email, subject, message, botcheck: false }
+          : { name, email, subject, message, _subject: subject, _replyto: email, _gotcha: '' };
+        contactSubmit.disabled = true;
+        formStatus.textContent = 'Sending…';
+        try {
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!res.ok) throw new Error(`form service responded ${res.status}`);
+          contactForm.reset();
+          formStatus.textContent = 'Sent — your message is in the HTG inbox. Replies go to the email you gave.';
+        } catch (err) {
+          if (contactEmail) {
+            openMailto({ name, email, subject, message, contactEmail, lead: 'The form service did not answer, so this fell back to your email app.' });
+          } else {
+            formStatus.textContent = 'Sending failed — please try again in a minute.';
+          }
+        } finally {
+          contactSubmit.disabled = false;
+        }
+        return;
+      }
+
+      openMailto({ name, email, subject, message, contactEmail, lead: `Opening your email app to send this to ${contactEmail}…` });
     });
   
 

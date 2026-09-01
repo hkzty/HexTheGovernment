@@ -184,6 +184,17 @@ to `114px` while the real header measures 178–229px depending on width,
 so page content sat underneath the fixed header at every desktop size.
 Do not hardcode it again.
 
+## Webfont loading — two links on purpose
+
+Every visitor page loads Google Fonts as **two** `css2` links: New Rocker
+with `display=block`, IBM Plex Mono with `display=swap`. They used to be
+one link with `display=swap` for both, which made every heading paint in
+the serif fallback and then visibly morph into New Rocker once the font
+arrived — reported by the owner as "the font across the site changed".
+`block` holds heading text briefly instead, so the gothic face is the only
+one ever shown. Plex Mono keeps `swap` because its fallback is another
+monospace and that swap is invisible. Do not fold them back into one link.
+
 ## Known broken / open work
 
 - **`scripts/scraper.js` does not work.** Its workflow was deleted after
@@ -213,19 +224,28 @@ Do not hardcode it again.
 - ~~Deduplicate `mobile.html`'s inline CSS against `style.css`.~~ Done —
   `mobile.html` is generated from `style.css`, so there is only one copy
   to edit.
-- ~~`assets/gallery/` holds six picsum placeholders.~~ Done — the gallery
-  now holds six real frames off HTG's own visuals (hero-reel stills and
-  Suit Purge gameplay), with `manifest.json` rebuilt locally by
-  `npm run build:gallery` / verified by `npm run check:gallery` (the
-  `gallery-manifest.yml` Action never runs here — see above). Real
-  session/phone shots should replace these frames as they exist: drop
-  them in the folder, rebuild the manifest, and update the fallback
-  layers (`config.gallery` and the static grid in `index.html`) to
-  match.
-- **`config.heroPoster` is a picsum stock photo** — the grey mountain
-  visible until the hero video loads.
-- **`assets/htg-hero.mp4` is 25MB**, the entire weight of the repo and a
-  heavy load on mobile.
+- **`assets/gallery/` is empty; the gallery shows six local placeholder
+  SVGs** (`assets/placeholders/gallery-*.svg`, via the fallback list in
+  `config.js`) with stylized captions. The `gallery-manifest.yml` Action
+  rebuilds `manifest.json` from whatever image files land in
+  `assets/gallery/`, so real photos dropped in there replace the
+  placeholders automatically — when Actions runs at all (see above).
+- ~~`config.heroPoster` is a picsum stock photo~~ Done — it now points at
+  `assets/placeholders/hero-poster.svg`, a local placeholder graphic.
+- **`assets/htg-hero.mp4` is 25MB**, the entire weight of the repo — and
+  **both pages load it**. PR #9 shipped small mobile encodes
+  (`assets/htg-hero-mobile.mp4` ~0.9MB / `.webm` ~0.5MB) by hand-editing
+  `mobile.html`; when the generator later rebuilt that file from
+  `index.html` the wiring was wiped, so the two files now sit unreferenced
+  in `assets/`. Re-wiring belongs in `scripts/build-mobile.js` (or a
+  viewport-aware source pick in `render.js`) — never in `mobile.html`
+  itself.
+- **The contact form's delivery endpoint is unset.** `script.js` POSTs
+  submissions to `config.contactForm.endpoint` (Formspree or Web3Forms —
+  setup notes in `config.js`) and falls back to `mailto:` without one.
+  Until someone creates the free account and pastes the endpoint into
+  `config.js`, every visitor is on the mailto path, which does nothing —
+  silently — for anyone without a desktop mail app.
 
 ## Testing
 

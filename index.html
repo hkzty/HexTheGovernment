@@ -12,11 +12,15 @@
   <meta property="og:title" content="HTG — Hex The Government" />
   <meta property="og:description" content="A vessel on corporate waters. Four names aboard, led by ABRAXAS and Stretty." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://www.htg.productions/assets/htg-share-card.png" />
+  <meta property="og:url" content="https://www.htg.productions/" />
+  <meta property="og:site_name" content="HTG — Hex The Government" />
+  <meta property="og:image" content="https://www.htg.productions/assets/share/htg.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="HTG — Hex The Government. A private ark on corporate waters." />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="icon" type="image/svg+xml" href="assets/htg-mark.svg" />
+  <meta name="twitter:image" content="https://www.htg.productions/assets/share/htg.png" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0a0a'/%3E%3Ctext x='50' y='72' font-size='52' text-anchor='middle' fill='%23f2f2f2' font-family='Georgia, serif'%3EH%3C/text%3E%3C/svg%3E" />
   <script data-page="desktop">
     // Mark JS as available: CSS only arms the reveal animations and the
     // custom cursor when this class is present, so a failed script never
@@ -40,7 +44,11 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- New Rocker loads with display=block so headings paint once, in the gothic
+       face — never the serif fallback morphing mid-load. Plex Mono keeps swap:
+       its fallback is another monospace, so that swap is invisible. -->
+  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <style>
     /* HTG-only chrome: the masthead wordmark and the artist doors.
@@ -79,6 +87,15 @@
     }
     .mast .manifesto b { color: var(--text); font-weight: 700; }
     .mast .hero-cta { justify-content: center; margin-top: 2rem; }
+
+    /* signal.log — the boot log under the wordmark. The card itself comes
+       from style.css; this only sizes and re-aligns it inside the centered
+       mast. */
+    .mast .hero-terminal {
+      max-width: 30rem;
+      margin: 2.4rem auto 0;
+      text-align: left;
+    }
 
     /* ---- The artist doors ------------------------------------------------ */
     .doors {
@@ -248,10 +265,10 @@
               <li><a href="#story">Story</a></li>
               <li><a href="#out-now">Out Now</a></li>
               <li><a href="sequence.html">The Sequence</a></li>
-              <li><a href="#releases">New Releases</a></li>
-              <li><a href="#coming-soon">Coming Soon</a></li>
+              <!-- New Releases, Coming Soon and Upcoming Tours stay in the
+                   page as honest empty states, but they don't earn nav slots:
+                   eleven items ran the header onto a second row. -->
               <li><a data-shop-link href="https://strettys-merch.myshopify.com" target="_blank" rel="noopener noreferrer">Merchandise</a></li>
-              <li><a href="#tours">Upcoming Tours</a></li>
               <li><a href="#gallery">Gallery</a></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
@@ -262,6 +279,13 @@
 
     <main>
       <section class="hero" id="home">
+        <!-- 6s 720p loop, ~0.5–0.9MB per encoding — behind the overlays the
+             upscale never shows. render.js strips the sources for Data Saver,
+             2G and reduced-motion visitors, leaving the poster. -->
+        <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/placeholders/hero-poster.svg" aria-hidden="true" tabindex="-1">
+          <source src="assets/htg-hero-720p.webm" type="video/webm" />
+          <source src="assets/htg-hero-720p.mp4" type="video/mp4" />
+        </video>
         <div class="hero-overlay"></div>
         <div class="hero-grid parallax-layer" data-speed="0.08"></div>
         <div class="hero-noise parallax-layer" data-speed="0.05"></div>
@@ -282,6 +306,23 @@
               <a class="btn btn-primary" href="#out-now">Listen</a>
               <a class="btn" href="#roster">The Roster</a>
               <a class="btn" href="#contact">Bookings</a>
+            </div>
+
+            <!-- signal.log — render.js swaps these lines for config.terminalLines;
+                 keep both layers carrying the same real values. -->
+            <div class="terminal-card hero-terminal">
+              <div class="terminal-head">
+                <span class="terminal-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+                <span class="terminal-label">signal.log</span>
+              </div>
+              <div class="terminal-line"><span>&gt;</span><span>Artist: ABRAXAS</span></div>
+              <div class="terminal-line"><span>&gt;</span><span>Tagline: Depressions Running Deep</span></div>
+              <div class="terminal-line"><span>&gt;</span><span>Label: HTG / Hex The Government</span></div>
+              <div class="terminal-line"><span>&gt;</span><span>Sound: HEXCORE</span></div>
+              <div class="terminal-line"><span>&gt;</span><span>Produces as: HexBoy</span></div>
+              <div class="terminal-line"><span>&gt;</span><span>Mastering: Microbial Mastering</span></div>
+              <div class="terminal-line"><span>&gt;</span><span>Signal: 93 93/93</span></div>
+              <div class="terminal-line"><span>&gt;</span><span>Status: mid ritual</span></div>
             </div>
           </div>
         </div>
@@ -727,6 +768,10 @@
 
             <div class="contact-card fade-in">
               <form class="contact-form" id="contactForm" novalidate>
+                <!-- Honeypot: invisible to people, filled by bots. Checked in
+                     script.js and forwarded to the form service. No label or
+                     placeholder on purpose — it is not copy. -->
+                <input class="hp-field" type="text" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" />
                 <div class="form-grid">
                   <div class="field">
                     <label for="name">Name</label>
