@@ -47,8 +47,11 @@ window.ABRAXAS_CONFIG = {
   linktree: "https://linktr.ee/abraxashtg",
 
   /* ---- Hero video -------------------------------------------------------
-     Local file in the repo or any public direct .mp4 URL.                 */
-  heroVideo: "assets/htg-hero.mp4",
+     Plays behind the wordmark on the landing page. Two encodings of the
+     same 6-second 720p loop; webm is offered first, mp4 is the fallback.
+     Local files in the repo or any public direct video URL.              */
+  heroVideo: "assets/htg-hero-720p.mp4",
+  heroVideoWebm: "assets/htg-hero-720p.webm",
   heroPoster: "assets/placeholders/hero-poster.svg",
 
   /* ---- THE SEQUENCE ------------------------------------------------------

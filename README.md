@@ -67,7 +67,8 @@ Instagram: paste public post/reel URLs into `instagramPosts` in `config.js` and 
 Everything else (hero video, covers) points at files you place in `assets/`:
 
 ```js
-heroVideo: "assets/htg-hero.mp4",
+heroVideo: "assets/htg-hero-720p.mp4",
+heroVideoWebm: "assets/htg-hero-720p.webm",
 gallery: [
   { thumb: "assets/gallery/shot1.jpg", full: "assets/gallery/shot1.jpg", caption: "Night session" },
 ],
@@ -164,7 +165,8 @@ hexthegovernment/
 ├── config.js         # ← EDIT THIS: links, sequence, gallery, contact
 ├── CNAME             # custom domain (www.htg.productions) — do not delete
 ├── assets/
-│   ├── htg-hero.mp4  # hero video
+│   ├── htg-hero-720p.webm  # hero loop (mp4 fallback alongside)
+│   ├── share/        # 1200×630 og:image cards, one per page
 │   └── gallery/      # ← DROP PHOTOS HERE, they appear automatically
 └── .github/workflows/gallery-manifest.yml
 ```
