@@ -189,14 +189,28 @@ Do not hardcode it again.
 - ~~Deduplicate `mobile.html`'s inline CSS against `style.css`.~~ Done —
   `mobile.html` is generated from `style.css`, so there is only one copy
   to edit.
-- **`assets/gallery/` holds six picsum placeholders** with captions
-  implying real photos. The `gallery-manifest.yml` Action rebuilds
-  `manifest.json` from whatever image files are in that folder, so real
-  photos dropped in there replace them automatically.
-- **`config.heroPoster` is a picsum stock photo** — the grey mountain
-  visible until the hero video loads.
-- **`assets/htg-hero.mp4` is 25MB**, the entire weight of the repo and a
-  heavy load on mobile.
+- **`assets/gallery/` is empty; the gallery shows six local placeholder
+  SVGs** (`assets/placeholders/gallery-*.svg`, via the fallback list in
+  `config.js`) with stylized captions. The `gallery-manifest.yml` Action
+  rebuilds `manifest.json` from whatever image files land in
+  `assets/gallery/`, so real photos dropped in there replace the
+  placeholders automatically — when Actions runs at all (see above).
+- ~~`config.heroPoster` is a picsum stock photo~~ Done — it now points at
+  `assets/placeholders/hero-poster.svg`, a local placeholder graphic.
+- **`assets/htg-hero.mp4` is 25MB**, the entire weight of the repo — and
+  **both pages load it**. PR #9 shipped small mobile encodes
+  (`assets/htg-hero-mobile.mp4` ~0.9MB / `.webm` ~0.5MB) by hand-editing
+  `mobile.html`; when the generator later rebuilt that file from
+  `index.html` the wiring was wiped, so the two files now sit unreferenced
+  in `assets/`. Re-wiring belongs in `scripts/build-mobile.js` (or a
+  viewport-aware source pick in `render.js`) — never in `mobile.html`
+  itself.
+- **The contact form's delivery endpoint is unset.** `script.js` POSTs
+  submissions to `config.contactForm.endpoint` (Formspree or Web3Forms —
+  setup notes in `config.js`) and falls back to `mailto:` without one.
+  Until someone creates the free account and pastes the endpoint into
+  `config.js`, every visitor is on the mailto path, which does nothing —
+  silently — for anyone without a desktop mail app.
 
 ## Testing
 

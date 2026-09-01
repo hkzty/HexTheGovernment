@@ -612,6 +612,10 @@
 
             <div class="contact-card fade-in">
               <form class="contact-form" id="contactForm" novalidate>
+                <!-- Honeypot: invisible to people, filled by bots. Checked in
+                     script.js and forwarded to the form service. No label or
+                     placeholder on purpose — it is not copy. -->
+                <input class="hp-field" type="text" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" />
                 <div class="form-grid">
                   <div class="field">
                     <label for="name">Name</label>

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-01T02:02:30.957Z",
+  "generated": "2026-09-01T05:44:15.588Z",
   "groups": [
     {
       "id": "config.js",
@@ -170,18 +170,27 @@
           "text": "Pinned Highlights"
         },
         {
-          "id": "config.js:153",
+          "id": "config.js:130",
           "file": "config.js",
-          "line": 153,
+          "line": 130,
+          "kind": "config",
+          "where": "stat label",
+          "original": "Names aboard the vessel",
+          "text": "Names aboard the vessel"
+        },
+        {
+          "id": "config.js:173",
+          "file": "config.js",
+          "line": 173,
           "kind": "config",
           "where": "contactEmail",
           "original": "Bookings@htg.productions",
           "text": "Bookings@htg.productions"
         },
         {
-          "id": "config.js:154",
+          "id": "config.js:174",
           "file": "config.js",
-          "line": 154,
+          "line": 174,
           "kind": "config",
           "where": "management",
           "original": "Bookings@htg.productions",
@@ -225,8 +234,8 @@
           "block": 0,
           "blockTag": "meta",
           "where": "meta og:description",
-          "original": "A vessel on corporate waters. Two names aboard: ABRAXAS and Stretty.",
-          "text": "A vessel on corporate waters. Two names aboard: ABRAXAS and Stretty."
+          "original": "A vessel on corporate waters. Four names aboard, led by ABRAXAS and Stretty.",
+          "text": "A vessel on corporate waters. Four names aboard, led by ABRAXAS and Stretty."
         },
         {
           "id": "index.html:3",
@@ -489,8 +498,8 @@
           "block": 18,
           "blockTag": "p",
           "where": "p > br > br",
-          "original": "— the hull. Two names aboard, more being pulled out of the water.",
-          "text": "— the hull. Two names aboard, more being pulled out of the water."
+          "original": "— the hull. Four names aboard, more being pulled out of the water.",
+          "text": "— the hull. Four names aboard, more being pulled out of the water."
         },
         {
           "id": "index.html:28",
@@ -555,8 +564,8 @@
           "block": 20,
           "blockTag": "p",
           "where": "div > div > p",
-          "original": "Two names aboard. Each one has its own boarding card — the catalog, the links, the way in.",
-          "text": "Two names aboard. Each one has its own boarding card — the catalog, the links, the way in."
+          "original": "Four names aboard. Each one has its own boarding card — the catalog, the links, the way in.",
+          "text": "Four names aboard. Each one has its own boarding card — the catalog, the links, the way in."
         },
         {
           "id": "index.html:34",
@@ -653,14 +662,102 @@
           "kind": "text",
           "block": 0,
           "blockTag": "span",
-          "where": "div > div > span",
-          "original": "Playable // Suit Purge",
-          "text": "Playable // Suit Purge"
+          "where": "nav > a > span",
+          "original": "JUSTINN.CLOUT",
+          "text": "JUSTINN.CLOUT"
         },
         {
           "id": "index.html:43",
           "file": "index.html",
           "ordinal": 43,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "span",
+          "where": "nav > a > span",
+          "original": "Video · photo · aboard",
+          "text": "Video · photo · aboard"
+        },
+        {
+          "id": "index.html:44",
+          "file": "index.html",
+          "ordinal": 44,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "span",
+          "where": "a > span > span",
+          "original": "Behind the camera and behind the edit. Profile and contact live on YTJobs.",
+          "text": "Behind the camera and behind the edit. Profile and contact live on YTJobs."
+        },
+        {
+          "id": "index.html:45",
+          "file": "index.html",
+          "ordinal": 45,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "span",
+          "where": "a > span > span",
+          "original": "Board JUSTINN.CLOUT →",
+          "text": "Board JUSTINN.CLOUT →"
+        },
+        {
+          "id": "index.html:46",
+          "file": "index.html",
+          "ordinal": 46,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "span",
+          "where": "nav > a > span",
+          "original": "CIGGYHOLSTER",
+          "text": "CIGGYHOLSTER"
+        },
+        {
+          "id": "index.html:47",
+          "file": "index.html",
+          "ordinal": 47,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "span",
+          "where": "nav > a > span",
+          "original": "Artist · aboard",
+          "text": "Artist · aboard"
+        },
+        {
+          "id": "index.html:48",
+          "file": "index.html",
+          "ordinal": 48,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "span",
+          "where": "a > span > span",
+          "original": "Pulled out of the water, writing and releasing. Everything else runs off the Linktree.",
+          "text": "Pulled out of the water, writing and releasing. Everything else runs off the Linktree."
+        },
+        {
+          "id": "index.html:49",
+          "file": "index.html",
+          "ordinal": 49,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "span",
+          "where": "a > span > span",
+          "original": "Board CIGGYHOLSTER →",
+          "text": "Board CIGGYHOLSTER →"
+        },
+        {
+          "id": "index.html:50",
+          "file": "index.html",
+          "ordinal": 50,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "span",
+          "where": "div > div > span",
+          "original": "Playable // Suit Purge",
+          "text": "Playable // Suit Purge"
+        },
+        {
+          "id": "index.html:51",
+          "file": "index.html",
+          "ordinal": 51,
           "kind": "text",
           "block": 21,
           "blockTag": "h2",
@@ -669,9 +766,9 @@
           "text": "Politicians, billionaires, trillionaires."
         },
         {
-          "id": "index.html:44",
+          "id": "index.html:52",
           "file": "index.html",
-          "ordinal": 44,
+          "ordinal": 52,
           "kind": "text",
           "block": 22,
           "blockTag": "p",
@@ -680,9 +777,9 @@
           "text": "A first-person shooter running in this page. No downloads, no plugins."
         },
         {
-          "id": "index.html:45",
+          "id": "index.html:53",
           "file": "index.html",
-          "ordinal": 45,
+          "ordinal": 53,
           "kind": "text",
           "block": 23,
           "blockTag": "p",
@@ -691,9 +788,9 @@
           "text": "Fiction:"
         },
         {
-          "id": "index.html:46",
+          "id": "index.html:54",
           "file": "index.html",
-          "ordinal": 46,
+          "ordinal": 54,
           "kind": "text",
           "block": 23,
           "blockTag": "p",
@@ -702,9 +799,9 @@
           "text": "all characters in"
         },
         {
-          "id": "index.html:47",
+          "id": "index.html:55",
           "file": "index.html",
-          "ordinal": 47,
+          "ordinal": 55,
           "kind": "text",
           "block": 23,
           "blockTag": "p",
@@ -713,9 +810,9 @@
           "text": "Suit Purge"
         },
         {
-          "id": "index.html:48",
+          "id": "index.html:56",
           "file": "index.html",
-          "ordinal": 48,
+          "ordinal": 56,
           "kind": "text",
           "block": 23,
           "blockTag": "p",
@@ -724,9 +821,9 @@
           "text": "are invented class archetypes. No real person, name, or likeness is depicted. See the"
         },
         {
-          "id": "index.html:49",
+          "id": "index.html:57",
           "file": "index.html",
-          "ordinal": 49,
+          "ordinal": 57,
           "kind": "text",
           "block": 23,
           "blockTag": "p",
@@ -735,9 +832,9 @@
           "text": "satire & fiction notice"
         },
         {
-          "id": "index.html:51",
+          "id": "index.html:59",
           "file": "index.html",
-          "ordinal": 51,
+          "ordinal": 59,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -746,9 +843,9 @@
           "text": "HP"
         },
         {
-          "id": "index.html:53",
+          "id": "index.html:61",
           "file": "index.html",
-          "ordinal": 53,
+          "ordinal": 61,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -757,9 +854,9 @@
           "text": "Ammo"
         },
         {
-          "id": "index.html:55",
+          "id": "index.html:63",
           "file": "index.html",
-          "ordinal": 55,
+          "ordinal": 63,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -768,9 +865,9 @@
           "text": "Wave"
         },
         {
-          "id": "index.html:57",
+          "id": "index.html:65",
           "file": "index.html",
-          "ordinal": 57,
+          "ordinal": 65,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -779,9 +876,9 @@
           "text": "Cleared"
         },
         {
-          "id": "index.html:59",
+          "id": "index.html:67",
           "file": "index.html",
-          "ordinal": 59,
+          "ordinal": 67,
           "kind": "text",
           "block": 24,
           "blockTag": "p",
@@ -790,9 +887,9 @@
           "text": "HTG // Hex The Government"
         },
         {
-          "id": "index.html:60",
+          "id": "index.html:68",
           "file": "index.html",
-          "ordinal": 60,
+          "ordinal": 68,
           "kind": "text",
           "block": 25,
           "blockTag": "h2",
@@ -801,9 +898,9 @@
           "text": "SUIT PURGE"
         },
         {
-          "id": "index.html:61",
+          "id": "index.html:69",
           "file": "index.html",
-          "ordinal": 61,
+          "ordinal": 69,
           "kind": "text",
           "block": 26,
           "blockTag": "p",
@@ -812,9 +909,9 @@
           "text": "Politicians, billionaires, trillionaires and high command are loose in the maze. Clear the floor, wave after wave, until they clear you."
         },
         {
-          "id": "index.html:62",
+          "id": "index.html:70",
           "file": "index.html",
-          "ordinal": 62,
+          "ordinal": 70,
           "kind": "text",
           "block": 27,
           "blockTag": "button",
@@ -823,9 +920,9 @@
           "text": "Enter the maze"
         },
         {
-          "id": "index.html:63",
+          "id": "index.html:71",
           "file": "index.html",
-          "ordinal": 63,
+          "ordinal": 71,
           "kind": "text",
           "block": 28,
           "blockTag": "p",
@@ -834,9 +931,9 @@
           "text": "Desktop"
         },
         {
-          "id": "index.html:64",
+          "id": "index.html:72",
           "file": "index.html",
-          "ordinal": 64,
+          "ordinal": 72,
           "kind": "text",
           "block": 28,
           "blockTag": "p",
@@ -845,9 +942,9 @@
           "text": "WASD move · mouse aim · click fire · Esc pause."
         },
         {
-          "id": "index.html:65",
+          "id": "index.html:73",
           "file": "index.html",
-          "ordinal": 65,
+          "ordinal": 73,
           "kind": "text",
           "block": 28,
           "blockTag": "p",
@@ -856,9 +953,9 @@
           "text": "Phone"
         },
         {
-          "id": "index.html:66",
+          "id": "index.html:74",
           "file": "index.html",
-          "ordinal": 66,
+          "ordinal": 74,
           "kind": "text",
           "block": 28,
           "blockTag": "p",
@@ -867,9 +964,9 @@
           "text": "left thumb moves · right thumb aims · FIRE shoots."
         },
         {
-          "id": "index.html:67",
+          "id": "index.html:75",
           "file": "index.html",
-          "ordinal": 67,
+          "ordinal": 75,
           "kind": "text",
           "block": 29,
           "blockTag": "button",
@@ -878,9 +975,9 @@
           "text": "FIRE"
         },
         {
-          "id": "index.html:68",
+          "id": "index.html:76",
           "file": "index.html",
-          "ordinal": 68,
+          "ordinal": 76,
           "kind": "text",
           "block": 30,
           "blockTag": "button",
@@ -889,9 +986,9 @@
           "text": "Exit to music"
         },
         {
-          "id": "index.html:69",
+          "id": "index.html:77",
           "file": "index.html",
-          "ordinal": 69,
+          "ordinal": 77,
           "kind": "text",
           "block": 31,
           "blockTag": "button",
@@ -900,9 +997,9 @@
           "text": "Sound on"
         },
         {
-          "id": "index.html:70",
+          "id": "index.html:78",
           "file": "index.html",
-          "ordinal": 70,
+          "ordinal": 78,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -911,9 +1008,9 @@
           "text": "The Story"
         },
         {
-          "id": "index.html:71",
+          "id": "index.html:79",
           "file": "index.html",
-          "ordinal": 71,
+          "ordinal": 79,
           "kind": "text",
           "block": 32,
           "blockTag": "h2",
@@ -922,9 +1019,9 @@
           "text": "Built in the flood. Sent up as signal."
         },
         {
-          "id": "index.html:72",
+          "id": "index.html:80",
           "file": "index.html",
-          "ordinal": 72,
+          "ordinal": 80,
           "kind": "text",
           "block": 33,
           "blockTag": "p",
@@ -933,9 +1030,9 @@
           "text": "HTG is what we made instead of asking permission. No label suits — one vessel carrying the people on it, and everything they release, off a single deck."
         },
         {
-          "id": "index.html:73",
+          "id": "index.html:81",
           "file": "index.html",
-          "ordinal": 73,
+          "ordinal": 81,
           "kind": "text",
           "block": 34,
           "blockTag": "h3",
@@ -944,9 +1041,9 @@
           "text": "About HTG"
         },
         {
-          "id": "index.html:74",
+          "id": "index.html:82",
           "file": "index.html",
-          "ordinal": 74,
+          "ordinal": 82,
           "kind": "text",
           "block": 35,
           "blockTag": "p",
@@ -955,20 +1052,20 @@
           "text": "Hex The Government is a vessel, not a brand exercise. Heavy without turning into empty noise, honest without going soft. Music for the ones treading water while the people who flooded the room count the takings."
         },
         {
-          "id": "index.html:75",
+          "id": "index.html:83",
           "file": "index.html",
-          "ordinal": 75,
+          "ordinal": 83,
           "kind": "text",
           "block": 36,
           "blockTag": "p",
           "where": "div > div > p",
-          "original": "Singles, visuals, merch and live all run off one deck instead of rotting across a hundred dead links. Two names aboard so far — ABRAXAS out front, Stretty holding the hull.",
-          "text": "Singles, visuals, merch and live all run off one deck instead of rotting across a hundred dead links. Two names aboard so far — ABRAXAS out front, Stretty holding the hull."
+          "original": "Singles, visuals, merch and live all run off one deck instead of rotting across a hundred dead links. Four names aboard so far — ABRAXAS out front, Stretty holding the hull, Justinn.clout and ciggyholster pulled up alongside.",
+          "text": "Singles, visuals, merch and live all run off one deck instead of rotting across a hundred dead links. Four names aboard so far — ABRAXAS out front, Stretty holding the hull, Justinn.clout and ciggyholster pulled up alongside."
         },
         {
-          "id": "index.html:76",
+          "id": "index.html:84",
           "file": "index.html",
-          "ordinal": 76,
+          "ordinal": 84,
           "kind": "text",
           "block": 0,
           "blockTag": "div",
@@ -977,9 +1074,9 @@
           "text": "HTG / Hex The Government"
         },
         {
-          "id": "index.html:77",
+          "id": "index.html:85",
           "file": "index.html",
-          "ordinal": 77,
+          "ordinal": 85,
           "kind": "text",
           "block": 0,
           "blockTag": "div",
@@ -988,9 +1085,9 @@
           "text": "01 / raw files"
         },
         {
-          "id": "index.html:78",
+          "id": "index.html:86",
           "file": "index.html",
-          "ordinal": 78,
+          "ordinal": 86,
           "kind": "text",
           "block": 37,
           "blockTag": "h3",
@@ -999,9 +1096,9 @@
           "text": "Cut alone, in the dark"
         },
         {
-          "id": "index.html:79",
+          "id": "index.html:87",
           "file": "index.html",
-          "ordinal": 79,
+          "ordinal": 87,
           "kind": "text",
           "block": 38,
           "blockTag": "p",
@@ -1010,9 +1107,9 @@
           "text": "Started as damaged demos — stripped beats, layered distortion, melodies dragged out of bad nights and left honest."
         },
         {
-          "id": "index.html:80",
+          "id": "index.html:88",
           "file": "index.html",
-          "ordinal": 80,
+          "ordinal": 88,
           "kind": "text",
           "block": 0,
           "blockTag": "div",
@@ -1021,9 +1118,9 @@
           "text": "02 / the vessel"
         },
         {
-          "id": "index.html:81",
+          "id": "index.html:89",
           "file": "index.html",
-          "ordinal": 81,
+          "ordinal": 89,
           "kind": "text",
           "block": 39,
           "blockTag": "h3",
@@ -1032,9 +1129,9 @@
           "text": "HTG built to carry it"
         },
         {
-          "id": "index.html:82",
+          "id": "index.html:90",
           "file": "index.html",
-          "ordinal": 82,
+          "ordinal": 90,
           "kind": "text",
           "block": 40,
           "blockTag": "p",
@@ -1043,9 +1140,9 @@
           "text": "No label suits. We built the ark ourselves — code UI, one deck where the sound lives without asking anyone."
         },
         {
-          "id": "index.html:83",
+          "id": "index.html:91",
           "file": "index.html",
-          "ordinal": 83,
+          "ordinal": 91,
           "kind": "text",
           "block": 0,
           "blockTag": "div",
@@ -1054,9 +1151,9 @@
           "text": "03 / off the ark"
         },
         {
-          "id": "index.html:84",
+          "id": "index.html:92",
           "file": "index.html",
-          "ordinal": 84,
+          "ordinal": 92,
           "kind": "text",
           "block": 41,
           "blockTag": "h3",
@@ -1065,9 +1162,9 @@
           "text": "Releases hit the water"
         },
         {
-          "id": "index.html:85",
+          "id": "index.html:93",
           "file": "index.html",
-          "ordinal": 85,
+          "ordinal": 93,
           "kind": "text",
           "block": 42,
           "blockTag": "p",
@@ -1076,9 +1173,9 @@
           "text": "Streaming links, players, the Sequence — every track gets somewhere solid to land instead of drowning in drafts."
         },
         {
-          "id": "index.html:86",
+          "id": "index.html:94",
           "file": "index.html",
-          "ordinal": 86,
+          "ordinal": 94,
           "kind": "text",
           "block": 0,
           "blockTag": "div",
@@ -1087,9 +1184,9 @@
           "text": "04 / the rising"
         },
         {
-          "id": "index.html:87",
+          "id": "index.html:95",
           "file": "index.html",
-          "ordinal": 87,
+          "ordinal": 95,
           "kind": "text",
           "block": 43,
           "blockTag": "h3",
@@ -1098,9 +1195,9 @@
           "text": "Louder, harder, more aboard"
         },
         {
-          "id": "index.html:88",
+          "id": "index.html:96",
           "file": "index.html",
-          "ordinal": 88,
+          "ordinal": 96,
           "kind": "text",
           "block": 44,
           "blockTag": "p",
@@ -1109,9 +1206,9 @@
           "text": "Next: heavier releases, more visuals, limited merch, live sets — and more names pulled out of the water under HTG."
         },
         {
-          "id": "index.html:89",
+          "id": "index.html:97",
           "file": "index.html",
-          "ordinal": 89,
+          "ordinal": 97,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -1120,9 +1217,9 @@
           "text": "Signal Metrics"
         },
         {
-          "id": "index.html:90",
+          "id": "index.html:98",
           "file": "index.html",
-          "ordinal": 90,
+          "ordinal": 98,
           "kind": "text",
           "block": 45,
           "blockTag": "h2",
@@ -1131,9 +1228,9 @@
           "text": "Counted, not invented."
         },
         {
-          "id": "index.html:91",
+          "id": "index.html:99",
           "file": "index.html",
-          "ordinal": 91,
+          "ordinal": 99,
           "kind": "text",
           "block": 46,
           "blockTag": "p",
@@ -1142,9 +1239,9 @@
           "text": "Only numbers that come from the catalog itself."
         },
         {
-          "id": "index.html:93",
+          "id": "index.html:101",
           "file": "index.html",
-          "ordinal": 93,
+          "ordinal": 101,
           "kind": "text",
           "block": 0,
           "blockTag": "div",
@@ -1153,9 +1250,9 @@
           "text": "Albums in the Sequence"
         },
         {
-          "id": "index.html:95",
+          "id": "index.html:103",
           "file": "index.html",
-          "ordinal": 95,
+          "ordinal": 103,
           "kind": "text",
           "block": 0,
           "blockTag": "div",
@@ -1164,9 +1261,9 @@
           "text": "Names aboard the vessel"
         },
         {
-          "id": "index.html:96",
+          "id": "index.html:104",
           "file": "index.html",
-          "ordinal": 96,
+          "ordinal": 104,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -1175,9 +1272,9 @@
           "text": "Out Now"
         },
         {
-          "id": "index.html:97",
+          "id": "index.html:105",
           "file": "index.html",
-          "ordinal": 97,
+          "ordinal": 105,
           "kind": "text",
           "block": 47,
           "blockTag": "h2",
@@ -1186,9 +1283,9 @@
           "text": "Wherever you stream, it's there."
         },
         {
-          "id": "index.html:98",
+          "id": "index.html:106",
           "file": "index.html",
-          "ordinal": 98,
+          "ordinal": 106,
           "kind": "text",
           "block": 48,
           "blockTag": "p",
@@ -1197,9 +1294,9 @@
           "text": "Pick your platform and go. Same music, whichever door you walk through."
         },
         {
-          "id": "index.html:99",
+          "id": "index.html:107",
           "file": "index.html",
-          "ordinal": 99,
+          "ordinal": 107,
           "kind": "text",
           "block": 49,
           "blockTag": "h3",
@@ -1208,9 +1305,9 @@
           "text": "Spotify"
         },
         {
-          "id": "index.html:100",
+          "id": "index.html:108",
           "file": "index.html",
-          "ordinal": 100,
+          "ordinal": 108,
           "kind": "text",
           "block": 50,
           "blockTag": "p",
@@ -1219,9 +1316,9 @@
           "text": "The main line. Play it front to back, save it, put it on repeat and let it bleed into the rest of your week."
         },
         {
-          "id": "index.html:101",
+          "id": "index.html:109",
           "file": "index.html",
-          "ordinal": 101,
+          "ordinal": 109,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -1230,9 +1327,9 @@
           "text": "Open Spotify"
         },
         {
-          "id": "index.html:102",
+          "id": "index.html:110",
           "file": "index.html",
-          "ordinal": 102,
+          "ordinal": 110,
           "kind": "text",
           "block": 51,
           "blockTag": "h3",
@@ -1241,9 +1338,9 @@
           "text": "Apple Music"
         },
         {
-          "id": "index.html:103",
+          "id": "index.html:111",
           "file": "index.html",
-          "ordinal": 103,
+          "ordinal": 111,
           "kind": "text",
           "block": 52,
           "blockTag": "p",
@@ -1252,9 +1349,9 @@
           "text": "For the ones who keep their libraries clean and their damage private. Lossless, no clutter, all teeth."
         },
         {
-          "id": "index.html:104",
+          "id": "index.html:112",
           "file": "index.html",
-          "ordinal": 104,
+          "ordinal": 112,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -1263,9 +1360,9 @@
           "text": "Open Apple Music"
         },
         {
-          "id": "index.html:105",
+          "id": "index.html:113",
           "file": "index.html",
-          "ordinal": 105,
+          "ordinal": 113,
           "kind": "text",
           "block": 53,
           "blockTag": "h3",
@@ -1274,9 +1371,9 @@
           "text": "YouTube Music"
         },
         {
-          "id": "index.html:106",
+          "id": "index.html:114",
           "file": "index.html",
-          "ordinal": 106,
+          "ordinal": 114,
           "kind": "text",
           "block": 54,
           "blockTag": "p",
@@ -1285,9 +1382,9 @@
           "text": "Official uploads, lyric cuts, visualisers. Where the sound comes with something to stare at while it drowns you."
         },
         {
-          "id": "index.html:107",
+          "id": "index.html:115",
           "file": "index.html",
-          "ordinal": 107,
+          "ordinal": 115,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -1296,9 +1393,9 @@
           "text": "Open YouTube Music"
         },
         {
-          "id": "index.html:108",
+          "id": "index.html:116",
           "file": "index.html",
-          "ordinal": 108,
+          "ordinal": 116,
           "kind": "text",
           "block": 55,
           "blockTag": "h3",
@@ -1307,9 +1404,9 @@
           "text": "SoundCloud"
         },
         {
-          "id": "index.html:109",
+          "id": "index.html:117",
           "file": "index.html",
-          "ordinal": 109,
+          "ordinal": 117,
           "kind": "text",
           "block": 56,
           "blockTag": "p",
@@ -1318,9 +1415,9 @@
           "text": "The rough deck. Demos, alt mixes, the cuts still bleeding — the ones that should feel a little unfinished and a little dangerous."
         },
         {
-          "id": "index.html:110",
+          "id": "index.html:118",
           "file": "index.html",
-          "ordinal": 110,
+          "ordinal": 118,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -1329,125 +1426,37 @@
           "text": "Open SoundCloud"
         },
         {
-          "id": "index.html:111",
-          "file": "index.html",
-          "ordinal": 111,
-          "kind": "text",
-          "block": 0,
-          "blockTag": "span",
-          "where": "div > div > span",
-          "original": "The Sequence // 93",
-          "text": "The Sequence // 93"
-        },
-        {
-          "id": "index.html:112",
-          "file": "index.html",
-          "ordinal": 112,
-          "kind": "text",
-          "block": 57,
-          "blockTag": "h2",
-          "where": "div > div > h2",
-          "original": "Play it through. In order.",
-          "text": "Play it through. In order."
-        },
-        {
-          "id": "index.html:113",
-          "file": "index.html",
-          "ordinal": 113,
-          "kind": "text",
-          "block": 58,
-          "blockTag": "p",
-          "where": "div > div > p",
-          "original": "ABRAXAS, 01 → 13. No words.",
-          "text": "ABRAXAS, 01 → 13. No words."
-        },
-        {
-          "id": "index.html:114",
-          "file": "index.html",
-          "ordinal": 114,
-          "kind": "text",
-          "block": 0,
-          "blockTag": "a",
-          "where": "div > div > a",
-          "original": "Open the Sequence",
-          "text": "Open the Sequence"
-        },
-        {
-          "id": "index.html:115",
-          "file": "index.html",
-          "ordinal": 115,
-          "kind": "text",
-          "block": 0,
-          "blockTag": "a",
-          "where": "div > div > a",
-          "original": "Open ABRAXAS on Spotify",
-          "text": "Open ABRAXAS on Spotify"
-        },
-        {
-          "id": "index.html:116",
-          "file": "index.html",
-          "ordinal": 116,
-          "kind": "text",
-          "block": 0,
-          "blockTag": "span",
-          "where": "div > div > span",
-          "original": "New Releases",
-          "text": "New Releases"
-        },
-        {
-          "id": "index.html:117",
-          "file": "index.html",
-          "ordinal": 117,
-          "kind": "text",
-          "block": 59,
-          "blockTag": "h2",
-          "where": "div > div > h2",
-          "original": "The catalog lives on the artist decks.",
-          "text": "The catalog lives on the artist decks."
-        },
-        {
-          "id": "index.html:118",
-          "file": "index.html",
-          "ordinal": 118,
-          "kind": "text",
-          "block": 60,
-          "blockTag": "p",
-          "where": "div > div > p",
-          "original": "Everything HTG has put out is on the two boarding cards — ABRAXAS in the Sequence, Stretty on his own profile.",
-          "text": "Everything HTG has put out is on the two boarding cards — ABRAXAS in the Sequence, Stretty on his own profile."
-        },
-        {
           "id": "index.html:119",
           "file": "index.html",
           "ordinal": 119,
           "kind": "text",
-          "block": 61,
-          "blockTag": "p",
-          "where": "div > div > p",
-          "original": "Thirteen ABRAXAS albums streaming now, and Stretty's catalog live alongside it.",
-          "text": "Thirteen ABRAXAS albums streaming now, and Stretty's catalog live alongside it."
+          "block": 0,
+          "blockTag": "span",
+          "where": "div > div > span",
+          "original": "Also aboard // ciggyholster",
+          "text": "Also aboard // ciggyholster"
         },
         {
           "id": "index.html:120",
           "file": "index.html",
           "ordinal": 120,
           "kind": "text",
-          "block": 0,
-          "blockTag": "a",
-          "where": "div > div > a",
-          "original": "ABRAXAS →",
-          "text": "ABRAXAS →"
+          "block": 57,
+          "blockTag": "h3",
+          "where": "div > div > h3",
+          "original": "Ciggie's catalog, straight off his profile.",
+          "text": "Ciggie's catalog, straight off his profile."
         },
         {
           "id": "index.html:121",
           "file": "index.html",
           "ordinal": 121,
           "kind": "text",
-          "block": 0,
-          "blockTag": "a",
-          "where": "div > div > a",
-          "original": "Stretty →",
-          "text": "Stretty →"
+          "block": 58,
+          "blockTag": "p",
+          "where": "div > div > p",
+          "original": "Second name aboard with music out. Whatever he's released is what plays here.",
+          "text": "Second name aboard with music out. Whatever he's released is what plays here."
         },
         {
           "id": "index.html:122",
@@ -1457,13 +1466,189 @@
           "block": 0,
           "blockTag": "a",
           "where": "div > div > a",
-          "original": "Open Spotify",
-          "text": "Open Spotify"
+          "original": "Board ciggyholster →",
+          "text": "Board ciggyholster →"
         },
         {
           "id": "index.html:123",
           "file": "index.html",
           "ordinal": 123,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > div > a",
+          "original": "Open on Spotify",
+          "text": "Open on Spotify"
+        },
+        {
+          "id": "index.html:124",
+          "file": "index.html",
+          "ordinal": 124,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > div > a",
+          "original": "SoundCloud",
+          "text": "SoundCloud"
+        },
+        {
+          "id": "index.html:125",
+          "file": "index.html",
+          "ordinal": 125,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > div > a",
+          "original": "YouTube",
+          "text": "YouTube"
+        },
+        {
+          "id": "index.html:126",
+          "file": "index.html",
+          "ordinal": 126,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "span",
+          "where": "div > div > span",
+          "original": "The Sequence // 93",
+          "text": "The Sequence // 93"
+        },
+        {
+          "id": "index.html:127",
+          "file": "index.html",
+          "ordinal": 127,
+          "kind": "text",
+          "block": 59,
+          "blockTag": "h2",
+          "where": "div > div > h2",
+          "original": "Play it through. In order.",
+          "text": "Play it through. In order."
+        },
+        {
+          "id": "index.html:128",
+          "file": "index.html",
+          "ordinal": 128,
+          "kind": "text",
+          "block": 60,
+          "blockTag": "p",
+          "where": "div > div > p",
+          "original": "ABRAXAS, 01 → 13. No words.",
+          "text": "ABRAXAS, 01 → 13. No words."
+        },
+        {
+          "id": "index.html:129",
+          "file": "index.html",
+          "ordinal": 129,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > div > a",
+          "original": "Open the Sequence",
+          "text": "Open the Sequence"
+        },
+        {
+          "id": "index.html:130",
+          "file": "index.html",
+          "ordinal": 130,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > div > a",
+          "original": "Open ABRAXAS on Spotify",
+          "text": "Open ABRAXAS on Spotify"
+        },
+        {
+          "id": "index.html:131",
+          "file": "index.html",
+          "ordinal": 131,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "span",
+          "where": "div > div > span",
+          "original": "New Releases",
+          "text": "New Releases"
+        },
+        {
+          "id": "index.html:132",
+          "file": "index.html",
+          "ordinal": 132,
+          "kind": "text",
+          "block": 61,
+          "blockTag": "h2",
+          "where": "div > div > h2",
+          "original": "The catalog lives on the artist decks.",
+          "text": "The catalog lives on the artist decks."
+        },
+        {
+          "id": "index.html:133",
+          "file": "index.html",
+          "ordinal": 133,
+          "kind": "text",
+          "block": 62,
+          "blockTag": "p",
+          "where": "div > div > p",
+          "original": "Everything HTG has put out is on the boarding cards — ABRAXAS in the Sequence, Stretty and ciggyholster on their own profiles.",
+          "text": "Everything HTG has put out is on the boarding cards — ABRAXAS in the Sequence, Stretty and ciggyholster on their own profiles."
+        },
+        {
+          "id": "index.html:134",
+          "file": "index.html",
+          "ordinal": 134,
+          "kind": "text",
+          "block": 63,
+          "blockTag": "p",
+          "where": "div > div > p",
+          "original": "Thirteen ABRAXAS albums streaming now, with Stretty's and Ciggie's catalogs live alongside it.",
+          "text": "Thirteen ABRAXAS albums streaming now, with Stretty's and Ciggie's catalogs live alongside it."
+        },
+        {
+          "id": "index.html:135",
+          "file": "index.html",
+          "ordinal": 135,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > div > a",
+          "original": "ABRAXAS →",
+          "text": "ABRAXAS →"
+        },
+        {
+          "id": "index.html:136",
+          "file": "index.html",
+          "ordinal": 136,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > div > a",
+          "original": "Stretty →",
+          "text": "Stretty →"
+        },
+        {
+          "id": "index.html:137",
+          "file": "index.html",
+          "ordinal": 137,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > div > a",
+          "original": "ciggyholster →",
+          "text": "ciggyholster →"
+        },
+        {
+          "id": "index.html:138",
+          "file": "index.html",
+          "ordinal": 138,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > div > a",
+          "original": "Open Spotify",
+          "text": "Open Spotify"
+        },
+        {
+          "id": "index.html:139",
+          "file": "index.html",
+          "ordinal": 139,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -1472,42 +1657,42 @@
           "text": "Coming Soon"
         },
         {
-          "id": "index.html:124",
+          "id": "index.html:140",
           "file": "index.html",
-          "ordinal": 124,
+          "ordinal": 140,
           "kind": "text",
-          "block": 62,
+          "block": 64,
           "blockTag": "h2",
           "where": "div > div > h2",
           "original": "Nothing announced yet.",
           "text": "Nothing announced yet."
         },
         {
-          "id": "index.html:125",
+          "id": "index.html:141",
           "file": "index.html",
-          "ordinal": 125,
+          "ordinal": 141,
           "kind": "text",
-          "block": 63,
+          "block": 65,
           "blockTag": "p",
           "where": "div > div > p",
           "original": "Nothing goes up here until it's real.",
           "text": "Nothing goes up here until it's real."
         },
         {
-          "id": "index.html:126",
+          "id": "index.html:142",
           "file": "index.html",
-          "ordinal": 126,
+          "ordinal": 142,
           "kind": "text",
-          "block": 64,
+          "block": 66,
           "blockTag": "p",
           "where": "div > div > p",
           "original": "The next drop hits here and Spotify the same second. Follow the profiles and you'll catch it without checking back.",
           "text": "The next drop hits here and Spotify the same second. Follow the profiles and you'll catch it without checking back."
         },
         {
-          "id": "index.html:127",
+          "id": "index.html:143",
           "file": "index.html",
-          "ordinal": 127,
+          "ordinal": 143,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -1516,9 +1701,9 @@
           "text": "Follow on Spotify"
         },
         {
-          "id": "index.html:128",
+          "id": "index.html:144",
           "file": "index.html",
-          "ordinal": 128,
+          "ordinal": 144,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -1527,9 +1712,9 @@
           "text": "The Roster"
         },
         {
-          "id": "index.html:129",
+          "id": "index.html:145",
           "file": "index.html",
-          "ordinal": 129,
+          "ordinal": 145,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -1538,42 +1723,42 @@
           "text": "Upcoming Tours"
         },
         {
-          "id": "index.html:130",
+          "id": "index.html:146",
           "file": "index.html",
-          "ordinal": 130,
+          "ordinal": 146,
           "kind": "text",
-          "block": 65,
+          "block": 67,
           "blockTag": "h2",
           "where": "div > div > h2",
           "original": "No dates on the calendar.",
           "text": "No dates on the calendar."
         },
         {
-          "id": "index.html:131",
+          "id": "index.html:147",
           "file": "index.html",
-          "ordinal": 131,
+          "ordinal": 147,
           "kind": "text",
-          "block": 66,
+          "block": 68,
           "blockTag": "p",
           "where": "div > div > p",
           "original": "No confirmed shows right now, for either name.",
           "text": "No confirmed shows right now, for either name."
         },
         {
-          "id": "index.html:132",
+          "id": "index.html:148",
           "file": "index.html",
-          "ordinal": 132,
+          "ordinal": 148,
           "kind": "text",
-          "block": 67,
+          "block": 69,
           "blockTag": "p",
           "where": "div > div > p",
           "original": "Booking's open. Send the city, venue, date and lineup through the form and it gets answered direct.",
           "text": "Booking's open. Send the city, venue, date and lineup through the form and it gets answered direct."
         },
         {
-          "id": "index.html:133",
+          "id": "index.html:149",
           "file": "index.html",
-          "ordinal": 133,
+          "ordinal": 149,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -1582,9 +1767,9 @@
           "text": "Send a Booking Enquiry"
         },
         {
-          "id": "index.html:134",
+          "id": "index.html:150",
           "file": "index.html",
-          "ordinal": 134,
+          "ordinal": 150,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -1593,31 +1778,31 @@
           "text": "Image Gallery"
         },
         {
-          "id": "index.html:135",
+          "id": "index.html:151",
           "file": "index.html",
-          "ordinal": 135,
+          "ordinal": 151,
           "kind": "text",
-          "block": 68,
+          "block": 70,
           "blockTag": "h2",
           "where": "div > div > h2",
           "original": "Visuals, sessions, terminal-lit frames.",
           "text": "Visuals, sessions, terminal-lit frames."
         },
         {
-          "id": "index.html:136",
+          "id": "index.html:152",
           "file": "index.html",
-          "ordinal": 136,
+          "ordinal": 152,
           "kind": "text",
-          "block": 69,
+          "block": 71,
           "blockTag": "p",
           "where": "div > div > p",
           "original": "Click any frame to open it.",
           "text": "Click any frame to open it."
         },
         {
-          "id": "index.html:137",
+          "id": "index.html:153",
           "file": "index.html",
-          "ordinal": 137,
+          "ordinal": 153,
           "kind": "attr",
           "block": 0,
           "blockTag": "img",
@@ -1626,20 +1811,20 @@
           "text": "Placeholder dark studio gallery image 1"
         },
         {
-          "id": "index.html:138",
+          "id": "index.html:154",
           "file": "index.html",
-          "ordinal": 138,
+          "ordinal": 154,
           "kind": "text",
-          "block": 70,
+          "block": 72,
           "blockTag": "button",
           "where": "div > button > span",
           "original": "Night session / terminal room",
           "text": "Night session / terminal room"
         },
         {
-          "id": "index.html:139",
+          "id": "index.html:155",
           "file": "index.html",
-          "ordinal": 139,
+          "ordinal": 155,
           "kind": "attr",
           "block": 0,
           "blockTag": "img",
@@ -1648,20 +1833,20 @@
           "text": "Placeholder dark performance gallery image 2"
         },
         {
-          "id": "index.html:140",
+          "id": "index.html:156",
           "file": "index.html",
-          "ordinal": 140,
+          "ordinal": 156,
           "kind": "text",
-          "block": 71,
+          "block": 73,
           "blockTag": "button",
           "where": "div > button > span",
           "original": "Backstage static / blackout wash",
           "text": "Backstage static / blackout wash"
         },
         {
-          "id": "index.html:141",
+          "id": "index.html:157",
           "file": "index.html",
-          "ordinal": 141,
+          "ordinal": 157,
           "kind": "attr",
           "block": 0,
           "blockTag": "img",
@@ -1670,20 +1855,20 @@
           "text": "Placeholder cover shoot gallery image 3"
         },
         {
-          "id": "index.html:142",
+          "id": "index.html:158",
           "file": "index.html",
-          "ordinal": 142,
+          "ordinal": 158,
           "kind": "text",
-          "block": 72,
+          "block": 74,
           "blockTag": "button",
           "where": "div > button > span",
           "original": "Cover shoot / corrupted glow",
           "text": "Cover shoot / corrupted glow"
         },
         {
-          "id": "index.html:143",
+          "id": "index.html:159",
           "file": "index.html",
-          "ordinal": 143,
+          "ordinal": 159,
           "kind": "attr",
           "block": 0,
           "blockTag": "img",
@@ -1692,20 +1877,20 @@
           "text": "Placeholder venue gallery image 4"
         },
         {
-          "id": "index.html:144",
+          "id": "index.html:160",
           "file": "index.html",
-          "ordinal": 144,
+          "ordinal": 160,
           "kind": "text",
-          "block": 73,
+          "block": 75,
           "blockTag": "button",
           "where": "div > button > span",
           "original": "Venue check / monitors down",
           "text": "Venue check / monitors down"
         },
         {
-          "id": "index.html:145",
+          "id": "index.html:161",
           "file": "index.html",
-          "ordinal": 145,
+          "ordinal": 161,
           "kind": "attr",
           "block": 0,
           "blockTag": "img",
@@ -1714,20 +1899,20 @@
           "text": "Placeholder merch prep gallery image 5"
         },
         {
-          "id": "index.html:146",
+          "id": "index.html:162",
           "file": "index.html",
-          "ordinal": 146,
+          "ordinal": 162,
           "kind": "text",
-          "block": 74,
+          "block": 76,
           "blockTag": "button",
           "where": "div > button > span",
           "original": "Merch prep / box stack",
           "text": "Merch prep / box stack"
         },
         {
-          "id": "index.html:147",
+          "id": "index.html:163",
           "file": "index.html",
-          "ordinal": 147,
+          "ordinal": 163,
           "kind": "attr",
           "block": 0,
           "blockTag": "img",
@@ -1736,20 +1921,20 @@
           "text": "Placeholder visual frame gallery image 6"
         },
         {
-          "id": "index.html:148",
+          "id": "index.html:164",
           "file": "index.html",
-          "ordinal": 148,
+          "ordinal": 164,
           "kind": "text",
-          "block": 75,
+          "block": 77,
           "blockTag": "button",
           "where": "div > button > span",
           "original": "Visual frame / violet signal",
           "text": "Visual frame / violet signal"
         },
         {
-          "id": "index.html:149",
+          "id": "index.html:165",
           "file": "index.html",
-          "ordinal": 149,
+          "ordinal": 165,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -1758,130 +1943,130 @@
           "text": "Contact"
         },
         {
-          "id": "index.html:150",
+          "id": "index.html:166",
           "file": "index.html",
-          "ordinal": 150,
+          "ordinal": 166,
           "kind": "text",
-          "block": 76,
+          "block": 78,
           "blockTag": "h2",
           "where": "div > div > h2",
           "original": "Bookings, collabs, features — talk direct.",
           "text": "Bookings, collabs, features — talk direct."
         },
         {
-          "id": "index.html:151",
+          "id": "index.html:167",
           "file": "index.html",
-          "ordinal": 151,
+          "ordinal": 167,
           "kind": "text",
-          "block": 77,
+          "block": 79,
           "blockTag": "p",
           "where": "div > div > p",
           "original": "Bookings, features, visuals, merch, for either name aboard — fill it in, it lands in the HTG inbox.",
           "text": "Bookings, features, visuals, merch, for either name aboard — fill it in, it lands in the HTG inbox."
         },
         {
-          "id": "index.html:152",
+          "id": "index.html:168",
           "file": "index.html",
-          "ordinal": 152,
+          "ordinal": 168,
           "kind": "text",
-          "block": 78,
+          "block": 80,
           "blockTag": "h3",
           "where": "div > aside > h3",
           "original": "Reach HTG",
           "text": "Reach HTG"
         },
         {
-          "id": "index.html:153",
+          "id": "index.html:169",
           "file": "index.html",
-          "ordinal": 153,
+          "ordinal": 169,
           "kind": "text",
-          "block": 79,
+          "block": 81,
           "blockTag": "p",
           "where": "div > aside > p",
           "original": "Management, releases, bookings — it all runs through HTG. One inbox, answered by the people who actually make the music.",
           "text": "Management, releases, bookings — it all runs through HTG. One inbox, answered by the people who actually make the music."
         },
         {
-          "id": "index.html:154",
+          "id": "index.html:170",
           "file": "index.html",
-          "ordinal": 154,
+          "ordinal": 170,
           "kind": "text",
-          "block": 80,
+          "block": 82,
           "blockTag": "li",
           "where": "ul > li > strong",
           "original": "Email",
           "text": "Email"
         },
         {
-          "id": "index.html:155",
+          "id": "index.html:171",
           "file": "index.html",
-          "ordinal": 155,
+          "ordinal": 171,
           "kind": "text",
-          "block": 80,
+          "block": 82,
           "blockTag": "li",
           "where": "ul > li > a",
           "original": "Bookings@htg.productions",
           "text": "Bookings@htg.productions"
         },
         {
-          "id": "index.html:156",
+          "id": "index.html:172",
           "file": "index.html",
-          "ordinal": 156,
+          "ordinal": 172,
           "kind": "text",
-          "block": 81,
+          "block": 83,
           "blockTag": "li",
           "where": "ul > li > strong",
           "original": "Label",
           "text": "Label"
         },
         {
-          "id": "index.html:157",
+          "id": "index.html:173",
           "file": "index.html",
-          "ordinal": 157,
+          "ordinal": 173,
           "kind": "text",
-          "block": 81,
+          "block": 83,
           "blockTag": "li",
           "where": "ul > li > span",
           "original": "HTG / Hex The Government",
           "text": "HTG / Hex The Government"
         },
         {
-          "id": "index.html:158",
+          "id": "index.html:174",
           "file": "index.html",
-          "ordinal": 158,
+          "ordinal": 174,
           "kind": "text",
-          "block": 82,
+          "block": 84,
           "blockTag": "li",
           "where": "ul > li > strong",
           "original": "Focus",
           "text": "Focus"
         },
         {
-          "id": "index.html:159",
+          "id": "index.html:175",
           "file": "index.html",
-          "ordinal": 159,
+          "ordinal": 175,
           "kind": "text",
-          "block": 82,
+          "block": 84,
           "blockTag": "li",
           "where": "ul > li > span",
           "original": "Bookings, features, visuals, merchandise",
           "text": "Bookings, features, visuals, merchandise"
         },
         {
-          "id": "index.html:160",
+          "id": "index.html:176",
           "file": "index.html",
-          "ordinal": 160,
+          "ordinal": 176,
           "kind": "text",
-          "block": 83,
+          "block": 85,
           "blockTag": "label",
           "where": "div > div > label",
           "original": "Name",
           "text": "Name"
         },
         {
-          "id": "index.html:161",
+          "id": "index.html:177",
           "file": "index.html",
-          "ordinal": 161,
+          "ordinal": 177,
           "kind": "attr",
           "block": 0,
           "blockTag": "input",
@@ -1890,20 +2075,20 @@
           "text": "Your name"
         },
         {
-          "id": "index.html:162",
+          "id": "index.html:178",
           "file": "index.html",
-          "ordinal": 162,
+          "ordinal": 178,
           "kind": "text",
-          "block": 84,
+          "block": 86,
           "blockTag": "label",
           "where": "div > div > label",
           "original": "Email",
           "text": "Email"
         },
         {
-          "id": "index.html:163",
+          "id": "index.html:179",
           "file": "index.html",
-          "ordinal": 163,
+          "ordinal": 179,
           "kind": "attr",
           "block": 0,
           "blockTag": "input",
@@ -1912,20 +2097,20 @@
           "text": "you@example.com"
         },
         {
-          "id": "index.html:164",
+          "id": "index.html:180",
           "file": "index.html",
-          "ordinal": 164,
+          "ordinal": 180,
           "kind": "text",
-          "block": 85,
+          "block": 87,
           "blockTag": "label",
           "where": "form > div > label",
           "original": "Subject",
           "text": "Subject"
         },
         {
-          "id": "index.html:165",
+          "id": "index.html:181",
           "file": "index.html",
-          "ordinal": 165,
+          "ordinal": 181,
           "kind": "attr",
           "block": 0,
           "blockTag": "input",
@@ -1934,20 +2119,20 @@
           "text": "Booking, feature, visual, merch, release"
         },
         {
-          "id": "index.html:166",
+          "id": "index.html:182",
           "file": "index.html",
-          "ordinal": 166,
+          "ordinal": 182,
           "kind": "text",
-          "block": 86,
+          "block": 88,
           "blockTag": "label",
           "where": "form > div > label",
           "original": "Message",
           "text": "Message"
         },
         {
-          "id": "index.html:167",
+          "id": "index.html:183",
           "file": "index.html",
-          "ordinal": 167,
+          "ordinal": 183,
           "kind": "attr",
           "block": 0,
           "blockTag": "textarea",
@@ -1956,20 +2141,20 @@
           "text": "Tell HTG what you need and include dates, budget, or release context."
         },
         {
-          "id": "index.html:168",
+          "id": "index.html:184",
           "file": "index.html",
-          "ordinal": 168,
+          "ordinal": 184,
           "kind": "text",
-          "block": 87,
+          "block": 89,
           "blockTag": "button",
           "where": "form > div > button",
           "original": "Send Message",
           "text": "Send Message"
         },
         {
-          "id": "index.html:169",
+          "id": "index.html:185",
           "file": "index.html",
-          "ordinal": 169,
+          "ordinal": 185,
           "kind": "text",
           "block": 0,
           "blockTag": "div",
@@ -1978,31 +2163,31 @@
           "text": "HTG — Hex The Government"
         },
         {
-          "id": "index.html:170",
+          "id": "index.html:186",
           "file": "index.html",
-          "ordinal": 170,
+          "ordinal": 186,
           "kind": "text",
-          "block": 88,
+          "block": 90,
           "blockTag": "h2",
           "where": "div > div > h2",
           "original": "Dark signal. No apologies.",
           "text": "Dark signal. No apologies."
         },
         {
-          "id": "index.html:171",
+          "id": "index.html:187",
           "file": "index.html",
-          "ordinal": 171,
+          "ordinal": 187,
           "kind": "text",
-          "block": 89,
+          "block": 91,
           "blockTag": "p",
           "where": "div > div > p",
           "original": "HTG is the vessel — releases, visuals, merch, live, all off one deck. Fuck the gatekeepers; we built the ark ourselves. Recruiting.",
           "text": "HTG is the vessel — releases, visuals, merch, live, all off one deck. Fuck the gatekeepers; we built the ark ourselves. Recruiting."
         },
         {
-          "id": "index.html:172",
+          "id": "index.html:188",
           "file": "index.html",
-          "ordinal": 172,
+          "ordinal": 188,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2011,9 +2196,9 @@
           "text": "Board ABRAXAS →"
         },
         {
-          "id": "index.html:173",
+          "id": "index.html:189",
           "file": "index.html",
-          "ordinal": 173,
+          "ordinal": 189,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2022,9 +2207,31 @@
           "text": "Board Stretty →"
         },
         {
-          "id": "index.html:174",
+          "id": "index.html:190",
           "file": "index.html",
-          "ordinal": 174,
+          "ordinal": 190,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > div > a",
+          "original": "Board Justinn.clout →",
+          "text": "Board Justinn.clout →"
+        },
+        {
+          "id": "index.html:191",
+          "file": "index.html",
+          "ordinal": 191,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > div > a",
+          "original": "Board ciggyholster →",
+          "text": "Board ciggyholster →"
+        },
+        {
+          "id": "index.html:192",
+          "file": "index.html",
+          "ordinal": 192,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2033,9 +2240,9 @@
           "text": "The Sequence →"
         },
         {
-          "id": "index.html:175",
+          "id": "index.html:193",
           "file": "index.html",
-          "ordinal": 175,
+          "ordinal": 193,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2044,53 +2251,64 @@
           "text": "Suit Purge →"
         },
         {
-          "id": "index.html:176",
+          "id": "index.html:194",
           "file": "index.html",
-          "ordinal": 176,
+          "ordinal": 194,
           "kind": "text",
-          "block": 90,
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > div > a",
+          "original": "Switch to Mobile Version",
+          "text": "Switch to Mobile Version"
+        },
+        {
+          "id": "index.html:195",
+          "file": "index.html",
+          "ordinal": 195,
+          "kind": "text",
+          "block": 92,
           "blockTag": "p",
           "where": "div > div > p",
           "original": "A maze is hidden in this page. Type",
           "text": "A maze is hidden in this page. Type"
         },
         {
-          "id": "index.html:177",
+          "id": "index.html:196",
           "file": "index.html",
-          "ordinal": 177,
+          "ordinal": 196,
           "kind": "text",
-          "block": 90,
+          "block": 92,
           "blockTag": "p",
           "where": "div > p > kbd",
           "original": "purge",
           "text": "purge"
         },
         {
-          "id": "index.html:178",
+          "id": "index.html:197",
           "file": "index.html",
-          "ordinal": 178,
+          "ordinal": 197,
           "kind": "text",
-          "block": 90,
+          "block": 92,
           "blockTag": "p",
           "where": "div > div > p",
           "original": ", tap the logo three times, or",
           "text": ", tap the logo three times, or"
         },
         {
-          "id": "index.html:179",
+          "id": "index.html:198",
           "file": "index.html",
-          "ordinal": 179,
+          "ordinal": 198,
           "kind": "text",
-          "block": 90,
+          "block": 92,
           "blockTag": "p",
           "where": "div > p > a",
           "original": "enter it directly →",
           "text": "enter it directly →"
         },
         {
-          "id": "index.html:180",
+          "id": "index.html:199",
           "file": "index.html",
-          "ordinal": 180,
+          "ordinal": 199,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -2099,9 +2317,9 @@
           "text": "sad · tired · still here"
         },
         {
-          "id": "index.html:181",
+          "id": "index.html:200",
           "file": "index.html",
-          "ordinal": 181,
+          "ordinal": 200,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2110,9 +2328,9 @@
           "text": "Legal & Privacy"
         },
         {
-          "id": "index.html:182",
+          "id": "index.html:201",
           "file": "index.html",
-          "ordinal": 182,
+          "ordinal": 201,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2121,9 +2339,9 @@
           "text": "Terms of Use"
         },
         {
-          "id": "index.html:183",
+          "id": "index.html:202",
           "file": "index.html",
-          "ordinal": 183,
+          "ordinal": 202,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2132,9 +2350,9 @@
           "text": "Privacy Policy"
         },
         {
-          "id": "index.html:184",
+          "id": "index.html:203",
           "file": "index.html",
-          "ordinal": 184,
+          "ordinal": 203,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2143,9 +2361,9 @@
           "text": "Trademarks"
         },
         {
-          "id": "index.html:185",
+          "id": "index.html:204",
           "file": "index.html",
-          "ordinal": 185,
+          "ordinal": 204,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2154,9 +2372,9 @@
           "text": "Satire Notice"
         },
         {
-          "id": "index.html:186",
+          "id": "index.html:205",
           "file": "index.html",
-          "ordinal": 186,
+          "ordinal": 205,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2165,141 +2383,141 @@
           "text": "Copyright / DMCA"
         },
         {
-          "id": "index.html:189",
+          "id": "index.html:208",
           "file": "index.html",
-          "ordinal": 189,
+          "ordinal": 208,
           "kind": "text",
-          "block": 91,
+          "block": 93,
           "blockTag": "p",
           "where": "div > p > strong",
           "original": "HTG — Hex The Government",
           "text": "HTG — Hex The Government"
         },
         {
-          "id": "index.html:190",
+          "id": "index.html:209",
           "file": "index.html",
-          "ordinal": 190,
+          "ordinal": 209,
           "kind": "text",
-          "block": 91,
+          "block": 93,
           "blockTag": "p",
           "where": "div > div > p",
           "original": ". All rights reserved.",
           "text": ". All rights reserved."
         },
         {
-          "id": "index.html:191",
+          "id": "index.html:210",
           "file": "index.html",
-          "ordinal": 191,
+          "ordinal": 210,
           "kind": "text",
-          "block": 91,
+          "block": 93,
           "blockTag": "p",
           "where": "div > p > strong",
           "original": "HTG",
           "text": "HTG"
         },
         {
-          "id": "index.html:193",
+          "id": "index.html:212",
           "file": "index.html",
-          "ordinal": 193,
+          "ordinal": 212,
           "kind": "text",
-          "block": 91,
+          "block": 93,
           "blockTag": "p",
           "where": "div > p > strong",
           "original": "HEX THE GOVERNMENT",
           "text": "HEX THE GOVERNMENT"
         },
         {
-          "id": "index.html:195",
+          "id": "index.html:214",
           "file": "index.html",
-          "ordinal": 195,
+          "ordinal": 214,
           "kind": "text",
-          "block": 91,
+          "block": 93,
           "blockTag": "p",
           "where": "div > p > strong",
           "original": "ABRAXAS",
           "text": "ABRAXAS"
         },
         {
-          "id": "index.html:197",
+          "id": "index.html:216",
           "file": "index.html",
-          "ordinal": 197,
+          "ordinal": 216,
           "kind": "text",
-          "block": 91,
+          "block": 93,
           "blockTag": "p",
           "where": "div > p > strong",
           "original": "HEXCORE",
           "text": "HEXCORE"
         },
         {
-          "id": "index.html:199",
+          "id": "index.html:218",
           "file": "index.html",
-          "ordinal": 199,
+          "ordinal": 218,
           "kind": "text",
-          "block": 91,
+          "block": 93,
           "blockTag": "p",
           "where": "div > p > strong",
           "original": "SUIT PURGE",
           "text": "SUIT PURGE"
         },
         {
-          "id": "index.html:200",
+          "id": "index.html:219",
           "file": "index.html",
-          "ordinal": 200,
+          "ordinal": 219,
           "kind": "text",
-          "block": 91,
+          "block": 93,
           "blockTag": "p",
           "where": "div > div > p",
           "original": "™ and",
           "text": "™ and"
         },
         {
-          "id": "index.html:201",
+          "id": "index.html:220",
           "file": "index.html",
-          "ordinal": 201,
+          "ordinal": 220,
           "kind": "text",
-          "block": 91,
+          "block": 93,
           "blockTag": "p",
           "where": "div > p > em",
           "original": "Depressions Running Deep",
           "text": "Depressions Running Deep"
         },
         {
-          "id": "index.html:202",
+          "id": "index.html:221",
           "file": "index.html",
-          "ordinal": 202,
+          "ordinal": 221,
           "kind": "text",
-          "block": 91,
+          "block": 93,
           "blockTag": "p",
           "where": "div > div > p",
           "original": "™ are trademarks of HTG. All other names, logos, and marks (Spotify, SoundCloud, YouTube, Apple Music, TikTok, Instagram, Shopify, etc.) are the property of their respective owners.",
           "text": "™ are trademarks of HTG. All other names, logos, and marks (Spotify, SoundCloud, YouTube, Apple Music, TikTok, Instagram, Shopify, etc.) are the property of their respective owners."
         },
         {
-          "id": "index.html:203",
+          "id": "index.html:222",
           "file": "index.html",
-          "ordinal": 203,
+          "ordinal": 222,
           "kind": "text",
-          "block": 92,
+          "block": 94,
           "blockTag": "p",
           "where": "div > p > em",
           "original": "Suit Purge",
           "text": "Suit Purge"
         },
         {
-          "id": "index.html:204",
+          "id": "index.html:223",
           "file": "index.html",
-          "ordinal": 204,
+          "ordinal": 223,
           "kind": "text",
-          "block": 92,
+          "block": 94,
           "blockTag": "p",
           "where": "div > div > p",
           "original": "and its characters are fictional class archetypes. Any resemblance to real persons or organisations is coincidental.",
           "text": "and its characters are fictional class archetypes. Any resemblance to real persons or organisations is coincidental."
         },
         {
-          "id": "index.html:206",
+          "id": "index.html:225",
           "file": "index.html",
-          "ordinal": 206,
+          "ordinal": 225,
           "kind": "text",
           "block": 0,
           "blockTag": "strong",
@@ -2308,9 +2526,9 @@
           "text": "Out now // HTG"
         },
         {
-          "id": "index.html:207",
+          "id": "index.html:226",
           "file": "index.html",
-          "ordinal": 207,
+          "ordinal": 226,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -2319,9 +2537,9 @@
           "text": "Board a deck, catch the next drop, or send a booking straight to HTG."
         },
         {
-          "id": "index.html:208",
+          "id": "index.html:227",
           "file": "index.html",
-          "ordinal": 208,
+          "ordinal": 227,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2330,9 +2548,9 @@
           "text": "Stream Links"
         },
         {
-          "id": "index.html:209",
+          "id": "index.html:228",
           "file": "index.html",
-          "ordinal": 209,
+          "ordinal": 228,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2341,9 +2559,9 @@
           "text": "Contact"
         },
         {
-          "id": "index.html:210",
+          "id": "index.html:229",
           "file": "index.html",
-          "ordinal": 210,
+          "ordinal": 229,
           "kind": "attr",
           "block": 0,
           "blockTag": "img",
@@ -2352,11 +2570,11 @@
           "text": "Expanded gallery image"
         },
         {
-          "id": "index.html:211",
+          "id": "index.html:230",
           "file": "index.html",
-          "ordinal": 211,
+          "ordinal": 230,
           "kind": "text",
-          "block": 94,
+          "block": 96,
           "blockTag": "p",
           "where": "div > div > p",
           "original": "Gallery image",
@@ -2624,9 +2842,31 @@
           "text": "Stretty"
         },
         {
-          "id": "abraxas.html:25",
+          "id": "abraxas.html:26",
           "file": "abraxas.html",
-          "ordinal": 25,
+          "ordinal": 26,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "footer > span > a",
+          "original": "Justinn.clout",
+          "text": "Justinn.clout"
+        },
+        {
+          "id": "abraxas.html:28",
+          "file": "abraxas.html",
+          "ordinal": 28,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "footer > span > a",
+          "original": "ciggyholster",
+          "text": "ciggyholster"
+        },
+        {
+          "id": "abraxas.html:29",
+          "file": "abraxas.html",
+          "ordinal": 29,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -2635,9 +2875,9 @@
           "text": "· back to"
         },
         {
-          "id": "abraxas.html:26",
+          "id": "abraxas.html:30",
           "file": "abraxas.html",
-          "ordinal": 26,
+          "ordinal": 30,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2716,8 +2956,8 @@
           "block": 0,
           "blockTag": "a",
           "where": "div > div > a",
-          "original": "ABRAXAS →",
-          "text": "ABRAXAS →"
+          "original": "JUSTINN.CLOUT →",
+          "text": "JUSTINN.CLOUT →"
         },
         {
           "id": "stretty.html:6",
@@ -2907,9 +3147,31 @@
           "text": "ABRAXAS"
         },
         {
-          "id": "stretty.html:25",
+          "id": "stretty.html:26",
           "file": "stretty.html",
-          "ordinal": 25,
+          "ordinal": 26,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "footer > span > a",
+          "original": "Justinn.clout",
+          "text": "Justinn.clout"
+        },
+        {
+          "id": "stretty.html:28",
+          "file": "stretty.html",
+          "ordinal": 28,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "footer > span > a",
+          "original": "ciggyholster",
+          "text": "ciggyholster"
+        },
+        {
+          "id": "stretty.html:29",
+          "file": "stretty.html",
+          "ordinal": 29,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -2918,9 +3180,9 @@
           "text": "· back to"
         },
         {
-          "id": "stretty.html:26",
+          "id": "stretty.html:30",
           "file": "stretty.html",
-          "ordinal": 26,
+          "ordinal": 30,
           "kind": "text",
           "block": 0,
           "blockTag": "a",

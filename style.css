@@ -1062,6 +1062,19 @@
       resize: vertical;
     }
 
+    /* Honeypot — out of flow and invisible, but still in the form for bots
+       to fill. display:none is avoided: some bots skip hidden inputs. */
+    .hp-field {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      border: 0;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
     .error-message {
       min-height: 1rem;
       color: var(--danger);

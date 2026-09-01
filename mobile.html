@@ -1105,6 +1105,19 @@
       resize: vertical;
     }
 
+    /* Honeypot — out of flow and invisible, but still in the form for bots
+       to fill. display:none is avoided: some bots skip hidden inputs. */
+    .hp-field {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      border: 0;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
     .error-message {
       min-height: 1rem;
       color: var(--danger);
@@ -2594,6 +2607,10 @@
 
             <div class="contact-card fade-in">
               <form class="contact-form" id="contactForm" novalidate>
+                <!-- Honeypot: invisible to people, filled by bots. Checked in
+                     script.js and forwarded to the form service. No label or
+                     placeholder on purpose — it is not copy. -->
+                <input class="hp-field" type="text" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" />
                 <div class="form-grid">
                   <div class="field">
                     <label for="name">Name</label>

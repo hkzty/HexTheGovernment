@@ -79,42 +79,38 @@ releases: [
 
 Public image URLs work too. Add or remove entries freely — grids, lightbox, and players rebuild automatically.
 
-> **Tip:** the current hero video (`assets/htg-hero.mp4`) is ~25 MB. Re-exporting it at 720p / higher compression (2–5 MB) will make the page load dramatically faster on phones. The site skips the video automatically for visitors with Data Saver enabled.
+> **Tip:** the current hero video (`assets/htg-hero.mp4`) is ~25 MB and both pages load it. Small mobile encodes already exist in `assets/` (`htg-hero-mobile.mp4` / `.webm`) but are not wired up — see the known-issues list in `CLAUDE.md`. The site skips the video automatically for visitors with Data Saver enabled.
 
 ### 5. Bookings / contact
 
 ```js
+contactForm: {
+  endpoint: "",   // Formspree or Web3Forms endpoint — setup notes in config.js
+  accessKey: ""   // Web3Forms only
+},
 contactEmail: "Bookings@htg.productions",
 ```
 
-The contact form validates the message, then opens the visitor's email app pre-addressed to this email with their message filled in. No backend needed. (For silent in-page submissions later, hook the form to Formspree or Netlify Forms.)
+The contact form validates the message, then delivers it one of two ways. With `contactForm.endpoint` set — a free Formspree or Web3Forms form-to-email endpoint, no backend, setup notes in `config.js` — it sends straight from the page and the visitor never needs a mail app. Without one it falls back to opening the visitor's email app pre-addressed to `contactEmail`, and shows the address to copy in case no mail app is installed. **The endpoint is currently unset**, so every visitor is on the mailto fallback; creating the free account and pasting the endpoint is the open task.
 
 ---
 
-## Auto content sync (scraper)
+## Auto content sync (scraper) — currently broken
 
-`scripts/scraper.js` keeps the site's catalog current without anyone editing files by hand.
-It runs on a schedule via `.github/workflows/content-sync.yml` (every 6 hours, plus a
-manual **Run workflow** button in the Actions tab), commits any changes, and GitHub Pages
-redeploys automatically.
+`scripts/scraper.js` was meant to keep the site's catalog current without anyone editing
+files by hand: resolve the Spotify / SoundCloud URLs already in `config.js` through the
+platforms' public oEmbed endpoints and write `assets/data/content.json`, which `render.js`
+appends to the New Releases grid as `AUTO-SYNC` cards.
 
-**What it does with no API keys at all:** reads the Spotify / SoundCloud URLs already in
-`config.js` (`sequence.albums`, `sequence.highlights`, `outNowEmbeds`, `socials.soundcloud`),
-resolves each through the platform's public oEmbed endpoint for the real title and cover art,
-and writes `assets/data/content.json`. `render.js` reads that file and appends the results to
-the New Releases grid as `AUTO-SYNC` cards. If the file is missing or empty the site simply
-shows the hand-written releases — nothing breaks.
+**It has never produced that file.** Every source returns `403 Forbidden` from Spotify's
+oEmbed endpoint (which appears to reject datacenter IPs, and Actions runners are datacenter
+IPs), so the script exits on its own "No items resolved" guard. Its workflow
+(`content-sync.yml`) was deleted after 83 consecutive failures. The script is kept so the
+fetch path can be repaired — a fix probably means the Spotify Web API with client
+credentials in Actions secrets, not oEmbed. Details in `CLAUDE.md`.
 
-**Instagram photos (needs one tap from the artist):** the artist authorizes a Meta app once
-via Instagram Login; store the resulting long-lived token as the repo secret
-`INSTAGRAM_ACCESS_TOKEN`. The scraper then pulls his posts, downloads any new images into
-`assets/gallery/`, and the existing `gallery-manifest.yml` Action makes them appear in the
-gallery. Without the secret this step is skipped with a log line and everything else still runs.
-
-Run it locally with `npm run scrape` (Node 18+, no dependencies to install).
-
-> Note: the scraper needs outbound access to `open.spotify.com` and `soundcloud.com`. Some
-> sandboxed environments block these; GitHub Actions runners do not.
+The site is unaffected: with no `content.json` it simply shows the hand-written config
+content. Run the script locally with `npm run scrape` (Node 18+, no dependencies).
 
 ---
 
@@ -185,9 +181,9 @@ This repo deploys to **www.htg.productions** via GitHub Pages (the `CNAME` file 
 
 ## What's real vs placeholder
 
-Real: artist identity, the Spotify artist page and the full Sequence (13 albums + 3 Stretty highlight tracks), release titles (*Black Halo Error*, *Violet Static*, *Crash Prayer*, *Saintless Code*, *Purple Mourning*, *Null Cathedral Video*), Instagram / SoundCloud / TikTok / Linktree links, booking email, hero video.
+Real: artist identity, the Spotify artist page and the full Sequence (13 albums + 3 pinned highlight tracks), Instagram / SoundCloud / TikTok / Linktree links, booking email, hero video.
 
-Still placeholder (swap in `config.js` / `index.html` as they become real): gallery images until photos land in `assets/gallery/`, release cover art, merch items and prices, tour dates, Apple Music / YouTube links.
+Still placeholder (swap in `config.js` as they become real): gallery images until photos land in `assets/gallery/`, the hero poster, Apple Music / YouTube links. The invented release titles, merch products, and tour dates that used to ship here have been removed outright — sections with no real content show honest empty states instead (see the content policy in `CLAUDE.md`).
 
 Also external for now (self-host before heavy promo pushes): Google Fonts. Placeholder art is now bundled locally under `assets/placeholders/` — no third-party image host in the runtime path.
 
