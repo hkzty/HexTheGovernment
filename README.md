@@ -131,12 +131,21 @@ After editing `index.html` or `style.css`, rebuild it:
 npm run build:mobile
 ```
 
-To verify the committed copy is current (this also runs in CI on every push
-and PR touching either source):
+To verify the committed copy is current:
 
 ```bash
 npm run check:mobile
 ```
+
+Run it before pushing anything that touches `index.html` or `style.css`.
+It is deliberately **not** a GitHub Actions workflow: user-defined workflows
+in this repo almost never execute — 28 of the 30 recorded `content-sync`
+runs, the single `gallery-manifest` run, and a trial `mobile-sync` run all
+failed within 3-5 seconds without reaching a runner (only GitHub's own
+managed `pages build and deployment` succeeds). A check that is permanently
+red without ever running is worse than none, so this stays a local command.
+If Actions is ever fixed for this repo, wiring `npm run check:mobile` into a
+workflow is the obvious next step.
 
 The generator is `scripts/build-mobile.js`. It aborts if any of its anchors
 in `index.html` stops matching exactly once, so a reshaped page fails loudly

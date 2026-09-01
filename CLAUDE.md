@@ -53,8 +53,11 @@ npm run build:mobile   # rewrites mobile.html
 npm run check:mobile   # fails if the committed copy is stale
 ```
 
-`check:mobile` also runs in CI (`.github/workflows/mobile-sync.yml`) on
-every push and PR that touches either source.
+Run `check:mobile` before pushing. It is **not** wired into CI on purpose:
+user-defined workflows in this repo almost never execute (see below), so a
+CI guard here would sit permanently red without ever having run — which
+trains reviewers to ignore red, the exact failure mode that let this drift
+survive.
 
 Why this is a script and not a convention: the two files were previously
 kept in sync by hand, and they did not stay in sync. `mobile.html` was
@@ -169,6 +172,20 @@ Do not hardcode it again.
   never succeeded rather than one that broke. A fix probably means the
   Spotify Web API with client credentials in Actions secrets, not oEmbed.
   The script is kept so the fetch path can be repaired.
+
+  Note that this diagnosis only covers the runs that actually executed.
+  **28 of the 30 recorded `content-sync` runs failed in 3-5 seconds
+  without running a step at all** — see the next item.
+- **GitHub Actions does not reliably run in this repo.** Across every
+  user-defined workflow — `content-sync` (28 of 30 recorded runs), the
+  single `gallery-manifest` run, and a trial `mobile-sync` run — jobs
+  complete as `failure` within 3-5 seconds with no logs and no steps
+  executed. Only GitHub's own managed `pages build and deployment`
+  succeeds, which is why deploys still work. This looks like an
+  account-level Actions problem (a spending limit or runner allocation),
+  not anything in the workflow files. **Do not add a CI check here
+  expecting it to run**, and treat a fast red Actions job as this, not as
+  your diff. Verify with `npm run` scripts locally instead.
 - ~~Deduplicate `mobile.html`'s inline CSS against `style.css`.~~ Done —
   `mobile.html` is generated from `style.css`, so there is only one copy
   to edit.
