@@ -13,7 +13,11 @@
   <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- New Rocker loads with display=block so headings paint once, in the gothic
+       face — never the serif fallback morphing mid-load. Plex Mono keeps swap:
+       its fallback is another monospace, so that swap is invisible. -->
+  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #1f0335;
@@ -44,8 +48,38 @@
     .topline a:hover { border-color: var(--abx); color: var(--abx); }
     .topline .tag { color: var(--dim); letter-spacing: 0.3em; text-transform: uppercase; }
 
+    /* ---- Deck sigil ------------------------------------------------------ */
+    /* Huge watermark initial behind the content, under the veil so the
+       gradient tames it. Decoration only. */
+    .sigil {
+      position: fixed; z-index: 1; right: -4vw; top: 2vh; line-height: 1;
+      font-family: "New Rocker", serif; font-size: min(78vh, 68vw);
+      color: var(--abx); opacity: 0.05; pointer-events: none; user-select: none;
+    }
+
     /* ---- Hero ------------------------------------------------------------ */
     .hero { padding: clamp(1.5rem, 6vh, 4rem) 0 2.5rem; }
+    /* Staggered rise on load (html.js only, so no-JS readers see everything
+       instantly), a slow breathing glow on the name, and a scanline sweeping
+       under the hero. All stilled under prefers-reduced-motion below. */
+    @keyframes deck-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+    @keyframes name-breathe {
+      0%, 100% { text-shadow: 0 0 34px rgba(180, 120, 255, 0.32); }
+      50% { text-shadow: 0 0 58px rgba(180, 120, 255, 0.55); }
+    }
+    html.js .hero > * { animation: deck-rise 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    html.js .hero > *:nth-child(2) { animation-delay: 0.07s; }
+    html.js .hero > *:nth-child(3) { animation-delay: 0.14s; }
+    html.js .hero > *:nth-child(4) { animation-delay: 0.21s; }
+    html.js .hero > *:nth-child(5) { animation-delay: 0.28s; }
+    html.js .name { animation: deck-rise 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) 0.07s both, name-breathe 7s ease-in-out 1.2s infinite; }
+    .hero::after {
+      content: ""; display: block; height: 1px; margin-top: 2.4rem; opacity: 0.55;
+      background: linear-gradient(90deg, transparent, var(--abx), transparent);
+      background-size: 220% 100%;
+      animation: hero-scan 6s linear infinite;
+    }
+    @keyframes hero-scan { from { background-position: 220% 0; } to { background-position: -220% 0; } }
     .eyebrow { font-size: 0.68rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--abx); margin-bottom: 1rem; }
     .name {
       font-family: "New Rocker", "IBM Plex Mono", serif;
@@ -63,9 +97,32 @@
     .section { margin-top: 3rem; }
     .section-kicker { font-size: 0.68rem; letter-spacing: 0.34em; text-transform: uppercase; color: var(--dim); margin-bottom: 1rem; }
     .section-kicker b { color: var(--abx); font-weight: 500; }
-    .embed-wrap { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: rgba(20, 20, 20, 0.5); }
+    .embed-wrap {
+      border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: rgba(20, 20, 20, 0.5);
+      transition: border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+    .embed-wrap:hover, .embed-wrap:focus-within {
+      border-color: rgba(180, 120, 255, 0.55);
+      box-shadow: 0 0 36px rgba(180, 120, 255, 0.16);
+    }
     .embed-wrap iframe { display: block; width: 100%; border: 0; }
     .embed-note { margin-top: 0.8rem; font-size: 0.74rem; color: var(--dim); }
+
+    /* ---- Doors ----------------------------------------------------------- */
+    .doors { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
+    .door {
+      display: block; padding: 1.3rem 1.4rem 1.2rem; border: 1px solid var(--line); border-radius: 14px;
+      background: rgba(20, 20, 20, 0.5); color: var(--ink); text-decoration: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .door:hover, .door:focus-visible {
+      border-color: var(--abx); transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(180, 120, 255, 0.18);
+    }
+    .door h2 { font-family: "New Rocker", "IBM Plex Mono", serif; font-weight: 400; font-size: 1.5rem; }
+    .door p { margin-top: 0.4rem; font-size: 0.78rem; color: var(--dim); }
+    .door .go { display: inline-block; margin-top: 0.7rem; font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--abx); }
+    @media (max-width: 620px) { .doors { grid-template-columns: 1fr; } }
 
     /* ---- Links ----------------------------------------------------------- */
     .links { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.6rem; }
@@ -73,8 +130,13 @@
       display: inline-block; padding: 0.6rem 1.4rem; border: 1px solid var(--line);
       border-radius: 999px; color: var(--ink); text-decoration: none;
       font-size: 0.76rem; letter-spacing: 0.12em;
+      transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
     }
-    .links a:hover { border-color: var(--abx); color: var(--abx); }
+    .links a:hover, .links a:focus-visible {
+      border-color: var(--abx); color: var(--abx);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(180, 120, 255, 0.20);
+    }
 
     /* ---- Footer ---------------------------------------------------------- */
     .foot { margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--line); font-size: 0.74rem; color: var(--dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
@@ -84,11 +146,17 @@
     @media (max-width: 560px) {
       .foot { flex-direction: column; }
     }
-    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto; }
+      html.js .hero > *, html.js .name, .hero::after { animation: none !important; }
+      .links a, .embed-wrap, .door { transition: none; }
+      .links a:hover, .links a:focus-visible, .door:hover, .door:focus-visible { transform: none; }
+    }
   </style>
 </head>
 <body data-rain="purple">
   <canvas id="matrix-rain" aria-hidden="true"></canvas>
+  <div class="sigil" aria-hidden="true">A</div>
   <div class="veil" aria-hidden="true"></div>
 
   <div class="shell">
@@ -124,8 +192,23 @@
 
       <div class="links">
         <a href="https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19" target="_blank" rel="noopener noreferrer">Open Spotify</a>
-        <a href="index.html#game">Play Suit Purge</a>
         <a href="mailto:Bookings@htg.productions">Bookings</a>
+      </div>
+    </section>
+
+    <section class="section" aria-label="ABRAXAS — side doors">
+      <p class="section-kicker">Side doors · <b>his corners of the vessel</b></p>
+      <div class="doors">
+        <a class="door" href="sequence.html">
+          <h2>The Sequence</h2>
+          <p>The catalog in its running order — 01 → 13, pinned highlights up top, pulled live off the artist profile.</p>
+          <span class="go">Open →</span>
+        </a>
+        <a class="door" href="game.html">
+          <h2>Suit Purge</h2>
+          <p>The maze hidden in the site — an original raycaster, every suit in it invented, everything drawn in code.</p>
+          <span class="go">Enter →</span>
+        </a>
       </div>
     </section>
 

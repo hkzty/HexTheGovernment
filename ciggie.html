@@ -13,7 +13,11 @@
   <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- New Rocker loads with display=block so headings paint once, in the gothic
+       face — never the serif fallback morphing mid-load. Plex Mono keeps swap:
+       its fallback is another monospace, so that swap is invisible. -->
+  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #03222a;
@@ -44,8 +48,38 @@
     .topline a:hover { border-color: var(--cig); color: var(--cig); }
     .topline .tag { color: var(--dim); letter-spacing: 0.3em; text-transform: uppercase; }
 
+    /* ---- Deck sigil ------------------------------------------------------ */
+    /* Huge watermark initial behind the content, under the veil so the
+       gradient tames it. Decoration only. */
+    .sigil {
+      position: fixed; z-index: 1; right: -4vw; top: 2vh; line-height: 1;
+      font-family: "New Rocker", serif; font-size: min(78vh, 68vw);
+      color: var(--cig); opacity: 0.05; pointer-events: none; user-select: none;
+    }
+
     /* ---- Hero ------------------------------------------------------------ */
     .hero { padding: clamp(1.5rem, 6vh, 4rem) 0 2.5rem; }
+    /* Staggered rise on load (html.js only, so no-JS readers see everything
+       instantly), a slow breathing glow on the name, and a scanline sweeping
+       under the hero. All stilled under prefers-reduced-motion below. */
+    @keyframes deck-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+    @keyframes name-breathe {
+      0%, 100% { text-shadow: 0 0 34px rgba(47, 212, 224, 0.32); }
+      50% { text-shadow: 0 0 58px rgba(47, 212, 224, 0.55); }
+    }
+    html.js .hero > * { animation: deck-rise 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    html.js .hero > *:nth-child(2) { animation-delay: 0.07s; }
+    html.js .hero > *:nth-child(3) { animation-delay: 0.14s; }
+    html.js .hero > *:nth-child(4) { animation-delay: 0.21s; }
+    html.js .hero > *:nth-child(5) { animation-delay: 0.28s; }
+    html.js .name { animation: deck-rise 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) 0.07s both, name-breathe 7s ease-in-out 1.2s infinite; }
+    .hero::after {
+      content: ""; display: block; height: 1px; margin-top: 2.4rem; opacity: 0.55;
+      background: linear-gradient(90deg, transparent, var(--cig), transparent);
+      background-size: 220% 100%;
+      animation: hero-scan 6s linear infinite;
+    }
+    @keyframes hero-scan { from { background-position: 220% 0; } to { background-position: -220% 0; } }
     .eyebrow { font-size: 0.68rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--cig); margin-bottom: 1rem; }
     .name {
       font-family: "New Rocker", "IBM Plex Mono", serif;
@@ -66,9 +100,48 @@
     .section { margin-top: 3rem; }
     .section-kicker { font-size: 0.68rem; letter-spacing: 0.34em; text-transform: uppercase; color: var(--dim); margin-bottom: 1rem; }
     .section-kicker b { color: var(--cig); font-weight: 500; }
-    .embed-wrap { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: rgba(20, 20, 20, 0.5); }
+    .embed-wrap {
+      border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: rgba(20, 20, 20, 0.5);
+      transition: border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+    .embed-wrap:hover, .embed-wrap:focus-within {
+      border-color: rgba(47, 212, 224, 0.55);
+      box-shadow: 0 0 36px rgba(47, 212, 224, 0.16);
+    }
     .embed-wrap iframe { display: block; width: 100%; border: 0; }
     .embed-note { margin-top: 0.8rem; font-size: 0.74rem; color: var(--dim); }
+
+    /* ---- SoundCloud facade ------------------------------------------------ */
+    /* A link to his real profile wearing an equalizer; the inline script at
+       the bottom swaps a click into the actual SoundCloud player, so the page
+       ships no player code until someone asks for it. */
+    .sc-card {
+      display: flex; align-items: center; gap: 1.3rem;
+      padding: 1.4rem 1.5rem; border: 1px solid var(--line); border-radius: 14px;
+      background: rgba(20, 20, 20, 0.5); color: var(--ink); text-decoration: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .sc-card:hover, .sc-card:focus-visible {
+      border-color: var(--cig);
+      box-shadow: 0 0 30px rgba(47, 212, 224, 0.18);
+    }
+    .sc-card b { color: var(--cig); }
+    .sc-card .hint { display: block; font-size: 0.74rem; color: var(--dim); margin-top: 0.2rem; }
+    .sc-card .bars { display: flex; align-items: flex-end; gap: 4px; height: 36px; flex: none; }
+    .sc-card .bars i {
+      width: 4px; border-radius: 2px; background: var(--cig); transform-origin: bottom;
+      animation: eq 1.2s ease-in-out infinite;
+    }
+    .sc-card .bars i:nth-child(1) { height: 45%; animation-delay: 0s; }
+    .sc-card .bars i:nth-child(2) { height: 80%; animation-delay: 0.15s; }
+    .sc-card .bars i:nth-child(3) { height: 60%; animation-delay: 0.3s; }
+    .sc-card .bars i:nth-child(4) { height: 100%; animation-delay: 0.45s; }
+    .sc-card .bars i:nth-child(5) { height: 55%; animation-delay: 0.6s; }
+    .sc-card .bars i:nth-child(6) { height: 85%; animation-delay: 0.75s; }
+    .sc-card .bars i:nth-child(7) { height: 40%; animation-delay: 0.9s; }
+    @keyframes eq { 0%, 100% { transform: scaleY(0.45); } 50% { transform: scaleY(1); } }
+    .sc-card.playing { display: block; padding: 0; overflow: hidden; }
+    .sc-card.playing iframe { display: block; width: 100%; height: 450px; border: 0; }
 
     /* ---- Links ----------------------------------------------------------- */
     .links { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.6rem; }
@@ -76,8 +149,13 @@
       display: inline-block; padding: 0.6rem 1.4rem; border: 1px solid var(--line);
       border-radius: 999px; color: var(--ink); text-decoration: none;
       font-size: 0.76rem; letter-spacing: 0.12em;
+      transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
     }
-    .links a:hover { border-color: var(--cig); color: var(--cig); }
+    .links a:hover, .links a:focus-visible {
+      border-color: var(--cig); color: var(--cig);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(47, 212, 224, 0.20);
+    }
 
     /* ---- Footer ---------------------------------------------------------- */
     .foot { margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--line); font-size: 0.74rem; color: var(--dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
@@ -87,11 +165,17 @@
     @media (max-width: 560px) {
       .foot { flex-direction: column; }
     }
-    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto; }
+      html.js .hero > *, html.js .name, .hero::after, .sc-card .bars i { animation: none !important; }
+      .links a, .embed-wrap, .sc-card { transition: none; }
+      .links a:hover, .links a:focus-visible { transform: none; }
+    }
   </style>
 </head>
 <body data-rain="cyan">
   <canvas id="matrix-rain" aria-hidden="true"></canvas>
+  <div class="sigil" aria-hidden="true">C</div>
   <div class="veil" aria-hidden="true"></div>
 
   <div class="shell">
@@ -126,6 +210,16 @@
       </div>
       <p class="embed-note">Pulled straight from the artist profile — whatever's out is what shows.</p>
 
+      <p class="section-kicker" style="margin-top: 2.6rem;">Also live · <b>SoundCloud</b></p>
+      <a class="sc-card" href="https://soundcloud.com/user-945488980-12789874"
+         target="_blank" rel="noopener noreferrer"
+         aria-label="Load the SoundCloud player for ciggyholster">
+        <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        <span><b>The SoundCloud feed.</b>
+          <span class="hint">Press to load his player right here — everything he's posted there, live.</span>
+        </span>
+      </a>
+
       <div class="links">
         <a href="https://open.spotify.com/artist/0xMdknHv3WOTL2AeK1uHpo" target="_blank" rel="noopener noreferrer">Open Spotify</a>
         <a href="https://soundcloud.com/user-945488980-12789874" target="_blank" rel="noopener noreferrer">SoundCloud</a>
@@ -142,6 +236,30 @@
     </footer>
     <script>(function(){var y=document.getElementById('legal-year');if(y)y.textContent=new Date().getFullYear();})();</script>
   </div>
+
+  <script>
+    (function () {
+      /* Upgrade the SoundCloud card from a profile link into the in-page
+         player on click. Without JS it stays an ordinary link. */
+      var card = document.querySelector('.sc-card');
+      if (!card) return;
+      card.addEventListener('click', function (e) {
+        if (card.classList.contains('playing')) return;
+        e.preventDefault();
+        var frame = document.createElement('iframe');
+        frame.src = 'https://w.soundcloud.com/player/?url=' +
+          encodeURIComponent('https://soundcloud.com/user-945488980-12789874') +
+          '&color=%232fd4e0&auto_play=true&show_user=true';
+        frame.title = 'ciggyholster on SoundCloud';
+        frame.allow = 'autoplay';
+        card.classList.add('playing');
+        card.removeAttribute('href');
+        card.removeAttribute('target');
+        card.innerHTML = '';
+        card.appendChild(frame);
+      });
+    })();
+  </script>
 
   <script src="matrix.js"></script>
 </body>
