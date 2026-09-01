@@ -675,6 +675,12 @@
       max-width: 760px;
     }
 
+    /* A second head inside a section that already has one — it needs the gap
+       above that the section's own padding gives the first. */
+    .subsection-head {
+      margin-top: 3rem;
+    }
+
     .section-kicker {
       color: var(--accent);
       text-transform: uppercase;
@@ -833,6 +839,14 @@
       box-shadow: var(--shadow);
       overflow: hidden;
       padding: 0.6rem;
+    }
+
+    /* A single embed standing on its own outside .embed-grid — the landing
+       page's ciggyholster player. Capped so one card does not run the full
+       container width the way a two-up grid row does. */
+    .solo-embed {
+      max-width: 760px;
+      margin-top: 1rem;
     }
 
     .embed-card iframe {
@@ -2410,6 +2424,33 @@
               </div>
             </article>
           </div>
+
+          <!-- Second name aboard with a catalog of his own. The platform cards
+               above are the label's main line; this is ciggyholster straight
+               off his artist profile, so the landing page carries his music and
+               not only a door to it. -->
+          <div class="section-head subsection-head fade-in">
+            <span class="section-kicker">Also aboard // ciggyholster</span>
+            <h3 class="section-title" style="font-size: clamp(1.5rem, 3vw, 2.4rem);">Ciggie's catalog, straight off his profile.</h3>
+            <p class="section-copy">Second name aboard with music out. Whatever he's released is what plays here.</p>
+          </div>
+
+          <div class="solo-embed embed-card fade-in">
+            <iframe
+              title="ciggyholster on Spotify"
+              src="https://open.spotify.com/embed/artist/0xMdknHv3WOTL2AeK1uHpo?utm_source=generator&amp;theme=0"
+              height="352"
+              loading="lazy"
+              frameborder="0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+          </div>
+
+          <div class="pill-links fade-in" style="margin-top: 1rem;">
+            <a class="inline-link" href="ciggie.html">Board ciggyholster →</a>
+            <a class="inline-link" href="https://open.spotify.com/artist/0xMdknHv3WOTL2AeK1uHpo" target="_blank" rel="noopener noreferrer">Open on Spotify</a>
+            <a class="inline-link" href="https://soundcloud.com/user-945488980-12789874" target="_blank" rel="noopener noreferrer">SoundCloud</a>
+            <a class="inline-link" href="https://www.youtube.com/channel/UC0xMqvX0BdM4N9Kbut5PBQA?sub_confirmation=1" target="_blank" rel="noopener noreferrer">YouTube</a>
+          </div>
         </div>
       </section>
 
@@ -2432,14 +2473,15 @@
           <div class="section-head fade-in">
             <span class="section-kicker">New Releases</span>
             <h2 class="section-title">The catalog lives on the artist decks.</h2>
-            <p class="section-copy">Everything HTG has put out is on the ABRAXAS and Stretty boarding cards — ABRAXAS in the Sequence, Stretty on his own profile.</p>
+            <p class="section-copy">Everything HTG has put out is on the boarding cards — ABRAXAS in the Sequence, Stretty and ciggyholster on their own profiles.</p>
           </div>
 
           <div class="empty-state fade-in">
-            <p>Thirteen ABRAXAS albums streaming now, and Stretty's catalog live alongside it.</p>
+            <p>Thirteen ABRAXAS albums streaming now, with Stretty's and Ciggie's catalogs live alongside it.</p>
             <div class="pill-links">
               <a class="inline-link" href="abraxas.html">ABRAXAS →</a>
               <a class="inline-link" href="stretty.html">Stretty →</a>
+              <a class="inline-link" href="ciggie.html">ciggyholster →</a>
               <a class="inline-link" data-social="spotify" href="#out-now" target="_blank" rel="noopener noreferrer">Open Spotify</a>
             </div>
           </div>
