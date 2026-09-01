@@ -47,7 +47,11 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- New Rocker loads with display=block so headings paint once, in the gothic
+       face — never the serif fallback morphing mid-load. Plex Mono keeps swap:
+       its fallback is another monospace, so that swap is invisible. -->
+  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0a0a0a;
@@ -1113,6 +1117,19 @@
       resize: vertical;
     }
 
+    /* Honeypot — out of flow and invisible, but still in the form for bots
+       to fill. display:none is avoided: some bots skip hidden inputs. */
+    .hp-field {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      border: 0;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
     .error-message {
       min-height: 1rem;
       color: var(--danger);
@@ -1866,6 +1883,35 @@
       font-weight: 500;
     }
 
+    /* Game-over score block — built by game.js, shown only on FLATLINED. */
+    .game-score {
+      display: grid;
+      justify-items: center;
+      gap: 0.55rem;
+      margin-top: 0.2rem;
+    }
+
+    .game-best {
+      color: var(--accent);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22rem;
+    }
+
+    .game-brag-line {
+      max-width: 100%;
+      padding: 0.45rem 0.8rem;
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius-sm);
+      color: var(--muted);
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      /* One tap selects the whole line — the manual fallback when the
+         clipboard API is refused. */
+      user-select: all;
+      -webkit-user-select: all;
+    }
+
     .game-touch {
       position: absolute;
       inset: 0;
@@ -2357,10 +2403,10 @@
               <li><a href="#story">Story</a></li>
               <li><a href="#out-now">Out Now</a></li>
               <li><a href="sequence.html">The Sequence</a></li>
-              <li><a href="#releases">New Releases</a></li>
-              <li><a href="#coming-soon">Coming Soon</a></li>
+              <!-- New Releases, Coming Soon and Upcoming Tours stay in the
+                   page as honest empty states, but they don't earn nav slots:
+                   eleven items ran the header onto a second row. -->
               <li><a data-shop-link href="https://strettys-merch.myshopify.com" target="_blank" rel="noopener noreferrer">Merchandise</a></li>
-              <li><a href="#tours">Upcoming Tours</a></li>
               <li><a href="#gallery">Gallery</a></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
@@ -2783,6 +2829,10 @@
 
             <div class="contact-card fade-in">
               <form class="contact-form" id="contactForm" novalidate>
+                <!-- Honeypot: invisible to people, filled by bots. Checked in
+                     script.js and forwarded to the form service. No label or
+                     placeholder on purpose — it is not copy. -->
+                <input class="hp-field" type="text" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" />
                 <div class="form-grid">
                   <div class="field">
                     <label for="name">Name</label>

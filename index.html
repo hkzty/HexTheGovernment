@@ -44,7 +44,11 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- New Rocker loads with display=block so headings paint once, in the gothic
+       face — never the serif fallback morphing mid-load. Plex Mono keeps swap:
+       its fallback is another monospace, so that swap is invisible. -->
+  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <style>
     /* HTG-only chrome: the masthead wordmark and the artist doors.
@@ -227,10 +231,10 @@
               <li><a href="#story">Story</a></li>
               <li><a href="#out-now">Out Now</a></li>
               <li><a href="sequence.html">The Sequence</a></li>
-              <li><a href="#releases">New Releases</a></li>
-              <li><a href="#coming-soon">Coming Soon</a></li>
+              <!-- New Releases, Coming Soon and Upcoming Tours stay in the
+                   page as honest empty states, but they don't earn nav slots:
+                   eleven items ran the header onto a second row. -->
               <li><a data-shop-link href="https://strettys-merch.myshopify.com" target="_blank" rel="noopener noreferrer">Merchandise</a></li>
-              <li><a href="#tours">Upcoming Tours</a></li>
               <li><a href="#gallery">Gallery</a></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
@@ -653,6 +657,10 @@
 
             <div class="contact-card fade-in">
               <form class="contact-form" id="contactForm" novalidate>
+                <!-- Honeypot: invisible to people, filled by bots. Checked in
+                     script.js and forwarded to the form service. No label or
+                     placeholder on purpose — it is not copy. -->
+                <input class="hp-field" type="text" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" />
                 <div class="form-grid">
                   <div class="field">
                     <label for="name">Name</label>
