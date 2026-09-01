@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ciggyholster · Depressions Running Deep — HTG</title>
-  <meta name="description" content="ciggyholster — artist under HTG (Hex The Government). Pulled out of the water, aboard the ark. Depressions running deep." />
+  <meta name="description" content="ciggyholster — artist under HTG (Hex The Government). Streaming on Spotify, SoundCloud and YouTube. Depressions running deep." />
   <meta name="theme-color" content="#03222a" />
   <meta property="og:title" content="ciggyholster — Depressions Running Deep" />
-  <meta property="og:description" content="Aboard HTG. Music out of the ark — everything runs off the Linktree." />
+  <meta property="og:description" content="Aboard HTG. Music out of the ark — Spotify, SoundCloud, YouTube." />
   <meta property="og:type" content="website" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2303222a'/%3E%3Ctext x='50' y='74' font-size='68' text-anchor='middle' fill='%232fd4e0' font-family='Georgia, serif'%3EC%3C/text%3E%3C/svg%3E" />
   <script>document.documentElement.classList.add('js');</script>
@@ -69,11 +69,6 @@
     .embed-wrap { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: rgba(20, 20, 20, 0.5); }
     .embed-wrap iframe { display: block; width: 100%; border: 0; }
     .embed-note { margin-top: 0.8rem; font-size: 0.74rem; color: var(--dim); }
-    .empty {
-      border: 1px dashed var(--line); border-radius: 14px; background: rgba(20, 20, 20, 0.5);
-      padding: clamp(1.4rem, 4vw, 2.4rem); color: #d9ecef;
-    }
-    .empty b { color: var(--ink); }
 
     /* ---- Links ----------------------------------------------------------- */
     .links { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.6rem; }
@@ -113,29 +108,30 @@
       <p class="role">Aboard · @ciggyholster</p>
       <p class="about">
         <b>Ciggie makes the music.</b> Pulled out of the water and aboard the ark — writing and
-        releasing under HTG alongside ABRAXAS. Everything else runs off the Linktree.
+        releasing under HTG alongside ABRAXAS. Spotify, SoundCloud, YouTube; the rest off the
+        Linktree.
         <span class="nod">aboard</span>
       </p>
     </header>
 
     <section class="section" aria-label="ciggyholster — the catalog">
-      <p class="section-kicker">The catalog · <b>off the Linktree</b></p>
-
-      <!-- No streaming embed here on purpose. ABRAXAS and Stretty each embed a
-           Spotify artist profile; ciggyholster has no confirmed artist ID in
-           this repo yet, and guessing one has already shipped the wrong artist
-           once (see CLAUDE.md). When the real ID is known, drop it into an
-           .embed-wrap iframe exactly like abraxas.html does and delete this
-           empty state. -->
-      <div class="empty">
-        <p><b>No player pinned here yet.</b> The releases live behind the Linktree until the
-        artist profile is confirmed — nothing gets embedded on a guess.</p>
+      <p class="section-kicker">The catalog · <b>live from Spotify</b></p>
+      <div class="embed-wrap">
+        <iframe
+          title="ciggyholster on Spotify"
+          src="https://open.spotify.com/embed/artist/0xMdknHv3WOTL2AeK1uHpo?utm_source=generator&theme=0"
+          height="452"
+          loading="lazy"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
       </div>
-      <p class="embed-note">Linktree is the live source — whatever's out is what shows there.</p>
+      <p class="embed-note">Pulled straight from the artist profile — whatever's out is what shows.</p>
 
       <div class="links">
-        <a href="https://linktr.ee/ciggyholster" target="_blank" rel="noopener noreferrer">Open Linktree</a>
-        <a href="index.html#game">Play Suit Purge</a>
+        <a href="https://open.spotify.com/artist/0xMdknHv3WOTL2AeK1uHpo" target="_blank" rel="noopener noreferrer">Open Spotify</a>
+        <a href="https://soundcloud.com/user-945488980-12789874" target="_blank" rel="noopener noreferrer">SoundCloud</a>
+        <a href="https://www.youtube.com/channel/UC0xMqvX0BdM4N9Kbut5PBQA?sub_confirmation=1" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a href="https://www.instagram.com/ciggyholster" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://linktr.ee/ciggyholster" target="_blank" rel="noopener noreferrer">All links</a>
         <a href="mailto:Bookings@htg.productions">Bookings</a>
       </div>
     </section>

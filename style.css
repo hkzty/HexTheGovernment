@@ -632,6 +632,12 @@
       max-width: 760px;
     }
 
+    /* A second head inside a section that already has one — it needs the gap
+       above that the section's own padding gives the first. */
+    .subsection-head {
+      margin-top: 3rem;
+    }
+
     .section-kicker {
       color: var(--accent);
       text-transform: uppercase;
@@ -790,6 +796,14 @@
       box-shadow: var(--shadow);
       overflow: hidden;
       padding: 0.6rem;
+    }
+
+    /* A single embed standing on its own outside .embed-grid — the landing
+       page's ciggyholster player. Capped so one card does not run the full
+       container width the way a two-up grid row does. */
+    .solo-embed {
+      max-width: 760px;
+      margin-top: 1rem;
     }
 
     .embed-card iframe {
