@@ -13,21 +13,29 @@
   const FADE_ALPHA_PER_SEC = 4.8;
   const RESET_CHANCE_PER_SEC = 1.5;
 
-  /* ---- Tri-colour palette --------------------------------------------------
+  /* ---- Deck palette --------------------------------------------------------
      Each column is randomly assigned one of these inks. The per-page weighting
      is read from <body data-rain="…">: white-dominant on the HTG landing,
-     purple on ABRAXAS, green on Stretty, an even mix on shared pages.        */
+     purple on ABRAXAS, green on Stretty, orange on Justinn.clout, cyan on
+     ciggyholster, an even mix on shared pages.                              */
   const INKS = {
     white:  { head: 'rgba(240, 240, 240, 0.95)', tail: 'rgba(170, 170, 170, 0.55)' },
     purple: { head: 'rgba(190, 120, 255, 0.95)', tail: 'rgba(140, 3, 252, 0.75)' },
     green:  { head: 'rgba(150, 255, 170, 0.95)', tail: 'rgba(20, 200, 90, 0.70)' },
+    orange: { head: 'rgba(255, 200, 140, 0.95)', tail: 'rgba(255, 155, 61, 0.70)' },
+    cyan:   { head: 'rgba(160, 245, 252, 0.95)', tail: 'rgba(47, 212, 224, 0.70)' },
   };
-  // Weighted bags — repeated keys raise the odds of that ink for a column.
+  /* Weighted bags — repeated keys raise the odds of that ink for a column.
+     Each deck runs its own colour dominant with the landing white and one
+     neighbouring deck's ink mixed in; the landing keeps white dominant over
+     all four. */
   const MIXES = {
-    white:  ['white', 'white', 'white', 'white', 'white', 'purple', 'green'],
+    white:  ['white', 'white', 'white', 'white', 'white', 'purple', 'green', 'orange', 'cyan'],
     purple: ['purple', 'purple', 'purple', 'purple', 'purple', 'white', 'green'],
     green:  ['green', 'green', 'green', 'green', 'green', 'white', 'purple'],
-    mixed:  ['white', 'purple', 'green'],
+    orange: ['orange', 'orange', 'orange', 'orange', 'orange', 'white', 'cyan'],
+    cyan:   ['cyan', 'cyan', 'cyan', 'cyan', 'cyan', 'white', 'orange'],
+    mixed:  ['white', 'purple', 'green', 'orange', 'cyan'],
   };
   function currentBag() {
     const mode = (document.body && document.body.dataset.rain) || 'purple';
