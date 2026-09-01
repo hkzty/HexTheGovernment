@@ -209,7 +209,9 @@ function extractConfig() {
   lines.forEach((line, idx) => {
     /* key: "value" — one per line is the file's own style. */
     const kv = /^\s*([A-Za-z]+)\s*:\s*"((?:[^"\\]|\\.)*)"/.exec(line);
-    if (kv && CONFIG_KEYS.includes(kv[1]) && kv[2].trim()) {
+    if (kv && CONFIG_KEYS.includes(kv[1]) && kv[2].trim() && !/^https?:/.test(kv[2])) {
+      /* A URL that happens to sit under a prose-named key (sequence.artist) is
+         not copy — editing it would corrupt the player link. Keep it out. */
       slots.push({ kind: 'pair', key: kv[1], line: idx, value: kv[2], label: kv[1] });
       return;
     }
@@ -270,9 +272,31 @@ function extract() {
   return { generated: new Date().toISOString(), groups };
 }
 
+/* Accept either the full extract() document ({groups:[…]}) or the compact
+   list the Copy Desk's "Send to Claude" exports ([{id, text, …}]). The
+   compact form carries only id→text, so rebuild the authoritative slots from
+   a fresh extract() and stamp the edited text onto matching ids — that keeps
+   original/ordinal/line correct no matter how stale the export is. */
+function normalizeEdits(data) {
+  if (data && Array.isArray(data.groups)) return data;
+  const list = Array.isArray(data) ? data : (data && Array.isArray(data.slots) ? data.slots : null);
+  if (!list) throw new Error('apply: expected {groups:[…]} or a list of {id, text}');
+  const byId = new Map();
+  for (const e of list) {
+    if (e && e.id && typeof e.text === 'string') byId.set(e.id, e.text);
+  }
+  const doc = extract();
+  for (const group of doc.groups) {
+    for (const slot of group.slots) {
+      if (byId.has(slot.id)) slot.text = byId.get(slot.id);
+    }
+  }
+  return doc;
+}
+
 /* ---- apply -------------------------------------------------------------- */
 function apply(jsonPath) {
-  const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+  const data = normalizeEdits(JSON.parse(fs.readFileSync(jsonPath, 'utf8')));
   let changed = 0;
 
   for (const group of data.groups) {
@@ -289,7 +313,10 @@ function apply(jsonPath) {
           console.error(`SKIP ${e.id}: config line moved or original text not found`);
           continue;
         }
-        lines[e.line] = line.replace('"' + e.original + '"', '"' + e.text.replace(/"/g, '\\"') + '"');
+        /* JSON.stringify gives a valid JS string literal — quotes, backslashes
+           and newlines all escaped — so a multi-line or backslashed edit can't
+           produce an unterminated string or silently change the value. */
+        lines[e.line] = line.replace('"' + e.original + '"', JSON.stringify(e.text));
         changed++;
       }
       fs.writeFileSync(full, lines.join('\n'));

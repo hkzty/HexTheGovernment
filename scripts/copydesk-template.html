@@ -601,6 +601,7 @@ dialog.sheet textarea {
     reset.disabled = !isEdited(slot);
     reset.addEventListener("click", function () {
       setEdit(slot, slot.original);
+      queueSave(slot.file);   /* push the revert to the shared store too, or a peer's snapshot restores it */
       renderAll();
       paintPreview();
     });
