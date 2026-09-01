@@ -13,33 +13,35 @@
   const FADE_ALPHA_PER_SEC = 4.8;
   const RESET_CHANCE_PER_SEC = 1.5;
 
-  /* ---- Palette -------------------------------------------------------------
+  /* ---- Deck palette --------------------------------------------------------
      Each column is randomly assigned one of these inks. The per-page weighting
      is read from <body data-rain="…">: white-dominant on the HTG landing,
-     purple on ABRAXAS, green on Stretty, an even mix on shared pages.
-
-     Amber and cyan are the roster colours of Justinn.clout (--jus, #ff9b3d)
-     and ciggyholster (--cig, #2fd4e0) from index.html's doors. They rain on
-     every page and in every mix, and they fall as a pair (see pickInk).     */
+     purple on ABRAXAS, green on Stretty, orange on Justinn.clout, cyan on
+     ciggyholster, an even mix on shared pages.                              */
   const INKS = {
     white:  { head: 'rgba(240, 240, 240, 0.95)', tail: 'rgba(170, 170, 170, 0.55)' },
     purple: { head: 'rgba(190, 120, 255, 0.95)', tail: 'rgba(140, 3, 252, 0.75)' },
     green:  { head: 'rgba(150, 255, 170, 0.95)', tail: 'rgba(20, 200, 90, 0.70)' },
-    amber:  { head: 'rgba(255, 200, 130, 0.95)', tail: 'rgba(255, 155, 61, 0.75)' },
-    cyan:   { head: 'rgba(170, 245, 252, 0.95)', tail: 'rgba(47, 212, 224, 0.72)' },
+    orange: { head: 'rgba(255, 200, 140, 0.95)', tail: 'rgba(255, 155, 61, 0.70)' },
+    cyan:   { head: 'rgba(160, 245, 252, 0.95)', tail: 'rgba(47, 212, 224, 0.70)' },
   };
-  // Weighted bags — repeated keys raise the odds of that ink for a column.
-  // Every bag carries amber and cyan; only the dominant ink changes per page.
+  /* Weighted bags — repeated keys raise the odds of that ink for a column.
+     Each deck runs its own colour dominant with the landing white mixed in;
+     the landing keeps white dominant over all four. Orange and cyan are in
+     every bag: Justin and Ciggie came aboard together, so their rain falls
+     site-wide rather than only on their own two decks. */
   const MIXES = {
-    white:  ['white', 'white', 'white', 'white', 'white', 'purple', 'green', 'amber', 'cyan'],
-    purple: ['purple', 'purple', 'purple', 'purple', 'purple', 'white', 'green', 'amber', 'cyan'],
-    green:  ['green', 'green', 'green', 'green', 'green', 'white', 'purple', 'amber', 'cyan'],
-    mixed:  ['white', 'purple', 'green', 'amber', 'cyan'],
+    white:  ['white', 'white', 'white', 'white', 'white', 'purple', 'green', 'orange', 'cyan'],
+    purple: ['purple', 'purple', 'purple', 'purple', 'purple', 'white', 'green', 'orange', 'cyan'],
+    green:  ['green', 'green', 'green', 'green', 'green', 'white', 'purple', 'orange', 'cyan'],
+    orange: ['orange', 'orange', 'orange', 'orange', 'orange', 'white', 'cyan'],
+    cyan:   ['cyan', 'cyan', 'cyan', 'cyan', 'cyan', 'white', 'orange'],
+    mixed:  ['white', 'purple', 'green', 'orange', 'cyan'],
   };
-  // Amber and cyan never fall alone: rolling one owes the other to the next
-  // column drawn, so the two arrive joined — side by side on the initial
-  // left-to-right layout, and close together on later re-rolls.
-  const PARTNER = { amber: 'cyan', cyan: 'amber' };
+  /* The joining: neither of those two inks ever falls alone. Rolling one owes
+     the other to the next column drawn, so the pair arrives side by side on
+     the initial left-to-right layout and close together on later re-rolls. */
+  const PARTNER = { orange: 'cyan', cyan: 'orange' };
   let owedInk = null;
 
   function currentBag() {
