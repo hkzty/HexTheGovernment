@@ -27,37 +27,56 @@
   };
   /* Weighted bags — repeated keys raise the odds of that ink for a column.
      Each deck runs its own colour dominant with the landing white mixed in;
-     the landing keeps white dominant over all four. Orange and cyan are in
-     every bag: Justin and Ciggie came aboard together, so their rain falls
-     site-wide rather than only on their own two decks. */
+     the landing keeps white dominant over all four.
+
+     'pair' is the joined orange+cyan pair rather than a single ink: Justin
+     and Ciggie came aboard together, so on every bag but their own two decks
+     they rain site-wide and side by side. One 'pair' draw paints two adjacent
+     columns, so it is worth two single-ink entries — that is why it replaces
+     the separate 'orange' and 'cyan' keys instead of sitting alongside them,
+     and why the shares below still read straight off the bags: on the shared
+     'mixed' bag the five inks hold level at roughly a fifth of the columns
+     each, measured over the reset loop.                                    */
   const MIXES = {
-    white:  ['white', 'white', 'white', 'white', 'white', 'purple', 'green', 'orange', 'cyan'],
-    purple: ['purple', 'purple', 'purple', 'purple', 'purple', 'white', 'green', 'orange', 'cyan'],
-    green:  ['green', 'green', 'green', 'green', 'green', 'white', 'purple', 'orange', 'cyan'],
+    white:  ['white', 'white', 'white', 'white', 'white', 'purple', 'green', 'pair'],
+    purple: ['purple', 'purple', 'purple', 'purple', 'purple', 'white', 'green', 'pair'],
+    green:  ['green', 'green', 'green', 'green', 'green', 'white', 'purple', 'pair'],
     orange: ['orange', 'orange', 'orange', 'orange', 'orange', 'white', 'cyan'],
     cyan:   ['cyan', 'cyan', 'cyan', 'cyan', 'cyan', 'white', 'orange'],
-    mixed:  ['white', 'purple', 'green', 'orange', 'cyan'],
+    mixed:  ['white', 'purple', 'green', 'pair'],
   };
-  /* The joining: neither of those two inks ever falls alone. Rolling one owes
-     the other to the next column drawn, so the pair arrives side by side on
-     the initial left-to-right layout and close together on later re-rolls. */
   const PARTNER = { orange: 'cyan', cyan: 'orange' };
-  let owedInk = null;
+
+  /* Half-drawn pairs, keyed by the column index that owes the partner ink —
+     never a floating debt handed to whichever column happens to draw next,
+     which would land the partner anywhere on screen. Cleared on resize with
+     the columns it refers to. */
+  let owedByColumn = [];
 
   function currentBag() {
     const mode = (document.body && document.body.dataset.rain) || 'purple';
     return MIXES[mode] || MIXES.mixed;
   }
-  function pickInk() {
-    if (owedInk) {
-      const paid = owedInk;
-      owedInk = null;
-      return INKS[paid];
+
+  /* Ink for column i. A 'pair' draw takes one of the two and books the other
+     against column i + 1 — always the neighbour, never whichever column
+     happens to draw next. The neighbour is inked in the same pass during the
+     left-to-right layout, so pairs start side by side; afterwards it adopts
+     the partner on its own next reset, so pairs keep forming and dissolving
+     as the rain re-rolls rather than standing as fixed couples. */
+  function pickInk(i) {
+    const owed = owedByColumn[i];
+    if (owed) {
+      owedByColumn[i] = null;
+      return INKS[owed];
     }
     const bag = currentBag();
     const key = bag[(Math.random() * bag.length) | 0];
-    if (PARTNER[key]) owedInk = PARTNER[key];
-    return INKS[key];
+    if (key !== 'pair') return INKS[key];
+    const mine = Math.random() < 0.5 ? 'orange' : 'cyan';
+    // Last column has no right-hand neighbour, so it pairs leftward instead.
+    owedByColumn[i + 1 < owedByColumn.length ? i + 1 : i - 1] = PARTNER[mine];
+    return INKS[mine];
   }
 
   let width = 0;
@@ -87,12 +106,13 @@
     ctx.textBaseline = 'top';
 
     const colCount = Math.ceil(width / FONT_SIZE);
-    columns = new Array(colCount).fill(0).map(() => ({
+    owedByColumn = new Array(colCount).fill(null);
+    columns = new Array(colCount).fill(0).map((_, i) => ({
       y: rand(-height, 0),
       speed: rand(SPEED_MIN, SPEED_MAX),
       glyph: pickGlyph(),
       swapT: Math.random() * 0.3,
-      ink: pickInk(),
+      ink: pickInk(i),
     }));
 
     ctx.fillStyle = 'rgba(10, 10, 10, 1)';
@@ -129,7 +149,7 @@
       if (col.y > height + FONT_SIZE * 2 && Math.random() < resetChance) {
         col.y = rand(-height * 0.5, -FONT_SIZE);
         col.speed = rand(SPEED_MIN, SPEED_MAX);
-        col.ink = pickInk();   // re-roll the ink so the mix keeps shifting
+        col.ink = pickInk(i);  // re-roll the ink so the mix keeps shifting
       }
     }
 
