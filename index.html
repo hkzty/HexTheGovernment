@@ -13,7 +13,27 @@
   <meta property="og:description" content="A vessel on corporate waters. Four names aboard, led by ABRAXAS and Stretty." />
   <meta property="og:type" content="website" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0a0a'/%3E%3Ctext x='50' y='72' font-size='52' text-anchor='middle' fill='%23f2f2f2' font-family='Georgia, serif'%3EH%3C/text%3E%3C/svg%3E" />
-  <script>document.documentElement.classList.add('js');</script>
+  <script data-page="desktop">
+    // Mark JS as available: CSS only arms the reveal animations and the
+    // custom cursor when this class is present, so a failed script never
+    // leaves the page blank or cursorless.
+    document.documentElement.classList.add('js');
+    // Desktop/mobile split: phones land on mobile.html, desktops on
+    // index.html. ?desktop / ?mobile (set by the switch links) pins a choice.
+    // build-mobile.js rewrites data-page to "mobile" in the generated copy.
+    (function () {
+      var page = document.currentScript.getAttribute('data-page');
+      try {
+        var params = new URLSearchParams(location.search);
+        if (params.has('desktop')) sessionStorage.setItem('abx-view', 'desktop');
+        if (params.has('mobile')) sessionStorage.setItem('abx-view', 'mobile');
+        var pref = sessionStorage.getItem('abx-view');
+        var narrow = window.matchMedia('(max-width: 820px)').matches;
+        if (page === 'desktop' && pref !== 'desktop' && narrow) location.replace('mobile.html' + location.search + location.hash);
+        if (page === 'mobile' && pref !== 'mobile' && !narrow) location.replace('index.html' + location.search + location.hash);
+      } catch (e) { /* storage blocked — stay on this page */ }
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -607,6 +627,7 @@
                 <a class="inline-link" href="https://linktr.ee/ciggyholster" target="_blank" rel="noopener noreferrer">Board ciggyholster →</a>
                 <a class="inline-link" href="sequence.html">The Sequence →</a>
                 <a class="inline-link" href="game.html">Suit Purge →</a>
+                <a class="inline-link view-toggle" href="mobile.html?mobile=1">Switch to Mobile Version</a>
               </div>
               <p class="egg-hint">A maze is hidden in this page. Type <kbd>purge</kbd>, tap the logo three times, or <a href="game.html">enter it directly →</a></p>
               <span class="nod">sad · tired · still here</span>

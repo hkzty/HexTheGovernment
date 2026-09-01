@@ -19,7 +19,7 @@ There are two versions of the page, and visitors are routed automatically:
 
 Phones (screens ≤ 820px) landing on `index.html` are redirected to `mobile.html`, and desktops landing on `mobile.html` are sent to `index.html`. Every page has a "Switch to Mobile/Desktop Version" link in the footer that overrides the automatic choice.
 
-`mobile.html` is **generated from** `index.html` + `style.css` — don't edit it by hand. After changing `index.html` or `style.css`, regenerate it (see below).
+`mobile.html` is **generated from** `index.html` + `style.css` — don't edit it by hand. After changing `index.html` or `style.css`, run `npm run build:mobile` (see below).
 
 ---
 
@@ -120,19 +120,37 @@ Run it locally with `npm run scrape` (Node 18+, no dependencies to install).
 
 ## Regenerating mobile.html
 
-After editing `index.html` or `style.css`, rebuild the one-page mobile version:
+`mobile.html` is a **generated file** — never edit it directly. It is
+`index.html` with `style.css` inlined, the `data-page` redirect flipped to
+the mobile side, the footer view-toggle pointed back at the desktop page,
+and one phone-chrome rule appended.
+
+After editing `index.html` or `style.css`, rebuild it:
 
 ```bash
-node -e "
-const fs = require('fs');
-let html = fs.readFileSync('index.html', 'utf8');
-const css = fs.readFileSync('style.css', 'utf8');
-html = html.replace('    <link rel=\"stylesheet\" href=\"style.css\" />', '  <style>\n' + css + '  </style>');
-html = html.replace('data-page=\"desktop\"', 'data-page=\"mobile\"');
-html = html.replace('<a class=\"inline-link view-toggle\" href=\"mobile.html?mobile=1\">Switch to Mobile Version</a>', '<a class=\"inline-link view-toggle\" href=\"index.html?desktop=1\">Switch to Desktop Version</a>');
-fs.writeFileSync('mobile.html', html);
-"
+npm run build:mobile
 ```
+
+To verify the committed copy is current:
+
+```bash
+npm run check:mobile
+```
+
+Run it before pushing anything that touches `index.html` or `style.css`.
+It is deliberately **not** a GitHub Actions workflow: user-defined workflows
+in this repo almost never execute — 28 of the 30 recorded `content-sync`
+runs, the single `gallery-manifest` run, and a trial `mobile-sync` run all
+failed within 3-5 seconds without reaching a runner (only GitHub's own
+managed `pages build and deployment` succeeds). A check that is permanently
+red without ever running is worse than none, so this stays a local command.
+If Actions is ever fixed for this repo, wiring `npm run check:mobile` into a
+workflow is the obvious next step.
+
+The generator is `scripts/build-mobile.js`. It aborts if any of its anchors
+in `index.html` stops matching exactly once, so a reshaped page fails loudly
+rather than emitting a half-converted mobile build — the two files drifted
+badly once, leaving phones on a pre-HTG version of the site.
 
 (If you only edited `config.js`, nothing needs regenerating.)
 
