@@ -1,0 +1,611 @@
+<title>Suit Purge Dossier</title>
+<style>
+  :root {
+    --paper: #f5f1fb;
+    --paper-raised: #ffffff;
+    --ink: #1c1226;
+    --ink-soft: #5b4d6e;
+    --line: rgba(28, 18, 38, 0.14);
+    --line-strong: rgba(28, 18, 38, 0.28);
+    --accent: #7a12d6;
+    --accent-ink: #ffffff;
+    --rose: #c81657;
+    --ok: #0f7a4c;
+    --mono-tag: rgba(122, 18, 214, 0.08);
+    --shadow: 0 1px 2px rgba(28, 18, 38, 0.06), 0 12px 32px rgba(28, 18, 38, 0.08);
+  }
+
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --paper: #120a1c;
+      --paper-raised: #1a1027;
+      --ink: #f3edfb;
+      --ink-soft: #b6a4cf;
+      --line: rgba(243, 237, 251, 0.12);
+      --line-strong: rgba(243, 237, 251, 0.24);
+      --accent: #b06bff;
+      --accent-ink: #150a22;
+      --rose: #ff6f9c;
+      --ok: #4fd39a;
+      --mono-tag: rgba(176, 107, 255, 0.12);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 24px 48px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #120a1c;
+    --paper-raised: #1a1027;
+    --ink: #f3edfb;
+    --ink-soft: #b6a4cf;
+    --line: rgba(243, 237, 251, 0.12);
+    --line-strong: rgba(243, 237, 251, 0.24);
+    --accent: #b06bff;
+    --accent-ink: #150a22;
+    --rose: #ff6f9c;
+    --ok: #4fd39a;
+    --mono-tag: rgba(176, 107, 255, 0.12);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 24px 48px rgba(0, 0, 0, 0.5);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+
+  .mono {
+    font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  }
+
+  a { color: inherit; }
+
+  .sheet {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: clamp(2rem, 6vw, 4.5rem) clamp(1.25rem, 5vw, 2.5rem) 6rem;
+  }
+
+  /* ---------- masthead ---------- */
+
+  .masthead {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--line-strong);
+    margin-bottom: 2.75rem;
+  }
+
+  .masthead-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .file-tag {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--mono-tag);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .status-ok {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ok);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .status-ok::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ok);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 20%, transparent);
+  }
+
+  h1 {
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 600;
+    font-size: clamp(1.9rem, 5vw, 2.9rem);
+    letter-spacing: -0.01em;
+    margin: 0.2rem 0 0;
+    text-wrap: balance;
+  }
+
+  h1 .cursor {
+    display: inline-block;
+    width: 0.5ch;
+    background: var(--accent);
+    margin-left: 0.15em;
+    animation: blink 1.1s steps(1) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    h1 .cursor { animation: none; opacity: 1; }
+  }
+
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .dek {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    max-width: 60ch;
+    margin: 0;
+  }
+
+  /* ---------- section rhythm ---------- */
+
+  section { margin-bottom: 3.25rem; }
+
+  .kicker {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .kicker::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  h2 {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 0.9rem;
+    text-wrap: balance;
+  }
+
+  p { max-width: 68ch; }
+  p.lede { font-size: 1.02rem; }
+
+  /* ---------- summary strip ---------- */
+
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .summary div {
+    background: var(--paper-raised);
+    padding: 1.1rem 1.2rem;
+  }
+
+  .summary .num {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--accent);
+    display: block;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .summary .lbl {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin-top: 0.15rem;
+  }
+
+  /* ---------- why hidden note ---------- */
+
+  .why {
+    border-left: 3px solid var(--accent);
+    padding: 0.15rem 0 0.15rem 1.1rem;
+    color: var(--ink-soft);
+    font-size: 0.97rem;
+  }
+
+  .why strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- trigger matrix ---------- */
+
+  .triggers {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .trigger {
+    display: grid;
+    grid-template-columns: minmax(150px, 190px) 1fr;
+    gap: 0.3rem 1.2rem;
+    padding: 1rem 1.2rem;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    align-items: start;
+  }
+
+  .trigger .device {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 0.35rem;
+  }
+
+  .trigger .name {
+    font-weight: 600;
+    font-size: 0.98rem;
+  }
+
+  .trigger .detail {
+    grid-column: 2;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+  }
+
+  .keys {
+    display: inline-flex;
+    gap: 0.28rem;
+    flex-wrap: wrap;
+    margin-top: 0.45rem;
+  }
+
+  kbd {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+    background: var(--mono-tag);
+    border: 1px solid var(--line-strong);
+    border-bottom-width: 2px;
+    color: var(--accent);
+    border-radius: 4px;
+    padding: 0.12rem 0.45rem;
+  }
+
+  .words {
+    display: inline-flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    margin-top: 0.45rem;
+  }
+
+  .word {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.82rem;
+    background: var(--mono-tag);
+    color: var(--accent);
+    border-radius: 4px;
+    padding: 0.15rem 0.5rem;
+  }
+
+  .url-line {
+    display: block;
+    margin-top: 0.5rem;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.82rem;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.45rem 0.6rem;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  /* ---------- flow ---------- */
+
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0;
+    counter-reset: step;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .step {
+    counter-increment: step;
+    background: var(--paper-raised);
+    padding: 1.1rem 1.1rem 1.2rem;
+    position: relative;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .flow .step + .step { border-left: 1px solid var(--line); }
+
+  @media (min-width: 620px) {
+    .flow { grid-auto-rows: 1fr; }
+  }
+
+  .step::before {
+    content: counter(step, decimal-leading-zero);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .step h3 {
+    margin: 0 0 0.35rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .step p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- file list ---------- */
+
+  .files {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .file {
+    display: grid;
+    grid-template-columns: minmax(120px, 160px) 1fr;
+    gap: 0.4rem 1rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.9rem;
+  }
+
+  .file:last-child { border-bottom: none; }
+
+  .file .path {
+    font-family: "IBM Plex Mono", monospace;
+    color: var(--accent);
+    font-size: 0.86rem;
+    word-break: break-all;
+  }
+
+  .file .role { color: var(--ink-soft); }
+
+  /* ---------- constraints ---------- */
+
+  .rules {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .rules li {
+    display: grid;
+    grid-template-columns: 1.3rem 1fr;
+    gap: 0.6rem;
+    font-size: 0.94rem;
+    color: var(--ink-soft);
+  }
+
+  .rules li::before {
+    content: "—";
+    color: var(--rose);
+    font-family: "IBM Plex Mono", monospace;
+  }
+
+  .rules b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- footer ---------- */
+
+  footer {
+    border-top: 1px solid var(--line-strong);
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover, footer a:focus-visible { text-decoration: underline; }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+</style>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<div class="sheet">
+
+  <header class="masthead">
+    <div class="masthead-row">
+      <span class="file-tag">HTG // Internal Note</span>
+      <span class="status-ok">Live on claude/game-easter-egg-uqj0io</span>
+    </div>
+    <h1>Suit Purge is now hidden<span class="cursor" aria-hidden="true"></span></h1>
+    <p class="dek">
+      The maze shooter used to sit in the nav under “Play.” It doesn’t anymore — the section ships
+      with the <span class="mono">hidden</span> attribute and the link is gone. This is what replaced it,
+      how a visitor finds it, and what changed in the code to make that safe.
+    </p>
+  </header>
+
+  <section>
+    <div class="summary">
+      <div><span class="num">4</span><span class="lbl">unlock methods</span></div>
+      <div><span class="num">3</span><span class="lbl">files touched</span></div>
+      <div><span class="num">0</span><span class="lbl">new dependencies</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">Why bother hiding it</div>
+    <p class="why">
+      <strong>A linked nav item is furniture.</strong> A hidden one is a find. Suit Purge was
+      built to be a surprise inside a music site — a raycaster shooter aimed at politicians,
+      billionaires, trillionaires and “high command” — and a top-nav “Play” tab flattened that
+      into just another page. Removing the link doesn’t remove the game; it moves the discovery
+      from a click to a small ritual, which is closer to what an easter egg is supposed to feel like.
+    </p>
+  </section>
+
+  <section>
+    <div class="kicker">Ways in</div>
+    <h2>Four unlock paths, so it's findable on any device</h2>
+    <div class="triggers">
+
+      <div class="trigger">
+        <div>
+          <div class="name">Konami code</div>
+          <div class="device">Keyboard</div>
+        </div>
+        <div class="detail">
+          Fires on the eight arrow keys alone — the classic trailing <kbd>B</kbd><kbd>A</kbd> still
+          works too, it's just no longer required.
+          <span class="keys">
+            <kbd>↑</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd><kbd>←</kbd><kbd>→</kbd>
+          </span>
+        </div>
+      </div>
+
+      <div class="trigger">
+        <div>
+          <div class="name">Type a word</div>
+          <div class="device">Keyboard, anywhere on the page</div>
+        </div>
+        <div class="detail">
+          Any of six words, matched on a rolling buffer as you type. Ignored while a form field is
+          focused, so filling in Contact never trips it.
+          <span class="words">
+            <span class="word">purge</span><span class="word">suit</span><span class="word">play</span>
+            <span class="word">game</span><span class="word">htg</span><span class="word">hex</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="trigger">
+        <div>
+          <div class="name">Tap a logo 3×</div>
+          <div class="device">Touch / mobile</div>
+        </div>
+        <div class="detail">
+          Three quick taps (under 1.2s) on any brand mark — the wordmark, the subtitle, the header
+          brand block, or the footer brand. Was five taps on one target; three-of-several is easier
+          to land on a phone without it reading as accidental.
+        </div>
+      </div>
+
+      <div class="trigger">
+        <div>
+          <div class="name">Shareable link</div>
+          <div class="device">Anyone with a URL</div>
+        </div>
+        <div class="detail">
+          For sending someone straight there — a hash or a query flag both work.
+          <span class="url-line">htg.productions/#game
+htg.productions/?play</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">What happens on unlock</div>
+    <h2>One reveal path, however you triggered it</h2>
+    <div class="flow">
+      <div class="step">
+        <h3>Section unhides</h3>
+        <p>The <span class="mono">hidden</span> attribute drops and a 0.9s fade-and-rise plays once.</p>
+      </div>
+      <div class="step">
+        <h3>Canvas resizes</h3>
+        <p>A synthetic <span class="mono">resize</span> event fires so the game rebuilds its render
+          buffers — while hidden, the canvas had no real box to size against.</p>
+      </div>
+      <div class="step">
+        <h3>Session remembers</h3>
+        <p>A flag goes into <span class="mono">sessionStorage</span>. A mid-session refresh keeps the
+          maze unlocked without re-entering anything.</p>
+      </div>
+      <div class="step">
+        <h3>Page scrolls in</h3>
+        <p>Every path except a restored session smooth-scrolls to the section and focuses the
+          play button.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">Under the hood</div>
+    <h2>Where the changes live</h2>
+    <div class="files">
+      <div class="file">
+        <span class="path">index.html<br>mobile.html</span>
+        <span class="role">“Play” link removed from the nav; <span class="mono">#game</span> section
+          gets the <span class="mono">hidden</span> attribute. Kept identical across both pages, as
+          the site's desktop/mobile split requires.</span>
+      </div>
+      <div class="file">
+        <span class="path">style.css<br>(+ mobile's inline copy)</span>
+        <span class="role"><span class="mono">#game[hidden]</span> hide rule and the
+          <span class="mono">egg-reveal</span> fade-in keyframes — duplicated in both places since
+          mobile.html doesn't link style.css.</span>
+      </div>
+      <div class="file">
+        <span class="path">script.js</span>
+        <span class="role">All reveal logic: the four triggers, the session flag, and a scroll-spy fix
+          so a hidden section's zero <span class="mono">offsetTop</span> can't steal the "active" nav
+          state from Home.</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">Guardrails</div>
+    <ul class="rules">
+      <li><b>Form-safe.</b> Typed-word matching ignores keystrokes inside inputs, textareas, and
+        contenteditable elements — Contact is untouched.</li>
+      <li><b>Idempotent.</b> Re-triggering an already-unlocked egg just re-scrolls; it won't
+        re-animate or double-fire the resize event.</li>
+      <li><b>No content changed.</b> Same game, same four enemy archetypes, same wave logic — only
+        the entry point moved.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>Suit Purge — HTG // Hex The Government</span>
+    <span><a href="https://github.com/hkzty/HexTheGovernment/pull/19">Pull Request #19 ↗</a></span>
+  </footer>
+
+</div>

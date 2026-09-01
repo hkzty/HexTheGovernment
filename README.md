@@ -2,7 +2,7 @@
 
 **Tagline:** Depressions Running Deep
 **Label:** HTG - Hex The Government
-**Sound:** Underground Occult Rap · 93 93/93
+**Sound:** HEXCORE · 93 93/93
 
 One-page music site for **ABRAXAS**, built with pure HTML, CSS, and vanilla JavaScript. No frameworks, no build tools, no dependencies. Terminal-styled purple/black interface with scroll storytelling, embedded players, lightbox gallery, and a booking contact flow.
 

@@ -36,9 +36,9 @@
   /* ---- Linktree: "All Links" buttons ------------------------------------ */
   if (cfg.linktree) {
     const heroCta = document.querySelector('.hero-cta');
-    if (heroCta) heroCta.append(el('a', { class: 'btn', href: cfg.linktree, target: '_blank', rel: 'noreferrer', text: 'All Links' }));
+    if (heroCta) heroCta.append(el('a', { class: 'btn', href: cfg.linktree, target: '_blank', rel: 'noopener noreferrer', text: 'All Links' }));
     const stickyActions = document.querySelector('.sticky-actions');
-    if (stickyActions) stickyActions.append(el('a', { class: 'btn', href: cfg.linktree, target: '_blank', rel: 'noreferrer', text: 'All Links' }));
+    if (stickyActions) stickyActions.append(el('a', { class: 'btn', href: cfg.linktree, target: '_blank', rel: 'noopener noreferrer', text: 'All Links' }));
   }
 
   /* ---- Terminal card lines ---------------------------------------------- */
@@ -87,7 +87,7 @@
       if (m) return { src: `https://open.spotify.com/embed/${m[1]}/${m[2]}?utm_source=generator&theme=0`, height: 352, title: 'Spotify player' };
     }
     if (host === 'soundcloud.com' || host === 'on.soundcloud.com' || host === 'm.soundcloud.com') {
-      return { src: `https://w.soundcloud.com/player/?url=${encodeURIComponent(raw)}&color=%238c03fc&auto_play=false&show_teaser=false`, height: 166, title: 'SoundCloud player' };
+      return { src: `https://w.soundcloud.com/player/?url=${encodeURIComponent(raw)}&color=%23ffffff&auto_play=false&show_teaser=false`, height: 166, title: 'SoundCloud player' };
     }
     if (host === 'youtube.com' || host === 'music.youtube.com' || host === 'youtu.be') {
       const id = host === 'youtu.be'
@@ -169,7 +169,7 @@
         href: item.link || '#out-now',
         text: isExternal ? 'Listen Now' : 'Open Players'
       });
-      if (isExternal) { link.target = '_blank'; link.rel = 'noreferrer'; }
+      if (isExternal) { link.target = '_blank'; link.rel = 'noopener noreferrer'; }
       return el('article', { class: 'release-card fade-in' }, [
         el('img', { class: 'release-cover', src: releaseCover(item, index), alt: `Cover art for ${item.title}`, loading: 'lazy', decoding: 'async', width: 900, height: 900 }),
         el('div', { class: 'release-body' }, [
@@ -195,7 +195,7 @@
           .slice(0, albumsCfg.pageSize || 12);
         if (!items.length) return;
         releaseGrid.append(...items.map((item, index) => {
-          const link = el('a', { class: 'inline-link', href: item.url, target: '_blank', rel: 'noreferrer', text: 'Listen Now' });
+          const link = el('a', { class: 'inline-link', href: item.url, target: '_blank', rel: 'noopener noreferrer', text: 'Listen Now' });
           return el('article', { class: 'release-card fade-in visible' }, [
             el('img', { class: 'release-cover', src: item.thumbnail, alt: `Cover art for ${item.title}`, loading: 'lazy', decoding: 'async', width: 900, height: 900 }),
             el('div', { class: 'release-body' }, [
@@ -258,6 +258,12 @@
     })
     .catch(() => { /* no manifest yet — config fallback stays */ });
 
+  /* ---- Merchandise: nav button straight to the Shopify storefront --------- */
+  const shopUrl = (cfg.shop && cfg.shop.url || '').trim();
+  document.querySelectorAll('[data-shop-link]').forEach(a => {
+    if (shopUrl) a.href = shopUrl;
+  });
+
   /* ---- Instagram post embeds (Gallery section) ----------------------------- */
   const instaCodes = (cfg.instagramPosts || []).map(raw => {
     let u;
@@ -305,7 +311,7 @@
     }
     entries.push(['Label', el('span', { text: cfg.label || 'HTG / Hex The Government' })]);
     if (cfg.linktree) {
-      entries.push(['All Links', el('a', { href: cfg.linktree, target: '_blank', rel: 'noreferrer', text: cfg.linktree.replace(/^https?:\/\//, '') })]);
+      entries.push(['All Links', el('a', { href: cfg.linktree, target: '_blank', rel: 'noopener noreferrer', text: cfg.linktree.replace(/^https?:\/\//, '') })]);
     }
     entries.push(['Focus', el('span', { text: 'Bookings, features, visuals, merchandise' })]);
     contactList.replaceChildren(...entries.map(([label, value]) => el('li', {}, [el('strong', { text: label }), value])));

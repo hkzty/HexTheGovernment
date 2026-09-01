@@ -3,40 +3,147 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ABRAXAS | Depressions Running Deep</title>
-  <meta name="description" content="ABRAXAS under self-created label HTG - Hex The Government. Underground occult rap, new releases, tours, merchandise, gallery, and contact." />
-  <meta name="theme-color" content="#1f0335" />
-  <meta property="og:title" content="ABRAXAS" />
-  <meta property="og:description" content="Depressions Running Deep. Underground occult rap under HTG - Hex The Government." />
+  <title>HTG — Hex The Government</title>
+  <meta name="description" content="HTG — Hex The Government. A private vessel on corporate waters. Home of ABRAXAS and Stretty: music, merch, tours, gallery and bookings, all off one deck." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="author" content="HTG — Hex The Government" />
+  <meta name="copyright" content="© HTG — Hex The Government. All rights reserved." />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="HTG — Hex The Government" />
+  <meta property="og:description" content="A vessel on corporate waters. Two names aboard: ABRAXAS and Stretty." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/placeholders/hero-poster.svg" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231f0335'/%3E%3Ctext x='50' y='74' font-size='68' text-anchor='middle' fill='%238c03fc' font-family='Georgia, serif'%3EA%3C/text%3E%3C/svg%3E" />
-  <script data-page="desktop">
-    // Mark JS as available: CSS only arms the reveal animations and the
-    // custom cursor when this class is present, so a failed script never
-    // leaves the page blank or cursorless.
-    document.documentElement.classList.add('js');
-    // Desktop/mobile split: phones land on mobile.html, desktops on
-    // index.html. ?desktop / ?mobile (set by the switch links) pins a choice.
-    (function () {
-      var page = document.currentScript.getAttribute('data-page');
-      try {
-        var params = new URLSearchParams(location.search);
-        if (params.has('desktop')) sessionStorage.setItem('abx-view', 'desktop');
-        if (params.has('mobile')) sessionStorage.setItem('abx-view', 'mobile');
-        var pref = sessionStorage.getItem('abx-view');
-        var narrow = window.matchMedia('(max-width: 820px)').matches;
-        if (page === 'desktop' && pref !== 'desktop' && narrow) location.replace('mobile.html' + location.hash);
-        if (page === 'mobile' && pref !== 'mobile' && !narrow) location.replace('index.html' + location.hash);
-      } catch (e) { /* storage blocked — stay on this page */ }
-    })();
-  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0a0a'/%3E%3Ctext x='50' y='72' font-size='52' text-anchor='middle' fill='%23f2f2f2' font-family='Georgia, serif'%3EH%3C/text%3E%3C/svg%3E" />
+  <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* HTG-only chrome: the masthead wordmark and the two artist doors.
+       Everything else on this page comes from style.css. */
+    :root { --abx: #b478ff; --str: #16c85a; }
+
+    /* No hero aside on HTG — collapse style.css's two-column hero to one. */
+    .hero-content { grid-template-columns: 1fr; }
+    .mast { text-align: center; max-width: 52rem; margin: 0 auto; }
+    .mast .curse {
+      font-size: clamp(0.62rem, 1.6vw, 0.8rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.4rem;
+    }
+    .mast .wordmark {
+      font-family: "New Rocker", "IBM Plex Mono", serif;
+      font-weight: 400;
+      line-height: 0.9;
+      font-size: clamp(3.4rem, 15vw, 9rem);
+      letter-spacing: 0.02em;
+    }
+    .mast .expand {
+      margin-top: 0.85rem;
+      font-size: clamp(0.72rem, 2.2vw, 1rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      padding-left: 0.5em; /* optical: absorb the trailing letter-spacing */
+    }
+    .mast .manifesto {
+      margin: 1.9rem auto 0;
+      font-size: clamp(0.9rem, 2.3vw, 1.08rem);
+      line-height: 1.65;
+      color: #cfcfcf;
+    }
+    .mast .manifesto b { color: var(--text); font-weight: 700; }
+    .mast .hero-cta { justify-content: center; margin-top: 2rem; }
+
+    /* ---- The two doors -------------------------------------------------- */
+    .doors {
+      display: flex;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      min-height: clamp(18rem, 38vh, 26rem);
+    }
+    .door {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.25rem;
+      overflow: hidden;
+      text-align: center;
+      text-decoration: none;
+      color: var(--text);
+      background: rgba(10, 10, 10, 0.62);
+      transition: flex-grow 0.5s ease, background 0.4s ease, filter 0.4s ease;
+    }
+    /* ABRAXAS is the lit, dominant door; Stretty sits recessed and dimmer. */
+    .door--abx { flex: 1.35 1 0; }
+    .door--str { flex: 1 1 0; filter: brightness(0.72) saturate(0.6); }
+    .door:hover, .door:focus-visible { flex-grow: 2; filter: none; background: rgba(10, 10, 10, 0.25); }
+    .door--abx:hover, .door--abx:focus-visible { box-shadow: inset 0 0 140px rgba(180, 120, 255, 0.28); }
+    .door--str:hover, .door--str:focus-visible { box-shadow: inset 0 0 140px rgba(22, 200, 90, 0.24); }
+
+    .door-name {
+      font-family: "New Rocker", serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      line-height: 1;
+      transition: color 0.4s ease, text-shadow 0.4s ease;
+    }
+    .door--abx:hover .door-name, .door--abx:focus-visible .door-name {
+      color: var(--abx); text-shadow: 0 0 30px rgba(180, 120, 255, 0.55);
+    }
+    .door--str:hover .door-name, .door--str:focus-visible .door-name {
+      color: var(--str); text-shadow: 0 0 30px rgba(22, 200, 90, 0.5);
+    }
+    .door-role {
+      margin-top: 0.7rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    /* Reveal slides down under the name on hover/focus (always shown on touch). */
+    .door-reveal {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      margin-top: 0;
+      transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.5s ease;
+    }
+    .door:hover .door-reveal, .door:focus-visible .door-reveal { max-height: 12rem; opacity: 1; margin-top: 1.4rem; }
+    .door-line { max-width: 22rem; margin: 0 auto 1rem; font-size: 0.82rem; line-height: 1.55; color: #cbcbcb; }
+    .board-btn {
+      display: inline-block;
+      padding: 0.6rem 1.6rem;
+      border: 1px solid var(--text);
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+    }
+    .door--abx .board-btn { border-color: var(--abx); color: var(--abx); }
+    .door--str .board-btn { border-color: var(--str); color: var(--str); }
+
+    .nod { display: block; margin-top: 1.2rem; font-size: 0.64rem; letter-spacing: 0.4em; text-transform: uppercase; color: #5a5a5a; }
+
+    @media (max-width: 760px) {
+      .doors { flex-direction: column; }
+      .door--abx, .door--str { flex: 1 1 auto; }
+      .door--str { filter: brightness(0.8) saturate(0.7); }
+      /* No hover on touch — show the reveal so the CTA is always reachable. */
+      .door-reveal { max-height: 12rem; opacity: 1; margin-top: 1.2rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .door, .door-name, .door-reveal { transition: none; }
+    }
+  </style>
 </head>
-<body>
+<body data-rain="white">
+  <canvas id="matrix-rain" aria-hidden="true"></canvas>
+  <a class="skip-link" href="#home">Skip to content</a>
   <div class="cursor" aria-hidden="true"></div>
   <div class="cursor-dot" aria-hidden="true"></div>
 
@@ -45,9 +152,9 @@
       <div class="topbar-inner">
         <div class="brand">
           <div class="brand-mark">
-            <span class="brand-title">ABRAXAS</span>
+            <span class="brand-title">HTG</span>
           </div>
-          <p class="brand-subtitle">Depressions Running Deep // HTG - Hex The Government</p>
+          <p class="brand-subtitle">Hex The Government // the vessel // ABRAXAS &amp; Stretty</p>
         </div>
 
         <div class="nav-wrap">
@@ -59,13 +166,13 @@
           <nav class="nav" id="site-nav" aria-label="Primary navigation">
             <ul class="nav-list">
               <li><a href="#home">Home</a></li>
-              <li><a href="#game">Play</a></li>
+              <li><a href="#roster">The Roster</a></li>
               <li><a href="#story">Story</a></li>
               <li><a href="#out-now">Out Now</a></li>
-              <li><a href="#sequence">The Sequence</a></li>
+              <li><a href="sequence.html">The Sequence</a></li>
               <li><a href="#releases">New Releases</a></li>
               <li><a href="#coming-soon">Coming Soon</a></li>
-              <li><a href="#merch">Merchandise</a></li>
+              <li><a data-shop-link href="https://strettys-merch.myshopify.com" target="_blank" rel="noopener noreferrer">Merchandise</a></li>
               <li><a href="#tours">Upcoming Tours</a></li>
               <li><a href="#gallery">Gallery</a></li>
               <li><a href="#contact">Contact</a></li>
@@ -77,64 +184,73 @@
 
     <main>
       <section class="hero" id="home">
-        <video class="hero-video parallax-layer" data-speed="0.18" autoplay muted loop playsinline preload="metadata" poster="assets/placeholders/hero-poster.svg" aria-hidden="true">
-          <source src="assets/htg-hero.mp4" type="video/mp4" />
-        </video>
         <div class="hero-overlay"></div>
         <div class="hero-grid parallax-layer" data-speed="0.08"></div>
         <div class="hero-noise parallax-layer" data-speed="0.05"></div>
 
         <div class="hero-content">
-          <div class="hero-copy fade-in visible">
-            <div class="eyebrow">Underground Occult Rap / HTG Release Node</div>
-            <h1>ABRAXAS<span>Depressions Running Deep</span></h1>
-            <p class="hero-lead">
-              ABRAXAS runs under HTG with a darker, colder edge. Underground occult rap, depressive hooks, sharp textures, and tracks that feel like they were exported straight from a corrupted night session.
+          <div class="mast fade-in visible">
+            <p class="curse">Fuck the government · fuck the rich · fuck what they built on us</p>
+            <h1 class="wordmark">HTG</h1>
+            <p class="expand">Hex The Government</p>
+            <p class="manifesto">
+              <b>H.T.G. is a vessel.</b> A private ark on corporate waters, built to stay afloat while
+              governments and billionaires sink everything else.
+              <br><br>
+              <b>ABRAXAS is Noah</b> — out front. <b>Stretty is the Ark</b> — the hull. Two names aboard,
+              more being pulled out of the water.
             </p>
             <div class="hero-cta">
-              <a class="btn btn-primary" href="#out-now">Stream Out Now</a>
-              <a class="btn" href="#releases">View New Releases</a>
-              <a class="btn" href="#contact">Book / Contact</a>
+              <a class="btn btn-primary" href="#out-now">Listen</a>
+              <a class="btn" href="#roster">The Roster</a>
+              <a class="btn" href="#contact">Bookings</a>
             </div>
           </div>
-
-          <aside class="hero-side fade-in visible">
-            <div class="terminal-card">
-              <div class="terminal-head">
-                <div class="terminal-dots" aria-hidden="true">
-                  <span></span><span></span><span></span>
-                </div>
-                <span class="terminal-label">signal.log</span>
-              </div>
-              <div class="terminal-line"><span>&gt;</span><span>Artist: ABRAXAS</span></div>
-              <div class="terminal-line"><span>&gt;</span><span>Tagline: Depressions Running Deep</span></div>
-              <div class="terminal-line"><span>&gt;</span><span>Label: HTG / Hex The Government</span></div>
-              <div class="terminal-line"><span>&gt;</span><span>Sound: dark emo / alt rap / terminal pressure</span></div>
-              <div class="terminal-line"><span>&gt;</span><span>Status: next release compiling</span></div>
-            </div>
-            <div class="floating-code parallax-layer" data-speed="0.1" aria-label="Genre and mood tags">
-              <span>abraxas.node</span>
-              <span>emo.alt</span>
-              <span>purple.static</span>
-              <span>dark.rap</span>
-              <span>htg.label</span>
-              <span>night.sessions</span>
-            </div>
-          </aside>
         </div>
       </section>
 
-      <section class="section" id="game">
+      <section class="section" id="roster">
+        <div class="container">
+          <div class="section-head fade-in">
+            <span class="section-kicker">The Roster</span>
+            <h2 class="section-title">Pick a deck.</h2>
+            <p class="section-copy">Two names aboard. Each one has its own boarding card — the catalog, the links, the way in.</p>
+          </div>
+
+          <nav class="doors fade-in" aria-label="Choose an artist">
+            <a class="door door--abx" href="abraxas.html">
+              <span class="door-name">ABRAXAS</span>
+              <span class="door-role">Noah · out front · the face</span>
+              <span class="door-reveal">
+                <span class="door-line">Noah stepping off the vessel. HEXCORE, purple static, all teeth.</span>
+                <span class="board-btn">Board ABRAXAS →</span>
+              </span>
+            </a>
+
+            <a class="door door--str" href="stretty.html">
+              <span class="door-name">STRETTY</span>
+              <span class="door-role">The Ark · the hull · keeping it afloat</span>
+              <span class="door-reveal">
+                <span class="door-line">The Ark itself — older brother, working the back. Depressions running deep.</span>
+                <span class="board-btn">Board STRETTY →</span>
+              </span>
+            </a>
+          </nav>
+        </div>
+      </section>
+
+      <section class="section" id="game" hidden>
         <div class="container">
           <div class="section-head fade-in">
             <span class="section-kicker">Playable // Suit Purge</span>
             <h2 class="section-title">Politicians, billionaires, trillionaires.</h2>
-            <p class="section-copy">A first-person shooter running in this page. No downloads, no plugins, no third-party code - the whole thing is generated at runtime.</p>
+            <p class="section-copy">A first-person shooter running in this page. No downloads, no plugins.</p>
+            <p class="section-copy game-disclaimer" style="font-size:0.8rem; opacity:0.75; margin-top:0.6rem;"><strong>Fiction:</strong> all characters in <em>Suit Purge</em> are invented class archetypes. No real person, name, or likeness is depicted. See the <a href="legal.html#satire" style="color:var(--accent);text-decoration:underline;">satire &amp; fiction notice</a>.</p>
           </div>
         </div>
 
         <div class="game-stage">
-          <canvas id="gameCanvas" class="game-canvas" role="img" aria-label="Suit Purge, a first-person maze shooter. Playing is optional - every ABRAXAS release, link and contact detail is elsewhere on this page."></canvas>
+          <canvas id="gameCanvas" class="game-canvas" role="img" aria-label="Suit Purge, a first-person maze shooter. Playing is optional - every HTG release, link and contact detail is elsewhere on this page."></canvas>
 
           <div class="game-hud" id="gameHud" aria-hidden="true">
             <div class="hud-cell"><span>HP</span><b id="hudHealth">100</b></div>
@@ -162,25 +278,24 @@
         </div>
       </section>
 
-
       <section class="section" id="story">
         <div class="container">
           <div class="section-head fade-in">
-            <span class="section-kicker">Timeline / Story Feed</span>
-            <h2 class="section-title">Built from pressure, pushed as signal.</h2>
+            <span class="section-kicker">The Story</span>
+            <h2 class="section-title">Built in the flood. Sent up as signal.</h2>
             <p class="section-copy">
-              ABRAXAS is the colder side of the HTG world. Underground occult rap with terminal UI energy, blacked-out moods, and release material aimed at people who want it ugly, sharp, and honest.
+              HTG is what we made instead of asking permission. No label suits — one vessel carrying the people on it, and everything they release, off a single deck.
             </p>
           </div>
 
           <div class="story-layout">
             <div class="story-panel info-card fade-in">
-              <h3>About ABRAXAS</h3>
+              <h3>About HTG</h3>
               <p>
-                The project sits between depressive rap, distorted hooks, and a more code-styled visual identity. The sound stays emotional without getting soft, and heavy without turning into empty noise.
+                Hex The Government is a vessel, not a brand exercise. Heavy without turning into empty noise, honest without going soft. Music for the ones treading water while the people who flooded the room count the takings.
               </p>
               <p>
-                Released under the self-created label HTG, ABRAXAS is built for singles, visuals, merch drops, and live rollout all under one controlled page instead of being scattered across random dead links.
+                Singles, visuals, merch and live all run off one deck instead of rotting across a hundred dead links. Two names aboard so far — ABRAXAS out front, Stretty holding the hull.
               </p>
               <div class="label-badge">HTG / Hex The Government</div>
             </div>
@@ -188,23 +303,23 @@
             <div class="story-timeline">
               <article class="timeline-card fade-in">
                 <div class="timeline-step">01 / raw files</div>
-                <h3>Night sessions and damaged hooks</h3>
-                <p>Tracks started as dark demos, stripped beats, layered distortion, and depressive melodic ideas built in isolated sessions.</p>
+                <h3>Cut alone, in the dark</h3>
+                <p>Started as damaged demos — stripped beats, layered distortion, melodies dragged out of bad nights and left honest.</p>
               </article>
               <article class="timeline-card fade-in">
-                <div class="timeline-step">02 / visual shell</div>
-                <h3>Terminal-styled identity formed</h3>
-                <p>The ABRAXAS page locks the sound to a proper visual frame: purple-black palette, code UI, sharp typography, and one clear release system.</p>
+                <div class="timeline-step">02 / the vessel</div>
+                <h3>HTG built to carry it</h3>
+                <p>No label suits. We built the ark ourselves — code UI, one deck where the sound lives without asking anyone.</p>
               </article>
               <article class="timeline-card fade-in">
-                <div class="timeline-step">03 / release feed</div>
-                <h3>Singles, visuals, and players go live</h3>
-                <p>Out-now blocks, streaming cards, and promo-ready sections give each release somewhere solid to land instead of dying in drafts.</p>
+                <div class="timeline-step">03 / off the ark</div>
+                <h3>Releases hit the water</h3>
+                <p>Streaming links, players, the Sequence — every track gets somewhere solid to land instead of drowning in drafts.</p>
               </article>
               <article class="timeline-card fade-in">
-                <div class="timeline-step">04 / expansion</div>
-                <h3>Merch, tours, and heavier rollout</h3>
-                <p>The next move is simple: harder releases, more visuals, limited merch, and room-tested live sets under the same HTG structure.</p>
+                <div class="timeline-step">04 / the rising</div>
+                <h3>Louder, harder, more aboard</h3>
+                <p>Next: heavier releases, more visuals, limited merch, live sets — and more names pulled out of the water under HTG.</p>
               </article>
             </div>
           </div>
@@ -224,8 +339,8 @@
               <div class="stat-label">Albums in the Sequence</div>
             </article>
             <article class="stat-card fade-in">
-              <div class="stat-value" data-counter="3">0</div>
-              <div class="stat-label">Stretty Highlights</div>
+              <div class="stat-value" data-counter="2">0</div>
+              <div class="stat-label">Names aboard the vessel</div>
             </article>
           </div>
         </div>
@@ -235,37 +350,37 @@
         <div class="container">
           <div class="section-head fade-in">
             <span class="section-kicker">Out Now</span>
-            <h2 class="section-title">Route the current drop everywhere.</h2>
-            <p class="section-copy">Streaming cards for the active release. Replace the placeholders with your real URLs once distribution is live and humans can go click things.</p>
+            <h2 class="section-title">Wherever you stream, it's there.</h2>
+            <p class="section-copy">Pick your platform and go. Same music, whichever door you walk through.</p>
           </div>
 
           <div class="player-grid">
             <article class="info-card fade-in">
               <h3>Spotify</h3>
-              <p>Main streaming route for reach, repeat plays, and algorithm exposure once the release starts moving outside your own devices.</p>
+              <p>The main line. Play it front to back, save it, put it on repeat and let it bleed into the rest of your week.</p>
               <div class="pill-links">
-                <a class="inline-link" data-platform="spotify" href="https://open.spotify.com/" target="_blank" rel="noreferrer">Open Spotify</a>
+                <a class="inline-link" data-platform="spotify" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">Open Spotify</a>
               </div>
             </article>
             <article class="info-card fade-in">
               <h3>Apple Music</h3>
-              <p>Clean platform slot for the listeners who still like curated libraries and minimal visual clutter with their emotional damage.</p>
+              <p>For the ones who keep their libraries clean and their damage private. Lossless, no clutter, all teeth.</p>
               <div class="pill-links">
-                <a class="inline-link" data-platform="appleMusic" href="https://music.apple.com/" target="_blank" rel="noreferrer">Open Apple Music</a>
+                <a class="inline-link" data-platform="appleMusic" href="https://music.apple.com/" target="_blank" rel="noopener noreferrer">Open Apple Music</a>
               </div>
             </article>
             <article class="info-card fade-in">
               <h3>YouTube Music</h3>
-              <p>Use this block for official uploads, lyric videos, visualisers, and anything that benefits from search plus replay.</p>
+              <p>Official uploads, lyric cuts, visualisers. Where the sound comes with something to stare at while it drowns you.</p>
               <div class="pill-links">
-                <a class="inline-link" data-platform="youtubeMusic" href="https://music.youtube.com/" target="_blank" rel="noreferrer">Open YouTube Music</a>
+                <a class="inline-link" data-platform="youtubeMusic" href="https://music.youtube.com/" target="_blank" rel="noopener noreferrer">Open YouTube Music</a>
               </div>
             </article>
             <article class="info-card fade-in">
               <h3>SoundCloud</h3>
-              <p>Best slot for rougher cuts, demos, alternate mixes, or anything that should still feel slightly unfinished and dangerous.</p>
+              <p>The rough deck. Demos, alt mixes, the cuts still bleeding — the ones that should feel a little unfinished and a little dangerous.</p>
               <div class="pill-links">
-                <a class="inline-link" data-platform="soundcloud" href="https://soundcloud.com/" target="_blank" rel="noreferrer">Open SoundCloud</a>
+                <a class="inline-link" data-platform="soundcloud" href="https://soundcloud.com/" target="_blank" rel="noopener noreferrer">Open SoundCloud</a>
               </div>
             </article>
           </div>
@@ -277,10 +392,11 @@
           <div class="section-head fade-in">
             <span class="section-kicker">The Sequence // 93</span>
             <h2 class="section-title">Play it through. In order.</h2>
-            <p class="section-copy">01 → 13. No words.</p>
+            <p class="section-copy">ABRAXAS, 01 → 13. No words.</p>
           </div>
           <div class="pill-links sequence-fallback">
-            <a class="inline-link" href="https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19" target="_blank" rel="noreferrer">Open the artist on Spotify</a>
+            <a class="inline-link" href="sequence.html">Open the Sequence</a>
+            <a class="inline-link" href="https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19" target="_blank" rel="noopener noreferrer">Open ABRAXAS on Spotify</a>
           </div>
         </div>
       </section>
@@ -289,15 +405,16 @@
         <div class="container">
           <div class="section-head fade-in">
             <span class="section-kicker">New Releases</span>
-            <h2 class="section-title">The catalog is the Sequence.</h2>
-            <p class="section-copy">Every ABRAXAS release that exists is in the Sequence above, playable in order. Individual release cards appear here when there is something to single out.</p>
+            <h2 class="section-title">The catalog lives on the artist decks.</h2>
+            <p class="section-copy">Everything HTG has put out is on the two boarding cards — ABRAXAS in the Sequence, Stretty on his own profile.</p>
           </div>
 
           <div class="empty-state fade-in">
-            <p>Thirteen albums and three Stretty highlights, all streaming now.</p>
+            <p>Thirteen ABRAXAS albums streaming now, and Stretty's catalog live alongside it.</p>
             <div class="pill-links">
-              <a class="inline-link" href="#sequence">Play the Sequence</a>
-              <a class="inline-link" data-social="spotify" href="#out-now" target="_blank" rel="noreferrer">Open Spotify</a>
+              <a class="inline-link" href="abraxas.html">ABRAXAS →</a>
+              <a class="inline-link" href="stretty.html">Stretty →</a>
+              <a class="inline-link" data-social="spotify" href="#out-now" target="_blank" rel="noopener noreferrer">Open Spotify</a>
             </div>
           </div>
 
@@ -310,64 +427,18 @@
           <div class="section-head fade-in">
             <span class="section-kicker">Coming Soon</span>
             <h2 class="section-title">Nothing announced yet.</h2>
-            <p class="section-copy">No release date is public right now. Titles and dates land here only once they are locked - no teaser cards for tracks that do not exist yet.</p>
+            <p class="section-copy">Nothing goes up here until it's real.</p>
           </div>
 
           <div class="empty-state fade-in">
-            <p>The next ABRAXAS drop gets announced here and on Spotify at the same time. Follow the artist profile to catch it without checking back.</p>
+            <p>The next drop hits here and Spotify the same second. Follow the profiles and you'll catch it without checking back.</p>
             <div class="pill-links">
-              <a class="inline-link" data-social="spotify" href="#out-now" target="_blank" rel="noreferrer">Follow on Spotify</a>
-              <a class="inline-link" href="#sequence">Hear the Sequence</a>
+              <a class="inline-link" data-social="spotify" href="#out-now" target="_blank" rel="noopener noreferrer">Follow on Spotify</a>
+              <a class="inline-link" href="#roster">The Roster</a>
             </div>
           </div>
 
           <div class="coming-grid"></div>
-        </div>
-      </section>
-
-      <section class="section" id="merch">
-        <div class="container">
-          <div class="section-head fade-in">
-            <span class="section-kicker">Merchandise</span>
-            <h2 class="section-title">Wear the darker build.</h2>
-            <p class="section-copy">Placeholder merch cards styled the same as the last build, just shifted into the ABRAXAS world. Swap images, sizes, stock, and checkout URLs when the store is ready.</p>
-          </div>
-
-          <div class="merch-grid">
-            <article class="merch-card fade-in">
-              <img class="merch-image" loading="lazy" decoding="async" width="900" height="900" src="assets/placeholders/merch-1.svg" alt="Placeholder merch hoodie image" />
-              <div class="merch-body">
-                <div class="meta-row"><span>HTG Hoodie</span><span>Heavyweight</span></div>
-                <div>
-                  <h3>Violet Terminal Drop</h3>
-                  <p>Oversized black hoodie with ABRAXAS front mark, HTG back print, and darker panel detailing built for night fits.</p>
-                </div>
-                <div class="price-tag">AUD $95</div>
-              </div>
-            </article>
-            <article class="merch-card fade-in">
-              <img class="merch-image" loading="lazy" decoding="async" width="900" height="900" src="assets/placeholders/merch-2.svg" alt="Placeholder merch tee image" />
-              <div class="merch-body">
-                <div class="meta-row"><span>Tour Tee</span><span>Box Fit</span></div>
-                <div>
-                  <h3>Depressions Running Deep</h3>
-                  <p>Front print tee with sharper gothic-type treatment, muted purple details, and a back hit built for live dates.</p>
-                </div>
-                <div class="price-tag">AUD $55</div>
-              </div>
-            </article>
-            <article class="merch-card fade-in">
-              <img class="merch-image" loading="lazy" decoding="async" width="900" height="900" src="assets/placeholders/merch-3.svg" alt="Placeholder merch accessory image" />
-              <div class="merch-body">
-                <div class="meta-row"><span>Accessory</span><span>Limited</span></div>
-                <div>
-                  <h3>Signal Sigil Pack</h3>
-                  <p>Sticker and patch pack for laptops, cases, and other objects people keep pretending are personality traits.</p>
-                </div>
-                <div class="price-tag">AUD $20</div>
-              </div>
-            </article>
-          </div>
         </div>
       </section>
 
@@ -376,11 +447,11 @@
           <div class="section-head fade-in">
             <span class="section-kicker">Upcoming Tours</span>
             <h2 class="section-title">No dates on the calendar.</h2>
-            <p class="section-copy">There are no confirmed ABRAXAS shows right now. Real dates go up here with the real venue, city and ticket link - nothing before that.</p>
+            <p class="section-copy">No confirmed shows right now, for either name.</p>
           </div>
 
           <div class="empty-state fade-in">
-            <p>Booking enquiries are open. Send the city, venue, date and lineup through the contact form and it gets answered directly.</p>
+            <p>Booking's open. Send the city, venue, date and lineup through the form and it gets answered direct.</p>
             <div class="pill-links">
               <a class="inline-link" href="#contact">Send a Booking Enquiry</a>
             </div>
@@ -392,14 +463,14 @@
         <div class="container">
           <div class="section-head fade-in">
             <span class="section-kicker">Image Gallery</span>
-            <h2 class="section-title">Visuals, sessions, and terminal-lit frames.</h2>
-            <p class="section-copy">Click any image for the lightbox. Same gallery system, same JS, new mood. Humans love consistency when they are not busy ruining it.</p>
+            <h2 class="section-title">Visuals, sessions, terminal-lit frames.</h2>
+            <p class="section-copy">Click any frame to open it.</p>
           </div>
 
           <div class="gallery-grid">
-            <button class="gallery-item fade-in" type="button" data-gallery-index="0" data-full="assets/placeholders/gallery-1.svg" data-caption="Night session / purple terminal room">
-              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/placeholders/gallery-1.svg" alt="Placeholder dark studio gallery image 1" />
-              <span class="gallery-caption">Night session / purple terminal room</span>
+            <button class="gallery-item fade-in" type="button" data-gallery-index="0" data-full="https://picsum.photos/seed/abraxasgallery1/1600/1200?grayscale" data-caption="Night session / terminal room">
+              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="https://picsum.photos/seed/abraxasgallery1/900/900?grayscale" alt="Placeholder dark studio gallery image 1" />
+              <span class="gallery-caption">Night session / terminal room</span>
             </button>
             <button class="gallery-item fade-in" type="button" data-gallery-index="1" data-full="assets/placeholders/gallery-2.svg" data-caption="Backstage static / blackout wash">
               <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/placeholders/gallery-2.svg" alt="Placeholder dark performance gallery image 2" />
@@ -429,14 +500,14 @@
         <div class="container">
           <div class="section-head fade-in">
             <span class="section-kicker">Contact</span>
-            <h2 class="section-title">Bookings, collabs, features, direct contact.</h2>
-            <p class="section-copy">The form keeps the same validation and behaviour as the last build. Hook it to Formspree, Netlify Forms, EmailJS, or your own backend once you want actual submissions instead of browser theatre.</p>
+            <h2 class="section-title">Bookings, collabs, features — talk direct.</h2>
+            <p class="section-copy">Bookings, features, visuals, merch, for either name aboard — fill it in, it lands in the HTG inbox.</p>
           </div>
 
           <div class="contact-wrap">
             <aside class="contact-card fade-in">
-              <h3>Reach ABRAXAS</h3>
-              <p>Use this block for management, direct release contact, and booking info. Replace the placeholders with the real channels once you lock them in.</p>
+              <h3>Reach HTG</h3>
+              <p>Management, releases, bookings — it all runs through HTG. One inbox, answered by the people who actually make the music.</p>
               <ul class="contact-list">
                 <li>
                   <strong>Email</strong>
@@ -471,7 +542,7 @@
                 </div>
                 <div class="field">
                   <label for="message">Message</label>
-                  <textarea id="message" name="message" placeholder="Tell ABRAXAS what you need and include dates, budget, or release context."></textarea>
+                  <textarea id="message" name="message" placeholder="Tell HTG what you need and include dates, budget, or release context."></textarea>
                 </div>
                 <div class="error-message" id="formError" aria-live="polite"></div>
                 <div class="form-status" id="formStatus" aria-live="polite"></div>
@@ -488,30 +559,55 @@
         <div class="container">
           <div class="footer-grid fade-in">
             <div class="footer-copy">
-              <div class="section-kicker">ABRAXAS / HTG</div>
-              <h2 class="section-title" style="font-size: clamp(1.5rem, 3vw, 2.4rem);">Dark signal, colder rollout.</h2>
-              <p>One-page site build for releases, visuals, tours, merch, and contact. Replace the placeholders with real project assets and the page is ready to deploy under the same styling and interaction model.</p>
+              <div class="section-kicker">HTG — Hex The Government</div>
+              <h2 class="section-title" style="font-size: clamp(1.5rem, 3vw, 2.4rem);">Dark signal. No apologies.</h2>
+              <p>HTG is the vessel — releases, visuals, merch, live, all off one deck. Fuck the gatekeepers; we built the ark ourselves. Recruiting.</p>
               <div class="pill-links" style="margin-top: 1rem;">
-                <a class="inline-link view-toggle" href="mobile.html?mobile=1">Switch to Mobile Version</a>
+                <a class="inline-link" href="abraxas.html">Board ABRAXAS →</a>
+                <a class="inline-link" href="stretty.html">Board Stretty →</a>
+                <a class="inline-link" href="sequence.html">The Sequence →</a>
+                <a class="inline-link" href="game.html">Suit Purge →</a>
               </div>
+              <p class="egg-hint">A maze is hidden in this page. Type <kbd>purge</kbd>, tap the logo three times, or <a href="game.html">enter it directly →</a></p>
+              <span class="nod">sad · tired · still here</span>
             </div>
             <div class="social-links" aria-label="Social media links">
-              <a class="social-link" data-social="instagram" href="https://instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram">
+              <a class="social-link" data-social="instagram" href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2.2A2.8 2.8 0 0 0 4.2 7v10A2.8 2.8 0 0 0 7 19.8h10a2.8 2.8 0 0 0 2.8-2.8V7A2.8 2.8 0 0 0 17 4.2H7Zm10.3 1.6a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2ZM12 6.2A5.8 5.8 0 1 1 6.2 12 5.8 5.8 0 0 1 12 6.2Zm0 2.2A3.6 3.6 0 1 0 15.6 12 3.6 3.6 0 0 0 12 8.4Z"/></svg>
               </a>
-              <a class="social-link" data-social="youtube" href="https://youtube.com/" target="_blank" rel="noreferrer" aria-label="YouTube">
+              <a class="social-link" data-social="youtube" href="https://youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8ZM9.6 15.7V8.3l6.4 3.7-6.4 3.7Z"/></svg>
               </a>
-              <a class="social-link" data-social="spotify" href="https://open.spotify.com/" target="_blank" rel="noreferrer" aria-label="Spotify">
+              <a class="social-link" data-social="spotify" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" aria-label="Spotify">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0a12 12 0 1 0 12 12A12 12 0 0 0 12 0Zm5.5 17.3a.9.9 0 0 1-1.2.3c-3.2-1.9-7.1-2.3-11.6-1.2a.9.9 0 0 1-.4-1.7c5-1.2 9.3-.7 12.9 1.4a.9.9 0 0 1 .3 1.2Zm1.7-3a1.1 1.1 0 0 1-1.5.4c-3.6-2.2-9.1-2.8-13.4-1.4a1.1 1.1 0 1 1-.6-2.2c5-1.5 11-.8 15.2 1.8a1.1 1.1 0 0 1 .3 1.4Zm.1-3.1c-4.4-2.6-11.6-2.8-15.9-1.5a1.3 1.3 0 1 1-.8-2.4c4.9-1.5 13-1.2 18 1.8a1.3 1.3 0 1 1-1.3 2.2Z"/></svg>
               </a>
-              <a class="social-link" data-social="tiktok" href="https://www.tiktok.com/" target="_blank" rel="noreferrer" aria-label="TikTok">
+              <a class="social-link" data-social="tiktok" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 2c.2 1.8 1.2 3.4 2.8 4.3 1 .6 2.1.9 3.4.9v3.3c-1.3 0-2.6-.2-3.8-.7-.5-.2-1-.5-1.5-.8v7.1c0 3.8-3 6.9-6.9 6.9S3 19.9 3 16s3.1-6.9 6.9-6.9c.3 0 .7 0 1 .1v3.4c-.3-.1-.6-.2-1-.2-2 0-3.5 1.6-3.5 3.5s1.5 3.5 3.5 3.5 3.5-1.6 3.5-3.5V2h2.4Z"/></svg>
               </a>
             </div>
           </div>
+
+          <div class="legal-footer" role="contentinfo">
+            <nav class="legal-footer-links" aria-label="Legal">
+              <a href="legal.html">Legal &amp; Privacy</a>
+              <a href="legal.html#terms">Terms of Use</a>
+              <a href="legal.html#privacy">Privacy Policy</a>
+              <a href="legal.html#trademarks">Trademarks</a>
+              <a href="legal.html#satire">Satire Notice</a>
+              <a href="legal.html#dmca">Copyright / DMCA</a>
+            </nav>
+            <p class="legal-footer-copy">
+              © <span id="legal-year">2026</span> <strong>HTG — Hex The Government</strong>. All rights reserved.
+              <strong>HTG</strong>™, <strong>HEX THE GOVERNMENT</strong>™, <strong>ABRAXAS</strong>™, <strong>HEXCORE</strong>™, <strong>SUIT PURGE</strong>™ and <em>Depressions Running Deep</em>™ are trademarks of HTG.
+              All other names, logos, and marks (Spotify, SoundCloud, YouTube, Apple Music, TikTok, Instagram, Shopify, etc.) are the property of their respective owners.
+            </p>
+            <p class="legal-footer-copy">
+              <em>Suit Purge</em> and its characters are fictional class archetypes. Any resemblance to real persons or organisations is coincidental.
+            </p>
+          </div>
         </div>
       </footer>
+      <script>(function(){var y=document.getElementById('legal-year');if(y)y.textContent=new Date().getFullYear();})();</script>
     </main>
 
     <button class="to-top" id="toTop" aria-label="Back to top">↑</button>
@@ -519,8 +615,8 @@
     <div class="sticky-cta" aria-label="Sticky footer call to action">
       <div class="sticky-cta-inner">
         <div class="sticky-copy">
-          <strong>Out now // ABRAXAS</strong>
-          <span>Stream the current drop, check the next release wave, or send a booking enquiry.</span>
+          <strong>Out now // HTG</strong>
+          <span>Board a deck, catch the next drop, or send a booking straight to HTG.</span>
         </div>
         <div class="sticky-actions">
           <a class="btn btn-primary" href="#out-now">Stream Links</a>
@@ -550,5 +646,6 @@
   <script src="render.js"></script>
   <script src="game.js"></script>
   <script src="script.js"></script>
+  <script src="matrix.js"></script>
 </body>
 </html>
