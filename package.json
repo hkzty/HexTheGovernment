@@ -5,6 +5,8 @@
   "private": true,
   "scripts": {
     "build": "echo 'Static site - no build needed'",
+    "build:mobile": "node scripts/build-mobile.js",
+    "check:mobile": "node scripts/build-mobile.js --check",
     "build:copydesk": "node scripts/build-copydesk.js ./copydesk.html --standalone",
     "scrape": "node scripts/scraper.js"
   },
