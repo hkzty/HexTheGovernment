@@ -126,7 +126,9 @@ window.ABRAXAS_CONFIG = {
   /* ---- Stats — counted from the Sequence above, not invented. ---------- */
   stats: [
     { value: 13, label: "Albums in the Sequence" },
-    { value: 3,  label: "Pinned Highlights" }
+    { value: 3,  label: "Pinned Highlights" },
+    // Counted off the roster decks on index.html — keep the two in step.
+    { value: 4,  label: "Names aboard the vessel" }
   ],
 
   /* ---- Albums Configuration (NEW - Auto-scraper) ------------------------ */
