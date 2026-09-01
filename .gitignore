@@ -22,3 +22,9 @@ yarn-error.log*
 .yarn/install-state.gz
 .pnp.*
 redis-dump.rdb
+
+content/preview.json
+# content/copy-desk.html is committed so the Copy Desk deploys with the site
+# (served live for both Claude and Codex). Rebuild with:
+#   node scripts/build-copydesk.js
+
