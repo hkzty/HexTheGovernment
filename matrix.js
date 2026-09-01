@@ -47,6 +47,27 @@
   };
   const PARTNER = { orange: 'cyan', cyan: 'orange' };
 
+  /* ---- Pointer proximity ---------------------------------------------------
+     Columns whose head glyph is near the cursor briefly run faster and burn
+     brighter, then settle back. Mouse-only and animation-only: the listener is
+     never attached on a touch device or under reduced motion, so the still
+     frame stays exactly as still as it was.                                 */
+  const POINTER_RADIUS = 120;      // px from the head glyph
+  const POINTER_SPEED_BOOST = 0.5; // +50% fall speed at full charge
+  const POINTER_HEAD_ALPHA = 0.45; // overdraw strength at full charge
+  const POINTER_DECAY_TAU = 0.18;  // ~0.5s back to rest
+  const CHARGE_FLOOR = 0.01;       // below this a column is simply at rest
+
+  /* The bright head is precomputed per ink, once. Building a colour string
+     per column per frame would put string work in the hot loop for an effect
+     that is meant to cost nothing. */
+  function brighten(rgba) {
+    const n = rgba.match(/[\d.]+/g).map(Number);
+    const lift = (c) => Math.round(c + (255 - c) * 0.55);
+    return 'rgb(' + lift(n[0]) + ',' + lift(n[1]) + ',' + lift(n[2]) + ')';
+  }
+  for (const key in INKS) INKS[key].bright = brighten(INKS[key].head);
+
   /* Half-drawn pairs, keyed by the column index that owes the partner ink —
      never a floating debt handed to whichever column happens to draw next,
      which would land the partner anywhere on screen. Cleared on resize with
@@ -95,6 +116,37 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let stillOnly = reduceMotion.matches;
 
+  /* Fine-pointer devices only. A touch screen has no hover, so the effect
+     would either never fire or stick wherever the last tap landed. */
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  let pointerX = 0;
+  let pointerY = 0;
+  let pointerLive = false;
+  let pointerBound = false;
+
+  /* The listener stores two numbers and nothing else — no canvas reads, no
+     layout, no per-event drawing. Everything else happens in the frame. */
+  const onPointerMove = (e) => {
+    pointerX = e.clientX;
+    pointerY = e.clientY;
+    pointerLive = true;
+  };
+  const onPointerLeave = () => { pointerLive = false; };
+
+  function bindPointer() {
+    if (pointerBound || stillOnly || !finePointer.matches) return;
+    window.addEventListener('mousemove', onPointerMove, { passive: true });
+    document.addEventListener('mouseleave', onPointerLeave, { passive: true });
+    pointerBound = true;
+  }
+  function unbindPointer() {
+    if (!pointerBound) return;
+    window.removeEventListener('mousemove', onPointerMove);
+    document.removeEventListener('mouseleave', onPointerLeave);
+    pointerBound = false;
+    pointerLive = false;
+  }
+
   const rand = (min, max) => Math.random() * (max - min) + min;
   const pickGlyph = () => GLYPHS.charAt((Math.random() * GLYPHS.length) | 0);
 
@@ -118,6 +170,7 @@
       glyph: pickGlyph(),
       swapT: Math.random() * 0.3,
       ink: pickInk(i),
+      charge: 0,
     }));
 
     if (stillOnly) drawStill();
@@ -163,18 +216,45 @@
     ctx.fillStyle = 'rgba(10, 10, 10, ' + fadeAlpha.toFixed(3) + ')';
     ctx.fillRect(0, 0, width, height);
     const resetChance = 1 - Math.exp(-RESET_CHANCE_PER_SEC * dt);
+    // One exp() for the whole frame rather than one per column.
+    const chargeDecay = Math.exp(-dt / POINTER_DECAY_TAU);
+    const radius2 = POINTER_RADIUS * POINTER_RADIUS;
 
     for (let i = 0; i < columns.length; i++) {
       const col = columns[i];
       const x = i * FONT_SIZE;
 
+      /* Charge always decays; proximity only ever tops it up, so a column
+         leaving the cursor eases out instead of snapping back. */
+      let charge = col.charge > CHARGE_FLOOR ? col.charge * chargeDecay : 0;
+      if (pointerLive) {
+        const dx = x + FONT_SIZE * 0.5 - pointerX;
+        if (dx > -POINTER_RADIUS && dx < POINTER_RADIUS) {
+          const dy = col.y + FONT_SIZE * 0.5 - pointerY;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < radius2) {
+            const near = 1 - Math.sqrt(d2) / POINTER_RADIUS;
+            if (near > charge) charge = near;
+          }
+        }
+      }
+      col.charge = charge;
+
       ctx.fillStyle = col.ink.head;
       ctx.fillText(col.glyph, x, col.y);
+      if (charge > CHARGE_FLOOR) {
+        // Second pass over the head only, in the ink's own lightened tone —
+        // the column keeps its deck colour, it just leans into it.
+        ctx.globalAlpha = charge * POINTER_HEAD_ALPHA;
+        ctx.fillStyle = col.ink.bright;
+        ctx.fillText(col.glyph, x, col.y);
+        ctx.globalAlpha = 1;
+      }
 
       ctx.fillStyle = col.ink.tail;
       ctx.fillText(col.glyph, x, col.y - FONT_SIZE);
 
-      col.y += col.speed * FONT_SIZE * 0.6 * step;
+      col.y += col.speed * (1 + POINTER_SPEED_BOOST * charge) * FONT_SIZE * 0.6 * step;
       col.swapT -= dt;
       if (col.swapT <= 0) {
         col.glyph = pickGlyph();
@@ -205,12 +285,14 @@
 
   resize();
   start();
+  bindPointer();
 
   const onReduceMotionChange = () => {
     stillOnly = reduceMotion.matches;
     stop();
     resize();   // repaints as a still frame or a clear ground, per the new mode
     start();    // no-op while stillOnly
+    if (stillOnly) unbindPointer(); else bindPointer();
   };
   if (reduceMotion.addEventListener) reduceMotion.addEventListener('change', onReduceMotionChange);
   else if (reduceMotion.addListener) reduceMotion.addListener(onReduceMotionChange);
