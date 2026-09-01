@@ -95,6 +95,37 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let stillOnly = reduceMotion.matches;
 
+  /* ---- The rain notices the visitor ----------------------------------------
+     Columns near the pointer run a little faster, and glyphs close to it get
+     a white lift on top of their ink, so the rain reads as presence instead
+     of wallpaper. Guarded three ways: it needs a real pointer (no effect on
+     touch), reduced motion never runs the loop at all, and a frame-budget
+     check switches it off for good if the page can't hold ~30fps — the
+     effect is a garnish and never worth dropped frames. */
+  const FX_RADIUS = 160;        // px each side of the pointer that reacts
+  const FX_SPEED = 0.9;         // up to +90% fall speed at the pointer
+  const FX_GLOW = 0.8;          // peak alpha of the white lift on the head
+                                // (the canvas paints at 0.55 opacity, so the
+                                // on-screen lift is roughly half of this)
+  const finePointer = window.matchMedia('(pointer: fine)').matches;
+  let pointerX = -1e9;
+  let pointerY = -1e9;
+  let fxDisabled = false;
+  let fxStrikes = 0;
+
+  if (finePointer) {
+    window.addEventListener('mousemove', (e) => {
+      pointerX = e.clientX;
+      pointerY = e.clientY;
+    }, { passive: true });
+    // Pointer gone — park it far away so the last position doesn't keep a
+    // patch of rain permanently lit.
+    document.addEventListener('mouseleave', () => {
+      pointerX = -1e9;
+      pointerY = -1e9;
+    });
+  }
+
   const rand = (min, max) => Math.random() * (max - min) + min;
   const pickGlyph = () => GLYPHS.charAt((Math.random() * GLYPHS.length) | 0);
 
@@ -159,6 +190,15 @@
     lastT = t;
     const step = dt * 60;
 
+    /* Frame budget: a run of slow frames retires the pointer effect for the
+       rest of the page view. Single hitches (tab switches, GC) decay off. */
+    if (!fxDisabled && dt > 1 / 30) {
+      if (++fxStrikes >= 60) fxDisabled = true;
+    } else if (fxStrikes > 0) {
+      fxStrikes -= 2;
+    }
+    const fxOn = finePointer && !fxDisabled;
+
     const fadeAlpha = Math.min(1, FADE_ALPHA_PER_SEC * dt);
     ctx.fillStyle = 'rgba(10, 10, 10, ' + fadeAlpha.toFixed(3) + ')';
     ctx.fillRect(0, 0, width, height);
@@ -168,13 +208,40 @@
       const col = columns[i];
       const x = i * FONT_SIZE;
 
+      /* Column proximity (horizontal) drives the speed-up; the white lift on
+         the head fades with true distance so the glow pools at the pointer
+         instead of lighting whole columns top to bottom. */
+      let speedMul = 1;
+      let glow = 0;
+      if (fxOn) {
+        const dx = x + FONT_SIZE * 0.5 - pointerX;
+        if (dx > -FX_RADIUS && dx < FX_RADIUS) {
+          const near = 1 - Math.abs(dx) / FX_RADIUS;
+          speedMul = 1 + near * FX_SPEED;
+          const dy = col.y - pointerY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < FX_RADIUS) glow = (1 - dist / FX_RADIUS) * FX_GLOW;
+        }
+      }
+
       ctx.fillStyle = col.ink.head;
       ctx.fillText(col.glyph, x, col.y);
+      if (glow > 0) {
+        ctx.fillStyle = 'rgba(255, 255, 255, ' + glow.toFixed(3) + ')';
+        ctx.fillText(col.glyph, x, col.y);
+      }
 
       ctx.fillStyle = col.ink.tail;
       ctx.fillText(col.glyph, x, col.y - FONT_SIZE);
+      if (glow > 0) {
+        // Lift the tail too: the sped-up columns space their trails out, so
+        // without this the extra speed cancels the head glow and the pointer
+        // reads as nothing at all.
+        ctx.fillStyle = 'rgba(255, 255, 255, ' + (glow * 0.6).toFixed(3) + ')';
+        ctx.fillText(col.glyph, x, col.y - FONT_SIZE);
+      }
 
-      col.y += col.speed * FONT_SIZE * 0.6 * step;
+      col.y += col.speed * FONT_SIZE * 0.6 * step * speedMul;
       col.swapT -= dt;
       if (col.swapT <= 0) {
         col.glyph = pickGlyph();
