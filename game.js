@@ -1215,6 +1215,106 @@
   const muteButton = document.getElementById('gameMute');
   const touchLayer = document.getElementById('gameTouch');
 
+  /*
+    Best run + brag line. One number the player can push — suits cleared,
+    with the wave as the tie-breaker — kept in localStorage so a good run
+    survives the reload. Storage failures (private mode, blocked cookies)
+    degrade to a session with no memory, never an error.
+  */
+  const BEST_KEY = 'htg-suit-purge-best';
+
+  const readBest = () => {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(BEST_KEY));
+      if (!parsed) return null;
+      const kills = parsed.kills | 0;
+      const wave = parsed.wave | 0;
+      if (kills < 0 || wave < 1) return null;
+      return { kills: kills, wave: wave };
+    } catch (err) {
+      return null;
+    }
+  };
+
+  const writeBest = (run) => {
+    try {
+      localStorage.setItem(BEST_KEY, JSON.stringify(run));
+    } catch (err) { /* no storage — the run still shows, it just isn't kept */ }
+  };
+
+  const beats = (run, best) =>
+    !best || run.kills > best.kills || (run.kills === best.kills && run.wave > best.wave);
+
+  const bragFor = (run) =>
+    'Cleared ' + run.kills + ' suits, wave ' + run.wave + ' — SUIT PURGE // htg.productions';
+
+  // The score block is built here rather than in the page markup so every
+  // page carrying the game (index, mobile, game.html) gets it unchanged.
+  let scoreBox = null;
+  let scoreBest = null;
+  let bragLine = null;
+  let copyButton = null;
+  let copyResetT = 0;
+
+  const copyBrag = () => {
+    const text = bragLine.textContent;
+    const flash = (label) => {
+      copyButton.textContent = label;
+      clearTimeout(copyResetT);
+      copyResetT = setTimeout(() => { copyButton.textContent = 'Copy the brag'; }, 1600);
+    };
+    const fallback = () => {
+      const scratch = document.createElement('textarea');
+      scratch.value = text;
+      scratch.setAttribute('readonly', '');
+      scratch.style.position = 'fixed';
+      scratch.style.opacity = '0';
+      document.body.appendChild(scratch);
+      scratch.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+      scratch.remove();
+      flash(ok ? 'Copied' : 'Copy failed');
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => flash('Copied'), fallback);
+    } else {
+      fallback();
+    }
+  };
+
+  const showScore = (run) => {
+    if (!scoreBox) return;
+    const best = readBest();
+    const newBest = beats(run, best);
+    if (newBest) writeBest(run);
+    const shown = newBest ? run : best;
+    scoreBest.textContent = newBest
+      ? 'New best run.'
+      : 'Best run: ' + shown.kills + ' suits, wave ' + shown.wave + '.';
+    bragLine.textContent = bragFor(run);
+    scoreBox.hidden = false;
+  };
+
+  if (overlay && playButton) {
+    scoreBox = document.createElement('div');
+    scoreBox.className = 'game-score';
+    scoreBox.hidden = true;
+    scoreBest = document.createElement('p');
+    scoreBest.className = 'game-best';
+    bragLine = document.createElement('p');
+    bragLine.className = 'game-brag-line';
+    copyButton = document.createElement('button');
+    copyButton.type = 'button';
+    copyButton.className = 'game-chip';
+    copyButton.textContent = 'Copy the brag';
+    copyButton.addEventListener('click', copyBrag);
+    scoreBox.appendChild(scoreBest);
+    scoreBox.appendChild(bragLine);
+    scoreBox.appendChild(copyButton);
+    overlay.insertBefore(scoreBox, playButton);
+  }
+
   let last = 0;
   let raf = 0;
 
@@ -1241,6 +1341,7 @@
 
   const showOverlay = (title, text, button) => {
     if (!overlay) return;
+    if (scoreBox) scoreBox.hidden = true; // only the game-over path shows it
     overlayTitle.textContent = title;
     overlayText.textContent = text;
     playButton.textContent = button;
@@ -1262,6 +1363,7 @@
         'Wave ' + state.wave + '. ' + state.kills + ' suits cleared before they got you.',
         'Run it back'
       );
+      showScore({ kills: state.kills, wave: state.wave });
     }
   };
 

@@ -1727,6 +1727,35 @@
       font-weight: 500;
     }
 
+    /* Game-over score block — built by game.js, shown only on FLATLINED. */
+    .game-score {
+      display: grid;
+      justify-items: center;
+      gap: 0.55rem;
+      margin-top: 0.2rem;
+    }
+
+    .game-best {
+      color: var(--accent);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22rem;
+    }
+
+    .game-brag-line {
+      max-width: 100%;
+      padding: 0.45rem 0.8rem;
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius-sm);
+      color: var(--muted);
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      /* One tap selects the whole line — the manual fallback when the
+         clipboard API is refused. */
+      user-select: all;
+      -webkit-user-select: all;
+    }
+
     .game-touch {
       position: absolute;
       inset: 0;
@@ -2209,10 +2238,10 @@
               <li><a href="#story">Story</a></li>
               <li><a href="#out-now">Out Now</a></li>
               <li><a href="sequence.html">The Sequence</a></li>
-              <li><a href="#releases">New Releases</a></li>
-              <li><a href="#coming-soon">Coming Soon</a></li>
+              <!-- New Releases, Coming Soon and Upcoming Tours stay in the
+                   page as honest empty states, but they don't earn nav slots:
+                   eleven items ran the header onto a second row. -->
               <li><a data-shop-link href="https://strettys-merch.myshopify.com" target="_blank" rel="noopener noreferrer">Merchandise</a></li>
-              <li><a href="#tours">Upcoming Tours</a></li>
               <li><a href="#gallery">Gallery</a></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
