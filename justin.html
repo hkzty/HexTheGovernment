@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stretty · Depressions Running Deep — HTG</title>
-  <meta name="description" content="Stretty — dark emo / alt rap under HTG (Hex The Government). The Ark: the hull that keeps everyone afloat. Depressions running deep." />
+  <title>Justinn.clout · Depressions Running Deep — HTG</title>
+  <meta name="description" content="Justinn.clout — video and photo under HTG (Hex The Government). Shooter and editor for the ark. Depressions running deep." />
   <meta name="theme-color" content="#0a0a0a" />
-  <meta property="og:title" content="Stretty — Depressions Running Deep" />
-  <meta property="og:description" content="Dark emo / alt rap out of HTG. The Ark, the hull, the older brother in the back." />
+  <meta property="og:title" content="Justinn.clout — Depressions Running Deep" />
+  <meta property="og:description" content="Video and photo out of HTG. Shooting it, cutting it, keeping the vessel on camera." />
   <meta property="og:type" content="website" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0a0a'/%3E%3Ctext x='50' y='72' font-size='52' text-anchor='middle' fill='%2316c85a' font-family='Georgia, serif'%3ES%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0a0a'/%3E%3Ctext x='50' y='72' font-size='52' text-anchor='middle' fill='%23ff9b3d' font-family='Georgia, serif'%3EJ%3C/text%3E%3C/svg%3E" />
   <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
       --ink: #f2f2f2;
       --dim: #8a8a8a;
       --line: rgba(242, 242, 242, 0.14);
-      --str: #16c85a;   /* Stretty green */
+      --jus: #ff9b3d;   /* Justinn.clout orange */
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { min-height: 100%; }
@@ -41,31 +41,39 @@
 
     .topline { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0 2rem; font-size: 0.72rem; letter-spacing: 0.14em; }
     .topline a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
-    .topline a:hover { border-color: var(--str); color: var(--str); }
+    .topline a:hover { border-color: var(--jus); color: var(--jus); }
     .topline .tag { color: var(--dim); letter-spacing: 0.3em; text-transform: uppercase; }
 
     /* ---- Hero ------------------------------------------------------------ */
     .hero { padding: clamp(1.5rem, 6vh, 4rem) 0 2.5rem; }
-    .eyebrow { font-size: 0.68rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--str); margin-bottom: 1rem; }
+    .eyebrow { font-size: 0.68rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--jus); margin-bottom: 1rem; }
     .name {
       font-family: "New Rocker", "IBM Plex Mono", serif;
       font-weight: 400; line-height: 0.9;
-      font-size: clamp(3rem, 13vw, 8rem);
-      text-shadow: 0 0 34px rgba(22, 200, 90, 0.28);
+      /* Thirteen characters against STRETTY's seven — the clamp ceiling drops
+         or New Rocker overruns the viewport on narrow phones. */
+      font-size: clamp(2.1rem, 8.5vw, 5.4rem);
+      text-shadow: 0 0 34px rgba(255, 155, 61, 0.28);
+      overflow-wrap: anywhere;
     }
-    .tagline { margin-top: 0.6rem; font-size: clamp(1rem, 3vw, 1.5rem); color: var(--str); letter-spacing: 0.04em; }
+    .tagline { margin-top: 0.6rem; font-size: clamp(1rem, 3vw, 1.5rem); color: var(--jus); letter-spacing: 0.04em; }
     .role { margin-top: 0.9rem; font-size: 0.74rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); }
     .about { max-width: 44rem; margin-top: 1.8rem; font-size: clamp(0.92rem, 2.2vw, 1.06rem); color: #cfcfcf; }
     .about b { color: var(--ink); }
     .nod { display: inline-block; margin-top: 1.1rem; font-size: 0.66rem; letter-spacing: 0.36em; text-transform: uppercase; color: #5a5a5a; }
 
-    /* ---- Music ----------------------------------------------------------- */
+    /* ---- Work ------------------------------------------------------------ */
     .section { margin-top: 3rem; }
     .section-kicker { font-size: 0.68rem; letter-spacing: 0.34em; text-transform: uppercase; color: var(--dim); margin-bottom: 1rem; }
-    .section-kicker b { color: var(--str); font-weight: 500; }
+    .section-kicker b { color: var(--jus); font-weight: 500; }
     .embed-wrap { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: rgba(20, 20, 20, 0.5); }
     .embed-wrap iframe { display: block; width: 100%; border: 0; }
     .embed-note { margin-top: 0.8rem; font-size: 0.74rem; color: var(--dim); }
+    .empty {
+      border: 1px dashed var(--line); border-radius: 14px; background: rgba(20, 20, 20, 0.5);
+      padding: clamp(1.4rem, 4vw, 2.4rem); color: #cfcfcf;
+    }
+    .empty b { color: var(--ink); }
 
     /* ---- Links ----------------------------------------------------------- */
     .links { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.6rem; }
@@ -74,12 +82,12 @@
       border-radius: 999px; color: var(--ink); text-decoration: none;
       font-size: 0.76rem; letter-spacing: 0.12em;
     }
-    .links a:hover { border-color: var(--str); color: var(--str); }
+    .links a:hover { border-color: var(--jus); color: var(--jus); }
 
     /* ---- Footer ---------------------------------------------------------- */
     .foot { margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--line); font-size: 0.74rem; color: var(--dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
     .foot a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
-    .foot a:hover { border-color: var(--str); color: var(--str); }
+    .foot a:hover { border-color: var(--jus); color: var(--jus); }
 
     @media (max-width: 560px) {
       .foot { flex-direction: column; }
@@ -87,7 +95,7 @@
     @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
   </style>
 </head>
-<body data-rain="green">
+<body data-rain="orange">
   <canvas id="matrix-rain" aria-hidden="true"></canvas>
   <div class="veil" aria-hidden="true"></div>
 
@@ -95,43 +103,45 @@
     <div class="topline">
       <a href="index.html">← HTG</a>
       <span class="tag">Hex The Government</span>
-      <a href="justin.html">JUSTINN.CLOUT →</a>
+      <a href="ciggie.html">CIGGYHOLSTER →</a>
     </div>
 
     <header class="hero">
-      <p class="eyebrow">Dark Emo · Alt Rap — HTG</p>
-      <h1 class="name">STRETTY</h1>
+      <p class="eyebrow">Video · Photo — HTG</p>
+      <h1 class="name">JUSTINN.CLOUT</h1>
       <p class="tagline">Depressions Running Deep</p>
-      <p class="role">The Ark · the hull · keeping it afloat</p>
+      <p class="role">Aboard · @justinn.clout</p>
       <p class="about">
-        <b>Stretty is the Ark.</b> Working the back so ABRAXAS can walk off the vessel and shine.
-        Dark emo, alt rap — cold, close, cut from bad nights and left honest. Still floating.
-        <span class="nod">still here</span>
+        <b>Justin shoots it and cuts it.</b> Video and photo for the vessel — behind the camera,
+        then behind the edit. If HTG looks like something, that's his hands on it.
+        <span class="nod">aboard</span>
       </p>
     </header>
 
-    <section class="section" aria-label="Stretty on Spotify">
-      <p class="section-kicker">The catalog · <b>live from Spotify</b></p>
-      <div class="embed-wrap">
-        <iframe
-          title="Stretty on Spotify"
-          src="https://open.spotify.com/embed/artist/4yQchxxguwc9PXmCVqb9Bm?utm_source=generator&theme=0"
-          height="452"
-          loading="lazy"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+    <section class="section" aria-label="Justinn.clout — the work">
+      <p class="section-kicker">The work · <b>profile and contact on YTJobs</b></p>
+
+      <!-- No reel embedded here on purpose. ABRAXAS and Stretty embed Spotify
+           artist profiles; there is no confirmed video channel or reel URL for
+           Justin in this repo yet, and inventing one is out (see CLAUDE.md's
+           content policy). When a real channel or reel exists, put it in an
+           .embed-wrap iframe here and delete this empty state. -->
+      <div class="empty">
+        <p><b>No reel pinned here yet.</b> The credits, the rates and the contact route all live
+        on the YTJobs profile until there's a reel worth embedding.</p>
       </div>
-      <p class="embed-note">Pulled straight from the artist profile — whatever's out is what shows.</p>
+      <p class="embed-note">YTJobs is the live source — the profile there is what's current.</p>
 
       <div class="links">
-        <a href="https://open.spotify.com/artist/4yQchxxguwc9PXmCVqb9Bm" target="_blank" rel="noopener noreferrer">Open Spotify</a>
-        <a href="https://stretty.music" target="_blank" rel="noopener noreferrer">stretty.music</a>
+        <a href="https://ytjobs.co/talent/profile/536835?r=899" target="_blank" rel="noopener noreferrer">Open YTJobs profile</a>
+        <a href="index.html#gallery">HTG gallery</a>
         <a href="mailto:Bookings@htg.productions">Bookings</a>
       </div>
     </section>
 
     <footer class="foot">
-      <span>© <span id="legal-year">2026</span> Stretty · HTG — <a href="legal.html">Legal &amp; Privacy</a></span>
-      <span>Board <a href="abraxas.html">ABRAXAS</a> · <a href="justin.html">Justinn.clout</a> · <a href="ciggie.html">ciggyholster</a> · back to <a href="index.html">HTG</a></span>
+      <span>© <span id="legal-year">2026</span> Justinn.clout · HTG — <a href="legal.html">Legal &amp; Privacy</a></span>
+      <span>Board <a href="abraxas.html">ABRAXAS</a> · <a href="stretty.html">Stretty</a> · <a href="ciggie.html">ciggyholster</a> · back to <a href="index.html">HTG</a></span>
     </footer>
     <script>(function(){var y=document.getElementById('legal-year');if(y)y.textContent=new Date().getFullYear();})();</script>
   </div>
