@@ -10,7 +10,7 @@
   <meta name="copyright" content="© HTG — Hex The Government. All rights reserved." />
   <meta name="robots" content="index, follow" />
   <meta property="og:title" content="HTG — Hex The Government" />
-  <meta property="og:description" content="A vessel on corporate waters. Two names aboard: ABRAXAS and Stretty." />
+  <meta property="og:description" content="A vessel on corporate waters. Four names aboard, led by ABRAXAS and Stretty." />
   <meta property="og:type" content="website" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0a0a'/%3E%3Ctext x='50' y='72' font-size='52' text-anchor='middle' fill='%23f2f2f2' font-family='Georgia, serif'%3EH%3C/text%3E%3C/svg%3E" />
   <script>document.documentElement.classList.add('js');</script>
@@ -19,9 +19,9 @@
   <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* HTG-only chrome: the masthead wordmark and the two artist doors.
+    /* HTG-only chrome: the masthead wordmark and the artist doors.
        Everything else on this page comes from style.css. */
-    :root { --abx: #b478ff; --str: #16c85a; }
+    :root { --abx: #b478ff; --str: #16c85a; --jus: #ff9b3d; --cig: #2fd4e0; }
 
     /* No hero aside on HTG — collapse style.css's two-column hero to one. */
     .hero-content { grid-template-columns: 1fr; }
@@ -56,15 +56,15 @@
     .mast .manifesto b { color: var(--text); font-weight: 700; }
     .mast .hero-cta { justify-content: center; margin-top: 2rem; }
 
-    /* ---- The two doors -------------------------------------------------- */
+    /* ---- The artist doors ------------------------------------------------ */
     .doors {
       display: flex;
+      flex-wrap: wrap;
       gap: 1px;
       background: var(--line);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       overflow: hidden;
-      min-height: clamp(18rem, 38vh, 26rem);
     }
     .door {
       position: relative;
@@ -72,6 +72,10 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      /* Basis >1/3 forces exactly two per row; the row height lives here rather
+         than on .doors so both rows stay full-height once the list wraps. */
+      flex: 1 1 40%;
+      min-height: clamp(15rem, 28vh, 21rem);
       padding: 2rem 1.25rem;
       overflow: hidden;
       text-align: center;
@@ -80,24 +84,37 @@
       background: rgba(10, 10, 10, 0.62);
       transition: flex-grow 0.5s ease, background 0.4s ease, filter 0.4s ease;
     }
-    /* ABRAXAS is the lit, dominant door; Stretty sits recessed and dimmer. */
-    .door--abx { flex: 1.35 1 0; }
-    .door--str { flex: 1 1 0; filter: brightness(0.72) saturate(0.6); }
+    /* ABRAXAS is the lit, dominant door; the rest sit recessed and dimmer. */
+    .door--abx { flex-grow: 1.35; }
+    .door--str, .door--jus, .door--cig { filter: brightness(0.72) saturate(0.6); }
     .door:hover, .door:focus-visible { flex-grow: 2; filter: none; background: rgba(10, 10, 10, 0.25); }
     .door--abx:hover, .door--abx:focus-visible { box-shadow: inset 0 0 140px rgba(180, 120, 255, 0.28); }
     .door--str:hover, .door--str:focus-visible { box-shadow: inset 0 0 140px rgba(22, 200, 90, 0.24); }
+    .door--jus:hover, .door--jus:focus-visible { box-shadow: inset 0 0 140px rgba(255, 155, 61, 0.24); }
+    .door--cig:hover, .door--cig:focus-visible { box-shadow: inset 0 0 140px rgba(47, 212, 224, 0.24); }
 
     .door-name {
       font-family: "New Rocker", serif;
       font-size: clamp(2rem, 6vw, 4rem);
       line-height: 1;
+      max-width: 100%;
+      overflow-wrap: anywhere;
       transition: color 0.4s ease, text-shadow 0.4s ease;
     }
+    /* Handles run ~12 characters against ABRAXAS's 7 — they need their own step
+       down or New Rocker overruns the door at every width. */
+    .door-name--long { font-size: clamp(1.3rem, 3.4vw, 2.2rem); }
     .door--abx:hover .door-name, .door--abx:focus-visible .door-name {
       color: var(--abx); text-shadow: 0 0 30px rgba(180, 120, 255, 0.55);
     }
     .door--str:hover .door-name, .door--str:focus-visible .door-name {
       color: var(--str); text-shadow: 0 0 30px rgba(22, 200, 90, 0.5);
+    }
+    .door--jus:hover .door-name, .door--jus:focus-visible .door-name {
+      color: var(--jus); text-shadow: 0 0 30px rgba(255, 155, 61, 0.5);
+    }
+    .door--cig:hover .door-name, .door--cig:focus-visible .door-name {
+      color: var(--cig); text-shadow: 0 0 30px rgba(47, 212, 224, 0.5);
     }
     .door-role {
       margin-top: 0.7rem;
@@ -126,13 +143,16 @@
     }
     .door--abx .board-btn { border-color: var(--abx); color: var(--abx); }
     .door--str .board-btn { border-color: var(--str); color: var(--str); }
+    .door--jus .board-btn { border-color: var(--jus); color: var(--jus); }
+    .door--cig .board-btn { border-color: var(--cig); color: var(--cig); }
 
     .nod { display: block; margin-top: 1.2rem; font-size: 0.64rem; letter-spacing: 0.4em; text-transform: uppercase; color: #5a5a5a; }
 
     @media (max-width: 760px) {
-      .doors { flex-direction: column; }
-      .door--abx, .door--str { flex: 1 1 auto; }
-      .door--str { filter: brightness(0.8) saturate(0.7); }
+      .doors { flex-direction: column; flex-wrap: nowrap; }
+      /* Stacked, four deep — drop the row height so the list stays scannable. */
+      .door { flex: 1 1 auto; min-height: 0; }
+      .door--str, .door--jus, .door--cig { filter: brightness(0.8) saturate(0.7); }
       /* No hover on touch — show the reveal so the CTA is always reachable. */
       .door-reveal { max-height: 12rem; opacity: 1; margin-top: 1.2rem; }
     }
@@ -197,7 +217,7 @@
               <b>H.T.G. is a vessel.</b> A private ark on corporate waters, built to stay afloat while
               governments and billionaires sink everything else.
               <br><br>
-              <b>ABRAXAS is Noah</b> — out front. <b>Stretty is the Ark</b> — the hull. Two names aboard,
+              <b>ABRAXAS is Noah</b> — out front. <b>Stretty is the Ark</b> — the hull. Four names aboard,
               more being pulled out of the water.
             </p>
             <div class="hero-cta">
@@ -214,7 +234,7 @@
           <div class="section-head fade-in">
             <span class="section-kicker">The Roster</span>
             <h2 class="section-title">Pick a deck.</h2>
-            <p class="section-copy">Two names aboard. Each one has its own boarding card — the catalog, the links, the way in.</p>
+            <p class="section-copy">Four names aboard. Each one has its own boarding card — the catalog, the links, the way in.</p>
           </div>
 
           <nav class="doors fade-in" aria-label="Choose an artist">
@@ -233,6 +253,24 @@
               <span class="door-reveal">
                 <span class="door-line">The Ark itself — older brother, working the back. Depressions running deep.</span>
                 <span class="board-btn">Board STRETTY →</span>
+              </span>
+            </a>
+
+            <a class="door door--jus" href="https://ytjobs.co/talent/profile/536835?r=899" target="_blank" rel="noopener noreferrer">
+              <span class="door-name door-name--long">JUSTINN.CLOUT</span>
+              <span class="door-role">Aboard · @justinn.clout</span>
+              <span class="door-reveal">
+                <span class="door-line">Pulled out of the water. Profile and contact live on YTJobs.</span>
+                <span class="board-btn">Board JUSTINN.CLOUT →</span>
+              </span>
+            </a>
+
+            <a class="door door--cig" href="https://linktr.ee/ciggyholster" target="_blank" rel="noopener noreferrer">
+              <span class="door-name door-name--long">CIGGYHOLSTER</span>
+              <span class="door-role">Aboard · @ciggyholster</span>
+              <span class="door-reveal">
+                <span class="door-line">Pulled out of the water. Everything else runs off the Linktree.</span>
+                <span class="board-btn">Board CIGGYHOLSTER →</span>
               </span>
             </a>
           </nav>
@@ -295,7 +333,7 @@
                 Hex The Government is a vessel, not a brand exercise. Heavy without turning into empty noise, honest without going soft. Music for the ones treading water while the people who flooded the room count the takings.
               </p>
               <p>
-                Singles, visuals, merch and live all run off one deck instead of rotting across a hundred dead links. Two names aboard so far — ABRAXAS out front, Stretty holding the hull.
+                Singles, visuals, merch and live all run off one deck instead of rotting across a hundred dead links. Four names aboard so far — ABRAXAS out front, Stretty holding the hull, Justinn.clout and ciggyholster pulled up alongside.
               </p>
               <div class="label-badge">HTG / Hex The Government</div>
             </div>
@@ -339,7 +377,7 @@
               <div class="stat-label">Albums in the Sequence</div>
             </article>
             <article class="stat-card fade-in">
-              <div class="stat-value" data-counter="2">0</div>
+              <div class="stat-value" data-counter="4">0</div>
               <div class="stat-label">Names aboard the vessel</div>
             </article>
           </div>
@@ -406,7 +444,7 @@
           <div class="section-head fade-in">
             <span class="section-kicker">New Releases</span>
             <h2 class="section-title">The catalog lives on the artist decks.</h2>
-            <p class="section-copy">Everything HTG has put out is on the two boarding cards — ABRAXAS in the Sequence, Stretty on his own profile.</p>
+            <p class="section-copy">Everything HTG has put out is on the ABRAXAS and Stretty boarding cards — ABRAXAS in the Sequence, Stretty on his own profile.</p>
           </div>
 
           <div class="empty-state fade-in">
@@ -565,6 +603,8 @@
               <div class="pill-links" style="margin-top: 1rem;">
                 <a class="inline-link" href="abraxas.html">Board ABRAXAS →</a>
                 <a class="inline-link" href="stretty.html">Board Stretty →</a>
+                <a class="inline-link" href="https://ytjobs.co/talent/profile/536835?r=899" target="_blank" rel="noopener noreferrer">Board Justinn.clout →</a>
+                <a class="inline-link" href="https://linktr.ee/ciggyholster" target="_blank" rel="noopener noreferrer">Board ciggyholster →</a>
                 <a class="inline-link" href="sequence.html">The Sequence →</a>
                 <a class="inline-link" href="game.html">Suit Purge →</a>
               </div>
