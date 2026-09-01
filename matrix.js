@@ -47,6 +47,27 @@
   };
   const PARTNER = { orange: 'cyan', cyan: 'orange' };
 
+  /* ---- Pointer proximity ---------------------------------------------------
+     Columns whose head glyph is near the cursor briefly run faster and burn
+     brighter, then settle back. Mouse-only and animation-only: the listener is
+     never attached on a touch device or under reduced motion, so the still
+     frame stays exactly as still as it was.                                 */
+  const POINTER_RADIUS = 120;      // px from the head glyph
+  const POINTER_SPEED_BOOST = 0.5; // +50% fall speed at full charge
+  const POINTER_HEAD_ALPHA = 0.45; // overdraw strength at full charge
+  const POINTER_DECAY_TAU = 0.18;  // ~0.5s back to rest
+  const CHARGE_FLOOR = 0.01;       // below this a column is simply at rest
+
+  /* The bright head is precomputed per ink, once. Building a colour string
+     per column per frame would put string work in the hot loop for an effect
+     that is meant to cost nothing. */
+  function brighten(rgba) {
+    const n = rgba.match(/[\d.]+/g).map(Number);
+    const lift = (c) => Math.round(c + (255 - c) * 0.55);
+    return 'rgb(' + lift(n[0]) + ',' + lift(n[1]) + ',' + lift(n[2]) + ')';
+  }
+  for (const key in INKS) INKS[key].bright = brighten(INKS[key].head);
+
   /* Half-drawn pairs, keyed by the column index that owes the partner ink —
      never a floating debt handed to whichever column happens to draw next,
      which would land the partner anywhere on screen. Cleared on resize with
@@ -149,6 +170,7 @@
       glyph: pickGlyph(),
       swapT: Math.random() * 0.3,
       ink: pickInk(i),
+      charge: 0,
     }));
 
     if (stillOnly) drawStill();
@@ -203,6 +225,9 @@
     ctx.fillStyle = 'rgba(10, 10, 10, ' + fadeAlpha.toFixed(3) + ')';
     ctx.fillRect(0, 0, width, height);
     const resetChance = 1 - Math.exp(-RESET_CHANCE_PER_SEC * dt);
+    // One exp() for the whole frame rather than one per column.
+    const chargeDecay = Math.exp(-dt / POINTER_DECAY_TAU);
+    const radius2 = POINTER_RADIUS * POINTER_RADIUS;
 
     for (let i = 0; i < columns.length; i++) {
       const col = columns[i];
@@ -272,12 +297,14 @@
 
   resize();
   start();
+  bindPointer();
 
   const onReduceMotionChange = () => {
     stillOnly = reduceMotion.matches;
     stop();
     resize();   // repaints as a still frame or a clear ground, per the new mode
     start();    // no-op while stillOnly
+    if (stillOnly) unbindPointer(); else bindPointer();
   };
   if (reduceMotion.addEventListener) reduceMotion.addEventListener('change', onReduceMotionChange);
   else if (reduceMotion.addListener) reduceMotion.addListener(onReduceMotionChange);
