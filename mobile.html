@@ -1,16 +1,21 @@
+<!-- GENERATED FILE — do not edit. Built from index.html + style.css by
+     scripts/build-mobile.js. Run `npm run build:mobile` after changing
+     either source, or this page falls behind the desktop one. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ABRAXAS | Depressions Running Deep</title>
-  <meta name="description" content="ABRAXAS under self-created label HTG - Hex The Government. Underground occult rap, new releases, tours, merchandise, gallery, and contact." />
-  <meta name="theme-color" content="#1f0335" />
-  <meta property="og:title" content="ABRAXAS" />
-  <meta property="og:description" content="Depressions Running Deep. Underground occult rap under HTG - Hex The Government." />
+  <title>HTG — Hex The Government</title>
+  <meta name="description" content="HTG — Hex The Government. A private vessel on corporate waters. Home of ABRAXAS and Stretty: music, merch, tours, gallery and bookings, all off one deck." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="author" content="HTG — Hex The Government" />
+  <meta name="copyright" content="© HTG — Hex The Government. All rights reserved." />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="HTG — Hex The Government" />
+  <meta property="og:description" content="A vessel on corporate waters. Four names aboard, led by ABRAXAS and Stretty." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/placeholders/hero-poster.svg" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231f0335'/%3E%3Ctext x='50' y='74' font-size='68' text-anchor='middle' fill='%238c03fc' font-family='Georgia, serif'%3EA%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0a0a'/%3E%3Ctext x='50' y='72' font-size='52' text-anchor='middle' fill='%23f2f2f2' font-family='Georgia, serif'%3EH%3C/text%3E%3C/svg%3E" />
   <script data-page="mobile">
     // Mark JS as available: CSS only arms the reveal animations and the
     // custom cursor when this class is present, so a failed script never
@@ -18,6 +23,7 @@
     document.documentElement.classList.add('js');
     // Desktop/mobile split: phones land on mobile.html, desktops on
     // index.html. ?desktop / ?mobile (set by the switch links) pins a choice.
+    // build-mobile.js rewrites data-page to "mobile" in the generated copy.
     (function () {
       var page = document.currentScript.getAttribute('data-page');
       try {
@@ -26,8 +32,8 @@
         if (params.has('mobile')) sessionStorage.setItem('abx-view', 'mobile');
         var pref = sessionStorage.getItem('abx-view');
         var narrow = window.matchMedia('(max-width: 820px)').matches;
-        if (page === 'desktop' && pref !== 'desktop' && narrow) location.replace('mobile.html' + location.hash);
-        if (page === 'mobile' && pref !== 'mobile' && !narrow) location.replace('index.html' + location.hash);
+        if (page === 'desktop' && pref !== 'desktop' && narrow) location.replace('mobile.html' + location.search + location.hash);
+        if (page === 'mobile' && pref !== 'mobile' && !narrow) location.replace('index.html' + location.search + location.hash);
       } catch (e) { /* storage blocked — stay on this page */ }
     })();
   </script>
@@ -36,20 +42,20 @@
   <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #1f0335;
+      --bg: #0a0a0a;
       --bg-soft: #000000;
       --surface: #1b1e1e;
       --surface-2: rgba(27, 30, 30, 0.88);
       --panel: rgba(27, 30, 30, 0.82);
-      --line: rgba(140, 3, 252, 0.18);
-      --line-strong: rgba(140, 3, 252, 0.4);
+      --line: rgba(255, 255, 255, 0.18);
+      --line-strong: rgba(255, 255, 255, 0.4);
       --line-neutral: rgba(245, 245, 243, 0.1);
       --text: #f5f5f3;
-      --muted: #d7c6ea;
-      --accent: #8c03fc;
+      --muted: #9a9a9a;
+      --accent: #ffffff;
       --accent-soft: #1b1e1e;
       --danger: #ff5e93;
-      --shadow: 0 0 0 1px rgba(140, 3, 252, 0.12), 0 24px 60px rgba(0, 0, 0, 0.55);
+      --shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 24px 60px rgba(0, 0, 0, 0.55);
       --radius: 18px;
       --radius-sm: 12px;
       --nav-height: 114px;
@@ -57,6 +63,10 @@
       --transition: 220ms ease;
       --section-space: clamp(4rem, 8vw, 7rem);
       --cursor-size: 42px;
+      /* Vertical space the fixed bottom CTA bar occupies. It is fixed, so it
+         takes no flow space of its own: this reserves it, and lifts the
+         back-to-top button clear. Zero once the bar is hidden on phones. */
+      --cta-space: 6.5rem;
     }
 
     * {
@@ -72,8 +82,8 @@
     body {
       font-family: "IBM Plex Mono", monospace;
       background:
-        radial-gradient(circle at top, rgba(140, 3, 252, 0.08), transparent 30%),
-        linear-gradient(180deg, rgba(140, 3, 252, 0.03), transparent 18%),
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.08), transparent 30%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 18%),
         var(--bg);
       color: var(--text);
       overflow-x: hidden;
@@ -94,8 +104,8 @@
       inset: 0;
       pointer-events: none;
       background:
-        linear-gradient(rgba(140, 3, 252, 0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(140, 3, 252, 0.03) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
       background-size: 48px 48px;
       mask-image: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.15));
       z-index: 0;
@@ -111,6 +121,17 @@
       opacity: 0.55;
       z-index: 0;
     }
+
+    #matrix-rain {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.55;
+    }
+    body.game-active #matrix-rain { display: none; }
 
     a {
       color: inherit;
@@ -143,9 +164,9 @@
     .cursor {
       width: var(--cursor-size);
       height: var(--cursor-size);
-      border: 1px solid rgba(140, 3, 252, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.6);
       border-radius: 50%;
-      box-shadow: 0 0 20px rgba(140, 3, 252, 0.18);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.18);
       transform: translate(-50%, -50%);
     }
 
@@ -155,7 +176,7 @@
       background: var(--accent);
       border-radius: 50%;
       transform: translate(-50%, -50%);
-      box-shadow: 0 0 18px rgba(140, 3, 252, 0.55);
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.55);
     }
 
     .cursor.active,
@@ -166,8 +187,8 @@
     .cursor.link-hover {
       width: 58px;
       height: 58px;
-      border-color: rgba(140, 3, 252, 0.95);
-      background: rgba(140, 3, 252, 0.06);
+      border-color: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.06);
     }
 
     .site-shell {
@@ -229,7 +250,7 @@
       font-family: "New Rocker", system-ui;
       font-size: clamp(1.55rem, 4vw, 2.7rem);
       letter-spacing: 0.12rem;
-      text-shadow: 0 0 14px rgba(140, 3, 252, 0.22);
+      text-shadow: 0 0 14px rgba(255, 255, 255, 0.22);
     }
 
     .brand-subtitle {
@@ -252,7 +273,7 @@
       padding: 0.95rem 1rem;
       border: 1px solid var(--line-strong);
       border-radius: 999px;
-      background: rgba(140, 3, 252, 0.04);
+      background: rgba(255, 255, 255, 0.04);
       color: var(--text);
       text-transform: uppercase;
       letter-spacing: 0.18rem;
@@ -296,12 +317,12 @@
     .nav-list a.active {
       color: var(--text);
       border-color: var(--line-strong);
-      background: rgba(140, 3, 252, 0.06);
+      background: rgba(255, 255, 255, 0.06);
       transform: translateY(-1px);
     }
 
     main {
-      padding-top: calc(var(--nav-height) + 1.4rem);
+      padding-top: 0;
     }
 
     section {
@@ -315,10 +336,15 @@
 
     .hero {
       position: relative;
-      min-height: min(100vh, 980px);
+      /* No hero video ships, so the section hugs its content instead of
+         reserving a full viewport of empty gradient. The top padding clears
+         the fixed header (main no longer reserves that space) so the wordmark
+         sits high on landing with no dead space above it. */
+      min-height: auto;
       display: grid;
-      align-items: end;
+      align-items: start;
       overflow: hidden;
+      padding-top: calc(var(--nav-height) + 1.75rem);
       padding-bottom: clamp(2rem, 5vw, 4rem);
       border-bottom: 1px solid var(--line-neutral);
     }
@@ -341,16 +367,16 @@
 
     .hero-overlay {
       background:
-        radial-gradient(circle at center, rgba(140, 3, 252, 0.08), transparent 45%),
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.08), transparent 45%),
         linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.78) 68%, rgba(10,10,10,0.96));
       z-index: 1;
     }
 
     .hero-grid {
       background:
-        repeating-linear-gradient(180deg, rgba(140, 3, 252, 0.12) 0 1px, transparent 1px 5px),
-        linear-gradient(rgba(140, 3, 252, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(140, 3, 252, 0.08) 1px, transparent 1px);
+        repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 5px),
+        linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
       background-size: 100% 5px, 100px 100px, 100px 100px;
       opacity: 0.18;
       z-index: 1;
@@ -412,7 +438,6 @@
       line-height: 0.95;
       margin-bottom: 1rem;
       text-transform: uppercase;
-      text-shadow: 0 0 24px rgba(140, 3, 252, 0.45), 0 0 72px rgba(140, 3, 252, 0.25);
       animation: wordmark-flicker-in 1.4s ease-out 1 both;
     }
 
@@ -480,7 +505,7 @@
     .inline-link:hover,
     .inline-link:focus-visible {
       text-decoration: underline;
-      text-shadow: 0 0 18px rgba(140, 3, 252, 0.45);
+      text-shadow: 0 0 18px rgba(255, 255, 255, 0.45);
     }
 
     .btn-primary {
@@ -497,7 +522,6 @@
     .release-card,
     .tour-card,
     .gallery-item,
-    .merch-card,
     .contact-card,
     .coming-card {
       background: var(--panel);
@@ -513,13 +537,12 @@
     .release-card::before,
     .tour-card::before,
     .gallery-item::before,
-    .merch-card::before,
     .contact-card::before,
     .coming-card::before {
       content: "";
       position: absolute;
       inset: 0;
-      border: 1px solid rgba(140, 3, 252, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.03);
       border-radius: inherit;
       pointer-events: none;
     }
@@ -547,8 +570,8 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: rgba(140, 3, 252, 0.45);
-      box-shadow: 0 0 12px rgba(140, 3, 252, 0.28);
+      background: rgba(255, 255, 255, 0.45);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.28);
     }
 
     .terminal-label {
@@ -583,7 +606,7 @@
       padding: 0.35rem 0.65rem;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: rgba(140, 3, 252, 0.04);
+      background: rgba(255, 255, 255, 0.04);
       font-size: 0.72rem;
       color: var(--muted);
       text-transform: uppercase;
@@ -593,6 +616,56 @@
     .section {
       padding: var(--section-space) 0;
       position: relative;
+    }
+
+    /* Suit Purge easter egg: the #game section ships hidden and is unlocked
+       at runtime by script.js (Konami code / type "purge" / tap wordmark). */
+    #game[hidden] {
+      display: none !important;
+    }
+
+    #game.egg-reveal {
+      animation: eggReveal 0.9s ease both;
+    }
+
+    /* A quiet on-page nod that the hidden maze exists. */
+    .egg-hint {
+      margin-top: 1rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      opacity: 0.7;
+      transition: opacity var(--transition);
+    }
+
+    .egg-hint:hover {
+      opacity: 1;
+    }
+
+    .egg-hint kbd {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.72em;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.15em 0.45em;
+      border: 1px solid var(--line-strong);
+      border-radius: 3px;
+      color: var(--accent);
+    }
+
+    .egg-hint a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    .egg-hint a:hover {
+      border-bottom-color: var(--accent);
+    }
+
+    @keyframes eggReveal {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: none; }
     }
 
     .section-head {
@@ -659,7 +732,7 @@
       bottom: 0;
       left: 0.2rem;
       width: 1px;
-      background: linear-gradient(180deg, rgba(140, 3, 252, 0.1), rgba(140, 3, 252, 0.45), rgba(140, 3, 252, 0.08));
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.08));
     }
 
     .timeline-card {
@@ -680,7 +753,7 @@
       height: 12px;
       border-radius: 50%;
       background: var(--accent);
-      box-shadow: 0 0 18px rgba(140, 3, 252, 0.45);
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.45);
     }
 
     .timeline-step {
@@ -707,7 +780,6 @@
     .release-grid,
     .tour-grid,
     .gallery-grid,
-    .merch-grid,
     .coming-grid,
     .player-grid,
     .footer-grid {
@@ -721,7 +793,7 @@
 
     .stat-card {
       padding: 1.2rem;
-      background: linear-gradient(180deg, rgba(140, 3, 252, 0.05), rgba(26, 26, 26, 0.92));
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(26, 26, 26, 0.92));
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
@@ -776,7 +848,6 @@
 
     .info-card h3,
     .release-card h3,
-    .merch-card h3,
     .coming-card h3,
     .tour-card h3,
     .contact-card h3 {
@@ -788,7 +859,6 @@
 
     .info-card p,
     .release-card p,
-    .merch-card p,
     .coming-card p,
     .tour-card p,
     .contact-card p {
@@ -803,7 +873,7 @@
       margin-top: 1rem;
       padding: 0.45rem 0.75rem;
       border-radius: 999px;
-      background: rgba(140, 3, 252, 0.06);
+      background: rgba(255, 255, 255, 0.06);
       border: 1px solid var(--line);
       color: var(--accent);
       font-size: 0.72rem;
@@ -821,7 +891,6 @@
 
     .release-cover,
     .gallery-thumb,
-    .merch-image,
     .coming-image {
       aspect-ratio: 1 / 1;
       object-fit: cover;
@@ -829,7 +898,6 @@
     }
 
     .release-body,
-    .merch-body,
     .coming-body,
     .tour-body {
       padding: 1.15rem;
@@ -850,7 +918,7 @@
       min-height: 30px;
       padding: 0.3rem 0.65rem;
       border-radius: 999px;
-      background: rgba(140, 3, 252, 0.05);
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--line);
       font-size: 0.72rem;
       text-transform: uppercase;
@@ -886,7 +954,7 @@
       padding: 0.35rem 0.65rem;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: rgba(140, 3, 252, 0.06);
+      background: rgba(255, 255, 255, 0.06);
       font-size: 0.68rem;
       text-transform: uppercase;
       letter-spacing: 0.16rem;
@@ -926,7 +994,6 @@
       letter-spacing: 0.14rem;
     }
 
-    .merch-grid,
     .coming-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -954,7 +1021,7 @@
       padding: 0.8rem 0.9rem;
       border-radius: var(--radius-sm);
       border: 1px solid var(--line);
-      background: rgba(140, 3, 252, 0.04);
+      background: rgba(255, 255, 255, 0.04);
     }
 
     .contact-list strong {
@@ -967,7 +1034,7 @@
     .contact-list a {
       color: var(--text);
       text-decoration: underline;
-      text-decoration-color: rgba(140, 3, 252, 0.5);
+      text-decoration-color: rgba(255, 255, 255, 0.5);
       text-underline-offset: 3px;
       overflow-wrap: anywhere;
     }
@@ -1005,7 +1072,7 @@
       width: 100%;
       padding: 0.95rem 1rem;
       border-radius: var(--radius-sm);
-      border: 1px solid rgba(140, 3, 252, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       background: rgba(255, 255, 255, 0.02);
       color: var(--text);
       outline: none;
@@ -1014,9 +1081,9 @@
 
     .field input:focus,
     .field textarea:focus {
-      border-color: rgba(140, 3, 252, 0.65);
-      background: rgba(140, 3, 252, 0.04);
-      box-shadow: 0 0 0 3px rgba(140, 3, 252, 0.08);
+      border-color: rgba(255, 255, 255, 0.65);
+      background: rgba(255, 255, 255, 0.04);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
     }
 
     .field textarea {
@@ -1071,7 +1138,7 @@
       align-items: center;
       justify-content: center;
       border: 1px solid var(--line);
-      background: rgba(140, 3, 252, 0.04);
+      background: rgba(255, 255, 255, 0.04);
       color: var(--text);
       transition: transform var(--transition), border-color var(--transition), background var(--transition);
     }
@@ -1085,8 +1152,8 @@
     .social-link:hover,
     .social-link:focus-visible {
       transform: translateY(-2px);
-      border-color: rgba(140, 3, 252, 0.6);
-      background: rgba(140, 3, 252, 0.12);
+      border-color: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.12);
       color: var(--accent);
     }
 
@@ -1152,7 +1219,7 @@
       height: 46px;
       border-radius: 50%;
       border: 1px solid var(--line-strong);
-      background: rgba(140, 3, 252, 0.04);
+      background: rgba(255, 255, 255, 0.04);
       color: var(--text);
       display: inline-flex;
       align-items: center;
@@ -1164,14 +1231,14 @@
     .icon-btn:hover,
     .icon-btn:focus-visible {
       transform: translateY(-2px);
-      background: rgba(140, 3, 252, 0.12);
-      border-color: rgba(140, 3, 252, 0.75);
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.75);
     }
 
     .to-top {
       position: fixed;
       right: 1rem;
-      bottom: 6.7rem;
+      bottom: calc(var(--cta-space) + max(1rem, env(safe-area-inset-bottom)));
       z-index: 990;
       width: 50px;
       height: 50px;
@@ -1194,6 +1261,11 @@
       opacity: 1;
       visibility: visible;
       transform: translateY(0);
+    }
+
+    /* Without this the end of the page sits underneath the bar unreachable. */
+    body:has(.sticky-cta) {
+      padding-bottom: var(--cta-space);
     }
 
     .sticky-cta {
@@ -1272,7 +1344,32 @@
       border: 0;
     }
 
+    .skip-link {
+      position: fixed;
+      top: 0.5rem;
+      left: 0.5rem;
+      z-index: 2000;
+      padding: 0.6rem 0.9rem;
+      background: var(--accent);
+      color: #000;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      transform: translateY(-200%);
+      transition: transform var(--transition);
+    }
+    .skip-link:focus {
+      transform: translateY(0);
+      outline: 2px solid #000;
+      outline-offset: 2px;
+    }
+
     @media (max-width: 1080px) {
+      :root {
+        /* The bar wraps to two rows at this width. */
+        --cta-space: 9.5rem;
+      }
+
       .hero-content,
       .story-layout,
       .contact-wrap,
@@ -1285,7 +1382,6 @@
       .release-grid,
       .tour-grid,
       .gallery-grid,
-      .merch-grid,
       .coming-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -1299,6 +1395,7 @@
     @media (max-width: 820px) {
       :root {
         --nav-height: 92px;
+        --cta-space: 0rem;
       }
 
       body {
@@ -1340,19 +1437,20 @@
       }
 
       .hero {
-        min-height: 92vh;
+        min-height: auto;
       }
 
       .hero h1 {
         font-size: clamp(2.7rem, 14vw, 4.5rem);
       }
 
-      .sticky-cta-inner {
-        flex-direction: column;
-        align-items: stretch;
+      /* The bottom CTA bar is desktop-only. Stacked on a phone it grew to
+         two full-width buttons plus two lines of copy, permanently covering
+         a third of the viewport and sitting over the footer. */
+      .sticky-cta {
+        display: none;
       }
 
-      .sticky-actions,
       .hero-cta,
       .pill-links,
       .social-links {
@@ -1366,7 +1464,7 @@
 
     @media (max-width: 640px) {
       main {
-        padding-top: calc(var(--nav-height) + 1.2rem);
+        padding-top: 0;
       }
 
       .container {
@@ -1382,7 +1480,6 @@
       .release-grid,
       .tour-grid,
       .gallery-grid,
-      .merch-grid,
       .coming-grid,
       .form-grid {
         grid-template-columns: 1fr;
@@ -1406,8 +1503,6 @@
         font-size: clamp(1.8rem, 9vw, 2.4rem);
       }
 
-      .sticky-actions .btn,
-      .sticky-actions .inline-link,
       .hero-cta .btn,
       .hero-cta .inline-link {
         width: 100%;
@@ -1415,7 +1510,6 @@
 
       .to-top {
         right: 0.8rem;
-        bottom: 8.6rem;
       }
     }
 
@@ -1446,8 +1540,8 @@
     }
 
     .embed-card.highlight {
-      border-color: rgba(140, 3, 252, 0.75);
-      box-shadow: 0 0 0 1px rgba(140, 3, 252, 0.35), 0 0 34px rgba(140, 3, 252, 0.25), var(--shadow);
+      border-color: rgba(255, 255, 255, 0.75);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35), 0 0 34px rgba(255, 255, 255, 0.25), var(--shadow);
     }
 
     .embed-head {
@@ -1469,7 +1563,7 @@
       padding: 0.2rem 0.65rem;
       border-radius: 999px;
       border: 1px solid var(--line-strong);
-      background: rgba(140, 3, 252, 0.14);
+      background: rgba(255, 255, 255, 0.14);
       color: var(--accent);
       font-size: 0.66rem;
       font-weight: 700;
@@ -1480,7 +1574,7 @@
     .insta-grid iframe {
       background: #fff;
     }
-  
+
     /* =====================================================================
        Empty states + Suit Purge (game.js)
        ===================================================================== */
@@ -1493,7 +1587,7 @@
       padding: 1.5rem;
       border: 1px dashed var(--line);
       border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(140, 3, 252, 0.04), rgba(26, 26, 26, 0.9));
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(26, 26, 26, 0.9));
       display: grid;
       gap: 1.1rem;
       justify-items: start;
@@ -1512,7 +1606,7 @@
       border: 1px solid var(--line-strong);
       border-radius: var(--radius);
       overflow: hidden;
-      background: #0b0217;
+      background: #0a0a0a;
       box-shadow: var(--shadow);
     }
 
@@ -1546,7 +1640,7 @@
       padding: 0.3rem 0.6rem;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: rgba(11, 2, 23, 0.72);
+      background: rgba(14, 14, 14, 0.72);
       font-size: 0.6rem;
       text-transform: uppercase;
       letter-spacing: 0.14rem;
@@ -1568,7 +1662,7 @@
       gap: 0.85rem;
       padding: 1.25rem;
       text-align: center;
-      background: radial-gradient(circle at center, rgba(31, 3, 53, 0.84), rgba(6, 1, 12, 0.96));
+      background: radial-gradient(circle at center, rgba(24, 24, 24, 0.84), rgba(6, 6, 6, 0.96));
     }
 
     .game-kicker {
@@ -1615,8 +1709,8 @@
       width: 78px;
       height: 78px;
       border-radius: 50%;
-      border: 1px solid rgba(140, 3, 252, 0.6);
-      background: rgba(140, 3, 252, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.2);
       color: var(--text);
       font-family: inherit;
       font-size: 0.66rem;
@@ -1637,7 +1731,7 @@
       padding: 0.35rem 0.7rem;
       border-radius: 999px;
       border: 1px solid var(--line-strong);
-      background: rgba(11, 2, 23, 0.82);
+      background: rgba(14, 14, 14, 0.82);
       color: var(--text);
       font-family: inherit;
       font-size: 0.6rem;
@@ -1670,6 +1764,11 @@
       display: none;
     }
 
+    /* The bar is fixed over everything, including the game viewport. */
+    body.game-active .sticky-cta {
+      display: none;
+    }
+
     @media (max-width: 820px) {
       .game-stage {
         width: 100%;
@@ -1690,28 +1789,369 @@
       }
     }
 
+    /* =====================================================================
+       Roster — ABRAXAS + Stretty slide-down splits
+       ===================================================================== */
+    .splits {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .split {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .split-toggle {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      padding: 1.2rem 1.4rem;
+      border: 0;
+      background: none;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .split-index {
+      font-family: "New Rocker", system-ui;
+      color: var(--accent);
+      font-size: 1.1rem;
+      letter-spacing: 0.1rem;
+    }
+
+    .split-name {
+      font-family: "New Rocker", system-ui;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      letter-spacing: 0.08rem;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .split-tag {
+      padding: 0.28rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+      font-size: 0.64rem;
+      letter-spacing: 0.18rem;
+      text-transform: uppercase;
+    }
+
+    .split-icon {
+      margin-left: auto;
+      flex: 0 0 auto;
+      width: 34px;
+      height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 1px solid var(--line-strong);
+      color: var(--accent);
+      font-size: 1.25rem;
+      line-height: 1;
+      transition: transform var(--transition), background var(--transition);
+    }
+
+    .split.open .split-icon {
+      transform: rotate(45deg);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .split-toggle:hover .split-icon,
+    .split-toggle:focus-visible .split-icon {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Slide-down: animate the grid row 0fr -> 1fr (height, animatable). */
+    .split-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 340ms ease;
+    }
+
+    .split.open .split-body {
+      grid-template-rows: 1fr;
+    }
+
+    .split-inner {
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .split-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      align-items: start;
+      padding: 0 1.4rem 1.5rem;
+      border-top: 1px solid var(--line-neutral);
+    }
+
+    .split-content > * {
+      padding-top: 1.4rem;
+    }
+
+    .split-copy p {
+      color: var(--muted);
+    }
+
+    .split-copy p + p {
+      margin-top: 0.9rem;
+    }
+
+    .split-copy .pill-links {
+      margin-top: 1.2rem;
+    }
+
+    .split-media iframe {
+      display: block;
+      width: 100%;
+      border: 0;
+      border-radius: var(--radius-sm);
+    }
+
+    .split-vault {
+      margin-top: 1.1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 0.9rem;
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius-sm);
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.14rem;
+      text-transform: uppercase;
+      transition: color var(--transition), border-color var(--transition), background var(--transition);
+    }
+
+    .split-vault:hover,
+    .split-vault:focus-visible {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    /* Hidden portal — a low-key glyph out to the off-grid signal. */
+    .ghost-portal {
+      display: inline-block;
+      margin-left: 0.5rem;
+      opacity: 0.12;
+      transition: opacity var(--transition), color var(--transition);
+    }
+
+    .ghost-portal:hover,
+    .ghost-portal:focus-visible {
+      opacity: 1;
+      color: var(--accent);
+    }
+
+    @media (max-width: 720px) {
+      .split-content {
+        grid-template-columns: 1fr;
+      }
+      .split-content > * {
+        padding-top: 1.2rem;
+      }
+      .split-name {
+        font-size: clamp(1.4rem, 8vw, 2rem);
+      }
+    }
+    /* ---- Legal footer block --------------------------------------------- */
+    .legal-footer {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.25);
+      font-family: "IBM Plex Mono", monospace;
+    }
+    .legal-footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1.25rem;
+      margin-bottom: 1rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .legal-footer-links a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .legal-footer-links a:hover,
+    .legal-footer-links a:focus-visible {
+      color: #ffffff;
+    }
+    .legal-footer-copy {
+      font-size: 0.78rem;
+      line-height: 1.65;
+      color: var(--muted);
+      margin: 0 0 0.7rem;
+    }
+    .legal-footer-copy:last-child { margin-bottom: 0; }
+  </style>
+  <style>
+    /* HTG-only chrome: the masthead wordmark and the artist doors.
+       Everything else on this page comes from style.css. */
+    :root { --abx: #b478ff; --str: #16c85a; --jus: #ff9b3d; --cig: #2fd4e0; }
+
+    /* No hero aside on HTG — collapse style.css's two-column hero to one. */
+    .hero-content { grid-template-columns: 1fr; }
+    .mast { text-align: center; max-width: 52rem; margin: 0 auto; }
+    .mast .curse {
+      font-size: clamp(0.62rem, 1.6vw, 0.8rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.4rem;
+    }
+    .mast .wordmark {
+      font-family: "New Rocker", "IBM Plex Mono", serif;
+      font-weight: 400;
+      line-height: 0.9;
+      font-size: clamp(3.4rem, 15vw, 9rem);
+      letter-spacing: 0.02em;
+    }
+    .mast .expand {
+      margin-top: 0.85rem;
+      font-size: clamp(0.72rem, 2.2vw, 1rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      padding-left: 0.5em; /* optical: absorb the trailing letter-spacing */
+    }
+    .mast .manifesto {
+      margin: 1.9rem auto 0;
+      font-size: clamp(0.9rem, 2.3vw, 1.08rem);
+      line-height: 1.65;
+      color: #cfcfcf;
+    }
+    .mast .manifesto b { color: var(--text); font-weight: 700; }
+    .mast .hero-cta { justify-content: center; margin-top: 2rem; }
+
+    /* ---- The artist doors ------------------------------------------------ */
+    .doors {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .door {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      /* Basis >1/3 forces exactly two per row; the row height lives here rather
+         than on .doors so both rows stay full-height once the list wraps. */
+      flex: 1 1 40%;
+      min-height: clamp(15rem, 28vh, 21rem);
+      padding: 2rem 1.25rem;
+      overflow: hidden;
+      text-align: center;
+      text-decoration: none;
+      color: var(--text);
+      background: rgba(10, 10, 10, 0.62);
+      transition: flex-grow 0.5s ease, background 0.4s ease, filter 0.4s ease;
+    }
+    /* ABRAXAS is the lit, dominant door; the rest sit recessed and dimmer. */
+    .door--abx { flex-grow: 1.35; }
+    .door--str, .door--jus, .door--cig { filter: brightness(0.72) saturate(0.6); }
+    .door:hover, .door:focus-visible { flex-grow: 2; filter: none; background: rgba(10, 10, 10, 0.25); }
+    .door--abx:hover, .door--abx:focus-visible { box-shadow: inset 0 0 140px rgba(180, 120, 255, 0.28); }
+    .door--str:hover, .door--str:focus-visible { box-shadow: inset 0 0 140px rgba(22, 200, 90, 0.24); }
+    .door--jus:hover, .door--jus:focus-visible { box-shadow: inset 0 0 140px rgba(255, 155, 61, 0.24); }
+    .door--cig:hover, .door--cig:focus-visible { box-shadow: inset 0 0 140px rgba(47, 212, 224, 0.24); }
+
+    .door-name {
+      font-family: "New Rocker", serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      line-height: 1;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      transition: color 0.4s ease, text-shadow 0.4s ease;
+    }
+    /* Handles run ~12 characters against ABRAXAS's 7 — they need their own step
+       down or New Rocker overruns the door at every width. */
+    .door-name--long { font-size: clamp(1.3rem, 3.4vw, 2.2rem); }
+    .door--abx:hover .door-name, .door--abx:focus-visible .door-name {
+      color: var(--abx); text-shadow: 0 0 30px rgba(180, 120, 255, 0.55);
+    }
+    .door--str:hover .door-name, .door--str:focus-visible .door-name {
+      color: var(--str); text-shadow: 0 0 30px rgba(22, 200, 90, 0.5);
+    }
+    .door--jus:hover .door-name, .door--jus:focus-visible .door-name {
+      color: var(--jus); text-shadow: 0 0 30px rgba(255, 155, 61, 0.5);
+    }
+    .door--cig:hover .door-name, .door--cig:focus-visible .door-name {
+      color: var(--cig); text-shadow: 0 0 30px rgba(47, 212, 224, 0.5);
+    }
+    .door-role {
+      margin-top: 0.7rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    /* Reveal slides down under the name on hover/focus (always shown on touch). */
+    .door-reveal {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      margin-top: 0;
+      transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.5s ease;
+    }
+    .door:hover .door-reveal, .door:focus-visible .door-reveal { max-height: 12rem; opacity: 1; margin-top: 1.4rem; }
+    .door-line { max-width: 22rem; margin: 0 auto 1rem; font-size: 0.82rem; line-height: 1.55; color: #cbcbcb; }
+    .board-btn {
+      display: inline-block;
+      padding: 0.6rem 1.6rem;
+      border: 1px solid var(--text);
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+    }
+    .door--abx .board-btn { border-color: var(--abx); color: var(--abx); }
+    .door--str .board-btn { border-color: var(--str); color: var(--str); }
+    .door--jus .board-btn { border-color: var(--jus); color: var(--jus); }
+    .door--cig .board-btn { border-color: var(--cig); color: var(--cig); }
+
+    .nod { display: block; margin-top: 1.2rem; font-size: 0.64rem; letter-spacing: 0.4em; text-transform: uppercase; color: #5a5a5a; }
+
+    @media (max-width: 760px) {
+      .doors { flex-direction: column; flex-wrap: nowrap; }
+      /* Stacked, four deep — drop the row height so the list stays scannable. */
+      .door { flex: 1 1 auto; min-height: 0; }
+      .door--str, .door--jus, .door--cig { filter: brightness(0.8) saturate(0.7); }
+      /* No hover on touch — show the reveal so the CTA is always reachable. */
+      .door-reveal { max-height: 12rem; opacity: 1; margin-top: 1.2rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .door, .door-name, .door-reveal { transition: none; }
+    }
+  </style>
+  <style>
     /*
-      Phone: the fixed header and the sticky call-to-action bar between them
-      ate most of the screen once you started scrolling. The header now
-      scrolls away with the page instead of pinning, and the sticky bar is
-      gone. The menu is still reachable at the top, and the back-to-top
-      button returns you to it.
+      Phone chrome — the only rules that exist solely on mobile.html.
+      Generated by scripts/build-mobile.js; edit it there, not here.
     */
-    .topbar {
-      position: static;
-    }
-
-    .sticky-cta {
-      display: none;
-    }
-
-    main {
-      padding-top: 0;
-    }
-
+    .topbar { position: static; }
+    main { padding-top: 0; }
   </style>
 </head>
-<body>
+<body data-rain="white">
+  <canvas id="matrix-rain" aria-hidden="true"></canvas>
+  <a class="skip-link" href="#home">Skip to content</a>
   <div class="cursor" aria-hidden="true"></div>
   <div class="cursor-dot" aria-hidden="true"></div>
 
@@ -1720,9 +2160,9 @@
       <div class="topbar-inner">
         <div class="brand">
           <div class="brand-mark">
-            <span class="brand-title">ABRAXAS</span>
+            <span class="brand-title">HTG</span>
           </div>
-          <p class="brand-subtitle">Depressions Running Deep // HTG - Hex The Government</p>
+          <p class="brand-subtitle">Hex The Government // the vessel // ABRAXAS &amp; Stretty</p>
         </div>
 
         <div class="nav-wrap">
@@ -1734,13 +2174,13 @@
           <nav class="nav" id="site-nav" aria-label="Primary navigation">
             <ul class="nav-list">
               <li><a href="#home">Home</a></li>
-              <li><a href="#game">Play</a></li>
+              <li><a href="#roster">The Roster</a></li>
               <li><a href="#story">Story</a></li>
               <li><a href="#out-now">Out Now</a></li>
-              <li><a href="#sequence">The Sequence</a></li>
+              <li><a href="sequence.html">The Sequence</a></li>
               <li><a href="#releases">New Releases</a></li>
               <li><a href="#coming-soon">Coming Soon</a></li>
-              <li><a href="#merch">Merchandise</a></li>
+              <li><a data-shop-link href="https://strettys-merch.myshopify.com" target="_blank" rel="noopener noreferrer">Merchandise</a></li>
               <li><a href="#tours">Upcoming Tours</a></li>
               <li><a href="#gallery">Gallery</a></li>
               <li><a href="#contact">Contact</a></li>
@@ -1752,64 +2192,91 @@
 
     <main>
       <section class="hero" id="home">
-        <video class="hero-video parallax-layer" data-speed="0.18" autoplay muted loop playsinline preload="metadata" poster="assets/placeholders/hero-poster.svg" aria-hidden="true">
-          <source src="assets/htg-hero.mp4" type="video/mp4" />
-        </video>
         <div class="hero-overlay"></div>
         <div class="hero-grid parallax-layer" data-speed="0.08"></div>
         <div class="hero-noise parallax-layer" data-speed="0.05"></div>
 
         <div class="hero-content">
-          <div class="hero-copy fade-in visible">
-            <div class="eyebrow">Underground Occult Rap / HTG Release Node</div>
-            <h1>ABRAXAS<span>Depressions Running Deep</span></h1>
-            <p class="hero-lead">
-              ABRAXAS runs under HTG with a darker, colder edge. Underground occult rap, depressive hooks, sharp textures, and tracks that feel like they were exported straight from a corrupted night session.
+          <div class="mast fade-in visible">
+            <p class="curse">Fuck the government · fuck the rich · fuck what they built on us</p>
+            <h1 class="wordmark">HTG</h1>
+            <p class="expand">Hex The Government</p>
+            <p class="manifesto">
+              <b>H.T.G. is a vessel.</b> A private ark on corporate waters, built to stay afloat while
+              governments and billionaires sink everything else.
+              <br><br>
+              <b>ABRAXAS is Noah</b> — out front. <b>Stretty is the Ark</b> — the hull. Four names aboard,
+              more being pulled out of the water.
             </p>
             <div class="hero-cta">
-              <a class="btn btn-primary" href="#out-now">Stream Out Now</a>
-              <a class="btn" href="#releases">View New Releases</a>
-              <a class="btn" href="#contact">Book / Contact</a>
+              <a class="btn btn-primary" href="#out-now">Listen</a>
+              <a class="btn" href="#roster">The Roster</a>
+              <a class="btn" href="#contact">Bookings</a>
             </div>
           </div>
-
-          <aside class="hero-side fade-in visible">
-            <div class="terminal-card">
-              <div class="terminal-head">
-                <div class="terminal-dots" aria-hidden="true">
-                  <span></span><span></span><span></span>
-                </div>
-                <span class="terminal-label">signal.log</span>
-              </div>
-              <div class="terminal-line"><span>&gt;</span><span>Artist: ABRAXAS</span></div>
-              <div class="terminal-line"><span>&gt;</span><span>Tagline: Depressions Running Deep</span></div>
-              <div class="terminal-line"><span>&gt;</span><span>Label: HTG / Hex The Government</span></div>
-              <div class="terminal-line"><span>&gt;</span><span>Sound: dark emo / alt rap / terminal pressure</span></div>
-              <div class="terminal-line"><span>&gt;</span><span>Status: next release compiling</span></div>
-            </div>
-            <div class="floating-code parallax-layer" data-speed="0.1" aria-label="Genre and mood tags">
-              <span>abraxas.node</span>
-              <span>emo.alt</span>
-              <span>purple.static</span>
-              <span>dark.rap</span>
-              <span>htg.label</span>
-              <span>night.sessions</span>
-            </div>
-          </aside>
         </div>
       </section>
 
-      <section class="section" id="game">
+      <section class="section" id="roster">
+        <div class="container">
+          <div class="section-head fade-in">
+            <span class="section-kicker">The Roster</span>
+            <h2 class="section-title">Pick a deck.</h2>
+            <p class="section-copy">Four names aboard. Each one has its own boarding card — the catalog, the links, the way in.</p>
+          </div>
+
+          <nav class="doors fade-in" aria-label="Choose an artist">
+            <a class="door door--abx" href="abraxas.html">
+              <span class="door-name">ABRAXAS</span>
+              <span class="door-role">Noah · out front · the face</span>
+              <span class="door-reveal">
+                <span class="door-line">Noah stepping off the vessel. HEXCORE, purple static, all teeth.</span>
+                <span class="board-btn">Board ABRAXAS →</span>
+              </span>
+            </a>
+
+            <a class="door door--str" href="stretty.html">
+              <span class="door-name">STRETTY</span>
+              <span class="door-role">The Ark · the hull · keeping it afloat</span>
+              <span class="door-reveal">
+                <span class="door-line">The Ark itself — older brother, working the back. Depressions running deep.</span>
+                <span class="board-btn">Board STRETTY →</span>
+              </span>
+            </a>
+
+            <a class="door door--jus" href="https://ytjobs.co/talent/profile/536835?r=899" target="_blank" rel="noopener noreferrer">
+              <span class="door-name door-name--long">JUSTINN.CLOUT</span>
+              <span class="door-role">Aboard · @justinn.clout</span>
+              <span class="door-reveal">
+                <span class="door-line">Pulled out of the water. Profile and contact live on YTJobs.</span>
+                <span class="board-btn">Board JUSTINN.CLOUT →</span>
+              </span>
+            </a>
+
+            <a class="door door--cig" href="https://linktr.ee/ciggyholster" target="_blank" rel="noopener noreferrer">
+              <span class="door-name door-name--long">CIGGYHOLSTER</span>
+              <span class="door-role">Aboard · @ciggyholster</span>
+              <span class="door-reveal">
+                <span class="door-line">Pulled out of the water. Everything else runs off the Linktree.</span>
+                <span class="board-btn">Board CIGGYHOLSTER →</span>
+              </span>
+            </a>
+          </nav>
+        </div>
+      </section>
+
+      <section class="section" id="game" hidden>
         <div class="container">
           <div class="section-head fade-in">
             <span class="section-kicker">Playable // Suit Purge</span>
             <h2 class="section-title">Politicians, billionaires, trillionaires.</h2>
-            <p class="section-copy">A first-person shooter running in this page. No downloads, no plugins, no third-party code - the whole thing is generated at runtime.</p>
+            <p class="section-copy">A first-person shooter running in this page. No downloads, no plugins.</p>
+            <p class="section-copy game-disclaimer" style="font-size:0.8rem; opacity:0.75; margin-top:0.6rem;"><strong>Fiction:</strong> all characters in <em>Suit Purge</em> are invented class archetypes. No real person, name, or likeness is depicted. See the <a href="legal.html#satire" style="color:var(--accent);text-decoration:underline;">satire &amp; fiction notice</a>.</p>
           </div>
         </div>
 
         <div class="game-stage">
-          <canvas id="gameCanvas" class="game-canvas" role="img" aria-label="Suit Purge, a first-person maze shooter. Playing is optional - every ABRAXAS release, link and contact detail is elsewhere on this page."></canvas>
+          <canvas id="gameCanvas" class="game-canvas" role="img" aria-label="Suit Purge, a first-person maze shooter. Playing is optional - every HTG release, link and contact detail is elsewhere on this page."></canvas>
 
           <div class="game-hud" id="gameHud" aria-hidden="true">
             <div class="hud-cell"><span>HP</span><b id="hudHealth">100</b></div>
@@ -1837,25 +2304,24 @@
         </div>
       </section>
 
-
       <section class="section" id="story">
         <div class="container">
           <div class="section-head fade-in">
-            <span class="section-kicker">Timeline / Story Feed</span>
-            <h2 class="section-title">Built from pressure, pushed as signal.</h2>
+            <span class="section-kicker">The Story</span>
+            <h2 class="section-title">Built in the flood. Sent up as signal.</h2>
             <p class="section-copy">
-              ABRAXAS is the colder side of the HTG world. Underground occult rap with terminal UI energy, blacked-out moods, and release material aimed at people who want it ugly, sharp, and honest.
+              HTG is what we made instead of asking permission. No label suits — one vessel carrying the people on it, and everything they release, off a single deck.
             </p>
           </div>
 
           <div class="story-layout">
             <div class="story-panel info-card fade-in">
-              <h3>About ABRAXAS</h3>
+              <h3>About HTG</h3>
               <p>
-                The project sits between depressive rap, distorted hooks, and a more code-styled visual identity. The sound stays emotional without getting soft, and heavy without turning into empty noise.
+                Hex The Government is a vessel, not a brand exercise. Heavy without turning into empty noise, honest without going soft. Music for the ones treading water while the people who flooded the room count the takings.
               </p>
               <p>
-                Released under the self-created label HTG, ABRAXAS is built for singles, visuals, merch drops, and live rollout all under one controlled page instead of being scattered across random dead links.
+                Singles, visuals, merch and live all run off one deck instead of rotting across a hundred dead links. Four names aboard so far — ABRAXAS out front, Stretty holding the hull, Justinn.clout and ciggyholster pulled up alongside.
               </p>
               <div class="label-badge">HTG / Hex The Government</div>
             </div>
@@ -1863,23 +2329,23 @@
             <div class="story-timeline">
               <article class="timeline-card fade-in">
                 <div class="timeline-step">01 / raw files</div>
-                <h3>Night sessions and damaged hooks</h3>
-                <p>Tracks started as dark demos, stripped beats, layered distortion, and depressive melodic ideas built in isolated sessions.</p>
+                <h3>Cut alone, in the dark</h3>
+                <p>Started as damaged demos — stripped beats, layered distortion, melodies dragged out of bad nights and left honest.</p>
               </article>
               <article class="timeline-card fade-in">
-                <div class="timeline-step">02 / visual shell</div>
-                <h3>Terminal-styled identity formed</h3>
-                <p>The ABRAXAS page locks the sound to a proper visual frame: purple-black palette, code UI, sharp typography, and one clear release system.</p>
+                <div class="timeline-step">02 / the vessel</div>
+                <h3>HTG built to carry it</h3>
+                <p>No label suits. We built the ark ourselves — code UI, one deck where the sound lives without asking anyone.</p>
               </article>
               <article class="timeline-card fade-in">
-                <div class="timeline-step">03 / release feed</div>
-                <h3>Singles, visuals, and players go live</h3>
-                <p>Out-now blocks, streaming cards, and promo-ready sections give each release somewhere solid to land instead of dying in drafts.</p>
+                <div class="timeline-step">03 / off the ark</div>
+                <h3>Releases hit the water</h3>
+                <p>Streaming links, players, the Sequence — every track gets somewhere solid to land instead of drowning in drafts.</p>
               </article>
               <article class="timeline-card fade-in">
-                <div class="timeline-step">04 / expansion</div>
-                <h3>Merch, tours, and heavier rollout</h3>
-                <p>The next move is simple: harder releases, more visuals, limited merch, and room-tested live sets under the same HTG structure.</p>
+                <div class="timeline-step">04 / the rising</div>
+                <h3>Louder, harder, more aboard</h3>
+                <p>Next: heavier releases, more visuals, limited merch, live sets — and more names pulled out of the water under HTG.</p>
               </article>
             </div>
           </div>
@@ -1899,8 +2365,8 @@
               <div class="stat-label">Albums in the Sequence</div>
             </article>
             <article class="stat-card fade-in">
-              <div class="stat-value" data-counter="3">0</div>
-              <div class="stat-label">Stretty Highlights</div>
+              <div class="stat-value" data-counter="4">0</div>
+              <div class="stat-label">Names aboard the vessel</div>
             </article>
           </div>
         </div>
@@ -1910,37 +2376,37 @@
         <div class="container">
           <div class="section-head fade-in">
             <span class="section-kicker">Out Now</span>
-            <h2 class="section-title">Route the current drop everywhere.</h2>
-            <p class="section-copy">Streaming cards for the active release. Replace the placeholders with your real URLs once distribution is live and humans can go click things.</p>
+            <h2 class="section-title">Wherever you stream, it's there.</h2>
+            <p class="section-copy">Pick your platform and go. Same music, whichever door you walk through.</p>
           </div>
 
           <div class="player-grid">
             <article class="info-card fade-in">
               <h3>Spotify</h3>
-              <p>Main streaming route for reach, repeat plays, and algorithm exposure once the release starts moving outside your own devices.</p>
+              <p>The main line. Play it front to back, save it, put it on repeat and let it bleed into the rest of your week.</p>
               <div class="pill-links">
-                <a class="inline-link" data-platform="spotify" href="https://open.spotify.com/" target="_blank" rel="noreferrer">Open Spotify</a>
+                <a class="inline-link" data-platform="spotify" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">Open Spotify</a>
               </div>
             </article>
             <article class="info-card fade-in">
               <h3>Apple Music</h3>
-              <p>Clean platform slot for the listeners who still like curated libraries and minimal visual clutter with their emotional damage.</p>
+              <p>For the ones who keep their libraries clean and their damage private. Lossless, no clutter, all teeth.</p>
               <div class="pill-links">
-                <a class="inline-link" data-platform="appleMusic" href="https://music.apple.com/" target="_blank" rel="noreferrer">Open Apple Music</a>
+                <a class="inline-link" data-platform="appleMusic" href="https://music.apple.com/" target="_blank" rel="noopener noreferrer">Open Apple Music</a>
               </div>
             </article>
             <article class="info-card fade-in">
               <h3>YouTube Music</h3>
-              <p>Use this block for official uploads, lyric videos, visualisers, and anything that benefits from search plus replay.</p>
+              <p>Official uploads, lyric cuts, visualisers. Where the sound comes with something to stare at while it drowns you.</p>
               <div class="pill-links">
-                <a class="inline-link" data-platform="youtubeMusic" href="https://music.youtube.com/" target="_blank" rel="noreferrer">Open YouTube Music</a>
+                <a class="inline-link" data-platform="youtubeMusic" href="https://music.youtube.com/" target="_blank" rel="noopener noreferrer">Open YouTube Music</a>
               </div>
             </article>
             <article class="info-card fade-in">
               <h3>SoundCloud</h3>
-              <p>Best slot for rougher cuts, demos, alternate mixes, or anything that should still feel slightly unfinished and dangerous.</p>
+              <p>The rough deck. Demos, alt mixes, the cuts still bleeding — the ones that should feel a little unfinished and a little dangerous.</p>
               <div class="pill-links">
-                <a class="inline-link" data-platform="soundcloud" href="https://soundcloud.com/" target="_blank" rel="noreferrer">Open SoundCloud</a>
+                <a class="inline-link" data-platform="soundcloud" href="https://soundcloud.com/" target="_blank" rel="noopener noreferrer">Open SoundCloud</a>
               </div>
             </article>
           </div>
@@ -1952,10 +2418,11 @@
           <div class="section-head fade-in">
             <span class="section-kicker">The Sequence // 93</span>
             <h2 class="section-title">Play it through. In order.</h2>
-            <p class="section-copy">01 → 13. No words.</p>
+            <p class="section-copy">ABRAXAS, 01 → 13. No words.</p>
           </div>
           <div class="pill-links sequence-fallback">
-            <a class="inline-link" href="https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19" target="_blank" rel="noreferrer">Open the artist on Spotify</a>
+            <a class="inline-link" href="sequence.html">Open the Sequence</a>
+            <a class="inline-link" href="https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19" target="_blank" rel="noopener noreferrer">Open ABRAXAS on Spotify</a>
           </div>
         </div>
       </section>
@@ -1964,15 +2431,16 @@
         <div class="container">
           <div class="section-head fade-in">
             <span class="section-kicker">New Releases</span>
-            <h2 class="section-title">The catalog is the Sequence.</h2>
-            <p class="section-copy">Every ABRAXAS release that exists is in the Sequence above, playable in order. Individual release cards appear here when there is something to single out.</p>
+            <h2 class="section-title">The catalog lives on the artist decks.</h2>
+            <p class="section-copy">Everything HTG has put out is on the ABRAXAS and Stretty boarding cards — ABRAXAS in the Sequence, Stretty on his own profile.</p>
           </div>
 
           <div class="empty-state fade-in">
-            <p>Thirteen albums and three Stretty highlights, all streaming now.</p>
+            <p>Thirteen ABRAXAS albums streaming now, and Stretty's catalog live alongside it.</p>
             <div class="pill-links">
-              <a class="inline-link" href="#sequence">Play the Sequence</a>
-              <a class="inline-link" data-social="spotify" href="#out-now" target="_blank" rel="noreferrer">Open Spotify</a>
+              <a class="inline-link" href="abraxas.html">ABRAXAS →</a>
+              <a class="inline-link" href="stretty.html">Stretty →</a>
+              <a class="inline-link" data-social="spotify" href="#out-now" target="_blank" rel="noopener noreferrer">Open Spotify</a>
             </div>
           </div>
 
@@ -1985,64 +2453,18 @@
           <div class="section-head fade-in">
             <span class="section-kicker">Coming Soon</span>
             <h2 class="section-title">Nothing announced yet.</h2>
-            <p class="section-copy">No release date is public right now. Titles and dates land here only once they are locked - no teaser cards for tracks that do not exist yet.</p>
+            <p class="section-copy">Nothing goes up here until it's real.</p>
           </div>
 
           <div class="empty-state fade-in">
-            <p>The next ABRAXAS drop gets announced here and on Spotify at the same time. Follow the artist profile to catch it without checking back.</p>
+            <p>The next drop hits here and Spotify the same second. Follow the profiles and you'll catch it without checking back.</p>
             <div class="pill-links">
-              <a class="inline-link" data-social="spotify" href="#out-now" target="_blank" rel="noreferrer">Follow on Spotify</a>
-              <a class="inline-link" href="#sequence">Hear the Sequence</a>
+              <a class="inline-link" data-social="spotify" href="#out-now" target="_blank" rel="noopener noreferrer">Follow on Spotify</a>
+              <a class="inline-link" href="#roster">The Roster</a>
             </div>
           </div>
 
           <div class="coming-grid"></div>
-        </div>
-      </section>
-
-      <section class="section" id="merch">
-        <div class="container">
-          <div class="section-head fade-in">
-            <span class="section-kicker">Merchandise</span>
-            <h2 class="section-title">Wear the darker build.</h2>
-            <p class="section-copy">Placeholder merch cards styled the same as the last build, just shifted into the ABRAXAS world. Swap images, sizes, stock, and checkout URLs when the store is ready.</p>
-          </div>
-
-          <div class="merch-grid">
-            <article class="merch-card fade-in">
-              <img class="merch-image" loading="lazy" decoding="async" width="900" height="900" src="assets/placeholders/merch-1.svg" alt="Placeholder merch hoodie image" />
-              <div class="merch-body">
-                <div class="meta-row"><span>HTG Hoodie</span><span>Heavyweight</span></div>
-                <div>
-                  <h3>Violet Terminal Drop</h3>
-                  <p>Oversized black hoodie with ABRAXAS front mark, HTG back print, and darker panel detailing built for night fits.</p>
-                </div>
-                <div class="price-tag">AUD $95</div>
-              </div>
-            </article>
-            <article class="merch-card fade-in">
-              <img class="merch-image" loading="lazy" decoding="async" width="900" height="900" src="assets/placeholders/merch-2.svg" alt="Placeholder merch tee image" />
-              <div class="merch-body">
-                <div class="meta-row"><span>Tour Tee</span><span>Box Fit</span></div>
-                <div>
-                  <h3>Depressions Running Deep</h3>
-                  <p>Front print tee with sharper gothic-type treatment, muted purple details, and a back hit built for live dates.</p>
-                </div>
-                <div class="price-tag">AUD $55</div>
-              </div>
-            </article>
-            <article class="merch-card fade-in">
-              <img class="merch-image" loading="lazy" decoding="async" width="900" height="900" src="assets/placeholders/merch-3.svg" alt="Placeholder merch accessory image" />
-              <div class="merch-body">
-                <div class="meta-row"><span>Accessory</span><span>Limited</span></div>
-                <div>
-                  <h3>Signal Sigil Pack</h3>
-                  <p>Sticker and patch pack for laptops, cases, and other objects people keep pretending are personality traits.</p>
-                </div>
-                <div class="price-tag">AUD $20</div>
-              </div>
-            </article>
-          </div>
         </div>
       </section>
 
@@ -2051,11 +2473,11 @@
           <div class="section-head fade-in">
             <span class="section-kicker">Upcoming Tours</span>
             <h2 class="section-title">No dates on the calendar.</h2>
-            <p class="section-copy">There are no confirmed ABRAXAS shows right now. Real dates go up here with the real venue, city and ticket link - nothing before that.</p>
+            <p class="section-copy">No confirmed shows right now, for either name.</p>
           </div>
 
           <div class="empty-state fade-in">
-            <p>Booking enquiries are open. Send the city, venue, date and lineup through the contact form and it gets answered directly.</p>
+            <p>Booking's open. Send the city, venue, date and lineup through the form and it gets answered direct.</p>
             <div class="pill-links">
               <a class="inline-link" href="#contact">Send a Booking Enquiry</a>
             </div>
@@ -2067,14 +2489,14 @@
         <div class="container">
           <div class="section-head fade-in">
             <span class="section-kicker">Image Gallery</span>
-            <h2 class="section-title">Visuals, sessions, and terminal-lit frames.</h2>
-            <p class="section-copy">Click any image for the lightbox. Same gallery system, same JS, new mood. Humans love consistency when they are not busy ruining it.</p>
+            <h2 class="section-title">Visuals, sessions, terminal-lit frames.</h2>
+            <p class="section-copy">Click any frame to open it.</p>
           </div>
 
           <div class="gallery-grid">
-            <button class="gallery-item fade-in" type="button" data-gallery-index="0" data-full="assets/placeholders/gallery-1.svg" data-caption="Night session / purple terminal room">
-              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/placeholders/gallery-1.svg" alt="Placeholder dark studio gallery image 1" />
-              <span class="gallery-caption">Night session / purple terminal room</span>
+            <button class="gallery-item fade-in" type="button" data-gallery-index="0" data-full="https://picsum.photos/seed/abraxasgallery1/1600/1200?grayscale" data-caption="Night session / terminal room">
+              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="https://picsum.photos/seed/abraxasgallery1/900/900?grayscale" alt="Placeholder dark studio gallery image 1" />
+              <span class="gallery-caption">Night session / terminal room</span>
             </button>
             <button class="gallery-item fade-in" type="button" data-gallery-index="1" data-full="assets/placeholders/gallery-2.svg" data-caption="Backstage static / blackout wash">
               <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/placeholders/gallery-2.svg" alt="Placeholder dark performance gallery image 2" />
@@ -2104,14 +2526,14 @@
         <div class="container">
           <div class="section-head fade-in">
             <span class="section-kicker">Contact</span>
-            <h2 class="section-title">Bookings, collabs, features, direct contact.</h2>
-            <p class="section-copy">The form keeps the same validation and behaviour as the last build. Hook it to Formspree, Netlify Forms, EmailJS, or your own backend once you want actual submissions instead of browser theatre.</p>
+            <h2 class="section-title">Bookings, collabs, features — talk direct.</h2>
+            <p class="section-copy">Bookings, features, visuals, merch, for either name aboard — fill it in, it lands in the HTG inbox.</p>
           </div>
 
           <div class="contact-wrap">
             <aside class="contact-card fade-in">
-              <h3>Reach ABRAXAS</h3>
-              <p>Use this block for management, direct release contact, and booking info. Replace the placeholders with the real channels once you lock them in.</p>
+              <h3>Reach HTG</h3>
+              <p>Management, releases, bookings — it all runs through HTG. One inbox, answered by the people who actually make the music.</p>
               <ul class="contact-list">
                 <li>
                   <strong>Email</strong>
@@ -2146,7 +2568,7 @@
                 </div>
                 <div class="field">
                   <label for="message">Message</label>
-                  <textarea id="message" name="message" placeholder="Tell ABRAXAS what you need and include dates, budget, or release context."></textarea>
+                  <textarea id="message" name="message" placeholder="Tell HTG what you need and include dates, budget, or release context."></textarea>
                 </div>
                 <div class="error-message" id="formError" aria-live="polite"></div>
                 <div class="form-status" id="formStatus" aria-live="polite"></div>
@@ -2163,30 +2585,58 @@
         <div class="container">
           <div class="footer-grid fade-in">
             <div class="footer-copy">
-              <div class="section-kicker">ABRAXAS / HTG</div>
-              <h2 class="section-title" style="font-size: clamp(1.5rem, 3vw, 2.4rem);">Dark signal, colder rollout.</h2>
-              <p>One-page site build for releases, visuals, tours, merch, and contact. Replace the placeholders with real project assets and the page is ready to deploy under the same styling and interaction model.</p>
+              <div class="section-kicker">HTG — Hex The Government</div>
+              <h2 class="section-title" style="font-size: clamp(1.5rem, 3vw, 2.4rem);">Dark signal. No apologies.</h2>
+              <p>HTG is the vessel — releases, visuals, merch, live, all off one deck. Fuck the gatekeepers; we built the ark ourselves. Recruiting.</p>
               <div class="pill-links" style="margin-top: 1rem;">
+                <a class="inline-link" href="abraxas.html">Board ABRAXAS →</a>
+                <a class="inline-link" href="stretty.html">Board Stretty →</a>
+                <a class="inline-link" href="https://ytjobs.co/talent/profile/536835?r=899" target="_blank" rel="noopener noreferrer">Board Justinn.clout →</a>
+                <a class="inline-link" href="https://linktr.ee/ciggyholster" target="_blank" rel="noopener noreferrer">Board ciggyholster →</a>
+                <a class="inline-link" href="sequence.html">The Sequence →</a>
+                <a class="inline-link" href="game.html">Suit Purge →</a>
                 <a class="inline-link view-toggle" href="index.html?desktop=1">Switch to Desktop Version</a>
               </div>
+              <p class="egg-hint">A maze is hidden in this page. Type <kbd>purge</kbd>, tap the logo three times, or <a href="game.html">enter it directly →</a></p>
+              <span class="nod">sad · tired · still here</span>
             </div>
             <div class="social-links" aria-label="Social media links">
-              <a class="social-link" data-social="instagram" href="https://instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram">
+              <a class="social-link" data-social="instagram" href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2.2A2.8 2.8 0 0 0 4.2 7v10A2.8 2.8 0 0 0 7 19.8h10a2.8 2.8 0 0 0 2.8-2.8V7A2.8 2.8 0 0 0 17 4.2H7Zm10.3 1.6a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2ZM12 6.2A5.8 5.8 0 1 1 6.2 12 5.8 5.8 0 0 1 12 6.2Zm0 2.2A3.6 3.6 0 1 0 15.6 12 3.6 3.6 0 0 0 12 8.4Z"/></svg>
               </a>
-              <a class="social-link" data-social="youtube" href="https://youtube.com/" target="_blank" rel="noreferrer" aria-label="YouTube">
+              <a class="social-link" data-social="youtube" href="https://youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8ZM9.6 15.7V8.3l6.4 3.7-6.4 3.7Z"/></svg>
               </a>
-              <a class="social-link" data-social="spotify" href="https://open.spotify.com/" target="_blank" rel="noreferrer" aria-label="Spotify">
+              <a class="social-link" data-social="spotify" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" aria-label="Spotify">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0a12 12 0 1 0 12 12A12 12 0 0 0 12 0Zm5.5 17.3a.9.9 0 0 1-1.2.3c-3.2-1.9-7.1-2.3-11.6-1.2a.9.9 0 0 1-.4-1.7c5-1.2 9.3-.7 12.9 1.4a.9.9 0 0 1 .3 1.2Zm1.7-3a1.1 1.1 0 0 1-1.5.4c-3.6-2.2-9.1-2.8-13.4-1.4a1.1 1.1 0 1 1-.6-2.2c5-1.5 11-.8 15.2 1.8a1.1 1.1 0 0 1 .3 1.4Zm.1-3.1c-4.4-2.6-11.6-2.8-15.9-1.5a1.3 1.3 0 1 1-.8-2.4c4.9-1.5 13-1.2 18 1.8a1.3 1.3 0 1 1-1.3 2.2Z"/></svg>
               </a>
-              <a class="social-link" data-social="tiktok" href="https://www.tiktok.com/" target="_blank" rel="noreferrer" aria-label="TikTok">
+              <a class="social-link" data-social="tiktok" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 2c.2 1.8 1.2 3.4 2.8 4.3 1 .6 2.1.9 3.4.9v3.3c-1.3 0-2.6-.2-3.8-.7-.5-.2-1-.5-1.5-.8v7.1c0 3.8-3 6.9-6.9 6.9S3 19.9 3 16s3.1-6.9 6.9-6.9c.3 0 .7 0 1 .1v3.4c-.3-.1-.6-.2-1-.2-2 0-3.5 1.6-3.5 3.5s1.5 3.5 3.5 3.5 3.5-1.6 3.5-3.5V2h2.4Z"/></svg>
               </a>
             </div>
           </div>
+
+          <div class="legal-footer" role="contentinfo">
+            <nav class="legal-footer-links" aria-label="Legal">
+              <a href="legal.html">Legal &amp; Privacy</a>
+              <a href="legal.html#terms">Terms of Use</a>
+              <a href="legal.html#privacy">Privacy Policy</a>
+              <a href="legal.html#trademarks">Trademarks</a>
+              <a href="legal.html#satire">Satire Notice</a>
+              <a href="legal.html#dmca">Copyright / DMCA</a>
+            </nav>
+            <p class="legal-footer-copy">
+              © <span id="legal-year">2026</span> <strong>HTG — Hex The Government</strong>. All rights reserved.
+              <strong>HTG</strong>™, <strong>HEX THE GOVERNMENT</strong>™, <strong>ABRAXAS</strong>™, <strong>HEXCORE</strong>™, <strong>SUIT PURGE</strong>™ and <em>Depressions Running Deep</em>™ are trademarks of HTG.
+              All other names, logos, and marks (Spotify, SoundCloud, YouTube, Apple Music, TikTok, Instagram, Shopify, etc.) are the property of their respective owners.
+            </p>
+            <p class="legal-footer-copy">
+              <em>Suit Purge</em> and its characters are fictional class archetypes. Any resemblance to real persons or organisations is coincidental.
+            </p>
+          </div>
         </div>
       </footer>
+      <script>(function(){var y=document.getElementById('legal-year');if(y)y.textContent=new Date().getFullYear();})();</script>
     </main>
 
     <button class="to-top" id="toTop" aria-label="Back to top">↑</button>
@@ -2194,8 +2644,8 @@
     <div class="sticky-cta" aria-label="Sticky footer call to action">
       <div class="sticky-cta-inner">
         <div class="sticky-copy">
-          <strong>Out now // ABRAXAS</strong>
-          <span>Stream the current drop, check the next release wave, or send a booking enquiry.</span>
+          <strong>Out now // HTG</strong>
+          <span>Board a deck, catch the next drop, or send a booking straight to HTG.</span>
         </div>
         <div class="sticky-actions">
           <a class="btn btn-primary" href="#out-now">Stream Links</a>
@@ -2225,5 +2675,6 @@
   <script src="render.js"></script>
   <script src="game.js"></script>
   <script src="script.js"></script>
+  <script src="matrix.js"></script>
 </body>
 </html>

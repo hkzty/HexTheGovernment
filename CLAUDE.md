@@ -26,29 +26,51 @@ Deployed by GitHub Pages straight from `main` (see `CNAME`). Merging to
 | `script.js` | Site chrome: nav, scroll-spy, reveals, lightbox, custom cursor, contact form. |
 | `game.js` | Suit Purge — the in-page shooter. Self-contained IIFE. |
 | `index.html` | Desktop page. |
-| `mobile.html` | Phone page. Separate file, same section structure. |
-| `style.css` | Desktop stylesheet. |
+| `mobile.html` | Phone page. **Generated — never hand-edit.** |
+| `style.css` | Stylesheet for every page (inlined into `mobile.html`). |
+| `scripts/build-mobile.js` | Builds `mobile.html` from `index.html` + `style.css`. |
 | `scripts/scraper.js` | Content sync. **Currently broken, workflow removed.** |
 
 ### The desktop/mobile split — read this before editing either page
 
-`index.html` and `mobile.html` are **two separate files** that must be
-kept in sync by hand. An inline script at the top of each (`data-page`)
-redirects between them by viewport width, with `?desktop` / `?mobile`
-pinning a choice in `sessionStorage`.
+`index.html` and `mobile.html` are two files serving the same site. An
+inline script at the top of each (`data-page`) redirects between them by
+viewport width, with `?desktop` / `?mobile` pinning a choice in
+`sessionStorage`.
 
-Consequences that have already caused bugs:
+**`mobile.html` is generated. Do not edit it by hand.** It is
+`index.html` with `style.css` inlined, `data-page` flipped to `mobile`,
+the footer view-toggle pointed back at the desktop page, and one
+phone-chrome rule appended (`.topbar { position: static }`, plus
+`main { padding-top: 0 }` unconditionally — `style.css` only zeroes it
+below 640px). Everything else, including the roster, comes straight from
+`index.html`.
 
-- **A change to one page almost always needs making in the other.** All
-  the content sections were byte-identical between the two.
-- **`mobile.html` does not link `style.css`.** It carries its own inline
-  `<style>` copy. CSS added only to `style.css` will not reach phones —
-  this shipped once as a completely unstyled mobile game section. The two
-  copies are otherwise identical apart from a mobile-chrome block
-  (`.topbar { position: static }`, `.sticky-cta { display: none }`,
-  `main { padding-top: 0 }`). Deduplicating this is open work.
-- **Testing mobile requires `?mobile=1`**, or the redirect bounces a
-  narrow viewport straight back.
+After any edit to `index.html` or `style.css`:
+
+```bash
+npm run build:mobile   # rewrites mobile.html
+npm run check:mobile   # fails if the committed copy is stale
+```
+
+`check:mobile` also runs in CI (`.github/workflows/mobile-sync.yml`) on
+every push and PR that touches either source.
+
+Why this is a script and not a convention: the two files were previously
+kept in sync by hand, and they did not stay in sync. `mobile.html` was
+left on a pre-HTG, ABRAXAS-only version of the whole site — no roster, no
+vessel copy, no legal footer, and three invented merch products with
+prices, in violation of the content policy below. It also survived a
+deliberate deletion: PR #21 replaced it with a redirect stub, and a later
+merge took a stale branch's copy and resurrected all 2,229 lines of it.
+Hand-syncing does not work here.
+
+The generator aborts if any of its find/replace anchors in `index.html`
+stops matching exactly once, so a reshaped `index.html` fails loudly
+instead of emitting a half-converted page.
+
+**Testing mobile requires `?mobile=1`** on a wide viewport, or the
+redirect bounces you straight to `index.html`.
 
 ## Content policy — this matters here
 
@@ -147,8 +169,9 @@ Do not hardcode it again.
   never succeeded rather than one that broke. A fix probably means the
   Spotify Web API with client credentials in Actions secrets, not oEmbed.
   The script is kept so the fetch path can be repaired.
-- **Deduplicate `mobile.html`'s inline CSS** against `style.css` (see
-  above).
+- ~~Deduplicate `mobile.html`'s inline CSS against `style.css`.~~ Done —
+  `mobile.html` is generated from `style.css`, so there is only one copy
+  to edit.
 - **`assets/gallery/` holds six picsum placeholders** with captions
   implying real photos. The `gallery-manifest.yml` Action rebuilds
   `manifest.json` from whatever image files are in that folder, so real

@@ -19,7 +19,7 @@ There are two versions of the page, and visitors are routed automatically:
 
 Phones (screens ≤ 820px) landing on `index.html` are redirected to `mobile.html`, and desktops landing on `mobile.html` are sent to `index.html`. Every page has a "Switch to Mobile/Desktop Version" link in the footer that overrides the automatic choice.
 
-`mobile.html` is **generated from** `index.html` + `style.css` — don't edit it by hand. After changing `index.html` or `style.css`, regenerate it (see below).
+`mobile.html` is **generated from** `index.html` + `style.css` — don't edit it by hand. After changing `index.html` or `style.css`, run `npm run build:mobile` (see below).
 
 ---
 
@@ -120,19 +120,28 @@ Run it locally with `npm run scrape` (Node 18+, no dependencies to install).
 
 ## Regenerating mobile.html
 
-After editing `index.html` or `style.css`, rebuild the one-page mobile version:
+`mobile.html` is a **generated file** — never edit it directly. It is
+`index.html` with `style.css` inlined, the `data-page` redirect flipped to
+the mobile side, the footer view-toggle pointed back at the desktop page,
+and one phone-chrome rule appended.
+
+After editing `index.html` or `style.css`, rebuild it:
 
 ```bash
-node -e "
-const fs = require('fs');
-let html = fs.readFileSync('index.html', 'utf8');
-const css = fs.readFileSync('style.css', 'utf8');
-html = html.replace('    <link rel=\"stylesheet\" href=\"style.css\" />', '  <style>\n' + css + '  </style>');
-html = html.replace('data-page=\"desktop\"', 'data-page=\"mobile\"');
-html = html.replace('<a class=\"inline-link view-toggle\" href=\"mobile.html?mobile=1\">Switch to Mobile Version</a>', '<a class=\"inline-link view-toggle\" href=\"index.html?desktop=1\">Switch to Desktop Version</a>');
-fs.writeFileSync('mobile.html', html);
-"
+npm run build:mobile
 ```
+
+To verify the committed copy is current (this also runs in CI on every push
+and PR touching either source):
+
+```bash
+npm run check:mobile
+```
+
+The generator is `scripts/build-mobile.js`. It aborts if any of its anchors
+in `index.html` stops matching exactly once, so a reshaped page fails loudly
+rather than emitting a half-converted mobile build — the two files drifted
+badly once, leaving phones on a pre-HTG version of the site.
 
 (If you only edited `config.js`, nothing needs regenerating.)
 
