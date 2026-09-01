@@ -160,6 +160,17 @@ to `114px` while the real header measures 178–229px depending on width,
 so page content sat underneath the fixed header at every desktop size.
 Do not hardcode it again.
 
+## Webfont loading — two links on purpose
+
+Every visitor page loads Google Fonts as **two** `css2` links: New Rocker
+with `display=block`, IBM Plex Mono with `display=swap`. They used to be
+one link with `display=swap` for both, which made every heading paint in
+the serif fallback and then visibly morph into New Rocker once the font
+arrived — reported by the owner as "the font across the site changed".
+`block` holds heading text briefly instead, so the gothic face is the only
+one ever shown. Plex Mono keeps `swap` because its fallback is another
+monospace and that swap is invisible. Do not fold them back into one link.
+
 ## Known broken / open work
 
 - **`scripts/scraper.js` does not work.** Its workflow was deleted after
