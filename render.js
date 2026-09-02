@@ -33,6 +33,16 @@
   document.querySelectorAll('[data-social]').forEach(a => { a.href = socialUrl(a.dataset.social); });
   document.querySelectorAll('[data-platform]').forEach(a => { a.href = socialUrl(a.dataset.platform); });
 
+  /* ---- Crypto donations block (footer) ---------------------------------- */
+  const support = document.getElementById('support');
+  if (support) {
+    if (cfg.cryptoDonate) {
+      support.querySelectorAll('a').forEach(a => { a.href = cfg.cryptoDonate; });
+    } else {
+      support.remove();
+    }
+  }
+
   /* ---- Linktree: "All Links" buttons ------------------------------------ */
   if (cfg.linktree) {
     const heroCta = document.querySelector('.hero-cta');

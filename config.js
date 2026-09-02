@@ -46,6 +46,12 @@ window.ABRAXAS_CONFIG = {
      hero and in the contact card. */
   linktree: "https://linktr.ee/abraxashtg",
 
+  /* ---- Crypto donations (Streamiverse) ----------------------------------
+     Footer "Support HTG" block: button + QR code pointing at the page.
+     Empty "" hides the block. QR is a static SVG generated from the URL —
+     regenerate assets/crypto-donate-qr.svg if the URL changes.          */
+  cryptoDonate: "https://donation.streamiverse.io/stretty",
+
   /* ---- Hero video -------------------------------------------------------
      Plays behind the wordmark on the landing page. Two encodings of the
      same 6-second 720p loop; webm is offered first, mp4 is the fallback.
