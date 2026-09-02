@@ -2148,6 +2148,43 @@
         font-size: clamp(1.4rem, 8vw, 2rem);
       }
     }
+    /* ---- Support / crypto donations block ------------------------------- */
+    .support-block {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem 2rem;
+      flex-wrap: wrap;
+      margin-top: 2.5rem;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(0, 0, 0, 0.75);
+    }
+    .support-copy { flex: 1 1 280px; max-width: 46ch; }
+    .support-title {
+      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+      margin: 0.25rem 0 0.6rem;
+    }
+    .support-copy p {
+      color: var(--muted);
+      margin: 0 0 1rem;
+    }
+    .support-qr {
+      flex: 0 0 auto;
+      display: block;
+      padding: 0.5rem;
+      background: #fff;
+      line-height: 0;
+      border: 2px solid var(--accent);
+      transition: transform 0.2s ease;
+    }
+    .support-qr:hover,
+    .support-qr:focus-visible { transform: scale(1.03); }
+    .support-qr img { width: 160px; height: 160px; display: block; }
+    @media (max-width: 640px) {
+      .support-block { justify-content: center; text-align: center; }
+      .support-copy { max-width: none; }
+    }
     /* ---- Legal footer block --------------------------------------------- */
     .legal-footer {
       margin-top: 2.5rem;
@@ -2947,6 +2984,18 @@
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 2c.2 1.8 1.2 3.4 2.8 4.3 1 .6 2.1.9 3.4.9v3.3c-1.3 0-2.6-.2-3.8-.7-.5-.2-1-.5-1.5-.8v7.1c0 3.8-3 6.9-6.9 6.9S3 19.9 3 16s3.1-6.9 6.9-6.9c.3 0 .7 0 1 .1v3.4c-.3-.1-.6-.2-1-.2-2 0-3.5 1.6-3.5 3.5s1.5 3.5 3.5 3.5 3.5-1.6 3.5-3.5V2h2.4Z"/></svg>
               </a>
             </div>
+          </div>
+
+          <div class="support-block fade-in" id="support" aria-labelledby="support-title">
+            <div class="support-copy">
+              <div class="section-kicker">Support the vessel</div>
+              <h3 class="support-title" id="support-title">Crypto donations</h3>
+              <p>Keep HTG independent. Tip in BTC, ETH, USDT and more via Streamiverse — scan the code or hit the button.</p>
+              <a class="btn btn-primary support-link" href="https://donation.streamiverse.io/stretty" target="_blank" rel="noopener noreferrer">Donate crypto →</a>
+            </div>
+            <a class="support-qr" href="https://donation.streamiverse.io/stretty" target="_blank" rel="noopener noreferrer" aria-label="Open the HTG crypto donation page">
+              <img src="assets/crypto-donate-qr.svg" alt="QR code linking to the HTG crypto donation page" width="160" height="160" loading="lazy" decoding="async">
+            </a>
           </div>
 
           <div class="legal-footer" role="contentinfo">

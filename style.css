@@ -2093,6 +2093,43 @@
         font-size: clamp(1.4rem, 8vw, 2rem);
       }
     }
+    /* ---- Support / crypto donations block ------------------------------- */
+    .support-block {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem 2rem;
+      flex-wrap: wrap;
+      margin-top: 2.5rem;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(0, 0, 0, 0.75);
+    }
+    .support-copy { flex: 1 1 280px; max-width: 46ch; }
+    .support-title {
+      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+      margin: 0.25rem 0 0.6rem;
+    }
+    .support-copy p {
+      color: var(--muted);
+      margin: 0 0 1rem;
+    }
+    .support-qr {
+      flex: 0 0 auto;
+      display: block;
+      padding: 0.5rem;
+      background: #fff;
+      line-height: 0;
+      border: 2px solid var(--accent);
+      transition: transform 0.2s ease;
+    }
+    .support-qr:hover,
+    .support-qr:focus-visible { transform: scale(1.03); }
+    .support-qr img { width: 160px; height: 160px; display: block; }
+    @media (max-width: 640px) {
+      .support-block { justify-content: center; text-align: center; }
+      .support-copy { max-width: none; }
+    }
     /* ---- Legal footer block --------------------------------------------- */
     .legal-footer {
       margin-top: 2.5rem;
