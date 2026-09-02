@@ -144,13 +144,28 @@
       .catch(() => { /* endpoint unreachable — the numbered card stands */ });
   };
 
+  /* Committed cover art wins over the oEmbed fetch: config.sequence.covers
+     maps a Spotify ID to { src, title } for a file under assets/covers/. */
+  const localCover = (url) => {
+    const id = (url.match(/\/(?:track|album|playlist|artist|episode|show)\/([A-Za-z0-9]+)/) || [])[1];
+    const entry = id && (seqCovers[id] || null);
+    return entry && (entry.src || entry.title) ? entry : null;
+  };
+
   const coverCard = (url, extras = {}) => {
     const item = toEmbed(url);
     if (!item) return null;
+    const local = localCover(url);
     const art = el('span', { class: 'cover-art', 'aria-hidden': 'true' }, [
       el('span', { class: 'cover-num', text: extras.num || '' }),
       el('span', { class: 'cover-play', text: '▶' })
     ]);
+    if (local && local.src) {
+      art.prepend(el('img', { class: 'cover-img', src: local.src, alt: '', loading: 'lazy', decoding: 'async', width: 640, height: 640 }));
+    }
+    if (local && local.title) {
+      extras = { ...extras, title: local.title, label: `Play ${local.title} on Spotify` };
+    }
     if (extras.tag) art.append(el('span', { class: 'cover-tag', text: extras.tag }));
     const card = el('button', {
       class: `cover-card fade-in${extras.highlight ? ' highlight' : ''}`,
@@ -170,11 +185,12 @@
       card.replaceWith(player);
       player.querySelector('iframe')?.focus();
     }, { once: true });
-    hydrateCover(card, url);
+    if (!(local && local.src && local.title)) hydrateCover(card, url);
     return card;
   };
 
   const seq = cfg.sequence || {};
+  const seqCovers = seq.covers || {};
   const seqSection = document.querySelector('#sequence .container');
   if (seqSection && (seq.albums || []).length + (seq.highlights || []).length > 0) {
     const head = seqSection.querySelector('.section-head');
@@ -185,6 +201,11 @@
     }
     seqSection.querySelectorAll('.sequence-block').forEach(n => n.remove());
     seqSection.querySelector('.sequence-fallback')?.remove();
+
+    seqSection.append(el('div', { class: 'sequence-block sequence-open' }, [
+      el('a', { class: 'btn', href: 'sequence.html', text: 'Open the full Sequence' }),
+      el('span', { class: 'sequence-open-note', text: 'Every player on one page. Here, tap a cover to load its player.' })
+    ]));
 
     const artistName = cfg.artist || 'the artist';
     const artistCard = seq.artist ? coverCard(seq.artist, {
@@ -217,7 +238,7 @@
 
     seqSection.append(el('div', { class: 'sequence-block pill-links' }, [
       el('a', { class: 'inline-link', href: seq.artist || 'https://open.spotify.com/', target: '_blank', rel: 'noopener noreferrer', text: `Open ${artistName} on Spotify` }),
-      el('a', { class: 'inline-link', href: 'sequence.html', text: 'Full players on the Sequence page' })
+      el('a', { class: 'inline-link', href: 'sequence.html', text: 'Open the full Sequence' })
     ]));
   }
 
