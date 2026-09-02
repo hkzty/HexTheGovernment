@@ -1,24 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" role="img" aria-label="ABRAXAS hero poster">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" role="img" aria-label="HTG — Hex The Government hero poster">
   <defs>
     <radialGradient id="glow" cx="50%" cy="0%" r="80%">
-      <stop offset="0%" stop-color="#8c03fc" stop-opacity="0.35"/>
-      <stop offset="45%" stop-color="#3b0866" stop-opacity="0.18"/>
-      <stop offset="100%" stop-color="#1f0335" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#2f7a52" stop-opacity="0.30"/>
+      <stop offset="45%" stop-color="#143a27" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#050a07" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="baseFade" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a0546"/>
-      <stop offset="55%" stop-color="#1f0335"/>
-      <stop offset="100%" stop-color="#0a0114"/>
+      <stop offset="0%" stop-color="#0c1a12"/>
+      <stop offset="55%" stop-color="#070f0a"/>
+      <stop offset="100%" stop-color="#030503"/>
     </linearGradient>
     <linearGradient id="wordFade" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#f5f5f3" stop-opacity="0.98"/>
-      <stop offset="100%" stop-color="#d7c6ea" stop-opacity="0.85"/>
+      <stop offset="0%" stop-color="#5fbf86" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#2f7a52" stop-opacity="0.55"/>
     </linearGradient>
     <pattern id="grid" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
-      <path d="M48 0H0V48" fill="none" stroke="#8c03fc" stroke-opacity="0.10" stroke-width="1"/>
+      <path d="M48 0H0V48" fill="none" stroke="#5fbf86" stroke-opacity="0.08" stroke-width="1"/>
     </pattern>
     <filter id="soft" x="-10%" y="-10%" width="120%" height="120%">
-      <feGaussianBlur stdDeviation="1.2"/>
+      <feGaussianBlur stdDeviation="1.4"/>
     </filter>
   </defs>
 
@@ -26,25 +26,26 @@
   <rect width="1920" height="1080" fill="url(#grid)"/>
   <rect width="1920" height="1080" fill="url(#glow)"/>
 
-  <g stroke="#8c03fc" stroke-opacity="0.18" stroke-width="1">
+  <g stroke="#5fbf86" stroke-opacity="0.16" stroke-width="1">
     <line x1="0" y1="220" x2="1920" y2="220"/>
     <line x1="0" y1="860" x2="1920" y2="860"/>
     <line x1="220" y1="0" x2="220" y2="1080"/>
     <line x1="1700" y1="0" x2="1700" y2="1080"/>
   </g>
 
-  <g font-family="'IBM Plex Mono', monospace" fill="#d7c6ea" opacity="0.55" font-size="18" letter-spacing="6">
-    <text x="220" y="180">// SIGNAL 93 93/93</text>
-    <text x="220" y="908">STATUS: NEXT RELEASE COMPILING</text>
-    <text x="1700" y="180" text-anchor="end">HTG // HEX THE GOVERNMENT</text>
-    <text x="1700" y="908" text-anchor="end">DEPRESSIONS RUNNING DEEP</text>
+  <g font-family="'IBM Plex Mono', monospace" fill="#9fd6b5" opacity="0.5" font-size="18" letter-spacing="6">
+    <text x="220" y="180">// HTG</text>
+    <text x="220" y="908">A VESSEL ON CORPORATE WATERS</text>
+    <text x="1700" y="180" text-anchor="end">HEX THE GOVERNMENT</text>
+    <text x="1700" y="908" text-anchor="end">ABRAXAS · STRETTY · JUSTINN.CLOUT · CIGGYHOLSTER</text>
   </g>
 
-  <g transform="translate(960 540)" text-anchor="middle" font-family="'IBM Plex Mono', monospace">
-    <text y="-40" fill="url(#wordFade)" font-size="220" font-weight="700" letter-spacing="30" filter="url(#soft)">ABRAXAS</text>
-    <text y="-40" fill="#f5f5f3" font-size="220" font-weight="700" letter-spacing="30">ABRAXAS</text>
-    <text y="70" fill="#8c03fc" font-size="34" letter-spacing="14">UNDERGROUND OCCULT RAP</text>
-    <line x1="-260" y1="120" x2="260" y2="120" stroke="#8c03fc" stroke-opacity="0.5"/>
-    <text y="170" fill="#d7c6ea" opacity="0.75" font-size="22" letter-spacing="8">LOADING HERO STREAM…</text>
+  <!-- Dim two-line wordmark, sized to sit behind the drawn HTG logo the page
+       lays over it, echoing the frame of the hero loop it stands in for. -->
+  <g transform="translate(960 540)" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-weight="700" letter-spacing="24">
+    <text y="-60" fill="url(#wordFade)" font-size="200" filter="url(#soft)">HEX THE</text>
+    <text y="-60" fill="#5fbf86" fill-opacity="0.55" font-size="200">HEX THE</text>
+    <text y="170" fill="url(#wordFade)" font-size="200" filter="url(#soft)">GOVERNMENT</text>
+    <text y="170" fill="#5fbf86" fill-opacity="0.55" font-size="200">GOVERNMENT</text>
   </g>
 </svg>
