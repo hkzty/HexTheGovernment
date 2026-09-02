@@ -215,7 +215,7 @@ function extractConfig() {
       slots.push({ kind: 'pair', key: kv[1], line: idx, value: kv[2], label: kv[1] });
       return;
     }
-    /* Bare strings inside terminalLines / stat labels. */
+    /* Bare prose strings inside config arrays. */
     const bare = /^\s*"((?:[^"\\]|\\.)*)"\s*,?\s*$/.exec(line);
     if (bare && bare[1].trim() && !/^https?:/.test(bare[1])) {
       slots.push({ kind: 'bare', line: idx, value: bare[1], label: 'terminal line' });

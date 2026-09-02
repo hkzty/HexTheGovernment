@@ -521,7 +521,6 @@
       gap: 1rem;
     }
 
-    .terminal-card,
     .info-card,
     .release-card,
     .tour-card,
@@ -536,7 +535,6 @@
       overflow: hidden;
     }
 
-    .terminal-card::before,
     .info-card::before,
     .release-card::before,
     .tour-card::before,
@@ -549,52 +547,6 @@
       border: 1px solid rgba(255, 255, 255, 0.03);
       border-radius: inherit;
       pointer-events: none;
-    }
-
-    .terminal-card {
-      padding: 1.2rem;
-    }
-
-    .terminal-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding-bottom: 0.95rem;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid var(--line-neutral);
-    }
-
-    .terminal-dots {
-      display: inline-flex;
-      gap: 0.45rem;
-    }
-
-    .terminal-dots span {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.45);
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.28);
-    }
-
-    .terminal-label {
-      font-size: 0.72rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.18rem;
-    }
-
-    .terminal-line {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 0.85rem;
-      font-size: 0.9rem;
-      padding: 0.45rem 0;
-    }
-
-    .terminal-line span:first-child {
-      color: var(--accent);
     }
 
     .floating-code {

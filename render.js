@@ -41,20 +41,6 @@
     if (stickyActions) stickyActions.append(el('a', { class: 'btn', href: cfg.linktree, target: '_blank', rel: 'noopener noreferrer', text: 'All Links' }));
   }
 
-  /* ---- Terminal card lines ---------------------------------------------- */
-  if (Array.isArray(cfg.terminalLines) && cfg.terminalLines.length) {
-    const card = document.querySelector('.terminal-card');
-    if (card) {
-      card.querySelectorAll('.terminal-line').forEach(line => line.remove());
-      cfg.terminalLines.forEach(text => {
-        card.append(el('div', { class: 'terminal-line' }, [
-          el('span', { text: '>' }),
-          el('span', { text })
-        ]));
-      });
-    }
-  }
-
   /* ---- Hero video --------------------------------------------------------
      Respects Data Saver / very slow connections: poster only, no 25MB pull. */
   const heroVideo = document.querySelector('.hero-video');

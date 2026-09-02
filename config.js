@@ -18,18 +18,6 @@ window.ABRAXAS_CONFIG = {
   label: "HTG / Hex The Government",
   genre: "HEXCORE",
 
-  /* Lines shown in the signal.log terminal card on the hero. */
-  terminalLines: [
-    "Artist: ABRAXAS",
-    "Tagline: Depressions Running Deep",
-    "Label: HTG / Hex The Government",
-    "Sound: HEXCORE",
-    "Produces as: HexBoy",
-    "Mastering: Microbial Mastering",
-    "Signal: 93 93/93",
-    "Status: mid ritual"
-  ],
-
   /* ---- Linked profiles (paste your public URLs here) -------------------
      Used for the footer icons AND the "Out Now" platform cards.
      Empty "" = the button falls back to the platform's homepage.         */
