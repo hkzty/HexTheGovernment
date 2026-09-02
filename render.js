@@ -42,22 +42,28 @@
   }
 
   /* ---- Hero video --------------------------------------------------------
-     Respects Data Saver / very slow connections: poster only, no 25MB pull. */
+     The markup ships webm + mp4 sources; config can retarget them. Data
+     Saver, 2G and reduced-motion visitors get the poster only.           */
   const heroVideo = document.querySelector('.hero-video');
   if (heroVideo) {
+    heroVideo.muted = true; // autoplay needs it set as a property, not just the attribute
     if (cfg.heroPoster) heroVideo.poster = cfg.heroPoster;
     const conn = navigator.connection;
     const slow = !!(conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '')));
-    if (slow) {
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (slow || still) {
       heroVideo.querySelectorAll('source').forEach(s => s.remove());
       heroVideo.removeAttribute('autoplay');
       heroVideo.load();
-    } else if (cfg.heroVideo) {
-      let source = heroVideo.querySelector('source');
-      if (!source) { source = el('source'); heroVideo.append(source); }
-      if (source.getAttribute('src') !== cfg.heroVideo) {
-        source.src = cfg.heroVideo;
-        source.type = 'video/mp4';
+    } else {
+      const wanted = [];
+      if (cfg.heroVideoWebm) wanted.push([cfg.heroVideoWebm, 'video/webm']);
+      if (cfg.heroVideo) wanted.push([cfg.heroVideo, 'video/mp4']);
+      const current = [...heroVideo.querySelectorAll('source')]
+        .map(s => `${s.getAttribute('src')}|${s.getAttribute('type')}`).join();
+      if (wanted.length && wanted.map(w => w.join('|')).join() !== current) {
+        heroVideo.querySelectorAll('source').forEach(s => s.remove());
+        wanted.forEach(([src, type]) => heroVideo.append(el('source', { src, type })));
         heroVideo.load();
       }
     }
@@ -104,7 +110,70 @@
     return card;
   };
 
-  /* ---- THE SEQUENCE: full playthrough, highlights pinned and marked ------ */
+  /* ---- THE SEQUENCE: covers first, players on click ----------------------
+     The catalog reads as a grid of art instead of a wall of identical
+     players, and nothing loads from Spotify until a card is tapped. Real
+     cover art and titles are hydrated in the visitor's browser from
+     Spotify's public oEmbed endpoint; when that fetch fails the numbered
+     deck card stands — positions and the artist name, nothing invented. */
+  const hydrateCover = (card, url) => {
+    const apply = (data) => {
+      if (!data) return;
+      const art = card.querySelector('.cover-art');
+      if (data.thumbnail_url && art && !art.querySelector('.cover-img')) {
+        art.prepend(el('img', { class: 'cover-img', src: data.thumbnail_url, alt: '', loading: 'lazy', decoding: 'async' }));
+      }
+      if (data.title) {
+        const title = card.querySelector('.cover-title');
+        if (title) title.textContent = data.title;
+        card.setAttribute('aria-label', `Play ${data.title} on Spotify`);
+      }
+    };
+    const key = `htg-oembed:${url}`;
+    let cached = null;
+    try { cached = JSON.parse(sessionStorage.getItem(key)); } catch { /* no cache */ }
+    if (cached) { apply(cached); return; }
+    fetch(`https://open.spotify.com/oembed?url=${encodeURIComponent(url)}`)
+      .then(res => (res.ok ? res.json() : null))
+      .then(data => {
+        if (!data) return;
+        const slim = { title: data.title || '', thumbnail_url: data.thumbnail_url || '' };
+        try { sessionStorage.setItem(key, JSON.stringify(slim)); } catch { /* storage full or blocked */ }
+        apply(slim);
+      })
+      .catch(() => { /* endpoint unreachable — the numbered card stands */ });
+  };
+
+  const coverCard = (url, extras = {}) => {
+    const item = toEmbed(url);
+    if (!item) return null;
+    const art = el('span', { class: 'cover-art', 'aria-hidden': 'true' }, [
+      el('span', { class: 'cover-num', text: extras.num || '' }),
+      el('span', { class: 'cover-play', text: '▶' })
+    ]);
+    if (extras.tag) art.append(el('span', { class: 'cover-tag', text: extras.tag }));
+    const card = el('button', {
+      class: `cover-card fade-in${extras.highlight ? ' highlight' : ''}`,
+      type: 'button',
+      'aria-label': extras.label || 'Play on Spotify'
+    }, [
+      art,
+      el('span', { class: 'cover-meta' }, [
+        el('span', { class: 'cover-title', text: extras.title || '' }),
+        el('span', { class: 'cover-sub', text: 'Tap for the player' })
+      ])
+    ]);
+    card.addEventListener('click', () => {
+      const player = embedCard(item, { highlight: extras.highlight, tag: extras.tag, num: extras.num });
+      // Created after script.js armed its reveal observer, so show it directly.
+      player.classList.add('visible', 'now-playing');
+      card.replaceWith(player);
+      player.querySelector('iframe')?.focus();
+    }, { once: true });
+    hydrateCover(card, url);
+    return card;
+  };
+
   const seq = cfg.sequence || {};
   const seqSection = document.querySelector('#sequence .container');
   if (seqSection && (seq.albums || []).length + (seq.highlights || []).length > 0) {
@@ -117,22 +186,39 @@
     seqSection.querySelectorAll('.sequence-block').forEach(n => n.remove());
     seqSection.querySelector('.sequence-fallback')?.remove();
 
-    const artistEmbed = seq.artist ? toEmbed(seq.artist) : null;
-    if (artistEmbed) {
-      seqSection.append(el('div', { class: 'sequence-block sequence-artist' }, [embedCard(artistEmbed)]));
+    const artistName = cfg.artist || 'the artist';
+    const artistCard = seq.artist ? coverCard(seq.artist, {
+      title: artistName,
+      label: `Play ${artistName} on Spotify`
+    }) : null;
+    if (artistCard) {
+      artistCard.classList.add('cover-card--artist');
+      seqSection.append(el('div', { class: 'sequence-block sequence-artist' }, [artistCard]));
     }
 
-    const highlights = (seq.highlights || []).map(toEmbed).filter(Boolean);
+    const highlights = (seq.highlights || []).map((url, index) => coverCard(url, {
+      highlight: true,
+      tag: seq.highlightTag || 'HIGHLIGHT',
+      title: `Pinned ${String(index + 1).padStart(2, '0')}`,
+      label: `Play pinned highlight ${index + 1} on Spotify`
+    })).filter(Boolean);
     if (highlights.length) {
-      seqSection.append(el('div', { class: 'sequence-block embed-grid highlights' },
-        highlights.map(item => embedCard(item, { highlight: true, tag: seq.highlightTag || 'HIGHLIGHT' }))));
+      seqSection.append(el('div', { class: 'sequence-block cover-grid highlights' }, highlights));
     }
 
-    const albums = (seq.albums || []).map(toEmbed).filter(Boolean);
+    const albums = (seq.albums || []).map((url, index) => coverCard(url, {
+      num: String(index + 1).padStart(2, '0'),
+      title: `Sequence ${String(index + 1).padStart(2, '0')}`,
+      label: `Play album ${index + 1} of the Sequence on Spotify`
+    })).filter(Boolean);
     if (albums.length) {
-      seqSection.append(el('div', { class: 'sequence-block embed-grid' },
-        albums.map((item, index) => embedCard(item, { num: String(index + 1).padStart(2, '0') }))));
+      seqSection.append(el('div', { class: 'sequence-block cover-grid' }, albums));
     }
+
+    seqSection.append(el('div', { class: 'sequence-block pill-links' }, [
+      el('a', { class: 'inline-link', href: seq.artist || 'https://open.spotify.com/', target: '_blank', rel: 'noopener noreferrer', text: `Open ${artistName} on Spotify` }),
+      el('a', { class: 'inline-link', href: 'sequence.html', text: 'Full players on the Sequence page' })
+    ]));
   }
 
   /* ---- Out Now: extra embeds under the platform cards --------------------- */

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — SIGNAL LOST | HTG</title>
+  <meta name="description" content="Wrong deck. This address doesn't exist on the HTG vessel." />
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="icon" type="image/svg+xml" href="assets/htg-mark.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- GitHub Pages serves this page for ANY missing path, nested ones
+       included, so every URL on it is absolute — a relative one would
+       resolve against whatever broken path got the visitor here. -->
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    .lost-shell {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 1.1rem;
+      padding: 2rem 1.25rem;
+      text-align: center;
+    }
+    .lost-kicker {
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+    }
+    .lost-title {
+      font-family: "New Rocker", "IBM Plex Mono", serif;
+      font-weight: 400;
+      font-size: clamp(2.6rem, 10vw, 6rem);
+      line-height: 0.95;
+      text-transform: uppercase;
+      text-shadow: 0 0 40px rgba(240, 240, 240, 0.25);
+    }
+    .lost-code {
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+    .lost-copy {
+      max-width: 34rem;
+      color: #cfcfcf;
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+    .lost-links {
+      justify-content: center;
+      margin-top: 0.6rem;
+    }
+    .lost-shell .egg-hint {
+      margin-top: 1.6rem;
+      max-width: 34rem;
+    }
+  </style>
+</head>
+<body data-rain="mixed">
+  <canvas id="matrix-rain" aria-hidden="true"></canvas>
+
+  <main class="lost-shell">
+    <p class="lost-kicker">HTG // Hex The Government</p>
+    <h1 class="lost-title">Signal Lost</h1>
+    <p class="lost-code">404 // wrong deck</p>
+    <p class="lost-copy">
+      This address isn't on the vessel. Whatever link brought you here leads
+      over the side — the decks that exist are all one hop away.
+    </p>
+    <nav class="pill-links lost-links" aria-label="Back aboard">
+      <a class="inline-link" href="/">Back to the deck</a>
+      <a class="inline-link" href="/abraxas.html">ABRAXAS</a>
+      <a class="inline-link" href="/stretty.html">Stretty</a>
+      <a class="inline-link" href="/sequence.html">The Sequence</a>
+      <a class="inline-link" href="/#contact">Contact</a>
+    </nav>
+    <p class="egg-hint">
+      Or stay lost on purpose — a maze is hidden in the main deck.
+      Type <kbd>purge</kbd> when you land, or <a href="/game.html">walk straight in →</a>
+    </p>
+  </main>
+
+  <script src="/matrix.js"></script>
+</body>
+</html>

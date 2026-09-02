@@ -36,8 +36,11 @@ window.ABRAXAS_CONFIG = {
   linktree: "https://linktr.ee/abraxashtg",
 
   /* ---- Hero video -------------------------------------------------------
-     Local file in the repo or any public direct .mp4 URL.                 */
-  heroVideo: "assets/htg-hero.mp4",
+     Plays behind the wordmark on the landing page. Two encodings of the
+     same 6-second 720p loop; webm is offered first, mp4 is the fallback.
+     Local files in the repo or any public direct video URL.              */
+  heroVideo: "assets/htg-hero-720p.mp4",
+  heroVideoWebm: "assets/htg-hero-720p.webm",
   heroPoster: "assets/placeholders/hero-poster.svg",
 
   /* ---- THE SEQUENCE ------------------------------------------------------
@@ -144,8 +147,26 @@ window.ABRAXAS_CONFIG = {
   },
 
   /* ---- Contact -----------------------------------------------------------
-     The contact form opens the visitor's email app with the message
-     pre-filled, addressed to contactEmail.                                */
+     How a submitted form reaches the inbox, tried in this order:
+
+     1. contactForm.endpoint — a free form-to-email service, no backend.
+        Either provider works, ~2 minutes to set up:
+          - Formspree (formspree.io): create a form that forwards to
+            contactEmail, paste its endpoint here, e.g.
+            "https://formspree.io/f/abcdwxyz".
+          - Web3Forms (web3forms.com): request an access key for
+            contactEmail, set endpoint to
+            "https://api.web3forms.com/submit" and put the key in
+            accessKey.
+        With an endpoint set, the form sends from the page itself and the
+        visitor never needs a mail app.
+     2. mailto: fallback — with no endpoint (or if the send fails), the
+        form opens the visitor's email app addressed to contactEmail, and
+        shows the address to copy for anyone without a mail app.         */
+  contactForm: {
+    endpoint: "",
+    accessKey: ""   // Web3Forms only — leave "" for Formspree
+  },
   contactEmail: "Bookings@htg.productions",
   management: "Bookings@htg.productions"
 };
