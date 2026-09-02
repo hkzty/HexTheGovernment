@@ -58,6 +58,14 @@ window.ABRAXAS_CONFIG = {
      The full playthrough, in order. Every URL becomes an embedded player.
      `highlights` are pinned at the top and visually marked with the tag. */
   sequence: {
+    /* Cover art for the tiles below, keyed by Spotify ID (the last path
+       segment of the URL). Drop the real cover image into assets/covers/
+       and point at it here; `title` is the release's real name on Spotify.
+       Leave an entry out and the tile shows its numbered deck card and
+       tries Spotify's oEmbed in the visitor's browser. Never invent
+       art or titles here. */
+    covers: {
+    },
     kicker: "The Sequence // 93",
     title: "Play it through. In order.",
     note: "01 → 13. No words.",

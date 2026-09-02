@@ -1610,6 +1610,21 @@
       text-transform: uppercase;
     }
 
+    /* The full-page link sits above the grids, not buried under them. */
+    .sequence-open {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1.25rem;
+    }
+
+    .sequence-open-note {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
     /* Covers-first sequence: the grid shows art, the player loads on tap. */
     .cover-grid {
       display: grid;
@@ -2697,7 +2712,7 @@
             <p class="section-copy">ABRAXAS, 01 → 13. No words.</p>
           </div>
           <div class="pill-links sequence-fallback">
-            <a class="inline-link" href="sequence.html">Open the Sequence</a>
+            <a class="btn" href="sequence.html">Open the full Sequence</a>
             <a class="inline-link" href="https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19" target="_blank" rel="noopener noreferrer">Open ABRAXAS on Spotify</a>
           </div>
         </div>

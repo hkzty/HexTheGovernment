@@ -1555,6 +1555,21 @@
       text-transform: uppercase;
     }
 
+    /* The full-page link sits above the grids, not buried under them. */
+    .sequence-open {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1.25rem;
+    }
+
+    .sequence-open-note {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
     /* Covers-first sequence: the grid shows art, the player loads on tap. */
     .cover-grid {
       display: grid;
