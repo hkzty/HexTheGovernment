@@ -60,7 +60,9 @@ outNowEmbeds: [
 
 ### 4. Photos — just drop them in a folder
 
-Put image files in **`assets/gallery/`** and push (the GitHub web "Upload files" button works). A GitHub Action rebuilds `assets/gallery/manifest.json` automatically and the site's gallery + lightbox pick the photos up on their own — captions come from the filenames (`night-session.jpg` → "night session"). No code edits.
+Put image files in **`assets/gallery/`**, run `npm run build:gallery` (rebuilds `assets/gallery/manifest.json`), and commit both. The site's gallery + lightbox pick the photos up on their own — captions come from the filenames (`night-session.jpg` → "night session"). Run `npm run check:gallery` before pushing to catch a stale manifest. (A GitHub Action was meant to rebuild the manifest on push, but user-defined workflows never execute in this repo — see *Known broken*.)
+
+The gallery currently holds real frames off HTG's own visuals — hero-reel stills and live Suit Purge floors. Session/phone shots should replace them as they exist.
 
 Instagram: paste public post/reel URLs into `instagramPosts` in `config.js` and they appear embedded in the Gallery section.
 

@@ -19,8 +19,8 @@
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="HTG — Hex The Government. A private ark on corporate waters." />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://www.htg.productions/assets/og/htg.png" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0a0a'/%3E%3Ctext x='50' y='72' font-size='52' text-anchor='middle' fill='%23f2f2f2' font-family='Georgia, serif'%3EH%3C/text%3E%3C/svg%3E" />
+  <meta name="twitter:image" content="https://www.htg.productions/assets/share/htg.png" />
+  <link rel="icon" type="image/svg+xml" href="assets/htg-mark.svg" />
   <script data-page="desktop">
     // Mark JS as available: CSS only arms the reveal animations and the
     // custom cursor when this class is present, so a failed script never
@@ -88,15 +88,6 @@
     .mast .manifesto b { color: var(--text); font-weight: 700; }
     .mast .hero-cta { justify-content: center; margin-top: 2rem; }
 
-    /* signal.log — the boot log under the wordmark. The card itself comes
-       from style.css; this only sizes and re-aligns it inside the centered
-       mast. */
-    .mast .hero-terminal {
-      max-width: 30rem;
-      margin: 2.4rem auto 0;
-      text-align: left;
-    }
-
     /* ---- The artist doors ------------------------------------------------ */
     .doors {
       display: flex;
@@ -126,9 +117,43 @@
       transition: flex-grow 0.5s ease, background 0.4s ease, filter 0.4s ease;
     }
     /* ABRAXAS is the lit, dominant door; the rest sit recessed and dimmer. */
-    .door--abx { flex-grow: 1.35; }
+    .door--abx { flex-grow: 1.35; --door-c: rgba(180, 120, 255, 0.5); }
     .door--str, .door--jus, .door--cig { filter: brightness(0.72) saturate(0.6); }
+    .door--str { --door-c: rgba(22, 200, 90, 0.45); }
+    .door--jus { --door-c: rgba(255, 155, 61, 0.45); }
+    .door--cig { --door-c: rgba(47, 212, 224, 0.45); }
     .door:hover, .door:focus-visible { flex-grow: 2; filter: none; background: rgba(10, 10, 10, 0.25); }
+
+    /* The wall of work behind each name: a collage of that artist's real
+       cover art (resolved at runtime from Spotify's oEmbed — see the loader
+       script by the doors) or video stills. Sits dim and desaturated under
+       the typography, snaps to full colour with the deck glow on hover.
+       If the art never resolves the imgs stay src-less and invisible, and
+       the door is exactly the typography-only door it was before. */
+    .door-art {
+      position: absolute; inset: 0; z-index: 0;
+      display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr;
+      pointer-events: none;
+    }
+    .door-art img {
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0;
+      filter: grayscale(1) brightness(0.34) contrast(1.05);
+      transition: opacity 0.6s ease, filter 0.45s ease;
+    }
+    .door-art img.ok { opacity: 0.85; }
+    /* Three tiles: let the odd one out take the whole bottom row. */
+    .door-art img.ok:last-child:nth-child(odd) { grid-column: 1 / -1; }
+    .door-art::after {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(120% 100% at 50% 100%, var(--door-c, transparent), transparent 72%);
+      opacity: 0; transition: opacity 0.45s ease;
+    }
+    .door:hover .door-art img, .door:focus-visible .door-art img {
+      filter: grayscale(0) brightness(0.6) saturate(1.15);
+    }
+    .door:hover .door-art::after, .door:focus-visible .door-art::after { opacity: 0.5; }
+    .door-name, .door-role, .door-reveal { position: relative; z-index: 1; }
     .door--abx:hover, .door--abx:focus-visible { box-shadow: inset 0 0 140px rgba(180, 120, 255, 0.28); }
     .door--str:hover, .door--str:focus-visible { box-shadow: inset 0 0 140px rgba(22, 200, 90, 0.24); }
     .door--jus:hover, .door--jus:focus-visible { box-shadow: inset 0 0 140px rgba(255, 155, 61, 0.24); }
@@ -198,7 +223,7 @@
       .door-reveal { max-height: 12rem; opacity: 1; margin-top: 1.2rem; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .door, .door-name, .door-reveal { transition: none; }
+      .door, .door-name, .door-reveal, .door-art img, .door-art::after { transition: none; }
     }
   </style>
 </head>
@@ -273,23 +298,6 @@
               <a class="btn" href="#roster">The Roster</a>
               <a class="btn" href="#contact">Bookings</a>
             </div>
-
-            <!-- signal.log — render.js swaps these lines for config.terminalLines;
-                 keep both layers carrying the same real values. -->
-            <div class="terminal-card hero-terminal">
-              <div class="terminal-head">
-                <span class="terminal-dots" aria-hidden="true"><span></span><span></span><span></span></span>
-                <span class="terminal-label">signal.log</span>
-              </div>
-              <div class="terminal-line"><span>&gt;</span><span>Artist: ABRAXAS</span></div>
-              <div class="terminal-line"><span>&gt;</span><span>Tagline: Depressions Running Deep</span></div>
-              <div class="terminal-line"><span>&gt;</span><span>Label: HTG / Hex The Government</span></div>
-              <div class="terminal-line"><span>&gt;</span><span>Sound: HEXCORE</span></div>
-              <div class="terminal-line"><span>&gt;</span><span>Produces as: HexBoy</span></div>
-              <div class="terminal-line"><span>&gt;</span><span>Mastering: Microbial Mastering</span></div>
-              <div class="terminal-line"><span>&gt;</span><span>Signal: 93 93/93</span></div>
-              <div class="terminal-line"><span>&gt;</span><span>Status: mid ritual</span></div>
-            </div>
           </div>
         </div>
       </section>
@@ -304,6 +312,15 @@
 
           <nav class="doors fade-in" aria-label="Choose an artist">
             <a class="door door--abx" href="abraxas.html">
+              <!-- Covers picked from the Sequence in config.js — albums 01,
+                   02, 12 and 13. All Spotify URLs below feed the oEmbed
+                   loader after the doors; change art by changing URLs. -->
+              <span class="door-art" aria-hidden="true">
+                <img alt="" data-cover="https://open.spotify.com/album/44Mb4ylrmZhzqqWPClRMot" />
+                <img alt="" data-cover="https://open.spotify.com/album/6oib72faDOWbdjGCKDv8jG" />
+                <img alt="" data-cover="https://open.spotify.com/album/1gvEKFbi6CIZu8yZf5E0q9" />
+                <img alt="" data-cover="https://open.spotify.com/album/5vbKU5ZwNhl0G8Pv1OOXYB" />
+              </span>
               <span class="door-name">ABRAXAS</span>
               <span class="door-role">Noah · out front · the face</span>
               <span class="door-reveal">
@@ -313,6 +330,15 @@
             </a>
 
             <a class="door door--str" href="stretty.html">
+              <!-- Only tracks verifiably credited to stretty's artist id
+                   (4yQchxxguwc9PXmCVqb9Bm). Another Spotify artist is also
+                   named Stretty — never add a release without checking the
+                   artist link on it. -->
+              <span class="door-art" aria-hidden="true">
+                <img alt="" data-cover="https://open.spotify.com/track/2oGrGX4T83boP9ZMIl2gZd" />
+                <img alt="" data-cover="https://open.spotify.com/track/5wiaIGjX8ht4vIxYHYHBqG" />
+                <img alt="" data-cover="https://open.spotify.com/track/3Vs0qIyXV3UtsWpxCcvJnX" />
+              </span>
               <span class="door-name">STRETTY</span>
               <span class="door-role">The Ark · the hull · keeping it afloat</span>
               <span class="door-reveal">
@@ -322,6 +348,14 @@
             </a>
 
             <a class="door door--jus" href="justin.html">
+              <!-- Same four videos as the reel on justin.html, wearing
+                   YouTube's own thumbnails. -->
+              <span class="door-art" aria-hidden="true">
+                <img alt="" loading="lazy" decoding="async" data-thumb="https://i.ytimg.com/vi/pRW9l-BuEk4/hqdefault.jpg" />
+                <img alt="" loading="lazy" decoding="async" data-thumb="https://i.ytimg.com/vi/ppEZ-0AxEUI/hqdefault.jpg" />
+                <img alt="" loading="lazy" decoding="async" data-thumb="https://i.ytimg.com/vi/fizEx-a5ViY/hqdefault.jpg" />
+                <img alt="" loading="lazy" decoding="async" data-thumb="https://i.ytimg.com/vi/i210dyJM_84/hqdefault.jpg" />
+              </span>
               <span class="door-name door-name--long">JUSTINN.CLOUT</span>
               <span class="door-role">Video · photo · aboard</span>
               <span class="door-reveal">
@@ -331,6 +365,14 @@
             </a>
 
             <a class="door door--cig" href="ciggie.html">
+              <!-- Real ciggyholster releases (artist 0xMdknHv3WOTL2AeK1uHpo):
+                   Tidal Wave, MISFITS, Leptin, Yung Chlordane. -->
+              <span class="door-art" aria-hidden="true">
+                <img alt="" data-cover="https://open.spotify.com/track/19YLebLelGLMo9wW38XQCC" />
+                <img alt="" data-cover="https://open.spotify.com/track/4HoXkJ6l8CMiPNRUDuQpvc" />
+                <img alt="" data-cover="https://open.spotify.com/track/21miJ7OVY8YvuA5E4wUbD0" />
+                <img alt="" data-cover="https://open.spotify.com/track/415XlPsdKVSi1KXJSWJSnT" />
+              </span>
               <span class="door-name door-name--long">CIGGYHOLSTER</span>
               <span class="door-role">Artist · aboard</span>
               <span class="door-reveal">
@@ -339,6 +381,45 @@
               </span>
             </a>
           </nav>
+
+          <script>
+            (function () {
+              /* Door art loader. Spotify's oEmbed endpoint is CORS-open and
+                 needs no key, so each data-cover URL resolves to its real
+                 cover art in the visitor's browser. (Server-side this repo
+                 has never managed that call — datacenter IPs get 403s, see
+                 scripts/scraper.js — but browsers on normal connections are
+                 fine.) Any failure just leaves that img src-less and
+                 invisible: the door falls back to typography only.
+                 data-thumb imgs are plain direct-src thumbnails. */
+              var conn = navigator.connection;
+              if (conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || ''))) return;
+
+              document.querySelectorAll('.door-art img[data-thumb]').forEach(function (img) {
+                img.addEventListener('load', function () { img.classList.add('ok'); }, { once: true });
+                img.src = img.getAttribute('data-thumb');
+              });
+
+              var cacheGet = function (k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } };
+              var cacheSet = function (k, v) { try { sessionStorage.setItem(k, v); } catch (e) { /* full/blocked */ } };
+              document.querySelectorAll('.door-art img[data-cover]').forEach(function (img) {
+                var url = img.getAttribute('data-cover');
+                var key = 'htg-cover:' + url;
+                img.addEventListener('load', function () { img.classList.add('ok'); }, { once: true });
+                var cached = cacheGet(key);
+                if (cached) { img.src = cached; return; }
+                fetch('https://open.spotify.com/oembed?url=' + encodeURIComponent(url))
+                  .then(function (res) { return res.ok ? res.json() : null; })
+                  .then(function (data) {
+                    if (data && data.thumbnail_url) {
+                      cacheSet(key, data.thumbnail_url);
+                      img.src = data.thumbnail_url;
+                    }
+                  })
+                  .catch(function () { /* stays typography-only */ });
+              });
+            })();
+          </script>
         </div>
       </section>
 
@@ -598,30 +679,34 @@
             <p class="section-copy">Click any frame to open it.</p>
           </div>
 
+          <!-- Real frames off HTG's own visuals — the hero reel and live
+               Suit Purge floors. Keep this fallback in step with
+               assets/gallery/manifest.json (npm run build:gallery) so the
+               grid doesn't change when render.js loads the manifest. -->
           <div class="gallery-grid">
-            <button class="gallery-item fade-in" type="button" data-gallery-index="0" data-full="https://picsum.photos/seed/abraxasgallery1/1600/1200?grayscale" data-caption="Night session / terminal room">
-              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="https://picsum.photos/seed/abraxasgallery1/900/900?grayscale" alt="Placeholder dark studio gallery image 1" />
-              <span class="gallery-caption">Night session / terminal room</span>
+            <button class="gallery-item fade-in" type="button" data-gallery-index="0" data-full="assets/gallery/htg-hero-reel-01.jpg" data-caption="htg hero reel 01">
+              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/gallery/htg-hero-reel-01.jpg" alt="htg hero reel 01" />
+              <span class="gallery-caption">htg hero reel 01</span>
             </button>
-            <button class="gallery-item fade-in" type="button" data-gallery-index="1" data-full="assets/placeholders/gallery-2.svg" data-caption="Backstage static / blackout wash">
-              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/placeholders/gallery-2.svg" alt="Placeholder dark performance gallery image 2" />
-              <span class="gallery-caption">Backstage static / blackout wash</span>
+            <button class="gallery-item fade-in" type="button" data-gallery-index="1" data-full="assets/gallery/htg-hero-reel-02.jpg" data-caption="htg hero reel 02">
+              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/gallery/htg-hero-reel-02.jpg" alt="htg hero reel 02" />
+              <span class="gallery-caption">htg hero reel 02</span>
             </button>
-            <button class="gallery-item fade-in" type="button" data-gallery-index="2" data-full="assets/placeholders/gallery-3.svg" data-caption="Cover shoot / corrupted glow">
-              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/placeholders/gallery-3.svg" alt="Placeholder cover shoot gallery image 3" />
-              <span class="gallery-caption">Cover shoot / corrupted glow</span>
+            <button class="gallery-item fade-in" type="button" data-gallery-index="2" data-full="assets/gallery/suit-purge-floor-01.jpg" data-caption="suit purge floor 01">
+              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/gallery/suit-purge-floor-01.jpg" alt="suit purge floor 01" />
+              <span class="gallery-caption">suit purge floor 01</span>
             </button>
-            <button class="gallery-item fade-in" type="button" data-gallery-index="3" data-full="assets/placeholders/gallery-4.svg" data-caption="Venue check / monitors down">
-              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/placeholders/gallery-4.svg" alt="Placeholder venue gallery image 4" />
-              <span class="gallery-caption">Venue check / monitors down</span>
+            <button class="gallery-item fade-in" type="button" data-gallery-index="3" data-full="assets/gallery/suit-purge-floor-02.jpg" data-caption="suit purge floor 02">
+              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/gallery/suit-purge-floor-02.jpg" alt="suit purge floor 02" />
+              <span class="gallery-caption">suit purge floor 02</span>
             </button>
-            <button class="gallery-item fade-in" type="button" data-gallery-index="4" data-full="assets/placeholders/gallery-5.svg" data-caption="Merch prep / box stack">
-              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/placeholders/gallery-5.svg" alt="Placeholder merch prep gallery image 5" />
-              <span class="gallery-caption">Merch prep / box stack</span>
+            <button class="gallery-item fade-in" type="button" data-gallery-index="4" data-full="assets/gallery/suit-purge-floor-03.jpg" data-caption="suit purge floor 03">
+              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/gallery/suit-purge-floor-03.jpg" alt="suit purge floor 03" />
+              <span class="gallery-caption">suit purge floor 03</span>
             </button>
-            <button class="gallery-item fade-in" type="button" data-gallery-index="5" data-full="assets/placeholders/gallery-6.svg" data-caption="Visual frame / violet signal">
-              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/placeholders/gallery-6.svg" alt="Placeholder visual frame gallery image 6" />
-              <span class="gallery-caption">Visual frame / violet signal</span>
+            <button class="gallery-item fade-in" type="button" data-gallery-index="5" data-full="assets/gallery/suit-purge-floor-04.jpg" data-caption="suit purge floor 04">
+              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/gallery/suit-purge-floor-04.jpg" alt="suit purge floor 04" />
+              <span class="gallery-caption">suit purge floor 04</span>
             </button>
           </div>
         </div>

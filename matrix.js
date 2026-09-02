@@ -134,17 +134,29 @@
   let fxDisabled = false;
   let fxStrikes = 0;
 
-  if (finePointer) {
-    window.addEventListener('mousemove', (e) => {
-      pointerX = e.clientX;
-      pointerY = e.clientY;
-    }, { passive: true });
-    // Pointer gone — park it far away so the last position doesn't keep a
-    // patch of rain permanently lit.
-    document.addEventListener('mouseleave', () => {
-      pointerX = -1e9;
-      pointerY = -1e9;
-    });
+  const onPointerMove = (e) => {
+    pointerX = e.clientX;
+    pointerY = e.clientY;
+  };
+  // Pointer gone — park it far away so the last position doesn't keep a
+  // patch of rain permanently lit.
+  const onPointerLeave = () => {
+    pointerX = -1e9;
+    pointerY = -1e9;
+  };
+  let pointerBound = false;
+  function bindPointer() {
+    if (!finePointer || pointerBound) return;
+    pointerBound = true;
+    window.addEventListener('mousemove', onPointerMove, { passive: true });
+    document.addEventListener('mouseleave', onPointerLeave);
+  }
+  function unbindPointer() {
+    if (!pointerBound) return;
+    pointerBound = false;
+    window.removeEventListener('mousemove', onPointerMove);
+    document.removeEventListener('mouseleave', onPointerLeave);
+    onPointerLeave();
   }
 
   const rand = (min, max) => Math.random() * (max - min) + min;
