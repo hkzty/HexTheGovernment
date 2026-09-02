@@ -152,6 +152,30 @@ out of view, on Escape, and when the tab is hidden.
   them. (If this becomes a frequent edit, promoting that check into a
   dev-only assertion in `game.js` would be worth doing.)
 
+## The HTG mark
+
+`assets/htg-mark.svg` is the label's drawn sigil — a hexagon holding an H
+whose crossbar is a hull, over a waterline. It is the favicon on the
+HTG-branded pages (`index.html`/`mobile.html`, `game.html`, `legal.html`,
+`404.html`); artist decks keep their own letter icons. The `og:image`
+share cards live per-page in `assets/share/` (see the shareable-face
+work). Reuse the SVG for anything that needs a stamp; don't reintroduce the old
+plain-letter "H" tile.
+
+## Roster door art & the second Stretty trap
+
+The roster doors on `index.html` carry cover-art collages resolved at
+runtime from Spotify's oEmbed endpoint (see the loader script by the
+doors). oEmbed is CORS-open in visitors' browsers even though it 403s from
+datacenter IPs; on any failure the door just stays typography-only.
+
+When adding tracks anywhere (doors, `stretty.html`, `ciggie.html`): a
+second, unrelated Spotify artist is also named **Stretty**
+(`6r59mx3rk3LO4VXSUhRXM5`). HTG's stretty is
+`spotify:artist:4yQchxxguwc9PXmCVqb9Bm` and ciggyholster is
+`spotify:artist:0xMdknHv3WOTL2AeK1uHpo` — verify the artist link on a
+release before wiring it in, same rule as the ABRAXAS ID above.
+
 ## `--nav-height`
 
 Set at runtime in `script.js` from the header's measured height, on load,
