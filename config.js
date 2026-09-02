@@ -164,23 +164,33 @@ window.ABRAXAS_CONFIG = {
      How a submitted form reaches the inbox, tried in this order:
 
      1. contactForm.endpoint — a free form-to-email service, no backend.
-        Either provider works, ~2 minutes to set up:
-          - Formspree (formspree.io): create a form that forwards to
-            contactEmail, paste its endpoint here, e.g.
-            "https://formspree.io/f/abcdwxyz".
+        ~2 minutes to set up. Web3Forms is the one to use here: its free
+        tier delivers to contactEmail AND copies every address in
+        contactCc, so both inboxes get each enquiry.
           - Web3Forms (web3forms.com): request an access key for
-            contactEmail, set endpoint to
+            contactEmail (Abraxas@htg.productions), set endpoint to
             "https://api.web3forms.com/submit" and put the key in
-            accessKey.
+            accessKey. The key is meant to live in client-side code.
+          - Formspree (formspree.io) also works — create a form that
+            forwards to contactEmail and paste its endpoint, e.g.
+            "https://formspree.io/f/abcdwxyz" — but its cc field is a
+            paid feature, so on the free plan only contactEmail is
+            delivered to.
         With an endpoint set, the form sends from the page itself and the
         visitor never needs a mail app.
      2. mailto: fallback — with no endpoint (or if the send fails), the
-        form opens the visitor's email app addressed to contactEmail, and
-        shows the address to copy for anyone without a mail app.         */
+        form opens the visitor's email app addressed to contactEmail with
+        contactCc on copy, and shows the address for anyone without a
+        mail app.
+
+     contactEmail is shown on the contact card and is the To: address.
+     contactCc is delivery-only — those addresses receive every
+     submission but are never rendered anywhere on the site.            */
   contactForm: {
     endpoint: "",
     accessKey: ""   // Web3Forms only — leave "" for Formspree
   },
-  contactEmail: "Bookings@htg.productions",
+  contactEmail: "Abraxas@htg.productions",
+  contactCc: ["hkukic.2015@gmail.com"],
   management: "Bookings@htg.productions"
 };

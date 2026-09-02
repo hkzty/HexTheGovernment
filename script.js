@@ -232,9 +232,10 @@
       reset: for someone with no mail app the text still sitting in the
       form is the only copy of their message.
     */
-    const openMailto = ({ name, email, subject, message, contactEmail, lead }) => {
+    const openMailto = ({ name, email, subject, message, contactEmail, contactCc, lead }) => {
       const body = `${message}\n\n— ${name} (${email})`;
-      window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const cc = contactCc.length ? `cc=${encodeURIComponent(contactCc.join(','))}&` : '';
+      window.location.href = `mailto:${contactEmail}?${cc}subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       formStatus.textContent = `${lead} If no email app opened, send it yourself to ${contactEmail} — your message is still filled in below.`;
     };
 
@@ -277,6 +278,10 @@
 
       const cfg = window.ABRAXAS_CONFIG || {};
       const contactEmail = (cfg.contactEmail || '').trim();
+      // Delivery-only copies: every submission also lands in these inboxes.
+      // They ride along as cc on both paths and are never shown on the page.
+      const contactCc = (Array.isArray(cfg.contactCc) ? cfg.contactCc : [])
+        .map(a => String(a).trim()).filter(Boolean);
       const service = cfg.contactForm || {};
       const endpoint = (service.endpoint || '').trim();
       const accessKey = (service.accessKey || '').trim();
@@ -287,12 +292,14 @@
       }
 
       if (endpoint) {
-        // Web3Forms wants access_key + botcheck; Formspree reads its meta
-        // fields from _-prefixed keys. Shape the payload for whichever
-        // service the config points at.
+        // Web3Forms wants access_key + botcheck and copies `ccemail`;
+        // Formspree reads its meta fields from _-prefixed keys (`_cc` is a
+        // paid-tier feature there). Shape the payload for whichever service
+        // the config points at.
+        const ccList = contactCc.join(',');
         const payload = accessKey
-          ? { access_key: accessKey, name, email, subject, message, botcheck: false }
-          : { name, email, subject, message, _subject: subject, _replyto: email, _gotcha: '' };
+          ? { access_key: accessKey, name, email, subject, message, botcheck: false, ...(ccList && { ccemail: ccList }) }
+          : { name, email, subject, message, _subject: subject, _replyto: email, _gotcha: '', ...(ccList && { _cc: ccList }) };
         contactSubmit.disabled = true;
         formStatus.textContent = 'Sending…';
         try {
@@ -306,7 +313,7 @@
           formStatus.textContent = 'Sent — your message is in the HTG inbox. Replies go to the email you gave.';
         } catch (err) {
           if (contactEmail) {
-            openMailto({ name, email, subject, message, contactEmail, lead: 'The form service did not answer, so this fell back to your email app.' });
+            openMailto({ name, email, subject, message, contactEmail, contactCc, lead: 'The form service did not answer, so this fell back to your email app.' });
           } else {
             formStatus.textContent = 'Sending failed — please try again in a minute.';
           }
@@ -316,7 +323,7 @@
         return;
       }
 
-      openMailto({ name, email, subject, message, contactEmail, lead: `Opening your email app to send this to ${contactEmail}…` });
+      openMailto({ name, email, subject, message, contactEmail, contactCc, lead: `Opening your email app to send this to ${contactEmail}…` });
     });
   
 

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-02T00:59:21.086Z",
+  "generated": "2026-09-02T06:37:41.191Z",
   "groups": [
     {
       "id": "config.js",
@@ -44,81 +44,81 @@
           "text": "HEXCORE"
         },
         {
-          "id": "config.js:49",
+          "id": "config.js:63",
           "file": "config.js",
-          "line": 49,
+          "line": 63,
           "kind": "config",
           "where": "kicker",
           "original": "The Sequence // 93",
           "text": "The Sequence // 93"
         },
         {
-          "id": "config.js:50",
+          "id": "config.js:64",
           "file": "config.js",
-          "line": 50,
+          "line": 64,
           "kind": "config",
           "where": "title",
           "original": "Play it through. In order.",
           "text": "Play it through. In order."
         },
         {
-          "id": "config.js:51",
+          "id": "config.js:65",
           "file": "config.js",
-          "line": 51,
+          "line": 65,
           "kind": "config",
           "where": "note",
           "original": "01 → 13. No words.",
           "text": "01 → 13. No words."
         },
         {
-          "id": "config.js:53",
+          "id": "config.js:67",
           "file": "config.js",
-          "line": 53,
+          "line": 67,
           "kind": "config",
           "where": "highlightTag",
           "original": "PINNED",
           "text": "PINNED"
         },
         {
-          "id": "config.js:123",
+          "id": "config.js:137",
           "file": "config.js",
-          "line": 123,
+          "line": 137,
           "kind": "config",
           "where": "stat label",
           "original": "Albums in the Sequence",
           "text": "Albums in the Sequence"
         },
         {
-          "id": "config.js:124",
+          "id": "config.js:138",
           "file": "config.js",
-          "line": 124,
+          "line": 138,
           "kind": "config",
           "where": "stat label",
           "original": "Pinned Highlights",
           "text": "Pinned Highlights"
         },
         {
-          "id": "config.js:126",
+          "id": "config.js:140",
           "file": "config.js",
-          "line": 126,
+          "line": 140,
           "kind": "config",
           "where": "stat label",
           "original": "Names aboard the vessel",
           "text": "Names aboard the vessel"
         },
         {
-          "id": "config.js:169",
+          "id": "config.js:192",
           "file": "config.js",
-          "line": 169,
+          "line": 192,
           "kind": "config",
           "where": "contactEmail",
-          "original": "Bookings@htg.productions",
-          "text": "Bookings@htg.productions"
+          "original": "Abraxas@htg.productions",
+          "text": "Abraxas@htg.productions"
         },
         {
-          "id": "config.js:170",
+          "id": "config.js:194",
           "file": "config.js",
-          "line": 170,
+          "line": 194,
           "kind": "config",
           "where": "management",
           "original": "Bookings@htg.productions",
@@ -312,10 +312,10 @@
           "id": "index.html:17",
           "file": "index.html",
           "ordinal": 17,
-          "kind": "text",
-          "block": 13,
-          "blockTag": "h1",
-          "where": "div > div > h1",
+          "kind": "attr",
+          "block": 0,
+          "blockTag": "img",
+          "where": "img .wordmark-logo",
           "original": "HTG",
           "text": "HTG"
         },
@@ -1438,8 +1438,8 @@
           "block": 0,
           "blockTag": "a",
           "where": "div > div > a",
-          "original": "Open the Sequence",
-          "text": "Open the Sequence"
+          "original": "Open the full Sequence",
+          "text": "Open the full Sequence"
         },
         {
           "id": "index.html:127",
@@ -1900,8 +1900,8 @@
           "block": 79,
           "blockTag": "li",
           "where": "ul > li > a",
-          "original": "Bookings@htg.productions",
-          "text": "Bookings@htg.productions"
+          "original": "Abraxas@htg.productions",
+          "text": "Abraxas@htg.productions"
         },
         {
           "id": "index.html:169",
@@ -1911,8 +1911,8 @@
           "block": 80,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "Label",
-          "text": "Label"
+          "original": "Management",
+          "text": "Management"
         },
         {
           "id": "index.html:170",
@@ -1921,9 +1921,9 @@
           "kind": "text",
           "block": 80,
           "blockTag": "li",
-          "where": "ul > li > span",
-          "original": "HTG / Hex The Government",
-          "text": "HTG / Hex The Government"
+          "where": "ul > li > a",
+          "original": "Bookings@htg.productions",
+          "text": "Bookings@htg.productions"
         },
         {
           "id": "index.html:171",
@@ -1933,8 +1933,8 @@
           "block": 81,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "Focus",
-          "text": "Focus"
+          "original": "Label",
+          "text": "Label"
         },
         {
           "id": "index.html:172",
@@ -1944,8 +1944,8 @@
           "block": 81,
           "blockTag": "li",
           "where": "ul > li > span",
-          "original": "Bookings, features, visuals, merchandise",
-          "text": "Bookings, features, visuals, merchandise"
+          "original": "HTG / Hex The Government",
+          "text": "HTG / Hex The Government"
         },
         {
           "id": "index.html:173",
@@ -1953,21 +1953,21 @@
           "ordinal": 173,
           "kind": "text",
           "block": 82,
-          "blockTag": "label",
-          "where": "div > div > label",
-          "original": "Name",
-          "text": "Name"
+          "blockTag": "li",
+          "where": "ul > li > strong",
+          "original": "Focus",
+          "text": "Focus"
         },
         {
           "id": "index.html:174",
           "file": "index.html",
           "ordinal": 174,
-          "kind": "attr",
-          "block": 0,
-          "blockTag": "input",
-          "where": "input name #name",
-          "original": "Your name",
-          "text": "Your name"
+          "kind": "text",
+          "block": 82,
+          "blockTag": "li",
+          "where": "ul > li > span",
+          "original": "Bookings, features, visuals, merchandise",
+          "text": "Bookings, features, visuals, merchandise"
         },
         {
           "id": "index.html:175",
@@ -1977,8 +1977,8 @@
           "block": 83,
           "blockTag": "label",
           "where": "div > div > label",
-          "original": "Email",
-          "text": "Email"
+          "original": "Name",
+          "text": "Name"
         },
         {
           "id": "index.html:176",
@@ -1987,9 +1987,9 @@
           "kind": "attr",
           "block": 0,
           "blockTag": "input",
-          "where": "input email #email",
-          "original": "you@example.com",
-          "text": "you@example.com"
+          "where": "input name #name",
+          "original": "Your name",
+          "text": "Your name"
         },
         {
           "id": "index.html:177",
@@ -1998,9 +1998,9 @@
           "kind": "text",
           "block": 84,
           "blockTag": "label",
-          "where": "form > div > label",
-          "original": "Subject",
-          "text": "Subject"
+          "where": "div > div > label",
+          "original": "Email",
+          "text": "Email"
         },
         {
           "id": "index.html:178",
@@ -2009,9 +2009,9 @@
           "kind": "attr",
           "block": 0,
           "blockTag": "input",
-          "where": "input subject #subject",
-          "original": "Booking, feature, visual, merch, release",
-          "text": "Booking, feature, visual, merch, release"
+          "where": "input email #email",
+          "original": "you@example.com",
+          "text": "you@example.com"
         },
         {
           "id": "index.html:179",
@@ -2021,13 +2021,35 @@
           "block": 85,
           "blockTag": "label",
           "where": "form > div > label",
-          "original": "Message",
-          "text": "Message"
+          "original": "Subject",
+          "text": "Subject"
         },
         {
           "id": "index.html:180",
           "file": "index.html",
           "ordinal": 180,
+          "kind": "attr",
+          "block": 0,
+          "blockTag": "input",
+          "where": "input subject #subject",
+          "original": "Booking, feature, visual, merch, release",
+          "text": "Booking, feature, visual, merch, release"
+        },
+        {
+          "id": "index.html:181",
+          "file": "index.html",
+          "ordinal": 181,
+          "kind": "text",
+          "block": 86,
+          "blockTag": "label",
+          "where": "form > div > label",
+          "original": "Message",
+          "text": "Message"
+        },
+        {
+          "id": "index.html:182",
+          "file": "index.html",
+          "ordinal": 182,
           "kind": "attr",
           "block": 0,
           "blockTag": "textarea",
@@ -2036,20 +2058,20 @@
           "text": "Tell HTG what you need and include dates, budget, or release context."
         },
         {
-          "id": "index.html:181",
+          "id": "index.html:183",
           "file": "index.html",
-          "ordinal": 181,
+          "ordinal": 183,
           "kind": "text",
-          "block": 86,
+          "block": 87,
           "blockTag": "button",
           "where": "form > div > button",
           "original": "Send Message",
           "text": "Send Message"
         },
         {
-          "id": "index.html:182",
+          "id": "index.html:184",
           "file": "index.html",
-          "ordinal": 182,
+          "ordinal": 184,
           "kind": "text",
           "block": 0,
           "blockTag": "div",
@@ -2058,48 +2080,26 @@
           "text": "HTG — Hex The Government"
         },
         {
-          "id": "index.html:183",
+          "id": "index.html:185",
           "file": "index.html",
-          "ordinal": 183,
+          "ordinal": 185,
           "kind": "text",
-          "block": 87,
+          "block": 88,
           "blockTag": "h2",
           "where": "div > div > h2",
           "original": "Dark signal. No apologies.",
           "text": "Dark signal. No apologies."
         },
         {
-          "id": "index.html:184",
-          "file": "index.html",
-          "ordinal": 184,
-          "kind": "text",
-          "block": 88,
-          "blockTag": "p",
-          "where": "div > div > p",
-          "original": "HTG is the vessel — releases, visuals, merch, live, all off one deck. Fuck the gatekeepers; we built the ark ourselves. Recruiting.",
-          "text": "HTG is the vessel — releases, visuals, merch, live, all off one deck. Fuck the gatekeepers; we built the ark ourselves. Recruiting."
-        },
-        {
-          "id": "index.html:185",
-          "file": "index.html",
-          "ordinal": 185,
-          "kind": "text",
-          "block": 0,
-          "blockTag": "a",
-          "where": "div > div > a",
-          "original": "Board ABRAXAS →",
-          "text": "Board ABRAXAS →"
-        },
-        {
           "id": "index.html:186",
           "file": "index.html",
           "ordinal": 186,
           "kind": "text",
-          "block": 0,
-          "blockTag": "a",
-          "where": "div > div > a",
-          "original": "Board Stretty →",
-          "text": "Board Stretty →"
+          "block": 89,
+          "blockTag": "p",
+          "where": "div > div > p",
+          "original": "HTG is the vessel — releases, visuals, merch, live, all off one deck. Fuck the gatekeepers; we built the ark ourselves. Recruiting.",
+          "text": "HTG is the vessel — releases, visuals, merch, live, all off one deck. Fuck the gatekeepers; we built the ark ourselves. Recruiting."
         },
         {
           "id": "index.html:187",
@@ -2109,8 +2109,8 @@
           "block": 0,
           "blockTag": "a",
           "where": "div > div > a",
-          "original": "Board Justinn.clout →",
-          "text": "Board Justinn.clout →"
+          "original": "Board ABRAXAS →",
+          "text": "Board ABRAXAS →"
         },
         {
           "id": "index.html:188",
@@ -2120,8 +2120,8 @@
           "block": 0,
           "blockTag": "a",
           "where": "div > div > a",
-          "original": "Board ciggyholster →",
-          "text": "Board ciggyholster →"
+          "original": "Board Stretty →",
+          "text": "Board Stretty →"
         },
         {
           "id": "index.html:189",
@@ -2131,8 +2131,8 @@
           "block": 0,
           "blockTag": "a",
           "where": "div > div > a",
-          "original": "The Sequence →",
-          "text": "The Sequence →"
+          "original": "Board Justinn.clout →",
+          "text": "Board Justinn.clout →"
         },
         {
           "id": "index.html:190",
@@ -2142,8 +2142,8 @@
           "block": 0,
           "blockTag": "a",
           "where": "div > div > a",
-          "original": "Suit Purge →",
-          "text": "Suit Purge →"
+          "original": "Board ciggyholster →",
+          "text": "Board ciggyholster →"
         },
         {
           "id": "index.html:191",
@@ -2153,57 +2153,79 @@
           "block": 0,
           "blockTag": "a",
           "where": "div > div > a",
-          "original": "Switch to Mobile Version",
-          "text": "Switch to Mobile Version"
+          "original": "The Sequence →",
+          "text": "The Sequence →"
         },
         {
           "id": "index.html:192",
           "file": "index.html",
           "ordinal": 192,
           "kind": "text",
-          "block": 89,
-          "blockTag": "p",
-          "where": "div > div > p",
-          "original": "A maze is hidden in this page. Type",
-          "text": "A maze is hidden in this page. Type"
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > div > a",
+          "original": "Suit Purge →",
+          "text": "Suit Purge →"
         },
         {
           "id": "index.html:193",
           "file": "index.html",
           "ordinal": 193,
           "kind": "text",
-          "block": 89,
-          "blockTag": "p",
-          "where": "div > p > kbd",
-          "original": "purge",
-          "text": "purge"
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > div > a",
+          "original": "Switch to Mobile Version",
+          "text": "Switch to Mobile Version"
         },
         {
           "id": "index.html:194",
           "file": "index.html",
           "ordinal": 194,
           "kind": "text",
-          "block": 89,
+          "block": 90,
           "blockTag": "p",
           "where": "div > div > p",
-          "original": ", tap the logo three times, or",
-          "text": ", tap the logo three times, or"
+          "original": "A maze is hidden in this page. Type",
+          "text": "A maze is hidden in this page. Type"
         },
         {
           "id": "index.html:195",
           "file": "index.html",
           "ordinal": 195,
           "kind": "text",
-          "block": 89,
+          "block": 90,
+          "blockTag": "p",
+          "where": "div > p > kbd",
+          "original": "purge",
+          "text": "purge"
+        },
+        {
+          "id": "index.html:196",
+          "file": "index.html",
+          "ordinal": 196,
+          "kind": "text",
+          "block": 90,
+          "blockTag": "p",
+          "where": "div > div > p",
+          "original": ", tap the logo three times, or",
+          "text": ", tap the logo three times, or"
+        },
+        {
+          "id": "index.html:197",
+          "file": "index.html",
+          "ordinal": 197,
+          "kind": "text",
+          "block": 90,
           "blockTag": "p",
           "where": "div > p > a",
           "original": "enter it directly →",
           "text": "enter it directly →"
         },
         {
-          "id": "index.html:196",
+          "id": "index.html:198",
           "file": "index.html",
-          "ordinal": 196,
+          "ordinal": 198,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -2212,59 +2234,37 @@
           "text": "sad · tired · still here"
         },
         {
-          "id": "index.html:197",
-          "file": "index.html",
-          "ordinal": 197,
-          "kind": "text",
-          "block": 0,
-          "blockTag": "a",
-          "where": "div > nav > a",
-          "original": "Legal & Privacy",
-          "text": "Legal & Privacy"
-        },
-        {
-          "id": "index.html:198",
-          "file": "index.html",
-          "ordinal": 198,
-          "kind": "text",
-          "block": 0,
-          "blockTag": "a",
-          "where": "div > nav > a",
-          "original": "Terms of Use",
-          "text": "Terms of Use"
-        },
-        {
           "id": "index.html:199",
           "file": "index.html",
           "ordinal": 199,
           "kind": "text",
           "block": 0,
-          "blockTag": "a",
-          "where": "div > nav > a",
-          "original": "Privacy Policy",
-          "text": "Privacy Policy"
+          "blockTag": "div",
+          "where": "div > div > div",
+          "original": "Support the vessel",
+          "text": "Support the vessel"
         },
         {
           "id": "index.html:200",
           "file": "index.html",
           "ordinal": 200,
           "kind": "text",
-          "block": 0,
-          "blockTag": "a",
-          "where": "div > nav > a",
-          "original": "Trademarks",
-          "text": "Trademarks"
+          "block": 91,
+          "blockTag": "h3",
+          "where": "div > div > h3",
+          "original": "Crypto donations",
+          "text": "Crypto donations"
         },
         {
           "id": "index.html:201",
           "file": "index.html",
           "ordinal": 201,
           "kind": "text",
-          "block": 0,
-          "blockTag": "a",
-          "where": "div > nav > a",
-          "original": "Satire Notice",
-          "text": "Satire Notice"
+          "block": 92,
+          "blockTag": "p",
+          "where": "div > div > p",
+          "original": "Keep HTG independent. Tip in BTC, ETH, USDT and more via Streamiverse — scan the code or hit the button.",
+          "text": "Keep HTG independent. Tip in BTC, ETH, USDT and more via Streamiverse — scan the code or hit the button."
         },
         {
           "id": "index.html:202",
@@ -2273,146 +2273,223 @@
           "kind": "text",
           "block": 0,
           "blockTag": "a",
+          "where": "div > div > a",
+          "original": "Donate crypto →",
+          "text": "Donate crypto →"
+        },
+        {
+          "id": "index.html:203",
+          "file": "index.html",
+          "ordinal": 203,
+          "kind": "attr",
+          "block": 0,
+          "blockTag": "img",
+          "where": "img",
+          "original": "QR code linking to the HTG crypto donation page",
+          "text": "QR code linking to the HTG crypto donation page"
+        },
+        {
+          "id": "index.html:204",
+          "file": "index.html",
+          "ordinal": 204,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
           "where": "div > nav > a",
-          "original": "Copyright / DMCA",
-          "text": "Copyright / DMCA"
+          "original": "Legal & Privacy",
+          "text": "Legal & Privacy"
         },
         {
           "id": "index.html:205",
           "file": "index.html",
           "ordinal": 205,
           "kind": "text",
-          "block": 90,
-          "blockTag": "p",
-          "where": "div > p > strong",
-          "original": "HTG — Hex The Government",
-          "text": "HTG — Hex The Government"
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > nav > a",
+          "original": "Terms of Use",
+          "text": "Terms of Use"
         },
         {
           "id": "index.html:206",
           "file": "index.html",
           "ordinal": 206,
           "kind": "text",
-          "block": 90,
-          "blockTag": "p",
-          "where": "div > div > p",
-          "original": ". All rights reserved.",
-          "text": ". All rights reserved."
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > nav > a",
+          "original": "Privacy Policy",
+          "text": "Privacy Policy"
         },
         {
           "id": "index.html:207",
           "file": "index.html",
           "ordinal": 207,
           "kind": "text",
-          "block": 90,
-          "blockTag": "p",
-          "where": "div > p > strong",
-          "original": "HTG",
-          "text": "HTG"
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > nav > a",
+          "original": "Trademarks",
+          "text": "Trademarks"
+        },
+        {
+          "id": "index.html:208",
+          "file": "index.html",
+          "ordinal": 208,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > nav > a",
+          "original": "Satire Notice",
+          "text": "Satire Notice"
         },
         {
           "id": "index.html:209",
           "file": "index.html",
           "ordinal": 209,
           "kind": "text",
-          "block": 90,
-          "blockTag": "p",
-          "where": "div > p > strong",
-          "original": "HEX THE GOVERNMENT",
-          "text": "HEX THE GOVERNMENT"
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > nav > a",
+          "original": "Copyright / DMCA",
+          "text": "Copyright / DMCA"
         },
         {
-          "id": "index.html:211",
+          "id": "index.html:212",
           "file": "index.html",
-          "ordinal": 211,
+          "ordinal": 212,
           "kind": "text",
-          "block": 90,
+          "block": 93,
           "blockTag": "p",
           "where": "div > p > strong",
-          "original": "ABRAXAS",
-          "text": "ABRAXAS"
+          "original": "HTG — Hex The Government",
+          "text": "HTG — Hex The Government"
         },
         {
           "id": "index.html:213",
           "file": "index.html",
           "ordinal": 213,
           "kind": "text",
-          "block": 90,
+          "block": 93,
           "blockTag": "p",
-          "where": "div > p > strong",
-          "original": "HEXCORE",
-          "text": "HEXCORE"
+          "where": "div > div > p",
+          "original": ". All rights reserved.",
+          "text": ". All rights reserved."
         },
         {
-          "id": "index.html:215",
+          "id": "index.html:214",
           "file": "index.html",
-          "ordinal": 215,
+          "ordinal": 214,
           "kind": "text",
-          "block": 90,
+          "block": 93,
           "blockTag": "p",
           "where": "div > p > strong",
-          "original": "SUIT PURGE",
-          "text": "SUIT PURGE"
+          "original": "HTG",
+          "text": "HTG"
         },
         {
           "id": "index.html:216",
           "file": "index.html",
           "ordinal": 216,
           "kind": "text",
-          "block": 90,
+          "block": 93,
           "blockTag": "p",
-          "where": "div > div > p",
-          "original": "™ and",
-          "text": "™ and"
-        },
-        {
-          "id": "index.html:217",
-          "file": "index.html",
-          "ordinal": 217,
-          "kind": "text",
-          "block": 90,
-          "blockTag": "p",
-          "where": "div > p > em",
-          "original": "Depressions Running Deep",
-          "text": "Depressions Running Deep"
+          "where": "div > p > strong",
+          "original": "HEX THE GOVERNMENT",
+          "text": "HEX THE GOVERNMENT"
         },
         {
           "id": "index.html:218",
           "file": "index.html",
           "ordinal": 218,
           "kind": "text",
-          "block": 90,
+          "block": 93,
           "blockTag": "p",
-          "where": "div > div > p",
-          "original": "™ are trademarks of HTG. All other names, logos, and marks (Spotify, SoundCloud, YouTube, Apple Music, TikTok, Instagram, Shopify, etc.) are the property of their respective owners.",
-          "text": "™ are trademarks of HTG. All other names, logos, and marks (Spotify, SoundCloud, YouTube, Apple Music, TikTok, Instagram, Shopify, etc.) are the property of their respective owners."
-        },
-        {
-          "id": "index.html:219",
-          "file": "index.html",
-          "ordinal": 219,
-          "kind": "text",
-          "block": 91,
-          "blockTag": "p",
-          "where": "div > p > em",
-          "original": "Suit Purge",
-          "text": "Suit Purge"
+          "where": "div > p > strong",
+          "original": "ABRAXAS",
+          "text": "ABRAXAS"
         },
         {
           "id": "index.html:220",
           "file": "index.html",
           "ordinal": 220,
           "kind": "text",
-          "block": 91,
+          "block": 93,
+          "blockTag": "p",
+          "where": "div > p > strong",
+          "original": "HEXCORE",
+          "text": "HEXCORE"
+        },
+        {
+          "id": "index.html:222",
+          "file": "index.html",
+          "ordinal": 222,
+          "kind": "text",
+          "block": 93,
+          "blockTag": "p",
+          "where": "div > p > strong",
+          "original": "SUIT PURGE",
+          "text": "SUIT PURGE"
+        },
+        {
+          "id": "index.html:223",
+          "file": "index.html",
+          "ordinal": 223,
+          "kind": "text",
+          "block": 93,
+          "blockTag": "p",
+          "where": "div > div > p",
+          "original": "™ and",
+          "text": "™ and"
+        },
+        {
+          "id": "index.html:224",
+          "file": "index.html",
+          "ordinal": 224,
+          "kind": "text",
+          "block": 93,
+          "blockTag": "p",
+          "where": "div > p > em",
+          "original": "Depressions Running Deep",
+          "text": "Depressions Running Deep"
+        },
+        {
+          "id": "index.html:225",
+          "file": "index.html",
+          "ordinal": 225,
+          "kind": "text",
+          "block": 93,
+          "blockTag": "p",
+          "where": "div > div > p",
+          "original": "™ are trademarks of HTG. All other names, logos, and marks (Spotify, SoundCloud, YouTube, Apple Music, TikTok, Instagram, Shopify, etc.) are the property of their respective owners.",
+          "text": "™ are trademarks of HTG. All other names, logos, and marks (Spotify, SoundCloud, YouTube, Apple Music, TikTok, Instagram, Shopify, etc.) are the property of their respective owners."
+        },
+        {
+          "id": "index.html:226",
+          "file": "index.html",
+          "ordinal": 226,
+          "kind": "text",
+          "block": 94,
+          "blockTag": "p",
+          "where": "div > p > em",
+          "original": "Suit Purge",
+          "text": "Suit Purge"
+        },
+        {
+          "id": "index.html:227",
+          "file": "index.html",
+          "ordinal": 227,
+          "kind": "text",
+          "block": 94,
           "blockTag": "p",
           "where": "div > div > p",
           "original": "and its characters are fictional class archetypes. Any resemblance to real persons or organisations is coincidental.",
           "text": "and its characters are fictional class archetypes. Any resemblance to real persons or organisations is coincidental."
         },
         {
-          "id": "index.html:222",
+          "id": "index.html:229",
           "file": "index.html",
-          "ordinal": 222,
+          "ordinal": 229,
           "kind": "text",
           "block": 0,
           "blockTag": "strong",
@@ -2421,9 +2498,9 @@
           "text": "Out now // HTG"
         },
         {
-          "id": "index.html:223",
+          "id": "index.html:230",
           "file": "index.html",
-          "ordinal": 223,
+          "ordinal": 230,
           "kind": "text",
           "block": 0,
           "blockTag": "span",
@@ -2432,9 +2509,9 @@
           "text": "Board a deck, catch the next drop, or send a booking straight to HTG."
         },
         {
-          "id": "index.html:224",
+          "id": "index.html:231",
           "file": "index.html",
-          "ordinal": 224,
+          "ordinal": 231,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2443,9 +2520,9 @@
           "text": "Stream Links"
         },
         {
-          "id": "index.html:225",
+          "id": "index.html:232",
           "file": "index.html",
-          "ordinal": 225,
+          "ordinal": 232,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2454,9 +2531,9 @@
           "text": "Contact"
         },
         {
-          "id": "index.html:226",
+          "id": "index.html:233",
           "file": "index.html",
-          "ordinal": 226,
+          "ordinal": 233,
           "kind": "attr",
           "block": 0,
           "blockTag": "img",
@@ -2465,11 +2542,11 @@
           "text": "Expanded gallery image"
         },
         {
-          "id": "index.html:227",
+          "id": "index.html:234",
           "file": "index.html",
-          "ordinal": 227,
+          "ordinal": 234,
           "kind": "text",
-          "block": 93,
+          "block": 96,
           "blockTag": "p",
           "where": "div > div > p",
           "original": "Gallery image",
@@ -2575,10 +2652,10 @@
           "id": "abraxas.html:8",
           "file": "abraxas.html",
           "ordinal": 8,
-          "kind": "text",
-          "block": 3,
-          "blockTag": "h1",
-          "where": "div > header > h1",
+          "kind": "attr",
+          "block": 0,
+          "blockTag": "img",
+          "where": "img .name-logo",
           "original": "ABRAXAS",
           "text": "ABRAXAS"
         },
@@ -2968,10 +3045,10 @@
           "id": "stretty.html:8",
           "file": "stretty.html",
           "ordinal": 8,
-          "kind": "text",
-          "block": 3,
-          "blockTag": "h1",
-          "where": "div > header > h1",
+          "kind": "attr",
+          "block": 0,
+          "blockTag": "img",
+          "where": "img .name-logo",
           "original": "STRETTY",
           "text": "STRETTY"
         },
@@ -4767,8 +4844,8 @@
           "block": 54,
           "blockTag": "li",
           "where": "div > ul > li",
-          "original": "the contact form on this site opens your own email client with a pre-filled message addressed to",
-          "text": "the contact form on this site opens your own email client with a pre-filled message addressed to"
+          "original": "the contact form on this site delivers your message to HTG's inbox, addressed to",
+          "text": "the contact form on this site delivers your message to HTG's inbox, addressed to"
         },
         {
           "id": "legal.html:86",
@@ -4778,8 +4855,8 @@
           "block": 54,
           "blockTag": "li",
           "where": "ul > li > a",
-          "original": "Bookings@htg.productions",
-          "text": "Bookings@htg.productions"
+          "original": "Abraxas@htg.productions",
+          "text": "Abraxas@htg.productions"
         },
         {
           "id": "legal.html:87",
@@ -4789,8 +4866,8 @@
           "block": 54,
           "blockTag": "li",
           "where": "div > ul > li",
-          "original": ". If you choose to send that email, we receive the information you include (your email address, name, and message). We use it only to reply to your enquiry.",
-          "text": ". If you choose to send that email, we receive the information you include (your email address, name, and message). We use it only to reply to your enquiry."
+          "original": ". Where a form-delivery service is configured, your submission is transmitted through that provider to reach us; otherwise the form opens your own email client with a pre-filled message to the same address. Either way we receive the information you include (your email address, name, and message) and use it only to reply to your enquiry.",
+          "text": ". Where a form-delivery service is configured, your submission is transmitted through that provider to reach us; otherwise the form opens your own email client with a pre-filled message to the same address. Either way we receive the information you include (your email address, name, and message) and use it only to reply to your enquiry."
         },
         {
           "id": "legal.html:88",
