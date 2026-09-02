@@ -162,6 +162,17 @@ share cards live per-page in `assets/share/` (see the shareable-face
 work). Reuse the SVG for anything that needs a stamp; don't reintroduce the old
 plain-letter "H" tile.
 
+## Drawn logos (`assets/logos/`)
+
+`htg-logo.webp`, `abraxas-logo.webp`, `stretty-logo.webp` are the supplied
+brush-lettered marks, alpha-keyed and cropped to the artwork (HTG's was
+black-on-white and is inverted to white). HTG is the hero `<h1>` on
+`index.html`; the artist marks sit on their roster doors and as the `<h1>`
+on `abraxas.html` / `stretty.html`. The name text stays in the DOM (alt /
+visually hidden) — keep it there. They are plain `<img>`s with real alpha:
+do not try `mix-blend-mode` to drop a background, the `.fade-in` opacity
+transition isolates the stacking context and the blend silently no-ops.
+
 ## Roster door art & the second Stretty trap
 
 The roster doors on `index.html` carry cover-art collages resolved at

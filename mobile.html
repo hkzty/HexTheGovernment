@@ -2240,6 +2240,27 @@
       font-size: clamp(3.4rem, 15vw, 9rem);
       letter-spacing: 0.02em;
     }
+    /* Drawn logos — alpha-keyed webp cut from the supplied artwork
+       (assets/logos/). The name stays in the DOM as alt / visually-hidden
+       text for screen readers and search. */
+    .wordmark-logo {
+      display: block;
+      width: min(100%, 44rem);
+      height: auto;
+      margin: -1.2rem auto -1.6rem;
+      filter: drop-shadow(0 0 28px rgba(255, 255, 255, 0.18));
+    }
+    .door-logo {
+      display: block;
+      position: relative;
+      z-index: 1;
+      width: min(92%, 24rem);
+      height: auto;
+      margin: 0 auto 0.4rem;
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+    .door:hover .door-logo, .door:focus-visible .door-logo { transform: scale(1.04); }
+    .door-name--logo { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
     .mast .expand {
       margin-top: 0.85rem;
       font-size: clamp(0.72rem, 2.2vw, 1rem);
@@ -2460,7 +2481,7 @@
         <div class="hero-content">
           <div class="mast fade-in visible">
             <p class="curse">Fuck the government · fuck the rich · fuck what they built on us</p>
-            <h1 class="wordmark">HTG</h1>
+            <h1 class="wordmark"><img class="wordmark-logo" src="assets/logos/htg-logo.webp" alt="HTG" width="1200" height="640" decoding="async" fetchpriority="high" /></h1>
             <p class="expand">Hex The Government</p>
             <p class="manifesto">
               <b>H.T.G. is a vessel.</b> A private ark on corporate waters, built to stay afloat while
@@ -2497,7 +2518,8 @@
                 <img alt="" data-cover="https://open.spotify.com/album/1gvEKFbi6CIZu8yZf5E0q9" />
                 <img alt="" data-cover="https://open.spotify.com/album/5vbKU5ZwNhl0G8Pv1OOXYB" />
               </span>
-              <span class="door-name">ABRAXAS</span>
+              <img class="door-logo" src="assets/logos/abraxas-logo.webp" alt="" width="1200" height="843" loading="lazy" decoding="async" />
+              <span class="door-name door-name--logo">ABRAXAS</span>
               <span class="door-role">Noah · out front · the face</span>
               <span class="door-reveal">
                 <span class="door-line">Noah stepping off the vessel. HEXCORE, purple static, all teeth.</span>
@@ -2515,7 +2537,8 @@
                 <img alt="" data-cover="https://open.spotify.com/track/5wiaIGjX8ht4vIxYHYHBqG" />
                 <img alt="" data-cover="https://open.spotify.com/track/3Vs0qIyXV3UtsWpxCcvJnX" />
               </span>
-              <span class="door-name">STRETTY</span>
+              <img class="door-logo" src="assets/logos/stretty-logo.webp" alt="" width="1200" height="896" loading="lazy" decoding="async" />
+              <span class="door-name door-name--logo">STRETTY</span>
               <span class="door-role">The Ark · the hull · keeping it afloat</span>
               <span class="door-reveal">
                 <span class="door-line">The Ark itself — older brother, working the back. Depressions running deep.</span>
