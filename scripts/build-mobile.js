@@ -28,10 +28,10 @@ const SOURCE = path.join(ROOT, 'index.html');
 const STYLES = path.join(ROOT, 'style.css');
 const TARGET = path.join(ROOT, 'mobile.html');
 
-/* Phone-only chrome. style.css already hides the sticky CTA bar at 820px
-   and zeroes main's top padding at 640px; the header is the one rule that
-   has no desktop equivalent — fixed, it ate most of the screen on scroll,
-   so on the phone page it scrolls away with the content. */
+/* Phone-only chrome. style.css already zeroes main's top padding at
+   640px; the header is the one rule that has no desktop equivalent — fixed,
+   it ate most of the screen on scroll, so on the phone page it scrolls away
+   with the content. */
 const MOBILE_CHROME = `  <style>
     /*
       Phone chrome — the only rules that exist solely on mobile.html.
@@ -59,8 +59,8 @@ function edits(css) {
     ],
     [
       'point the view toggle back at the desktop page',
-      '<a class="inline-link view-toggle" href="mobile.html?mobile=1">Switch to Mobile Version</a>',
-      '<a class="inline-link view-toggle" href="index.html?desktop=1">Switch to Desktop Version</a>',
+      '<a class="inline-link view-toggle" href="mobile.html?mobile=1">Mobile site</a>',
+      '<a class="inline-link view-toggle" href="index.html?desktop=1">Desktop site</a>',
     ],
     ['append the phone chrome', '</head>\n', MOBILE_CHROME + '</head>\n'],
   ];

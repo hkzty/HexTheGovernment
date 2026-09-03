@@ -1,0 +1,9 @@
+# HTG — Hex The Government · www.htg.productions
+# Search engines and AI crawlers are welcome to index the site.
+
+User-agent: *
+Allow: /
+Disallow: /copydesk.html
+Disallow: /content/
+
+Sitemap: https://www.htg.productions/sitemap.xml

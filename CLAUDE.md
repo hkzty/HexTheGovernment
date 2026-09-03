@@ -21,7 +21,7 @@ Deployed by GitHub Pages straight from `main` (see `CNAME`). Merging to
 
 | File | Role |
 |---|---|
-| `config.js` | **The only file most content edits need.** Artist info, social URLs, the Sequence, releases, gallery, stats, contact. Sets `window.ABRAXAS_CONFIG`. |
+| `config.js` | **The only file most content edits need.** Social URLs, the Sequence, gallery, shop, contact. Sets `window.ABRAXAS_CONFIG`. |
 | `render.js` | Reads the config and rewrites the markup at runtime. |
 | `script.js` | Site chrome: nav, scroll-spy, reveals, lightbox, custom cursor, contact form. |
 | `game.js` | Suit Purge — the in-page shooter. Self-contained IIFE. |
@@ -80,19 +80,82 @@ redirect bounces you straight to `index.html`.
 The site previously shipped a large amount of invented content presented
 as real: three tour dates with fake venues and door times, three
 unreleased "coming soon" titles with dates, three invented release names,
-and fabricated statistics. All of it has been removed and replaced with
-honest empty states.
+and fabricated statistics. All of it has been removed, and so have the
+sections that held it.
 
 **Do not add placeholder content that reads as real.** No invented tour
-dates, venues, release titles, dates, or numbers. If a section has no
-real content, it shows an empty state saying so. Stats must be countable
-from the actual catalog.
+dates, venues, release titles, dates, or numbers. A section with no real
+content does not exist on the page — no "nothing announced yet" empty
+states, no stats counters.
 
 Note the trap that let fakes survive a previous cleanup: `render.js`
-only replaces a section's markup when the matching config array is
-**non-empty**. Emptying `config.comingSoon` therefore left the hardcoded
-fake cards visible in the HTML. **Fix both layers** — the config array
-*and* the markup fallback.
+only replaces a section's markup when the matching config value is
+**non-empty** (the gallery still works this way). Emptying a config array
+leaves the hardcoded fallback visible in the HTML. **Fix both layers** —
+the config value *and* the markup fallback.
+
+## Copy policy — nobody needs the site explained to them
+
+The reference density is Ghostemane's and $uicideboy$'s sites: logo,
+nav, embeds, merch, socials, and almost no sentences. The owner asked for
+everything that read as AI-written to go, and it went. Do not bring it
+back. Concretely:
+
+- **No copy about the site itself.** Nothing that explains what a section
+  is for, how to use it, where the content comes from ("pulled straight
+  from Spotify"), or how honest it is ("counted, not invented").
+- **No UI instructions.** No "tap for the player", "click any frame",
+  "press one and it plays right here". A play icon is the instruction.
+- **No empty-state messaging.** A section with nothing in it is removed,
+  not narrated. The Story timeline, Stats counters, New Releases, Coming
+  Soon and Upcoming Tours sections, the sticky CTA bar, the back-to-top
+  button, the easter-egg hint paragraph, the platform description cards
+  and the door reveal panels were all deleted for this reason.
+- **No template chrome.** The custom cursor, the hero parallax layers, the
+  filename captions overlaid on gallery thumbnails, the console "there is
+  a maze" breadcrumb and the game's "copy the brag" share button went in
+  the same sweep. Sequence cover cards carry no title until Spotify's
+  oEmbed supplies the real one — never a generated "Sequence 01" label.
+- **Section heads are one kicker**, as `<h2 class="section-kicker">`. No
+  section title, no intro paragraph. The Sequence keeps a one-line note.
+- **No metaphor spray.** The Noah/Ark lore is the owner's and survives in
+  exactly three places: the two door role lines (`Noah`, `The Ark`) and
+  the matching role lines on `abraxas.html` / `stretty.html`. Everything
+  else — "aboard", "boarding card", "Board X →", "the vessel", "pulled
+  out of the water", the sign-off nod lines — is gone. Keep it gone.
+- **Owner voice that stays:** the hero curse line, "Hex The Government",
+  "Depressions Running Deep", the legal footer, the game's own
+  flavour text, and the fiction/satire notice (a legal guard — may be
+  shortened, never removed).
+- **Links point at real profiles or don't exist.** `render.js` removes
+  any `[data-social]` link whose URL is empty in `config.socials`; it
+  never falls back to a platform homepage.
+- Meta descriptions, `og:description`, `aria-label`s, iframe titles and
+  form placeholders follow the same rule: name the thing, don't sell it.
+
+## Discoverability layer — machine-readable, not visible
+
+The site describes itself to crawlers and AI agents in places visitors
+never read, so the visible page can stay near-silent:
+
+| File | Role |
+|---|---|
+| `robots.txt` | Allows everything except `copydesk.html` and `content/`; points at the sitemap. |
+| `sitemap.xml` | The eight visitor pages with their share images. `mobile.html` is not listed — it carries the same canonical as `index.html`. |
+| `llms.txt` | Plain-markdown summary for LLM agents: roster, every profile URL, the Sequence, contact, trademarks, and the ABRAXAS/Stretty Spotify disambiguation. |
+| `site.webmanifest` | Name, colours, `music`/`entertainment` categories, the SVG mark as icon. |
+| JSON-LD in each page head | `index.html` carries the full `@graph` (Organization, WebSite, three MusicGroups, a Person, the VideoGame, the Sequence ItemList). Each deck repeats its own entity plus a BreadcrumbList, keyed by the same `@id`s. |
+
+Every visitor page also has `<link rel="canonical">`, a `robots` meta,
+`twitter:title`/`twitter:description`, and the footer social icons carry
+`rel="me"`.
+
+Rules: **facts only** — genres, handles and IDs come from `config.js` and
+the pages, never guessed (no invented locations, founding dates, member
+counts or genres). When an artist, page or profile URL is added or
+changed, update `llms.txt`, `sitemap.xml` and the JSON-LD graph in the
+same commit. Anything that reads as a pitch belongs in `llms.txt` or
+structured data, not in the page.
 
 ## The real Spotify artist
 
@@ -250,12 +313,12 @@ monospace and that swap is invisible. Do not fold them back into one link.
 - ~~Deduplicate `mobile.html`'s inline CSS against `style.css`.~~ Done —
   `mobile.html` is generated from `style.css`, so there is only one copy
   to edit.
-- **`assets/gallery/` is empty; the gallery shows six local placeholder
-  SVGs** (`assets/placeholders/gallery-*.svg`, via the fallback list in
-  `config.js`) with stylized captions. The `gallery-manifest.yml` Action
-  rebuilds `manifest.json` from whatever image files land in
-  `assets/gallery/`, so real photos dropped in there replace the
-  placeholders automatically — when Actions runs at all (see above).
+- **`assets/gallery/` holds six frames off HTG's own visuals** (hero-reel
+  stills and Suit Purge floors), mirrored in the fallback list in
+  `config.js`. `npm run build:gallery` rebuilds `manifest.json` from
+  whatever image files land in `assets/gallery/` (the `gallery-manifest`
+  Action was meant to, but see above), so real session photos dropped in
+  there replace the frames.
 - ~~`config.heroPoster` is a picsum stock photo~~ Done — it now points at
   `assets/placeholders/hero-poster.svg`, a local placeholder graphic.
 - **`assets/htg-hero.mp4` is 25MB**, the entire weight of the repo — and

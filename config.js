@@ -1,26 +1,21 @@
 /* =========================================================================
-   ABRAXAS / HTG SITE CONFIG — this is the only file you need to edit.
-   Paste your real profile URLs and content below, save, upload. Done.
+   HTG SITE CONFIG — links, the Sequence, gallery, contact.
 
-   - Leave a value as "" (empty) and the site falls back to a safe default.
-   - Any Spotify / SoundCloud / YouTube URL you paste into an embed list
-     is turned into an embedded player automatically.
+   - "" (empty) drops that link from the page. Nothing falls back to a
+     platform homepage.
+   - Any Spotify / SoundCloud / YouTube URL in an embed list becomes an
+     embedded player.
    - Photos: drop image files into assets/gallery/, run
-     `npm run build:gallery`, and push both — the gallery picks them up.
-     (The GitHub Action that was meant to do this never runs in this repo.)
+     `npm run build:gallery`, commit both.
    ========================================================================= */
 
 window.ABRAXAS_CONFIG = {
 
   /* ---- Artist ---------------------------------------------------------- */
   artist: "ABRAXAS",
-  tagline: "Depressions Running Deep",
-  label: "HTG / Hex The Government",
-  genre: "HEXCORE",
 
-  /* ---- Linked profiles (paste your public URLs here) -------------------
-     Used for the footer icons AND the "Out Now" platform cards.
-     Empty "" = the button falls back to the platform's homepage.         */
+  /* ---- Linked profiles ---------------------------------------------------
+     Footer icons and the Music links. "" = the link is removed.          */
   socials: {
     instagram:    "https://instagram.com/abraxas.htg",
     spotify:      "https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19",
@@ -31,39 +26,35 @@ window.ABRAXAS_CONFIG = {
     youtubeMusic: ""
   },
 
-  /* One link that holds everything — shown as an "All Links" button in the
-     hero and in the contact card. */
+  /* Shown as the "Links" row on the contact card. */
   linktree: "https://linktr.ee/abraxashtg",
 
   /* ---- Crypto donations (Streamiverse) ----------------------------------
-     Footer "Support HTG" block: button + QR code pointing at the page.
-     Empty "" hides the block. QR is a static SVG generated from the URL —
-     regenerate assets/crypto-donate-qr.svg if the URL changes.          */
+     Footer block: button + QR code pointing at the page. "" hides the
+     block. The QR is a static SVG generated from the URL — regenerate
+     assets/crypto-donate-qr.svg if the URL changes.                     */
   cryptoDonate: "https://donation.streamiverse.io/stretty",
 
   /* ---- Hero video -------------------------------------------------------
      Plays behind the wordmark on the landing page. Two encodings of the
-     same 6-second 720p loop; webm is offered first, mp4 is the fallback.
-     Local files in the repo or any public direct video URL.              */
+     same 6-second 720p loop; webm is offered first, mp4 is the fallback. */
   heroVideo: "assets/htg-hero-720p.mp4",
   heroVideoWebm: "assets/htg-hero-720p.webm",
   heroPoster: "assets/placeholders/hero-poster.svg",
 
   /* ---- THE SEQUENCE ------------------------------------------------------
-     The full playthrough, in order. Every URL becomes an embedded player.
-     `highlights` are pinned at the top and visually marked with the tag. */
+     The full playthrough, in order. Every URL becomes a cover card that
+     loads its player on tap. `highlights` are pinned at the top.       */
   sequence: {
-    /* Cover art for the tiles below, keyed by Spotify ID (the last path
-       segment of the URL). Drop the real cover image into assets/covers/
-       and point at it here; `title` is the release's real name on Spotify.
-       Leave an entry out and the tile shows its numbered deck card and
-       tries Spotify's oEmbed in the visitor's browser. Never invent
-       art or titles here. */
+    /* Cover art for the tiles, keyed by Spotify ID (the last path segment
+       of the URL). Drop the real cover image into assets/covers/ and point
+       at it here; `title` is the release's real name on Spotify. With no
+       entry the tile shows its numbered card and tries Spotify's oEmbed
+       in the visitor's browser. Never invent art or titles here. */
     covers: {
     },
-    kicker: "The Sequence // 93",
-    title: "Play it through. In order.",
-    note: "01 → 13. No words.",
+    kicker: "The Sequence",
+    note: "ABRAXAS · 01 → 13",
     artist: "https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19",
     highlightTag: "PINNED",
     highlights: [
@@ -88,42 +79,25 @@ window.ABRAXAS_CONFIG = {
     ]
   },
 
-  /* ---- Extra embedded players (Out Now section) --------------------------
+  /* ---- Extra embedded players (Music section) ----------------------------
      Optional: more Spotify / SoundCloud / YouTube URLs shown under the
-     platform cards.                                                       */
+     artist players.                                                       */
   outNowEmbeds: [
   ],
 
   /* ---- Instagram posts ----------------------------------------------------
-     Paste public Instagram post/reel URLs and they appear embedded in the
-     Gallery section, e.g. "https://www.instagram.com/p/XXXXXXXXX/".       */
+     Public Instagram post/reel URLs, embedded in the Gallery section,
+     e.g. "https://www.instagram.com/p/XXXXXXXXX/".                       */
   instagramPosts: [
   ],
 
-  /* ---- Releases ----------------------------------------------------------
-     The three entries that used to live here were invented placeholders and
-     have been removed. Add a release only when it actually exists.
-     cover: local file ("assets/cover.jpg") or public image URL.
-     link:  streaming URL for the release ("" = points to Out Now section). */
-  releases: [
-    // Empty = the New Releases section shows an honest "catalog is the
-    // Sequence" state. Add an entry only for a real, released title.
-  ],
-
-  /* ---- Coming soon (REMOVED FALSE TOUR DATA) ----------------------------
-     Tour dates and locations removed. Use for real announcements only.    */
-  comingSoon: [
-  ],
-
   /* ---- Gallery -----------------------------------------------------------
-     EASIEST WAY: drop image files into assets/gallery/, run
-     `npm run build:gallery` (rebuilds assets/gallery/manifest.json), and
-     push both. Captions come from the filenames. The list below is only
-     the pre-JS fallback; keep it pointing at the same frames the manifest
-     holds so the grid doesn't change once the manifest loads.
-     These six are real frames off HTG's own visuals — the hero reel and
-     live Suit Purge floors. Phone shots from sessions replace them
-     whenever they exist; never add stock or invented "photos".          */
+     Drop image files into assets/gallery/, run `npm run build:gallery`
+     (rebuilds assets/gallery/manifest.json), and push both. Captions come
+     from the filenames. The list below is only the pre-JS fallback; keep
+     it pointing at the same frames the manifest holds so the grid doesn't
+     change once the manifest loads. These six are frames off HTG's own
+     visuals. Never add stock or invented "photos".                      */
   gallery: [
     { thumb: "assets/gallery/htg-hero-reel-01.jpg", full: "assets/gallery/htg-hero-reel-01.jpg", caption: "htg hero reel 01" },
     { thumb: "assets/gallery/htg-hero-reel-02.jpg", full: "assets/gallery/htg-hero-reel-02.jpg", caption: "htg hero reel 02" },
@@ -133,29 +107,10 @@ window.ABRAXAS_CONFIG = {
     { thumb: "assets/gallery/suit-purge-floor-04.jpg", full: "assets/gallery/suit-purge-floor-04.jpg", caption: "suit purge floor 04" }
   ],
 
-  /* ---- Stats — counted from the Sequence above, not invented. ---------- */
-  stats: [
-    { value: 13, label: "Albums in the Sequence" },
-    { value: 3,  label: "Pinned Highlights" },
-    // Counted off the roster decks on index.html — keep the two in step.
-    { value: 4,  label: "Names aboard the vessel" }
-  ],
-
-  /* ---- Albums Configuration (NEW - Auto-scraper) ------------------------ */
-  albums: {
-    enabled: true,
-    pageSize: 12,
-    platforms: ['instagram', 'youtube', 'tiktok'],
-    defaultFilter: 'all',
-    defaultSort: 'latest',
-    updateInterval: 21600000  // 6 hours in milliseconds
-  },
-
   /* ---- Shopify store -------------------------------------------------------
-     The "Merchandise" nav link is a plain button straight to the Shopify
-     storefront - no in-page product grid. Point it at the checkout domain
-     once shop.htg.productions is verified in Shopify (Settings -> Domains);
-     until then the *.myshopify.com storefront URL works fine. */
+     The "Merch" nav link goes straight to the storefront. Point it at the
+     checkout domain once shop.htg.productions is verified in Shopify
+     (Settings -> Domains); until then the *.myshopify.com URL works.     */
   shop: {
     url: "https://strettys-merch.myshopify.com"
   },
@@ -164,9 +119,8 @@ window.ABRAXAS_CONFIG = {
      How a submitted form reaches the inbox, tried in this order:
 
      1. contactForm.endpoint — a free form-to-email service, no backend.
-        ~2 minutes to set up. Web3Forms is the one to use here: its free
-        tier delivers to contactEmail AND copies every address in
-        contactCc, so both inboxes get each enquiry.
+        Web3Forms is the one to use here: its free tier delivers to
+        contactEmail AND copies every address in contactCc.
           - Web3Forms (web3forms.com): request an access key for
             contactEmail (Abraxas@htg.productions), set endpoint to
             "https://api.web3forms.com/submit" and put the key in
@@ -176,8 +130,6 @@ window.ABRAXAS_CONFIG = {
             "https://formspree.io/f/abcdwxyz" — but its cc field is a
             paid feature, so on the free plan only contactEmail is
             delivered to.
-        With an endpoint set, the form sends from the page itself and the
-        visitor never needs a mail app.
      2. mailto: fallback — with no endpoint (or if the send fails), the
         form opens the visitor's email app addressed to contactEmail with
         contactCc on copy, and shows the address for anyone without a

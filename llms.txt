@@ -1,0 +1,53 @@
+# HTG — Hex The Government
+
+> Independent record label. Site: https://www.htg.productions · Tagline: Depressions Running Deep · Bookings: Bookings@htg.productions
+
+Disambiguation: several unrelated artists on Spotify are also called ABRAXAS and Stretty. The HTG artists are exactly the Spotify artist IDs listed below.
+
+## Roster
+
+- [ABRAXAS](https://www.htg.productions/abraxas.html): HEXCORE. Spotify https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19 · Instagram https://instagram.com/abraxas.htg · TikTok https://www.tiktok.com/@abraxasthemage · SoundCloud https://on.soundcloud.com/uTMdelzf0aAmn2Nx9a · Links https://linktr.ee/abraxashtg
+- [Stretty](https://www.htg.productions/stretty.html): Dark emo / alt rap. Spotify https://open.spotify.com/artist/4yQchxxguwc9PXmCVqb9Bm · Site https://stretty.music · Merch https://strettys-merch.myshopify.com
+- [ciggyholster](https://www.htg.productions/ciggie.html): Spotify https://open.spotify.com/artist/0xMdknHv3WOTL2AeK1uHpo · SoundCloud https://soundcloud.com/user-945488980-12789874 · YouTube https://www.youtube.com/channel/UC0xMqvX0BdM4N9Kbut5PBQA · Instagram https://www.instagram.com/ciggyholster · Links https://linktr.ee/ciggyholster
+- [Justinn.clout](https://www.htg.productions/justin.html): Video and photo for HTG. YouTube https://www.youtube.com/@justinclout · Instagram https://www.instagram.com/justinn.clout · YTJobs https://ytjobs.co/talent/profile/536835
+
+## Music
+
+- [The Sequence](https://www.htg.productions/sequence.html): ABRAXAS albums in running order, 01 to 13.
+  01 https://open.spotify.com/album/44Mb4ylrmZhzqqWPClRMot
+  02 https://open.spotify.com/album/6oib72faDOWbdjGCKDv8jG
+  03 https://open.spotify.com/album/7rCWdf0wGJIEf4sLw5Ewi1
+  04 https://open.spotify.com/album/039roKxrwPBwNawJufx5Yn
+  05 https://open.spotify.com/album/4hV4QdF3cA0FARJHE4kbe3
+  06 https://open.spotify.com/album/3ZwRxhRCwxo0QYZzWZWBs0
+  07 https://open.spotify.com/album/6CJlKhuqdk7nIRdLzazPVf
+  08 https://open.spotify.com/album/4kODOq52gGwuk56aFdwe0Q
+  09 https://open.spotify.com/album/7G5EdtjQd1XB26OvMPZ9SY
+  10 https://open.spotify.com/album/7r921T9Cl623OEmsdOQuYM
+  11 https://open.spotify.com/album/22ERfUbenWhta3Pq6PZ6Hd
+  12 https://open.spotify.com/album/1gvEKFbi6CIZu8yZf5E0q9
+  13 https://open.spotify.com/album/5vbKU5ZwNhl0G8Pv1OOXYB
+- Pinned tracks: https://open.spotify.com/track/7Az3pwgwCk09ZfQzlH8slr · https://open.spotify.com/track/2oGrGX4T83boP9ZMIl2gZd · https://open.spotify.com/track/5wiaIGjX8ht4vIxYHYHBqG
+- Stretty tracks: https://open.spotify.com/track/2oGrGX4T83boP9ZMIl2gZd · https://open.spotify.com/track/5wiaIGjX8ht4vIxYHYHBqG · https://open.spotify.com/track/3Vs0qIyXV3UtsWpxCcvJnX
+- ciggyholster tracks: https://open.spotify.com/track/19YLebLelGLMo9wW38XQCC · https://open.spotify.com/track/4HoXkJ6l8CMiPNRUDuQpvc · https://open.spotify.com/track/21miJ7OVY8YvuA5E4wUbD0 · https://open.spotify.com/track/415XlPsdKVSi1KXJSWJSnT
+
+## Pages
+
+- [Suit Purge](https://www.htg.productions/game.html): browser first-person shooter by HTG, no downloads, everything generated in the page. Fiction: all characters are invented class archetypes; no real person, name or likeness is depicted.
+- [Merch](https://strettys-merch.myshopify.com)
+- [Crypto donations](https://donation.streamiverse.io/stretty)
+- [Legal, privacy, trademarks, satire notice](https://www.htg.productions/legal.html)
+
+## Contact
+
+- Bookings, features, visuals, merch: Bookings@htg.productions
+- ABRAXAS: Abraxas@htg.productions
+
+## Trademarks
+
+HTG, HEX THE GOVERNMENT, HTG PRODUCTIONS, HEXCORE, SUIT PURGE, THE ARK, Depressions Running Deep, ABRAXAS, STRETTY, CIGGYHOLSTER, CIGGIE BUMP BRAIN and JUSTINN.CLOUT are trademarks of HTG and/or the respective artists. See https://www.htg.productions/legal.html#trademarks.
+
+## Machine-readable
+
+- Sitemap: https://www.htg.productions/sitemap.xml
+- Structured data: schema.org JSON-LD (Organization, MusicGroup, Person, VideoGame, ItemList) in the head of each page.

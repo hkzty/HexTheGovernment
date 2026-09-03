@@ -3,20 +3,68 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Suit Purge | ABRAXAS — HTG</title>
-  <meta name="description" content="Suit Purge — the ABRAXAS in-browser shooter. Politicians, billionaires, trillionaires and high command are loose in the maze. No downloads, dependency-free, generated at runtime." />
+  <title>Suit Purge — HTG</title>
+  <meta name="description" content="Suit Purge — a browser shooter by HTG. All characters are fictional." />
   <meta name="theme-color" content="#1f0335" />
-  <meta property="og:title" content="Suit Purge — ABRAXAS" />
-  <meta property="og:description" content="A first-person maze shooter running entirely in the page. Fictional class archetypes only." />
+  <meta property="og:title" content="Suit Purge — HTG" />
+  <meta property="og:description" content="A browser shooter by HTG. All characters are fictional." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.htg.productions/game.html" />
   <meta property="og:site_name" content="HTG — Hex The Government" />
   <meta property="og:image" content="https://www.htg.productions/assets/og/game.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Suit Purge — a first-person maze shooter running in the page." />
+  <meta property="og:image:alt" content="Suit Purge" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://www.htg.productions/assets/share/game.png" />
+  <meta name="twitter:image" content="https://www.htg.productions/assets/og/game.png" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://www.htg.productions/game.html" />
+  <meta name="twitter:title" content="Suit Purge — HTG" />
+  <meta name="twitter:description" content="A browser shooter by HTG. All characters are fictional." />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "VideoGame",
+        "@id": "https://www.htg.productions/game.html#game",
+        "name": "Suit Purge",
+        "url": "https://www.htg.productions/game.html",
+        "genre": "First-person shooter",
+        "gamePlatform": "Web browser",
+        "applicationCategory": "Game",
+        "operatingSystem": "Any",
+        "playMode": "SinglePlayer",
+        "isAccessibleForFree": true,
+        "image": "https://www.htg.productions/assets/og/game.png",
+        "author": {
+          "@type": "Organization",
+          "@id": "https://www.htg.productions/#htg",
+          "name": "HTG — Hex The Government",
+          "url": "https://www.htg.productions/"
+        },
+        "description": "Browser shooter by HTG. All characters are fictional class archetypes; no real person is depicted."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "HTG",
+            "item": "https://www.htg.productions/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Suit Purge",
+            "item": "https://www.htg.productions/game.html"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
   <link rel="icon" type="image/svg+xml" href="assets/htg-mark.svg" />
   <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -63,12 +111,11 @@
 
     <header class="standalone-head">
       <h1>SUIT PURGE</h1>
-      <p>Politicians, billionaires, trillionaires and high command are loose in the maze. No downloads, no plugins, no third-party code — the whole thing is generated at runtime.</p>
-      <p style="font-size:0.8rem; opacity:0.75; margin-top:0.6rem;"><strong>Fiction:</strong> all characters are invented class archetypes. No real person, name, or likeness is depicted. See the <a href="legal.html#satire" style="color:var(--accent);text-decoration:underline;">satire &amp; fiction notice</a>.</p>
+      <p class="game-disclaimer">Fiction. No real person is depicted. <a href="legal.html#satire">Satire notice</a>.</p>
     </header>
 
     <div class="game-stage">
-      <canvas id="gameCanvas" class="game-canvas" role="img" aria-label="Suit Purge, a first-person maze shooter."></canvas>
+      <canvas id="gameCanvas" class="game-canvas" role="img" aria-label="Suit Purge"></canvas>
 
       <div class="game-hud" id="gameHud" aria-hidden="true">
         <div class="hud-cell"><span>HP</span><b id="hudHealth">100</b></div>
@@ -78,19 +125,19 @@
       </div>
 
       <div class="game-overlay" id="gameOverlay">
-        <p class="game-kicker">HTG // Hex The Government</p>
+        <p class="game-kicker">HTG</p>
         <h2 id="gameOverlayTitle">SUIT PURGE</h2>
-        <p class="game-lead" id="gameOverlayText">Politicians, billionaires, trillionaires and high command are loose in the maze. Clear the floor, wave after wave, until they clear you.</p>
-        <button class="btn btn-primary" type="button" id="gamePlay">Enter the maze</button>
+        <p class="game-lead" id="gameOverlayText">Clear the floor.</p>
+        <button class="btn btn-primary" type="button" id="gamePlay">Play</button>
         <p class="game-keys"><b>Desktop</b> WASD move &middot; mouse aim &middot; click fire &middot; Esc pause. <b>Phone</b> left thumb moves &middot; right thumb aims &middot; FIRE shoots.</p>
       </div>
 
       <div class="game-touch" id="gameTouch" hidden>
-        <button class="game-fire" id="gameFire" type="button" aria-label="Fire weapon">FIRE</button>
+        <button class="game-fire" id="gameFire" type="button" aria-label="Fire">FIRE</button>
       </div>
 
       <div class="game-bar">
-        <button class="game-chip" type="button" id="gameExit">Exit to ABRAXAS</button>
+        <button class="game-chip" type="button" id="gameExit">Exit</button>
         <button class="game-chip" type="button" id="gameMute" aria-pressed="false">Sound on</button>
       </div>
     </div>
@@ -106,11 +153,11 @@
   <script>
     // game.js's own exit handler just pauses and looks for #out-now, which
     // doesn't exist on this standalone page — send the player back to
-    // ABRAXAS's listen section instead.
+    // ABRAXAS instead.
     (function () {
       var exitBtn = document.getElementById('gameExit');
       if (exitBtn) exitBtn.addEventListener('click', function () {
-        window.location.href = 'abraxas.html#out-now';
+        window.location.href = 'abraxas.html';
       });
     })();
   </script>
