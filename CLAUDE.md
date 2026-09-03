@@ -174,10 +174,16 @@ attributes on every `<img>` that uses it. `htg-logo.webp` is the label's
 brush mark (black-on-white source inverted to white). The older HD PNG
 sources live in `assets/logos/src/`; nothing references them.
 
-HTG is the hero `<h1>` on `index.html`; each artist mark sits on its
-roster door and as the `<h1>` on its deck (`abraxas.html`,
-`stretty.html`, `ciggie.html`, `justin.html`). The name text stays in the
-DOM (alt / visually hidden) — keep it there. They are plain `<img>`s with
+HTG is the hero `<h1>` on `index.html`. Each artist mark appears in two
+places with **two different assets**: the roster door on `index.html`
+uses the hollow (outline-only, transparent) SVG —
+`abraxas-gen-hollow-logo.svg`, `stretty-gen-hollow-logo.svg`,
+`ciggieholster-hollow-logo.svg`, `justinclout-hollow-logo.svg` — while
+the `<h1>` on each deck (`abraxas.html`, `stretty.html`, `ciggie.html`,
+`justin.html`) keeps the filled `.webp`. That split is deliberate; do not
+unify them. The `width`/`height` on the door `<img>`s come from each
+SVG's viewBox. The name text stays in the DOM (alt / visually hidden) —
+keep it there. They are plain `<img>`s with
 real alpha: do not try `mix-blend-mode` to drop a background, the
 `.fade-in` opacity transition isolates the stacking context and the blend
 silently no-ops.
