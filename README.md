@@ -23,6 +23,10 @@ Phones (screens ≤ 820px) landing on `index.html` are redirected to `mobile.htm
 
 ---
 
+## Search engines and AI agents
+
+`robots.txt`, `sitemap.xml`, `llms.txt` and the schema.org JSON-LD in every page head are the discoverability layer. `sitemap.xml` is generated: run `npm run build:sitemap` after editing a page (`npm run check:sitemap` tells you if it is stale). Details in `CLAUDE.md` under "Search and AI discoverability".
+
 ## Updating the site — edit `config.js` only
 
 Everything real about the artist lives in **`config.js`**. Edit it, save, upload. The pages rebuild themselves from it in the browser — no other file needs touching.

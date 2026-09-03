@@ -16,7 +16,8 @@
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Suit Purge — a first-person maze shooter running in the page." />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://www.htg.productions/assets/share/game.png" />
+  <meta name="twitter:image" content="https://www.htg.productions/assets/og/game.png" />
+  <link rel="canonical" href="https://www.htg.productions/game.html" />
   <link rel="icon" type="image/svg+xml" href="assets/htg-mark.svg" />
   <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,6 +52,88 @@
     .standalone-foot a:hover { border-color: var(--accent); color: var(--accent); }
     @media (max-width: 560px) { .standalone-foot { flex-direction: column; } }
   </style>
+  <!-- schema.org structured data for search engines and AI agents. Static on
+       purpose: most crawlers never run render.js. Keep it in step with
+       config.js and the page copy; never add a title, date or name that
+       is not already real on the site. -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "VideoGame",
+        "SoftwareApplication"
+      ],
+      "@id": "https://www.htg.productions/game.html#game",
+      "name": "Suit Purge",
+      "url": "https://www.htg.productions/game.html",
+      "image": "https://www.htg.productions/assets/og/game.png",
+      "description": "A first-person maze shooter that runs entirely in the browser: walls, sprites, weapon and sound are generated in code at runtime, with no downloads and no third-party assets. Enemies are four fictional class archetypes — Politician, Billionaire, Trillionaire and High Command. No real person is named, depicted or targeted.",
+      "genre": [
+        "First-person shooter",
+        "Political satire"
+      ],
+      "gamePlatform": "Web browser",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Any",
+      "playMode": "SinglePlayer",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "AUD",
+        "availability": "https://schema.org/InStock"
+      },
+      "author": {
+        "@id": "https://www.htg.productions/abraxas.html#artist"
+      },
+      "publisher": {
+        "@id": "https://www.htg.productions/#org"
+      },
+      "isPartOf": {
+        "@id": "https://www.htg.productions/#website"
+      },
+      "mainEntityOfPage": "https://www.htg.productions/game.html"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.htg.productions/game.html",
+      "url": "https://www.htg.productions/game.html",
+      "name": "Suit Purge — HTG",
+      "description": "Suit Purge, the HTG in-browser first-person maze shooter. Free, dependency-free, fictional enemies only.",
+      "isPartOf": {
+        "@id": "https://www.htg.productions/#website"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://www.htg.productions/assets/og/game.png"
+      },
+      "inLanguage": "en",
+      "about": {
+        "@id": "https://www.htg.productions/game.html#game"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "HTG",
+          "item": "https://www.htg.productions/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Suit Purge",
+          "item": "https://www.htg.productions/game.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body data-rain="purple">
   <canvas id="matrix-rain" aria-hidden="true"></canvas>
