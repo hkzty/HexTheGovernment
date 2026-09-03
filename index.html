@@ -17,6 +17,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.htg.productions/" />
   <meta property="og:site_name" content="HTG — Hex The Government" />
+  <meta property="og:locale" content="en_AU" />
   <meta property="og:image" content="https://www.htg.productions/assets/og/htg.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -86,6 +87,11 @@
         "potentialAction": {
           "@type": "DonateAction",
           "target": "https://donation.streamiverse.io/stretty"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressRegion": "NSW",
+          "addressCountry": "AU"
         }
       },
       {
@@ -385,7 +391,7 @@
       filter: grayscale(0) brightness(0.6) saturate(1.15);
     }
     .door:hover .door-art::after, .door:focus-visible .door-art::after { opacity: 0.5; }
-    .door-name, .door-role { position: relative; z-index: 1; }
+    .door-name { position: relative; z-index: 1; }
     .door--abx:hover, .door--abx:focus-visible { box-shadow: inset 0 0 140px rgba(180, 120, 255, 0.28); }
     .door--str:hover, .door--str:focus-visible { box-shadow: inset 0 0 140px rgba(22, 200, 90, 0.24); }
     .door--jus:hover, .door--jus:focus-visible { box-shadow: inset 0 0 140px rgba(255, 155, 61, 0.24); }
@@ -411,13 +417,23 @@
     .door--cig:hover .door-name, .door--cig:focus-visible .door-name {
       color: var(--cig); text-shadow: 0 0 30px rgba(47, 212, 224, 0.5);
     }
-    .door-role {
-      margin-top: 0.7rem;
-      font-size: 0.72rem;
-      letter-spacing: 0.32em;
+    /* Lore watermark: sits between the cover art and the logo, barely there. */
+    .door-lore {
+      position: absolute; inset: 0; z-index: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: "New Rocker", serif;
+      font-size: clamp(3rem, 9vw, 7rem);
+      line-height: 1;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--muted);
+      white-space: nowrap;
+      color: var(--text);
+      opacity: 0.045;
+      pointer-events: none;
+      user-select: none;
+      transition: opacity 0.45s ease;
     }
+    .door:hover .door-lore, .door:focus-visible .door-lore { opacity: 0.09; }
 
     @media (max-width: 760px) {
       .doors { flex-direction: column; flex-wrap: nowrap; }
@@ -426,7 +442,7 @@
       .door--str, .door--jus, .door--cig { filter: brightness(0.8) saturate(0.7); }
     }
     @media (prefers-reduced-motion: reduce) {
-      .door, .door-name, .door-art img, .door-art::after { transition: none; }
+      .door, .door-name, .door-lore, .door-art img, .door-art::after { transition: none; }
     }
   </style>
 </head>
@@ -501,8 +517,8 @@
                 <img alt="" data-cover="https://open.spotify.com/album/5vbKU5ZwNhl0G8Pv1OOXYB" />
               </span>
               <img class="door-logo" src="assets/logos/abraxas-gen-hollow-logo.svg" alt="" width="2939" height="1515" loading="lazy" decoding="async" />
+              <span class="door-lore" aria-hidden="true">Noah</span>
               <span class="door-name door-name--logo">ABRAXAS</span>
-              <span class="door-role">Noah</span>
             </a>
 
             <a class="door door--str" href="stretty.html">
@@ -515,8 +531,8 @@
                 <img alt="" data-cover="https://open.spotify.com/track/3Vs0qIyXV3UtsWpxCcvJnX" />
               </span>
               <img class="door-logo" src="assets/logos/stretty-gen-hollow-logo.svg" alt="" width="2896" height="1559" loading="lazy" decoding="async" />
+              <span class="door-lore" aria-hidden="true">The Ark</span>
               <span class="door-name door-name--logo">STRETTY</span>
-              <span class="door-role">The Ark</span>
             </a>
 
             <a class="door door--jus" href="justin.html">
@@ -529,7 +545,6 @@
               </span>
               <img class="door-logo" src="assets/logos/justinclout-hollow-logo.svg" alt="" width="4197" height="1636" loading="lazy" decoding="async" />
               <span class="door-name door-name--logo">JUSTINN.CLOUT</span>
-              <span class="door-role">Video · Photo</span>
             </a>
 
             <a class="door door--cig" href="ciggie.html">

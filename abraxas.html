@@ -11,6 +11,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.htg.productions/abraxas.html" />
   <meta property="og:site_name" content="HTG — Hex The Government" />
+  <meta property="og:locale" content="en_AU" />
   <meta property="og:image" content="https://www.htg.productions/assets/og/abraxas.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -257,8 +258,8 @@
     /* Huge watermark initial behind the content, under the veil so the
        gradient tames it. Decoration only. */
     .sigil {
-      position: fixed; z-index: 1; right: -4vw; top: 2vh; line-height: 1;
-      font-family: "New Rocker", serif; font-size: min(78vh, 68vw);
+      position: fixed; z-index: 1; right: 0; top: 10vh; line-height: 1; white-space: nowrap;
+      font-family: "New Rocker", serif; font-size: min(40vh, 22vw); letter-spacing: 0.04em;
       color: var(--abx); opacity: 0.05; pointer-events: none; user-select: none;
     }
 
@@ -298,7 +299,6 @@
       filter: drop-shadow(0 0 30px rgba(180, 120, 255, 0.32));
     }
     .tagline { margin-top: 0.6rem; font-size: clamp(1rem, 3vw, 1.5rem); color: var(--abx); letter-spacing: 0.04em; }
-    .role { margin-top: 0.9rem; font-size: 0.74rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); }
 
     /* ---- Music ----------------------------------------------------------- */
     .section { margin-top: 3rem; }
@@ -361,7 +361,7 @@
 </head>
 <body data-rain="purple">
   <canvas id="matrix-rain" aria-hidden="true"></canvas>
-  <div class="sigil" aria-hidden="true">A</div>
+  <div class="sigil" aria-hidden="true">NOAH</div>
   <div class="veil" aria-hidden="true"></div>
 
   <div class="shell">
@@ -375,7 +375,6 @@
       <p class="eyebrow">HEXCORE</p>
       <h1 class="name"><img class="name-logo" src="assets/logos/abraxas-logo.webp" alt="ABRAXAS" width="2000" height="1382" decoding="async" fetchpriority="high" /></h1>
       <p class="tagline">Depressions Running Deep</p>
-      <p class="role">Noah</p>
     </header>
 
     <section class="section" aria-label="ABRAXAS on Spotify">

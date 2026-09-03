@@ -116,12 +116,14 @@ back. Concretely:
   oEmbed supplies the real one — never a generated "Sequence 01" label.
 - **Section heads are one kicker**, as `<h2 class="section-kicker">`. No
   section title, no intro paragraph. The Sequence keeps a one-line note.
-- **No metaphor spray.** The Noah/Ark lore is the owner's and survives in
-  exactly four places: the two door role lines (`Noah`, `The Ark`) and
-  the matching role lines on `abraxas.html` / `stretty.html` (plus the
-  THE ARK trademark line on `legal.html`). Everything
-  else — "aboard", "boarding card", "Board X →", "the vessel", "pulled
-  out of the water", the sign-off nod lines — is gone. Keep it gone.
+- **No metaphor spray.** The Noah/Ark lore is the owner's, and the owner
+  asked for it as a background subtlety only: the faint `.door-lore`
+  watermarks behind the ABRAXAS and STRETTY roster doors, the `NOAH` /
+  `THE ARK` watermark sigils on `abraxas.html` / `stretty.html`, and the
+  THE ARK trademark line on `legal.html`. No visible role lines, no
+  copy. Everything else — "aboard", "boarding card", "Board X →", "the
+  vessel", "pulled out of the water", the sign-off nod lines — is gone.
+  Keep it gone.
 - **Owner voice that stays:** the hero curse line, "Hex The Government",
   "Depressions Running Deep", the legal footer, the game's own
   flavour text, and the fiction/satire notice (a legal guard — may be
@@ -140,7 +142,7 @@ on `render.js` running.
 
 | File | Role |
 |---|---|
-| `robots.txt` | One `User-agent: *` group: allows everything public and blocks `copydesk.html`, `content/`, `docs/`, `scripts/`. No per-bot groups — under RFC 9309 a named group inherits nothing from `*`, so a bot-specific `Allow: /` silently drops the Disallows for exactly that bot. |
+| `robots.txt` | One `User-agent: *` group: allows everything public (AI crawlers included — the owner wants AI in the back end, never showing on the front end; `legal.html` §2 still forbids training on the content and stays as written) and blocks `copydesk.html`, `content/`, `docs/`, `scripts/`. No per-bot groups — under RFC 9309 a named group inherits nothing from `*`, so a bot-specific `Allow: /` silently drops the Disallows for exactly that bot. |
 | `sitemap.xml` | **Generated** by `scripts/build-sitemap.js`; `lastmod` is each page's last commit date. `mobile.html` is deliberately absent. After editing any page: `npm run build:sitemap`, and `npm run check:sitemap` before pushing (same deal as `check:mobile`, and for the same reason not in CI). |
 | `llms.txt` | Plain-markdown summary for LLM agents: roster, every profile URL, the Sequence and the deck tracks, contact, trademarks, the explicit "no tour dates, no upcoming releases" line, and the ABRAXAS/Stretty Spotify disambiguation. |
 | `site.webmanifest` | Name, colours, `music`/`entertainment` categories, the SVG mark as icon. |
@@ -148,9 +150,9 @@ on `render.js` running.
 
 Every indexed page also has `<link rel="canonical">`, a `robots` meta,
 `twitter:title`/`twitter:description`, and the footer social icons carry
-`rel="me"`. Nothing asserts a location or currency: `legal.html` claims
-England and Wales law while the owner is in NSW — pick one there before
-adding `og:locale` or priced offers. `index.html` advertises `mobile.html` as its phone alternate
+`rel="me"`. Location: `legal.html` is governed by NSW law, so every page
+carries `og:locale` `en_AU` and the Organization node an `address` of
+NSW, AU. Nothing prices anything (the game is `isAccessibleForFree`). `index.html` advertises `mobile.html` as its phone alternate
 and `mobile.html` keeps the canonical pointing at `index.html`;
 `build-mobile.js` strips the alternate link on the phone copy (and aborts
 if it is missing, like its other anchors). Share cards are in
