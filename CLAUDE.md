@@ -23,7 +23,7 @@ Deployed by GitHub Pages straight from `main` (see `CNAME`). Merging to
 |---|---|
 | `config.js` | **The only file most content edits need.** Social URLs, the Sequence, gallery, shop, contact. Sets `window.ABRAXAS_CONFIG`. |
 | `render.js` | Reads the config and rewrites the markup at runtime. |
-| `script.js` | Site chrome: nav, scroll-spy, reveals, lightbox, custom cursor, contact form. |
+| `script.js` | Site chrome: nav, scroll-spy, reveals, lightbox, contact form, Suit Purge unlock. |
 | `game.js` | Suit Purge — the in-page shooter. Self-contained IIFE. |
 | `index.html` | Desktop page. |
 | `mobile.html` | Phone page. **Generated — never hand-edit.** |
@@ -41,9 +41,7 @@ viewport width, with `?desktop` / `?mobile` pinning a choice in
 **`mobile.html` is generated. Do not edit it by hand.** It is
 `index.html` with `style.css` inlined, `data-page` flipped to `mobile`,
 the footer view-toggle pointed back at the desktop page, and one
-phone-chrome rule appended (`.topbar { position: static }`, plus
-`main { padding-top: 0 }` unconditionally — `style.css` only zeroes it
-below 640px). Everything else, including the roster, comes straight from
+phone-chrome rule appended (`.topbar { position: static }`). Everything else, including the roster, comes straight from
 `index.html`.
 
 After any edit to `index.html` or `style.css`:
@@ -119,8 +117,9 @@ back. Concretely:
 - **Section heads are one kicker**, as `<h2 class="section-kicker">`. No
   section title, no intro paragraph. The Sequence keeps a one-line note.
 - **No metaphor spray.** The Noah/Ark lore is the owner's and survives in
-  exactly three places: the two door role lines (`Noah`, `The Ark`) and
-  the matching role lines on `abraxas.html` / `stretty.html`. Everything
+  exactly four places: the two door role lines (`Noah`, `The Ark`) and
+  the matching role lines on `abraxas.html` / `stretty.html` (plus the
+  THE ARK trademark line on `legal.html`). Everything
   else — "aboard", "boarding card", "Board X →", "the vessel", "pulled
   out of the water", the sign-off nod lines — is gone. Keep it gone.
 - **Owner voice that stays:** the hero curse line, "Hex The Government",
@@ -141,15 +140,17 @@ on `render.js` running.
 
 | File | Role |
 |---|---|
-| `robots.txt` | Allows everything public, names the AI crawlers explicitly (GPTBot, ClaudeBot, PerplexityBot, Google-Extended and the rest) and blocks `copydesk.html`, `content/`, `docs/`, `scripts/`. |
+| `robots.txt` | One `User-agent: *` group: allows everything public and blocks `copydesk.html`, `content/`, `docs/`, `scripts/`. No per-bot groups — under RFC 9309 a named group inherits nothing from `*`, so a bot-specific `Allow: /` silently drops the Disallows for exactly that bot. |
 | `sitemap.xml` | **Generated** by `scripts/build-sitemap.js`; `lastmod` is each page's last commit date. `mobile.html` is deliberately absent. After editing any page: `npm run build:sitemap`, and `npm run check:sitemap` before pushing (same deal as `check:mobile`, and for the same reason not in CI). |
 | `llms.txt` | Plain-markdown summary for LLM agents: roster, every profile URL, the Sequence and the deck tracks, contact, trademarks, the explicit "no tour dates, no upcoming releases" line, and the ABRAXAS/Stretty Spotify disambiguation. |
 | `site.webmanifest` | Name, colours, `music`/`entertainment` categories, the SVG mark as icon. |
-| JSON-LD in each page head | `index.html` carries `Organization` (`#org`), `WebSite` (`#website`), a `WebPage`, the three `MusicGroup`s, the `Person` and the `VideoGame`. Each deck repeats its own entity under the same `@id` plus a `WebPage` and a `BreadcrumbList`; `abraxas.html` adds the thirteen `MusicAlbum` nodes (URL-only — their titles are not on the site), `stretty.html` / `ciggie.html` add `MusicRecording`s for the tracks named on the page, `justin.html` adds `VideoObject`s for the reel, `sequence.html` an `ItemList` of the albums. |
+| JSON-LD in each page head | `index.html` carries `Organization` (`#org`), `WebSite` (`#website`), a `WebPage`, the three `MusicGroup`s, the `Person` and the `VideoGame`. Each deck repeats its own entity under the same `@id` plus a `WebPage` and a `BreadcrumbList`; `abraxas.html` adds the thirteen `MusicAlbum` nodes (URL-only — their titles are not on the site), `stretty.html` / `ciggie.html` add `MusicRecording`s for the tracks named on the page, `sequence.html` an `ItemList` of the albums. No `VideoObject`s: Google requires `name` and `uploadDate`, which the site deliberately does not hand-write. |
 
-Every visitor page also has `<link rel="canonical">`, a `robots` meta,
+Every indexed page also has `<link rel="canonical">`, a `robots` meta,
 `twitter:title`/`twitter:description`, and the footer social icons carry
-`rel="me"`. `index.html` advertises `mobile.html` as its phone alternate
+`rel="me"`. Nothing asserts a location or currency: `legal.html` claims
+England and Wales law while the owner is in NSW — pick one there before
+adding `og:locale` or priced offers. `index.html` advertises `mobile.html` as its phone alternate
 and `mobile.html` keeps the canonical pointing at `index.html`;
 `build-mobile.js` strips the alternate link on the phone copy (and aborts
 if it is missing, like its other anchors). Share cards are in
@@ -229,8 +230,7 @@ out of view, on Escape, and when the tab is hidden.
 whose crossbar is a hull, over a waterline. It is the favicon on the
 HTG-branded pages (`index.html`/`mobile.html`, `game.html`, `legal.html`,
 `404.html`); artist decks keep their own letter icons. The `og:image`
-share cards live per-page in `assets/share/` (see the shareable-face
-work). Reuse the SVG for anything that needs a stamp; don't reintroduce the old
+share cards live per-page in `assets/og/`. Reuse the SVG for anything that needs a stamp; don't reintroduce the old
 plain-letter "H" tile.
 
 ## Drawn logos (`assets/logos/`)
@@ -329,14 +329,9 @@ monospace and that swap is invisible. Do not fold them back into one link.
   there replace the frames.
 - ~~`config.heroPoster` is a picsum stock photo~~ Done — it now points at
   `assets/placeholders/hero-poster.svg`, a local placeholder graphic.
-- **`assets/htg-hero.mp4` is 25MB**, the entire weight of the repo — and
-  **both pages load it**. PR #9 shipped small mobile encodes
-  (`assets/htg-hero-mobile.mp4` ~0.9MB / `.webm` ~0.5MB) by hand-editing
-  `mobile.html`; when the generator later rebuilt that file from
-  `index.html` the wiring was wiped, so the two files now sit unreferenced
-  in `assets/`. Re-wiring belongs in `scripts/build-mobile.js` (or a
-  viewport-aware source pick in `render.js`) — never in `mobile.html`
-  itself.
+- ~~`assets/htg-hero.mp4` (25MB) loaded on both pages~~ Done — the hero is
+  the 720p pair (`assets/htg-hero-720p.webm` ~0.55MB / `.mp4` ~0.9MB)
+  referenced from `index.html` and `config.js`.
 - **The contact form's delivery endpoint is unset.** `script.js` POSTs
   submissions to `config.contactForm.endpoint` (Formspree or Web3Forms —
   setup notes in `config.js`) and falls back to `mailto:` without one.

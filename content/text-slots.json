@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-03T21:40:24.093Z",
+  "generated": "2026-09-03T21:50:56.529Z",
   "groups": [
     {
       "id": "config.js",
@@ -35,27 +35,18 @@
           "text": "ABRAXAS · 01 → 13"
         },
         {
-          "id": "config.js:58",
+          "id": "config.js:143",
           "file": "config.js",
-          "line": 58,
-          "kind": "config",
-          "where": "highlightTag",
-          "original": "PINNED",
-          "text": "PINNED"
-        },
-        {
-          "id": "config.js:144",
-          "file": "config.js",
-          "line": 144,
+          "line": 143,
           "kind": "config",
           "where": "contactEmail",
           "original": "Abraxas@htg.productions",
           "text": "Abraxas@htg.productions"
         },
         {
-          "id": "config.js:146",
+          "id": "config.js:145",
           "file": "config.js",
-          "line": 146,
+          "line": 145,
           "kind": "config",
           "where": "management",
           "original": "Bookings@htg.productions",
@@ -943,17 +934,6 @@
           "file": "index.html",
           "ordinal": 85,
           "kind": "text",
-          "block": 0,
-          "blockTag": "div",
-          "where": "div > div > div",
-          "original": "Support",
-          "text": "Support"
-        },
-        {
-          "id": "index.html:86",
-          "file": "index.html",
-          "ordinal": 86,
-          "kind": "text",
           "block": 43,
           "blockTag": "h3",
           "where": "div > div > h3",
@@ -961,9 +941,9 @@
           "text": "Donate crypto"
         },
         {
-          "id": "index.html:87",
+          "id": "index.html:86",
           "file": "index.html",
-          "ordinal": 87,
+          "ordinal": 86,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -972,15 +952,26 @@
           "text": "Donate"
         },
         {
-          "id": "index.html:88",
+          "id": "index.html:87",
           "file": "index.html",
-          "ordinal": 88,
+          "ordinal": 87,
           "kind": "attr",
           "block": 0,
           "blockTag": "img",
           "where": "img",
           "original": "QR code for the HTG crypto donation page",
           "text": "QR code for the HTG crypto donation page"
+        },
+        {
+          "id": "index.html:88",
+          "file": "index.html",
+          "ordinal": 88,
+          "kind": "text",
+          "block": 0,
+          "blockTag": "a",
+          "where": "div > nav > a",
+          "original": "Legal & Privacy",
+          "text": "Legal & Privacy"
         },
         {
           "id": "index.html:89",
@@ -990,8 +981,8 @@
           "block": 0,
           "blockTag": "a",
           "where": "div > nav > a",
-          "original": "Legal & Privacy",
-          "text": "Legal & Privacy"
+          "original": "Terms of Use",
+          "text": "Terms of Use"
         },
         {
           "id": "index.html:90",
@@ -1001,8 +992,8 @@
           "block": 0,
           "blockTag": "a",
           "where": "div > nav > a",
-          "original": "Terms of Use",
-          "text": "Terms of Use"
+          "original": "Satire Notice",
+          "text": "Satire Notice"
         },
         {
           "id": "index.html:91",
@@ -1012,24 +1003,13 @@
           "block": 0,
           "blockTag": "a",
           "where": "div > nav > a",
-          "original": "Satire Notice",
-          "text": "Satire Notice"
-        },
-        {
-          "id": "index.html:92",
-          "file": "index.html",
-          "ordinal": 92,
-          "kind": "text",
-          "block": 0,
-          "blockTag": "a",
-          "where": "div > nav > a",
           "original": "Copyright / DMCA",
           "text": "Copyright / DMCA"
         },
         {
-          "id": "index.html:95",
+          "id": "index.html:94",
           "file": "index.html",
-          "ordinal": 95,
+          "ordinal": 94,
           "kind": "text",
           "block": 44,
           "blockTag": "p",
@@ -1038,9 +1018,9 @@
           "text": "HTG — Hex The Government"
         },
         {
-          "id": "index.html:96",
+          "id": "index.html:95",
           "file": "index.html",
-          "ordinal": 96,
+          "ordinal": 95,
           "kind": "text",
           "block": 44,
           "blockTag": "p",
@@ -1049,9 +1029,9 @@
           "text": ". All rights reserved."
         },
         {
-          "id": "index.html:97",
+          "id": "index.html:96",
           "file": "index.html",
-          "ordinal": 97,
+          "ordinal": 96,
           "kind": "text",
           "block": 44,
           "blockTag": "p",
@@ -1060,9 +1040,9 @@
           "text": "HTG"
         },
         {
-          "id": "index.html:99",
+          "id": "index.html:98",
           "file": "index.html",
-          "ordinal": 99,
+          "ordinal": 98,
           "kind": "text",
           "block": 44,
           "blockTag": "p",
@@ -1071,9 +1051,9 @@
           "text": "HEX THE GOVERNMENT"
         },
         {
-          "id": "index.html:101",
+          "id": "index.html:100",
           "file": "index.html",
-          "ordinal": 101,
+          "ordinal": 100,
           "kind": "text",
           "block": 44,
           "blockTag": "p",
@@ -1082,9 +1062,9 @@
           "text": "ABRAXAS"
         },
         {
-          "id": "index.html:103",
+          "id": "index.html:102",
           "file": "index.html",
-          "ordinal": 103,
+          "ordinal": 102,
           "kind": "text",
           "block": 44,
           "blockTag": "p",
@@ -1093,9 +1073,9 @@
           "text": "HEXCORE"
         },
         {
-          "id": "index.html:105",
+          "id": "index.html:104",
           "file": "index.html",
-          "ordinal": 105,
+          "ordinal": 104,
           "kind": "text",
           "block": 44,
           "blockTag": "p",
@@ -1104,9 +1084,9 @@
           "text": "SUIT PURGE"
         },
         {
-          "id": "index.html:106",
+          "id": "index.html:105",
           "file": "index.html",
-          "ordinal": 106,
+          "ordinal": 105,
           "kind": "text",
           "block": 44,
           "blockTag": "p",
@@ -1115,9 +1095,9 @@
           "text": "™ and"
         },
         {
-          "id": "index.html:107",
+          "id": "index.html:106",
           "file": "index.html",
-          "ordinal": 107,
+          "ordinal": 106,
           "kind": "text",
           "block": 44,
           "blockTag": "p",
@@ -1126,9 +1106,9 @@
           "text": "Depressions Running Deep"
         },
         {
-          "id": "index.html:108",
+          "id": "index.html:107",
           "file": "index.html",
-          "ordinal": 108,
+          "ordinal": 107,
           "kind": "text",
           "block": 44,
           "blockTag": "p",
@@ -1137,9 +1117,9 @@
           "text": "™ are trademarks of HTG. All other names, logos, and marks (Spotify, SoundCloud, YouTube, Apple Music, TikTok, Instagram, Shopify, etc.) are the property of their respective owners."
         },
         {
-          "id": "index.html:109",
+          "id": "index.html:108",
           "file": "index.html",
-          "ordinal": 109,
+          "ordinal": 108,
           "kind": "text",
           "block": 45,
           "blockTag": "p",
@@ -1148,9 +1128,9 @@
           "text": "Suit Purge"
         },
         {
-          "id": "index.html:110",
+          "id": "index.html:109",
           "file": "index.html",
-          "ordinal": 110,
+          "ordinal": 109,
           "kind": "text",
           "block": 45,
           "blockTag": "p",
@@ -1159,9 +1139,9 @@
           "text": "and its characters are fictional class archetypes. Any resemblance to real persons or organisations is coincidental."
         },
         {
-          "id": "index.html:111",
+          "id": "index.html:110",
           "file": "index.html",
-          "ordinal": 111,
+          "ordinal": 110,
           "kind": "attr",
           "block": 0,
           "blockTag": "img",
@@ -1925,26 +1905,15 @@
           "ordinal": 19,
           "kind": "text",
           "block": 0,
-          "blockTag": "span",
-          "where": "div > footer > span",
-          "original": "Back to",
-          "text": "Back to"
-        },
-        {
-          "id": "sequence.html:20",
-          "file": "sequence.html",
-          "ordinal": 20,
-          "kind": "text",
-          "block": 0,
           "blockTag": "a",
           "where": "footer > span > a",
           "original": "HTG",
           "text": "HTG"
         },
         {
-          "id": "sequence.html:22",
+          "id": "sequence.html:21",
           "file": "sequence.html",
-          "ordinal": 22,
+          "ordinal": 21,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2274,26 +2243,15 @@
           "ordinal": 35,
           "kind": "text",
           "block": 0,
-          "blockTag": "span",
-          "where": "div > footer > span",
-          "original": "Back to",
-          "text": "Back to"
-        },
-        {
-          "id": "game.html:36",
-          "file": "game.html",
-          "ordinal": 36,
-          "kind": "text",
-          "block": 0,
           "blockTag": "a",
           "where": "footer > span > a",
           "original": "ABRAXAS",
           "text": "ABRAXAS"
         },
         {
-          "id": "game.html:38",
+          "id": "game.html:37",
           "file": "game.html",
-          "ordinal": 38,
+          "ordinal": 37,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2346,6 +2304,28 @@
           "id": "legal.html:3",
           "file": "legal.html",
           "ordinal": 3,
+          "kind": "attr",
+          "block": 0,
+          "blockTag": "meta",
+          "where": "meta twitter:title",
+          "original": "Legal — HTG",
+          "text": "Legal — HTG"
+        },
+        {
+          "id": "legal.html:4",
+          "file": "legal.html",
+          "ordinal": 4,
+          "kind": "attr",
+          "block": 0,
+          "blockTag": "meta",
+          "where": "meta twitter:description",
+          "original": "Terms of Use, Privacy Policy, Trademark, Copyright, and satire disclosures for HTG.",
+          "text": "Terms of Use, Privacy Policy, Trademark, Copyright, and satire disclosures for HTG."
+        },
+        {
+          "id": "legal.html:5",
+          "file": "legal.html",
+          "ordinal": 5,
           "kind": "text",
           "block": 0,
           "blockTag": "a",
@@ -2354,9 +2334,9 @@
           "text": "← Back to site"
         },
         {
-          "id": "legal.html:4",
+          "id": "legal.html:6",
           "file": "legal.html",
-          "ordinal": 4,
+          "ordinal": 6,
           "kind": "text",
           "block": 0,
           "blockTag": "div",
@@ -2365,37 +2345,15 @@
           "text": "HTG // Legal"
         },
         {
-          "id": "legal.html:5",
+          "id": "legal.html:7",
           "file": "legal.html",
-          "ordinal": 5,
+          "ordinal": 7,
           "kind": "text",
           "block": 2,
           "blockTag": "h1",
           "where": "div > header > h1",
           "original": "Legal, Privacy & Disclosures",
           "text": "Legal, Privacy & Disclosures"
-        },
-        {
-          "id": "legal.html:6",
-          "file": "legal.html",
-          "ordinal": 6,
-          "kind": "text",
-          "block": 3,
-          "blockTag": "p",
-          "where": "div > header > p",
-          "original": "Last updated: 26 August 2026 · Governs use of",
-          "text": "Last updated: 26 August 2026 · Governs use of"
-        },
-        {
-          "id": "legal.html:7",
-          "file": "legal.html",
-          "ordinal": 7,
-          "kind": "text",
-          "block": 3,
-          "blockTag": "p",
-          "where": "header > p > strong",
-          "original": "www.htg.productions",
-          "text": "www.htg.productions"
         },
         {
           "id": "legal.html:8",
@@ -2405,13 +2363,35 @@
           "block": 3,
           "blockTag": "p",
           "where": "div > header > p",
-          "original": "and all HTG / ABRAXAS content published on it.",
-          "text": "and all HTG / ABRAXAS content published on it."
+          "original": "Last updated: 26 August 2026 · Governs use of",
+          "text": "Last updated: 26 August 2026 · Governs use of"
         },
         {
           "id": "legal.html:9",
           "file": "legal.html",
           "ordinal": 9,
+          "kind": "text",
+          "block": 3,
+          "blockTag": "p",
+          "where": "header > p > strong",
+          "original": "www.htg.productions",
+          "text": "www.htg.productions"
+        },
+        {
+          "id": "legal.html:10",
+          "file": "legal.html",
+          "ordinal": 10,
+          "kind": "text",
+          "block": 3,
+          "blockTag": "p",
+          "where": "div > header > p",
+          "original": "and all HTG / ABRAXAS content published on it.",
+          "text": "and all HTG / ABRAXAS content published on it."
+        },
+        {
+          "id": "legal.html:11",
+          "file": "legal.html",
+          "ordinal": 11,
           "kind": "text",
           "block": 4,
           "blockTag": "li",
@@ -2420,9 +2400,9 @@
           "text": "1. Site operator"
         },
         {
-          "id": "legal.html:10",
+          "id": "legal.html:12",
           "file": "legal.html",
-          "ordinal": 10,
+          "ordinal": 12,
           "kind": "text",
           "block": 5,
           "blockTag": "li",
@@ -2431,9 +2411,9 @@
           "text": "2. Terms of Use"
         },
         {
-          "id": "legal.html:11",
+          "id": "legal.html:13",
           "file": "legal.html",
-          "ordinal": 11,
+          "ordinal": 13,
           "kind": "text",
           "block": 6,
           "blockTag": "li",
@@ -2442,9 +2422,9 @@
           "text": "3. Copyright & IP"
         },
         {
-          "id": "legal.html:12",
+          "id": "legal.html:14",
           "file": "legal.html",
-          "ordinal": 12,
+          "ordinal": 14,
           "kind": "text",
           "block": 7,
           "blockTag": "li",
@@ -2453,9 +2433,9 @@
           "text": "4. Trademarks"
         },
         {
-          "id": "legal.html:13",
+          "id": "legal.html:15",
           "file": "legal.html",
-          "ordinal": 13,
+          "ordinal": 15,
           "kind": "text",
           "block": 8,
           "blockTag": "li",
@@ -2464,9 +2444,9 @@
           "text": "5. Satire & fiction (Suit Purge)"
         },
         {
-          "id": "legal.html:14",
+          "id": "legal.html:16",
           "file": "legal.html",
-          "ordinal": 14,
+          "ordinal": 16,
           "kind": "text",
           "block": 9,
           "blockTag": "li",
@@ -2475,9 +2455,9 @@
           "text": "6. Third-party links & embeds"
         },
         {
-          "id": "legal.html:15",
+          "id": "legal.html:17",
           "file": "legal.html",
-          "ordinal": 15,
+          "ordinal": 17,
           "kind": "text",
           "block": 10,
           "blockTag": "li",
@@ -2486,9 +2466,9 @@
           "text": "7. Privacy Policy"
         },
         {
-          "id": "legal.html:16",
+          "id": "legal.html:18",
           "file": "legal.html",
-          "ordinal": 16,
+          "ordinal": 18,
           "kind": "text",
           "block": 11,
           "blockTag": "li",
@@ -2497,9 +2477,9 @@
           "text": "8. Cookies & storage"
         },
         {
-          "id": "legal.html:17",
+          "id": "legal.html:19",
           "file": "legal.html",
-          "ordinal": 17,
+          "ordinal": 19,
           "kind": "text",
           "block": 12,
           "blockTag": "li",
@@ -2508,9 +2488,9 @@
           "text": "9. Copyright complaints (DMCA)"
         },
         {
-          "id": "legal.html:18",
+          "id": "legal.html:20",
           "file": "legal.html",
-          "ordinal": 18,
+          "ordinal": 20,
           "kind": "text",
           "block": 13,
           "blockTag": "li",
@@ -2519,9 +2499,9 @@
           "text": "10. Warranty disclaimer"
         },
         {
-          "id": "legal.html:19",
+          "id": "legal.html:21",
           "file": "legal.html",
-          "ordinal": 19,
+          "ordinal": 21,
           "kind": "text",
           "block": 14,
           "blockTag": "li",
@@ -2530,9 +2510,9 @@
           "text": "11. Limitation of liability"
         },
         {
-          "id": "legal.html:20",
+          "id": "legal.html:22",
           "file": "legal.html",
-          "ordinal": 20,
+          "ordinal": 22,
           "kind": "text",
           "block": 15,
           "blockTag": "li",
@@ -2541,9 +2521,9 @@
           "text": "12. Governing law"
         },
         {
-          "id": "legal.html:21",
+          "id": "legal.html:23",
           "file": "legal.html",
-          "ordinal": 21,
+          "ordinal": 23,
           "kind": "text",
           "block": 16,
           "blockTag": "li",
@@ -2552,9 +2532,9 @@
           "text": "13. Changes to this notice"
         },
         {
-          "id": "legal.html:22",
+          "id": "legal.html:24",
           "file": "legal.html",
-          "ordinal": 22,
+          "ordinal": 24,
           "kind": "text",
           "block": 17,
           "blockTag": "li",
@@ -2563,37 +2543,15 @@
           "text": "14. Contact"
         },
         {
-          "id": "legal.html:23",
+          "id": "legal.html:25",
           "file": "legal.html",
-          "ordinal": 23,
+          "ordinal": 25,
           "kind": "text",
           "block": 18,
           "blockTag": "h2",
           "where": "body > div > h2",
           "original": "1. Site operator",
           "text": "1. Site operator"
-        },
-        {
-          "id": "legal.html:24",
-          "file": "legal.html",
-          "ordinal": 24,
-          "kind": "text",
-          "block": 19,
-          "blockTag": "p",
-          "where": "body > div > p",
-          "original": "This website (",
-          "text": "This website ("
-        },
-        {
-          "id": "legal.html:25",
-          "file": "legal.html",
-          "ordinal": 25,
-          "kind": "text",
-          "block": 19,
-          "blockTag": "p",
-          "where": "div > p > strong",
-          "original": "www.htg.productions",
-          "text": "www.htg.productions"
         },
         {
           "id": "legal.html:26",
@@ -2603,8 +2561,8 @@
           "block": 19,
           "blockTag": "p",
           "where": "body > div > p",
-          "original": ") is operated by",
-          "text": ") is operated by"
+          "original": "This website (",
+          "text": "This website ("
         },
         {
           "id": "legal.html:27",
@@ -2614,8 +2572,8 @@
           "block": 19,
           "blockTag": "p",
           "where": "div > p > strong",
-          "original": "HTG — Hex The Government",
-          "text": "HTG — Hex The Government"
+          "original": "www.htg.productions",
+          "text": "www.htg.productions"
         },
         {
           "id": "legal.html:28",
@@ -2625,8 +2583,8 @@
           "block": 19,
           "blockTag": "p",
           "where": "body > div > p",
-          "original": "(\"HTG\", \"we\", \"us\"), an independent music label and creative project. The recording artist",
-          "text": "(\"HTG\", \"we\", \"us\"), an independent music label and creative project. The recording artist"
+          "original": ") is operated by",
+          "text": ") is operated by"
         },
         {
           "id": "legal.html:29",
@@ -2636,8 +2594,8 @@
           "block": 19,
           "blockTag": "p",
           "where": "div > p > strong",
-          "original": "ABRAXAS",
-          "text": "ABRAXAS"
+          "original": "HTG — Hex The Government",
+          "text": "HTG — Hex The Government"
         },
         {
           "id": "legal.html:30",
@@ -2647,8 +2605,8 @@
           "block": 19,
           "blockTag": "p",
           "where": "body > div > p",
-          "original": "records under this label. Business enquiries and legal notices may be sent to",
-          "text": "records under this label. Business enquiries and legal notices may be sent to"
+          "original": "(\"HTG\", \"we\", \"us\"), an independent music label and creative project. The recording artist",
+          "text": "(\"HTG\", \"we\", \"us\"), an independent music label and creative project. The recording artist"
         },
         {
           "id": "legal.html:31",
@@ -2657,14 +2615,36 @@
           "kind": "text",
           "block": 19,
           "blockTag": "p",
-          "where": "div > p > a",
-          "original": "Bookings@htg.productions",
-          "text": "Bookings@htg.productions"
+          "where": "div > p > strong",
+          "original": "ABRAXAS",
+          "text": "ABRAXAS"
+        },
+        {
+          "id": "legal.html:32",
+          "file": "legal.html",
+          "ordinal": 32,
+          "kind": "text",
+          "block": 19,
+          "blockTag": "p",
+          "where": "body > div > p",
+          "original": "records under this label. Business enquiries and legal notices may be sent to",
+          "text": "records under this label. Business enquiries and legal notices may be sent to"
         },
         {
           "id": "legal.html:33",
           "file": "legal.html",
           "ordinal": 33,
+          "kind": "text",
+          "block": 19,
+          "blockTag": "p",
+          "where": "div > p > a",
+          "original": "Bookings@htg.productions",
+          "text": "Bookings@htg.productions"
+        },
+        {
+          "id": "legal.html:35",
+          "file": "legal.html",
+          "ordinal": 35,
           "kind": "text",
           "block": 20,
           "blockTag": "h2",
@@ -2673,9 +2653,9 @@
           "text": "2. Terms of Use"
         },
         {
-          "id": "legal.html:34",
+          "id": "legal.html:36",
           "file": "legal.html",
-          "ordinal": 34,
+          "ordinal": 36,
           "kind": "text",
           "block": 21,
           "blockTag": "p",
@@ -2684,9 +2664,9 @@
           "text": "By accessing or using this website you agree to these Terms. If you do not agree, do not use the site."
         },
         {
-          "id": "legal.html:35",
+          "id": "legal.html:37",
           "file": "legal.html",
-          "ordinal": 35,
+          "ordinal": 37,
           "kind": "text",
           "block": 22,
           "blockTag": "h3",
@@ -2695,9 +2675,9 @@
           "text": "Acceptable use"
         },
         {
-          "id": "legal.html:36",
+          "id": "legal.html:38",
           "file": "legal.html",
-          "ordinal": 36,
+          "ordinal": 38,
           "kind": "text",
           "block": 23,
           "blockTag": "li",
@@ -2706,9 +2686,9 @@
           "text": "You may view, listen to, and share links to material on this site for personal, non-commercial purposes."
         },
         {
-          "id": "legal.html:37",
+          "id": "legal.html:39",
           "file": "legal.html",
-          "ordinal": 37,
+          "ordinal": 39,
           "kind": "text",
           "block": 24,
           "blockTag": "li",
@@ -2717,9 +2697,9 @@
           "text": "You may not scrape, mirror, redistribute, sublicense, resell, or use any content on this site to train machine-learning models without prior written consent from HTG."
         },
         {
-          "id": "legal.html:38",
+          "id": "legal.html:40",
           "file": "legal.html",
-          "ordinal": 38,
+          "ordinal": 40,
           "kind": "text",
           "block": 25,
           "blockTag": "li",
@@ -2728,9 +2708,9 @@
           "text": "You may not attempt to disrupt, deface, or gain unauthorised access to the site, its hosting, or any linked service."
         },
         {
-          "id": "legal.html:39",
+          "id": "legal.html:41",
           "file": "legal.html",
-          "ordinal": 39,
+          "ordinal": 41,
           "kind": "text",
           "block": 26,
           "blockTag": "li",
@@ -2739,9 +2719,9 @@
           "text": "You may not use the site or its material in a way that is unlawful, defamatory, harassing, or that infringes another party's rights."
         },
         {
-          "id": "legal.html:40",
+          "id": "legal.html:42",
           "file": "legal.html",
-          "ordinal": 40,
+          "ordinal": 42,
           "kind": "text",
           "block": 27,
           "blockTag": "h3",
@@ -2750,9 +2730,9 @@
           "text": "Age of users"
         },
         {
-          "id": "legal.html:41",
+          "id": "legal.html:43",
           "file": "legal.html",
-          "ordinal": 41,
+          "ordinal": 43,
           "kind": "text",
           "block": 28,
           "blockTag": "p",
@@ -2761,37 +2741,15 @@
           "text": "The site is a general-audience music site. Some lyrics, artwork, and the in-browser game contain themes and language intended for mature audiences. Users under the age of 13 should only use the site under adult supervision."
         },
         {
-          "id": "legal.html:42",
+          "id": "legal.html:44",
           "file": "legal.html",
-          "ordinal": 42,
+          "ordinal": 44,
           "kind": "text",
           "block": 29,
           "blockTag": "h2",
           "where": "body > div > h2",
           "original": "3. Copyright & intellectual property",
           "text": "3. Copyright & intellectual property"
-        },
-        {
-          "id": "legal.html:43",
-          "file": "legal.html",
-          "ordinal": 43,
-          "kind": "text",
-          "block": 30,
-          "blockTag": "p",
-          "where": "body > div > p",
-          "original": "All content on this site — including but not limited to musical compositions, sound recordings, lyrics, cover art, photographs, graphics, videos, page copy, source code, and the in-browser game",
-          "text": "All content on this site — including but not limited to musical compositions, sound recordings, lyrics, cover art, photographs, graphics, videos, page copy, source code, and the in-browser game"
-        },
-        {
-          "id": "legal.html:44",
-          "file": "legal.html",
-          "ordinal": 44,
-          "kind": "text",
-          "block": 30,
-          "blockTag": "p",
-          "where": "div > p > em",
-          "original": "Suit Purge",
-          "text": "Suit Purge"
         },
         {
           "id": "legal.html:45",
@@ -2801,41 +2759,41 @@
           "block": 30,
           "blockTag": "p",
           "where": "body > div > p",
-          "original": "— is © HTG — Hex The Government and/or the applicable rights-holders, and is protected under UK, EU and international copyright law. All rights are reserved except where an explicit licence is granted.",
-          "text": "— is © HTG — Hex The Government and/or the applicable rights-holders, and is protected under UK, EU and international copyright law. All rights are reserved except where an explicit licence is granted."
+          "original": "All content on this site — including but not limited to musical compositions, sound recordings, lyrics, cover art, photographs, graphics, videos, page copy, source code, and the in-browser game",
+          "text": "All content on this site — including but not limited to musical compositions, sound recordings, lyrics, cover art, photographs, graphics, videos, page copy, source code, and the in-browser game"
         },
         {
           "id": "legal.html:46",
           "file": "legal.html",
           "ordinal": 46,
           "kind": "text",
-          "block": 31,
+          "block": 30,
           "blockTag": "p",
-          "where": "body > div > p",
-          "original": "Streaming links point to third-party platforms (Spotify, SoundCloud, YouTube, Apple Music, TikTok, Instagram, etc.), whose own terms apply to playback and downloads. Nothing on this site grants you a licence to reproduce, remix, sample, or commercially exploit any HTG or ABRAXAS work.",
-          "text": "Streaming links point to third-party platforms (Spotify, SoundCloud, YouTube, Apple Music, TikTok, Instagram, etc.), whose own terms apply to playback and downloads. Nothing on this site grants you a licence to reproduce, remix, sample, or commercially exploit any HTG or ABRAXAS work."
+          "where": "div > p > em",
+          "original": "Suit Purge",
+          "text": "Suit Purge"
         },
         {
           "id": "legal.html:47",
           "file": "legal.html",
           "ordinal": 47,
           "kind": "text",
-          "block": 32,
+          "block": 30,
           "blockTag": "p",
           "where": "body > div > p",
-          "original": "The site's own source code (HTML, CSS, JavaScript, including",
-          "text": "The site's own source code (HTML, CSS, JavaScript, including"
+          "original": "— is © HTG — Hex The Government and/or the applicable rights-holders, and is protected under UK, EU and international copyright law. All rights are reserved except where an explicit licence is granted.",
+          "text": "— is © HTG — Hex The Government and/or the applicable rights-holders, and is protected under UK, EU and international copyright law. All rights are reserved except where an explicit licence is granted."
         },
         {
           "id": "legal.html:48",
           "file": "legal.html",
           "ordinal": 48,
           "kind": "text",
-          "block": 32,
+          "block": 31,
           "blockTag": "p",
-          "where": "div > p > em",
-          "original": "Suit Purge",
-          "text": "Suit Purge"
+          "where": "body > div > p",
+          "original": "Streaming links point to third-party platforms (Spotify, SoundCloud, YouTube, Apple Music, TikTok, Instagram, etc.), whose own terms apply to playback and downloads. Nothing on this site grants you a licence to reproduce, remix, sample, or commercially exploit any HTG or ABRAXAS work.",
+          "text": "Streaming links point to third-party platforms (Spotify, SoundCloud, YouTube, Apple Music, TikTok, Instagram, etc.), whose own terms apply to playback and downloads. Nothing on this site grants you a licence to reproduce, remix, sample, or commercially exploit any HTG or ABRAXAS work."
         },
         {
           "id": "legal.html:49",
@@ -2845,13 +2803,35 @@
           "block": 32,
           "blockTag": "p",
           "where": "body > div > p",
-          "original": "'s engine) is © HTG. It is not open source.",
-          "text": "'s engine) is © HTG. It is not open source."
+          "original": "The site's own source code (HTML, CSS, JavaScript, including",
+          "text": "The site's own source code (HTML, CSS, JavaScript, including"
         },
         {
           "id": "legal.html:50",
           "file": "legal.html",
           "ordinal": 50,
+          "kind": "text",
+          "block": 32,
+          "blockTag": "p",
+          "where": "div > p > em",
+          "original": "Suit Purge",
+          "text": "Suit Purge"
+        },
+        {
+          "id": "legal.html:51",
+          "file": "legal.html",
+          "ordinal": 51,
+          "kind": "text",
+          "block": 32,
+          "blockTag": "p",
+          "where": "body > div > p",
+          "original": "'s engine) is © HTG. It is not open source.",
+          "text": "'s engine) is © HTG. It is not open source."
+        },
+        {
+          "id": "legal.html:52",
+          "file": "legal.html",
+          "ordinal": 52,
           "kind": "text",
           "block": 33,
           "blockTag": "h2",
@@ -2860,9 +2840,9 @@
           "text": "4. Trademarks"
         },
         {
-          "id": "legal.html:51",
+          "id": "legal.html:53",
           "file": "legal.html",
-          "ordinal": 51,
+          "ordinal": 53,
           "kind": "text",
           "block": 34,
           "blockTag": "p",
@@ -2871,9 +2851,9 @@
           "text": "The following marks are trademarks or unregistered common-law trademarks of HTG — Hex The Government, and may not be used without prior written permission:"
         },
         {
-          "id": "legal.html:52",
+          "id": "legal.html:54",
           "file": "legal.html",
-          "ordinal": 52,
+          "ordinal": 54,
           "kind": "text",
           "block": 35,
           "blockTag": "li",
@@ -2882,37 +2862,15 @@
           "text": "HTG"
         },
         {
-          "id": "legal.html:54",
+          "id": "legal.html:56",
           "file": "legal.html",
-          "ordinal": 54,
+          "ordinal": 56,
           "kind": "text",
           "block": 36,
           "blockTag": "li",
           "where": "ul > li > strong",
           "original": "HEX THE GOVERNMENT",
           "text": "HEX THE GOVERNMENT"
-        },
-        {
-          "id": "legal.html:56",
-          "file": "legal.html",
-          "ordinal": 56,
-          "kind": "text",
-          "block": 37,
-          "blockTag": "li",
-          "where": "ul > li > strong",
-          "original": "HTG PRODUCTIONS",
-          "text": "HTG PRODUCTIONS"
-        },
-        {
-          "id": "legal.html:57",
-          "file": "legal.html",
-          "ordinal": 57,
-          "kind": "text",
-          "block": 37,
-          "blockTag": "li",
-          "where": "div > ul > li",
-          "original": "™ and",
-          "text": "™ and"
         },
         {
           "id": "legal.html:58",
@@ -2922,13 +2880,35 @@
           "block": 37,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "htg.productions",
-          "text": "htg.productions"
+          "original": "HTG PRODUCTIONS",
+          "text": "HTG PRODUCTIONS"
+        },
+        {
+          "id": "legal.html:59",
+          "file": "legal.html",
+          "ordinal": 59,
+          "kind": "text",
+          "block": 37,
+          "blockTag": "li",
+          "where": "div > ul > li",
+          "original": "™ and",
+          "text": "™ and"
         },
         {
           "id": "legal.html:60",
           "file": "legal.html",
           "ordinal": 60,
+          "kind": "text",
+          "block": 37,
+          "blockTag": "li",
+          "where": "ul > li > strong",
+          "original": "htg.productions",
+          "text": "htg.productions"
+        },
+        {
+          "id": "legal.html:62",
+          "file": "legal.html",
+          "ordinal": 62,
           "kind": "text",
           "block": 38,
           "blockTag": "li",
@@ -2937,9 +2917,9 @@
           "text": "HEXCORE"
         },
         {
-          "id": "legal.html:61",
+          "id": "legal.html:63",
           "file": "legal.html",
-          "ordinal": 61,
+          "ordinal": 63,
           "kind": "text",
           "block": 38,
           "blockTag": "li",
@@ -2948,9 +2928,9 @@
           "text": "™ (as used to describe the sound of this label)"
         },
         {
-          "id": "legal.html:62",
+          "id": "legal.html:64",
           "file": "legal.html",
-          "ordinal": 62,
+          "ordinal": 64,
           "kind": "text",
           "block": 39,
           "blockTag": "li",
@@ -2959,9 +2939,9 @@
           "text": "SUIT PURGE"
         },
         {
-          "id": "legal.html:64",
+          "id": "legal.html:66",
           "file": "legal.html",
-          "ordinal": 64,
+          "ordinal": 66,
           "kind": "text",
           "block": 40,
           "blockTag": "li",
@@ -2970,9 +2950,9 @@
           "text": "Depressions Running Deep"
         },
         {
-          "id": "legal.html:65",
+          "id": "legal.html:67",
           "file": "legal.html",
-          "ordinal": 65,
+          "ordinal": 67,
           "kind": "text",
           "block": 40,
           "blockTag": "li",
@@ -2981,9 +2961,9 @@
           "text": "™ (tagline)"
         },
         {
-          "id": "legal.html:66",
+          "id": "legal.html:68",
           "file": "legal.html",
-          "ordinal": 66,
+          "ordinal": 68,
           "kind": "text",
           "block": 41,
           "blockTag": "li",
@@ -2992,9 +2972,9 @@
           "text": "THE ARK"
         },
         {
-          "id": "legal.html:67",
+          "id": "legal.html:69",
           "file": "legal.html",
-          "ordinal": 67,
+          "ordinal": 69,
           "kind": "text",
           "block": 41,
           "blockTag": "li",
@@ -3003,9 +2983,9 @@
           "text": "™ (as used to identify the HTG roster and its vessel identity)"
         },
         {
-          "id": "legal.html:68",
+          "id": "legal.html:70",
           "file": "legal.html",
-          "ordinal": 68,
+          "ordinal": 70,
           "kind": "text",
           "block": 42,
           "blockTag": "h3",
@@ -3014,37 +2994,15 @@
           "text": "Artist marks"
         },
         {
-          "id": "legal.html:69",
+          "id": "legal.html:71",
           "file": "legal.html",
-          "ordinal": 69,
+          "ordinal": 71,
           "kind": "text",
           "block": 43,
           "blockTag": "p",
           "where": "body > div > p",
           "original": "Each of the following names, in any capitalisation, stylisation, or handle form, is a trademark or unregistered common-law trademark of HTG and/or the respective artist, as used to identify that artist, their recordings, performances, merchandise, and associated branding:",
           "text": "Each of the following names, in any capitalisation, stylisation, or handle form, is a trademark or unregistered common-law trademark of HTG and/or the respective artist, as used to identify that artist, their recordings, performances, merchandise, and associated branding:"
-        },
-        {
-          "id": "legal.html:70",
-          "file": "legal.html",
-          "ordinal": 70,
-          "kind": "text",
-          "block": 44,
-          "blockTag": "li",
-          "where": "ul > li > strong",
-          "original": "ABRAXAS",
-          "text": "ABRAXAS"
-        },
-        {
-          "id": "legal.html:71",
-          "file": "legal.html",
-          "ordinal": 71,
-          "kind": "text",
-          "block": 44,
-          "blockTag": "li",
-          "where": "div > ul > li",
-          "original": "™ — including the ABRAXAS brush-lettered logotype and",
-          "text": "™ — including the ABRAXAS brush-lettered logotype and"
         },
         {
           "id": "legal.html:72",
@@ -3054,30 +3012,30 @@
           "block": 44,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "ABRAXAS MUSIC",
-          "text": "ABRAXAS MUSIC"
+          "original": "ABRAXAS",
+          "text": "ABRAXAS"
+        },
+        {
+          "id": "legal.html:73",
+          "file": "legal.html",
+          "ordinal": 73,
+          "kind": "text",
+          "block": 44,
+          "blockTag": "li",
+          "where": "div > ul > li",
+          "original": "™ — including the ABRAXAS brush-lettered logotype and",
+          "text": "™ — including the ABRAXAS brush-lettered logotype and"
         },
         {
           "id": "legal.html:74",
           "file": "legal.html",
           "ordinal": 74,
           "kind": "text",
-          "block": 45,
+          "block": 44,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "STRETTY",
-          "text": "STRETTY"
-        },
-        {
-          "id": "legal.html:75",
-          "file": "legal.html",
-          "ordinal": 75,
-          "kind": "text",
-          "block": 45,
-          "blockTag": "li",
-          "where": "div > ul > li",
-          "original": "™ — including the STRETTY brush-lettered logotype and the handle",
-          "text": "™ — including the STRETTY brush-lettered logotype and the handle"
+          "original": "ABRAXAS MUSIC",
+          "text": "ABRAXAS MUSIC"
         },
         {
           "id": "legal.html:76",
@@ -3087,30 +3045,30 @@
           "block": 45,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "@stretty",
-          "text": "@stretty"
+          "original": "STRETTY",
+          "text": "STRETTY"
+        },
+        {
+          "id": "legal.html:77",
+          "file": "legal.html",
+          "ordinal": 77,
+          "kind": "text",
+          "block": 45,
+          "blockTag": "li",
+          "where": "div > ul > li",
+          "original": "™ — including the STRETTY brush-lettered logotype and the handle",
+          "text": "™ — including the STRETTY brush-lettered logotype and the handle"
         },
         {
           "id": "legal.html:78",
           "file": "legal.html",
           "ordinal": 78,
           "kind": "text",
-          "block": 46,
+          "block": 45,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "CIGGYHOLSTER",
-          "text": "CIGGYHOLSTER"
-        },
-        {
-          "id": "legal.html:79",
-          "file": "legal.html",
-          "ordinal": 79,
-          "kind": "text",
-          "block": 46,
-          "blockTag": "li",
-          "where": "div > ul > li",
-          "original": "™ — including",
-          "text": "™ — including"
+          "original": "@stretty",
+          "text": "@stretty"
         },
         {
           "id": "legal.html:80",
@@ -3120,8 +3078,19 @@
           "block": 46,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "CIGGIEHOLSTER",
-          "text": "CIGGIEHOLSTER"
+          "original": "CIGGYHOLSTER",
+          "text": "CIGGYHOLSTER"
+        },
+        {
+          "id": "legal.html:81",
+          "file": "legal.html",
+          "ordinal": 81,
+          "kind": "text",
+          "block": 46,
+          "blockTag": "li",
+          "where": "div > ul > li",
+          "original": "™ — including",
+          "text": "™ — including"
         },
         {
           "id": "legal.html:82",
@@ -3131,8 +3100,8 @@
           "block": 46,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "CIGGY HOLSTER",
-          "text": "CIGGY HOLSTER"
+          "original": "CIGGIEHOLSTER",
+          "text": "CIGGIEHOLSTER"
         },
         {
           "id": "legal.html:84",
@@ -3142,8 +3111,8 @@
           "block": 46,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "CIGGIE HOLSTER",
-          "text": "CIGGIE HOLSTER"
+          "original": "CIGGY HOLSTER",
+          "text": "CIGGY HOLSTER"
         },
         {
           "id": "legal.html:86",
@@ -3153,8 +3122,8 @@
           "block": 46,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "CIGGIE",
-          "text": "CIGGIE"
+          "original": "CIGGIE HOLSTER",
+          "text": "CIGGIE HOLSTER"
         },
         {
           "id": "legal.html:88",
@@ -3164,19 +3133,8 @@
           "block": 46,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "CIGGY",
-          "text": "CIGGY"
-        },
-        {
-          "id": "legal.html:89",
-          "file": "legal.html",
-          "ordinal": 89,
-          "kind": "text",
-          "block": 46,
-          "blockTag": "li",
-          "where": "div > ul > li",
-          "original": "™ and the handle",
-          "text": "™ and the handle"
+          "original": "CIGGIE",
+          "text": "CIGGIE"
         },
         {
           "id": "legal.html:90",
@@ -3186,30 +3144,30 @@
           "block": 46,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "@ciggyholster",
-          "text": "@ciggyholster"
+          "original": "CIGGY",
+          "text": "CIGGY"
+        },
+        {
+          "id": "legal.html:91",
+          "file": "legal.html",
+          "ordinal": 91,
+          "kind": "text",
+          "block": 46,
+          "blockTag": "li",
+          "where": "div > ul > li",
+          "original": "™ and the handle",
+          "text": "™ and the handle"
         },
         {
           "id": "legal.html:92",
           "file": "legal.html",
           "ordinal": 92,
           "kind": "text",
-          "block": 47,
+          "block": 46,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "CIGGIE BUMP BRAIN",
-          "text": "CIGGIE BUMP BRAIN"
-        },
-        {
-          "id": "legal.html:93",
-          "file": "legal.html",
-          "ordinal": 93,
-          "kind": "text",
-          "block": 47,
-          "blockTag": "li",
-          "where": "div > ul > li",
-          "original": "™ — including",
-          "text": "™ — including"
+          "original": "@ciggyholster",
+          "text": "@ciggyholster"
         },
         {
           "id": "legal.html:94",
@@ -3219,8 +3177,8 @@
           "block": 47,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "CIGGY BUMP BRAIN",
-          "text": "CIGGY BUMP BRAIN"
+          "original": "CIGGIE BUMP BRAIN",
+          "text": "CIGGIE BUMP BRAIN"
         },
         {
           "id": "legal.html:95",
@@ -3230,8 +3188,8 @@
           "block": 47,
           "blockTag": "li",
           "where": "div > ul > li",
-          "original": "™ and",
-          "text": "™ and"
+          "original": "™ — including",
+          "text": "™ — including"
         },
         {
           "id": "legal.html:96",
@@ -3241,30 +3199,30 @@
           "block": 47,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "BUMP BRAIN",
-          "text": "BUMP BRAIN"
+          "original": "CIGGY BUMP BRAIN",
+          "text": "CIGGY BUMP BRAIN"
+        },
+        {
+          "id": "legal.html:97",
+          "file": "legal.html",
+          "ordinal": 97,
+          "kind": "text",
+          "block": 47,
+          "blockTag": "li",
+          "where": "div > ul > li",
+          "original": "™ and",
+          "text": "™ and"
         },
         {
           "id": "legal.html:98",
           "file": "legal.html",
           "ordinal": 98,
           "kind": "text",
-          "block": 48,
+          "block": 47,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "JUSTINN.CLOUT",
-          "text": "JUSTINN.CLOUT"
-        },
-        {
-          "id": "legal.html:99",
-          "file": "legal.html",
-          "ordinal": 99,
-          "kind": "text",
-          "block": 48,
-          "blockTag": "li",
-          "where": "div > ul > li",
-          "original": "™ — including",
-          "text": "™ — including"
+          "original": "BUMP BRAIN",
+          "text": "BUMP BRAIN"
         },
         {
           "id": "legal.html:100",
@@ -3274,8 +3232,19 @@
           "block": 48,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "JUSTINN CLOUT",
-          "text": "JUSTINN CLOUT"
+          "original": "JUSTINN.CLOUT",
+          "text": "JUSTINN.CLOUT"
+        },
+        {
+          "id": "legal.html:101",
+          "file": "legal.html",
+          "ordinal": 101,
+          "kind": "text",
+          "block": 48,
+          "blockTag": "li",
+          "where": "div > ul > li",
+          "original": "™ — including",
+          "text": "™ — including"
         },
         {
           "id": "legal.html:102",
@@ -3285,8 +3254,8 @@
           "block": 48,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "JUSTIN.CLOUT",
-          "text": "JUSTIN.CLOUT"
+          "original": "JUSTINN CLOUT",
+          "text": "JUSTINN CLOUT"
         },
         {
           "id": "legal.html:104",
@@ -3296,19 +3265,8 @@
           "block": 48,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "JUSTINNCLOUT",
-          "text": "JUSTINNCLOUT"
-        },
-        {
-          "id": "legal.html:105",
-          "file": "legal.html",
-          "ordinal": 105,
-          "kind": "text",
-          "block": 48,
-          "blockTag": "li",
-          "where": "div > ul > li",
-          "original": "™ and the handle",
-          "text": "™ and the handle"
+          "original": "JUSTIN.CLOUT",
+          "text": "JUSTIN.CLOUT"
         },
         {
           "id": "legal.html:106",
@@ -3318,13 +3276,35 @@
           "block": 48,
           "blockTag": "li",
           "where": "ul > li > strong",
-          "original": "@justinn.clout",
-          "text": "@justinn.clout"
+          "original": "JUSTINNCLOUT",
+          "text": "JUSTINNCLOUT"
+        },
+        {
+          "id": "legal.html:107",
+          "file": "legal.html",
+          "ordinal": 107,
+          "kind": "text",
+          "block": 48,
+          "blockTag": "li",
+          "where": "div > ul > li",
+          "original": "™ and the handle",
+          "text": "™ and the handle"
         },
         {
           "id": "legal.html:108",
           "file": "legal.html",
           "ordinal": 108,
+          "kind": "text",
+          "block": 48,
+          "blockTag": "li",
+          "where": "ul > li > strong",
+          "original": "@justinn.clout",
+          "text": "@justinn.clout"
+        },
+        {
+          "id": "legal.html:110",
+          "file": "legal.html",
+          "ordinal": 110,
           "kind": "text",
           "block": 49,
           "blockTag": "h3",
@@ -3333,9 +3313,9 @@
           "text": "Design marks"
         },
         {
-          "id": "legal.html:109",
+          "id": "legal.html:111",
           "file": "legal.html",
-          "ordinal": 109,
+          "ordinal": 111,
           "kind": "text",
           "block": 50,
           "blockTag": "li",
@@ -3344,9 +3324,9 @@
           "text": "The HTG sigil — a hexagon holding an \"H\" whose crossbar is a hull, over a waterline."
         },
         {
-          "id": "legal.html:110",
+          "id": "legal.html:112",
           "file": "legal.html",
-          "ordinal": 110,
+          "ordinal": 112,
           "kind": "text",
           "block": 51,
           "blockTag": "li",
@@ -3355,9 +3335,9 @@
           "text": "The HTG, ABRAXAS and STRETTY brush-lettered logotypes."
         },
         {
-          "id": "legal.html:111",
+          "id": "legal.html:113",
           "file": "legal.html",
-          "ordinal": 111,
+          "ordinal": 113,
           "kind": "text",
           "block": 52,
           "blockTag": "li",
@@ -3366,9 +3346,9 @@
           "text": "The HTG \"A\" mark, the purple-on-black terminal identity, and associated logotypes and trade dress."
         },
         {
-          "id": "legal.html:112",
+          "id": "legal.html:114",
           "file": "legal.html",
-          "ordinal": 112,
+          "ordinal": 114,
           "kind": "text",
           "block": 53,
           "blockTag": "p",
@@ -3377,9 +3357,9 @@
           "text": "Use of these marks in a way likely to cause confusion as to source, sponsorship, or affiliation with HTG is prohibited. All other product and company names mentioned on this site are trademarks or registered trademarks of their respective owners; their appearance is nominative and does not imply endorsement."
         },
         {
-          "id": "legal.html:113",
+          "id": "legal.html:115",
           "file": "legal.html",
-          "ordinal": 113,
+          "ordinal": 115,
           "kind": "text",
           "block": 54,
           "blockTag": "p",
@@ -3388,9 +3368,9 @@
           "text": "Note on the name \"Abraxas\":"
         },
         {
-          "id": "legal.html:114",
+          "id": "legal.html:116",
           "file": "legal.html",
-          "ordinal": 114,
+          "ordinal": 116,
           "kind": "text",
           "block": 54,
           "blockTag": "p",
@@ -3399,9 +3379,9 @@
           "text": "\"Abraxas\" is a word of ancient religious and historical origin and is used by numerous unrelated artists, businesses, and projects. The trademark rights asserted here relate only to the specific ABRAXAS project of HTG — Hex The Government and its associated branding on this site. Likewise, \"Stretty\" and other short words above are claimed only as used to identify HTG's artists and their recordings; no claim is made against unrelated artists or businesses using similar words in other fields."
         },
         {
-          "id": "legal.html:115",
+          "id": "legal.html:117",
           "file": "legal.html",
-          "ordinal": 115,
+          "ordinal": 117,
           "kind": "text",
           "block": 55,
           "blockTag": "h2",
@@ -3410,9 +3390,9 @@
           "text": "5. Satire, fiction & the in-browser game"
         },
         {
-          "id": "legal.html:116",
+          "id": "legal.html:118",
           "file": "legal.html",
-          "ordinal": 116,
+          "ordinal": 118,
           "kind": "text",
           "block": 0,
           "blockTag": "strong",
@@ -3421,9 +3401,9 @@
           "text": "Fiction notice:"
         },
         {
-          "id": "legal.html:117",
+          "id": "legal.html:119",
           "file": "legal.html",
-          "ordinal": 117,
+          "ordinal": 119,
           "kind": "text",
           "block": 0,
           "blockTag": "em",
@@ -3432,37 +3412,15 @@
           "text": "Suit Purge"
         },
         {
-          "id": "legal.html:118",
+          "id": "legal.html:120",
           "file": "legal.html",
-          "ordinal": 118,
+          "ordinal": 120,
           "kind": "text",
           "block": 0,
           "blockTag": "div",
           "where": "body > div > div",
           "original": "and all characters within it are fictional. Any resemblance to real persons, living or dead, or to real organisations, is coincidental. No real person is named, depicted, or targeted.",
           "text": "and all characters within it are fictional. Any resemblance to real persons, living or dead, or to real organisations, is coincidental. No real person is named, depicted, or targeted."
-        },
-        {
-          "id": "legal.html:119",
-          "file": "legal.html",
-          "ordinal": 119,
-          "kind": "text",
-          "block": 56,
-          "blockTag": "p",
-          "where": "body > div > p",
-          "original": "The enemies in",
-          "text": "The enemies in"
-        },
-        {
-          "id": "legal.html:120",
-          "file": "legal.html",
-          "ordinal": 120,
-          "kind": "text",
-          "block": 56,
-          "blockTag": "p",
-          "where": "div > p > em",
-          "original": "Suit Purge",
-          "text": "Suit Purge"
         },
         {
           "id": "legal.html:121",
@@ -3472,13 +3430,35 @@
           "block": 56,
           "blockTag": "p",
           "where": "body > div > p",
-          "original": "— \"Politician\", \"Billionaire\", \"Trillionaire\" and \"High Command\" — are invented class archetypes used as generic political satire in the tradition of protected artistic and political speech. They are not portrayals of, and are not intended to identify, any specific individual, party, company, or country.",
-          "text": "— \"Politician\", \"Billionaire\", \"Trillionaire\" and \"High Command\" — are invented class archetypes used as generic political satire in the tradition of protected artistic and political speech. They are not portrayals of, and are not intended to identify, any specific individual, party, company, or country."
+          "original": "The enemies in",
+          "text": "The enemies in"
         },
         {
           "id": "legal.html:122",
           "file": "legal.html",
           "ordinal": 122,
+          "kind": "text",
+          "block": 56,
+          "blockTag": "p",
+          "where": "div > p > em",
+          "original": "Suit Purge",
+          "text": "Suit Purge"
+        },
+        {
+          "id": "legal.html:123",
+          "file": "legal.html",
+          "ordinal": 123,
+          "kind": "text",
+          "block": 56,
+          "blockTag": "p",
+          "where": "body > div > p",
+          "original": "— \"Politician\", \"Billionaire\", \"Trillionaire\" and \"High Command\" — are invented class archetypes used as generic political satire in the tradition of protected artistic and political speech. They are not portrayals of, and are not intended to identify, any specific individual, party, company, or country.",
+          "text": "— \"Politician\", \"Billionaire\", \"Trillionaire\" and \"High Command\" — are invented class archetypes used as generic political satire in the tradition of protected artistic and political speech. They are not portrayals of, and are not intended to identify, any specific individual, party, company, or country."
+        },
+        {
+          "id": "legal.html:124",
+          "file": "legal.html",
+          "ordinal": 124,
           "kind": "text",
           "block": 57,
           "blockTag": "p",
@@ -3487,9 +3467,9 @@
           "text": "Song titles, lyrics, cover art, and page copy may contain political, satirical, or provocative expression. Such content is presented as artistic expression and social commentary, and should not be read as a statement of fact about any identifiable person or entity, nor as incitement to harm any person. Any references to real-world topics are made under principles of fair comment and satire."
         },
         {
-          "id": "legal.html:123",
+          "id": "legal.html:125",
           "file": "legal.html",
-          "ordinal": 123,
+          "ordinal": 125,
           "kind": "text",
           "block": 58,
           "blockTag": "p",
@@ -3498,9 +3478,9 @@
           "text": "Suit Purge"
         },
         {
-          "id": "legal.html:124",
+          "id": "legal.html:126",
           "file": "legal.html",
-          "ordinal": 124,
+          "ordinal": 126,
           "kind": "text",
           "block": 58,
           "blockTag": "p",
@@ -3509,9 +3489,9 @@
           "text": "is provided free of charge as part of this site. It contains cartoon-style violence against fictional enemies. The game runs entirely in your browser: no downloads, no third-party assets, and no personal data is transmitted by playing it."
         },
         {
-          "id": "legal.html:125",
+          "id": "legal.html:127",
           "file": "legal.html",
-          "ordinal": 125,
+          "ordinal": 127,
           "kind": "text",
           "block": 59,
           "blockTag": "h2",
@@ -3520,9 +3500,9 @@
           "text": "6. Third-party links, embeds & services"
         },
         {
-          "id": "legal.html:126",
+          "id": "legal.html:128",
           "file": "legal.html",
-          "ordinal": 126,
+          "ordinal": 128,
           "kind": "text",
           "block": 60,
           "blockTag": "p",
@@ -3531,9 +3511,9 @@
           "text": "This site links to and embeds media from third-party platforms including, without limitation: Spotify, SoundCloud, YouTube, Apple Music, TikTok, Instagram, Shopify, GitHub Pages, Linktree, and Google Fonts. HTG does not control and is not responsible for the content, privacy practices, or availability of those services. The names, logos, and marks of those services are the property of their respective owners."
         },
         {
-          "id": "legal.html:127",
+          "id": "legal.html:129",
           "file": "legal.html",
-          "ordinal": 127,
+          "ordinal": 129,
           "kind": "text",
           "block": 61,
           "blockTag": "p",
@@ -3542,9 +3522,9 @@
           "text": "Where you interact with an embedded player or an outbound link, the operator of that service may collect data about you under its own privacy policy. Please read those policies before use."
         },
         {
-          "id": "legal.html:128",
+          "id": "legal.html:130",
           "file": "legal.html",
-          "ordinal": 128,
+          "ordinal": 130,
           "kind": "text",
           "block": 62,
           "blockTag": "h2",
@@ -3553,9 +3533,9 @@
           "text": "7. Privacy Policy"
         },
         {
-          "id": "legal.html:129",
+          "id": "legal.html:131",
           "file": "legal.html",
-          "ordinal": 129,
+          "ordinal": 131,
           "kind": "text",
           "block": 63,
           "blockTag": "p",
@@ -3564,9 +3544,9 @@
           "text": "HTG respects your privacy and aims to collect as little personal data as possible."
         },
         {
-          "id": "legal.html:130",
+          "id": "legal.html:132",
           "file": "legal.html",
-          "ordinal": 130,
+          "ordinal": 132,
           "kind": "text",
           "block": 64,
           "blockTag": "h3",
@@ -3575,37 +3555,15 @@
           "text": "What we collect directly"
         },
         {
-          "id": "legal.html:131",
-          "file": "legal.html",
-          "ordinal": 131,
-          "kind": "text",
-          "block": 65,
-          "blockTag": "li",
-          "where": "ul > li > strong",
-          "original": "Contact form:",
-          "text": "Contact form:"
-        },
-        {
-          "id": "legal.html:132",
-          "file": "legal.html",
-          "ordinal": 132,
-          "kind": "text",
-          "block": 65,
-          "blockTag": "li",
-          "where": "div > ul > li",
-          "original": "the contact form on this site delivers your message to HTG's inbox, addressed to",
-          "text": "the contact form on this site delivers your message to HTG's inbox, addressed to"
-        },
-        {
           "id": "legal.html:133",
           "file": "legal.html",
           "ordinal": 133,
           "kind": "text",
           "block": 65,
           "blockTag": "li",
-          "where": "ul > li > a",
-          "original": "Abraxas@htg.productions",
-          "text": "Abraxas@htg.productions"
+          "where": "ul > li > strong",
+          "original": "Contact form:",
+          "text": "Contact form:"
         },
         {
           "id": "legal.html:134",
@@ -3615,13 +3573,35 @@
           "block": 65,
           "blockTag": "li",
           "where": "div > ul > li",
-          "original": ". Where a form-delivery service is configured, your submission is transmitted through that provider to reach us; otherwise the form opens your own email client with a pre-filled message to the same address. Either way we receive the information you include (your email address, name, and message) and use it only to reply to your enquiry.",
-          "text": ". Where a form-delivery service is configured, your submission is transmitted through that provider to reach us; otherwise the form opens your own email client with a pre-filled message to the same address. Either way we receive the information you include (your email address, name, and message) and use it only to reply to your enquiry."
+          "original": "the contact form on this site delivers your message to HTG's inbox, addressed to",
+          "text": "the contact form on this site delivers your message to HTG's inbox, addressed to"
         },
         {
           "id": "legal.html:135",
           "file": "legal.html",
           "ordinal": 135,
+          "kind": "text",
+          "block": 65,
+          "blockTag": "li",
+          "where": "ul > li > a",
+          "original": "Abraxas@htg.productions",
+          "text": "Abraxas@htg.productions"
+        },
+        {
+          "id": "legal.html:136",
+          "file": "legal.html",
+          "ordinal": 136,
+          "kind": "text",
+          "block": 65,
+          "blockTag": "li",
+          "where": "div > ul > li",
+          "original": ". Where a form-delivery service is configured, your submission is transmitted through that provider to reach us; otherwise the form opens your own email client with a pre-filled message to the same address. Either way we receive the information you include (your email address, name, and message) and use it only to reply to your enquiry.",
+          "text": ". Where a form-delivery service is configured, your submission is transmitted through that provider to reach us; otherwise the form opens your own email client with a pre-filled message to the same address. Either way we receive the information you include (your email address, name, and message) and use it only to reply to your enquiry."
+        },
+        {
+          "id": "legal.html:137",
+          "file": "legal.html",
+          "ordinal": 137,
           "kind": "text",
           "block": 66,
           "blockTag": "li",
@@ -3630,9 +3610,9 @@
           "text": "Server logs:"
         },
         {
-          "id": "legal.html:136",
+          "id": "legal.html:138",
           "file": "legal.html",
-          "ordinal": 136,
+          "ordinal": 138,
           "kind": "text",
           "block": 66,
           "blockTag": "li",
@@ -3641,9 +3621,9 @@
           "text": "this site is served as static files by GitHub Pages. GitHub may record standard request logs (IP address, user-agent, requested URL, timestamp) for security and abuse prevention under GitHub's own privacy policy."
         },
         {
-          "id": "legal.html:137",
+          "id": "legal.html:139",
           "file": "legal.html",
-          "ordinal": 137,
+          "ordinal": 139,
           "kind": "text",
           "block": 67,
           "blockTag": "h3",
@@ -3652,9 +3632,9 @@
           "text": "What we do NOT collect"
         },
         {
-          "id": "legal.html:138",
+          "id": "legal.html:140",
           "file": "legal.html",
-          "ordinal": 138,
+          "ordinal": 140,
           "kind": "text",
           "block": 68,
           "blockTag": "li",
@@ -3663,9 +3643,9 @@
           "text": "We do not run our own analytics, advertising, or tracking scripts on this site."
         },
         {
-          "id": "legal.html:139",
+          "id": "legal.html:141",
           "file": "legal.html",
-          "ordinal": 139,
+          "ordinal": 141,
           "kind": "text",
           "block": 69,
           "blockTag": "li",
@@ -3674,9 +3654,9 @@
           "text": "We do not sell, rent, or share any personal data with third parties for marketing."
         },
         {
-          "id": "legal.html:140",
+          "id": "legal.html:142",
           "file": "legal.html",
-          "ordinal": 140,
+          "ordinal": 142,
           "kind": "text",
           "block": 70,
           "blockTag": "li",
@@ -3685,9 +3665,9 @@
           "text": "We do not use behavioural tracking cookies."
         },
         {
-          "id": "legal.html:141",
+          "id": "legal.html:143",
           "file": "legal.html",
-          "ordinal": 141,
+          "ordinal": 143,
           "kind": "text",
           "block": 71,
           "blockTag": "h3",
@@ -3696,9 +3676,9 @@
           "text": "Third-party embeds"
         },
         {
-          "id": "legal.html:142",
+          "id": "legal.html:144",
           "file": "legal.html",
-          "ordinal": 142,
+          "ordinal": 144,
           "kind": "text",
           "block": 72,
           "blockTag": "p",
@@ -3707,37 +3687,15 @@
           "text": "When you play an embedded Spotify, SoundCloud, YouTube, TikTok, or Instagram player, or click a link to the Shopify store, the receiving service may set its own cookies and collect data about you under its own privacy policy. HTG has no access to and no control over that data."
         },
         {
-          "id": "legal.html:143",
+          "id": "legal.html:145",
           "file": "legal.html",
-          "ordinal": 143,
+          "ordinal": 145,
           "kind": "text",
           "block": 73,
           "blockTag": "h3",
           "where": "body > div > h3",
           "original": "Your rights",
           "text": "Your rights"
-        },
-        {
-          "id": "legal.html:144",
-          "file": "legal.html",
-          "ordinal": 144,
-          "kind": "text",
-          "block": 74,
-          "blockTag": "p",
-          "where": "body > div > p",
-          "original": "If you are in the UK, EU/EEA, or another jurisdiction with data-protection laws (e.g. GDPR, UK GDPR, CCPA/CPRA), you may have the right to access, correct, delete, or object to the processing of any personal data we hold about you. To exercise these rights, email",
-          "text": "If you are in the UK, EU/EEA, or another jurisdiction with data-protection laws (e.g. GDPR, UK GDPR, CCPA/CPRA), you may have the right to access, correct, delete, or object to the processing of any personal data we hold about you. To exercise these rights, email"
-        },
-        {
-          "id": "legal.html:145",
-          "file": "legal.html",
-          "ordinal": 145,
-          "kind": "text",
-          "block": 74,
-          "blockTag": "p",
-          "where": "div > p > a",
-          "original": "Bookings@htg.productions",
-          "text": "Bookings@htg.productions"
         },
         {
           "id": "legal.html:146",
@@ -3747,13 +3705,35 @@
           "block": 74,
           "blockTag": "p",
           "where": "body > div > p",
-          "original": ". We will respond within a reasonable time and, where required by law, within statutory deadlines.",
-          "text": ". We will respond within a reasonable time and, where required by law, within statutory deadlines."
+          "original": "If you are in the UK, EU/EEA, or another jurisdiction with data-protection laws (e.g. GDPR, UK GDPR, CCPA/CPRA), you may have the right to access, correct, delete, or object to the processing of any personal data we hold about you. To exercise these rights, email",
+          "text": "If you are in the UK, EU/EEA, or another jurisdiction with data-protection laws (e.g. GDPR, UK GDPR, CCPA/CPRA), you may have the right to access, correct, delete, or object to the processing of any personal data we hold about you. To exercise these rights, email"
         },
         {
           "id": "legal.html:147",
           "file": "legal.html",
           "ordinal": 147,
+          "kind": "text",
+          "block": 74,
+          "blockTag": "p",
+          "where": "div > p > a",
+          "original": "Bookings@htg.productions",
+          "text": "Bookings@htg.productions"
+        },
+        {
+          "id": "legal.html:148",
+          "file": "legal.html",
+          "ordinal": 148,
+          "kind": "text",
+          "block": 74,
+          "blockTag": "p",
+          "where": "body > div > p",
+          "original": ". We will respond within a reasonable time and, where required by law, within statutory deadlines.",
+          "text": ". We will respond within a reasonable time and, where required by law, within statutory deadlines."
+        },
+        {
+          "id": "legal.html:149",
+          "file": "legal.html",
+          "ordinal": 149,
           "kind": "text",
           "block": 75,
           "blockTag": "p",
@@ -3762,9 +3742,9 @@
           "text": "Legal basis (UK/EU GDPR):"
         },
         {
-          "id": "legal.html:148",
+          "id": "legal.html:150",
           "file": "legal.html",
-          "ordinal": 148,
+          "ordinal": 150,
           "kind": "text",
           "block": 75,
           "blockTag": "p",
@@ -3773,9 +3753,9 @@
           "text": "we process contact-form data on the basis of your consent (Art. 6(1)(a)) and our legitimate interest (Art. 6(1)(f)) in responding to enquiries."
         },
         {
-          "id": "legal.html:149",
+          "id": "legal.html:151",
           "file": "legal.html",
-          "ordinal": 149,
+          "ordinal": 151,
           "kind": "text",
           "block": 76,
           "blockTag": "h2",
@@ -3784,9 +3764,9 @@
           "text": "8. Cookies & local storage"
         },
         {
-          "id": "legal.html:150",
+          "id": "legal.html:152",
           "file": "legal.html",
-          "ordinal": 150,
+          "ordinal": 152,
           "kind": "text",
           "block": 77,
           "blockTag": "p",
@@ -3795,9 +3775,9 @@
           "text": "This site does not set advertising or analytics cookies. It uses only:"
         },
         {
-          "id": "legal.html:151",
+          "id": "legal.html:153",
           "file": "legal.html",
-          "ordinal": 151,
+          "ordinal": 153,
           "kind": "text",
           "block": 78,
           "blockTag": "li",
@@ -3806,9 +3786,9 @@
           "text": "sessionStorage"
         },
         {
-          "id": "legal.html:153",
+          "id": "legal.html:155",
           "file": "legal.html",
-          "ordinal": 153,
+          "ordinal": 155,
           "kind": "text",
           "block": 78,
           "blockTag": "li",
@@ -3817,9 +3797,9 @@
           "text": "abx-view"
         },
         {
-          "id": "legal.html:154",
+          "id": "legal.html:156",
           "file": "legal.html",
-          "ordinal": 154,
+          "ordinal": 156,
           "kind": "text",
           "block": 78,
           "blockTag": "li",
@@ -3828,9 +3808,9 @@
           "text": ") to remember whether you chose the desktop or mobile version of the page during your visit. It is cleared when you close the tab."
         },
         {
-          "id": "legal.html:155",
+          "id": "legal.html:157",
           "file": "legal.html",
-          "ordinal": 155,
+          "ordinal": 157,
           "kind": "text",
           "block": 79,
           "blockTag": "li",
@@ -3839,37 +3819,15 @@
           "text": "Any cookies that third-party embeds (Spotify, YouTube, etc.) or fonts (Google Fonts) may set when they load. Those are governed by the respective operators' policies."
         },
         {
-          "id": "legal.html:156",
+          "id": "legal.html:158",
           "file": "legal.html",
-          "ordinal": 156,
+          "ordinal": 158,
           "kind": "text",
           "block": 80,
           "blockTag": "h2",
           "where": "body > div > h2",
           "original": "9. Copyright complaints (DMCA / notice-and-takedown)",
           "text": "9. Copyright complaints (DMCA / notice-and-takedown)"
-        },
-        {
-          "id": "legal.html:157",
-          "file": "legal.html",
-          "ordinal": 157,
-          "kind": "text",
-          "block": 81,
-          "blockTag": "p",
-          "where": "body > div > p",
-          "original": "If you believe that content on this site infringes your copyright, please send a written notice to",
-          "text": "If you believe that content on this site infringes your copyright, please send a written notice to"
-        },
-        {
-          "id": "legal.html:158",
-          "file": "legal.html",
-          "ordinal": 158,
-          "kind": "text",
-          "block": 81,
-          "blockTag": "p",
-          "where": "div > p > a",
-          "original": "Bookings@htg.productions",
-          "text": "Bookings@htg.productions"
         },
         {
           "id": "legal.html:159",
@@ -3879,13 +3837,35 @@
           "block": 81,
           "blockTag": "p",
           "where": "body > div > p",
-          "original": "containing:",
-          "text": "containing:"
+          "original": "If you believe that content on this site infringes your copyright, please send a written notice to",
+          "text": "If you believe that content on this site infringes your copyright, please send a written notice to"
         },
         {
           "id": "legal.html:160",
           "file": "legal.html",
           "ordinal": 160,
+          "kind": "text",
+          "block": 81,
+          "blockTag": "p",
+          "where": "div > p > a",
+          "original": "Bookings@htg.productions",
+          "text": "Bookings@htg.productions"
+        },
+        {
+          "id": "legal.html:161",
+          "file": "legal.html",
+          "ordinal": 161,
+          "kind": "text",
+          "block": 81,
+          "blockTag": "p",
+          "where": "body > div > p",
+          "original": "containing:",
+          "text": "containing:"
+        },
+        {
+          "id": "legal.html:162",
+          "file": "legal.html",
+          "ordinal": 162,
           "kind": "text",
           "block": 82,
           "blockTag": "li",
@@ -3894,9 +3874,9 @@
           "text": "Your name, address, and contact details;"
         },
         {
-          "id": "legal.html:161",
+          "id": "legal.html:163",
           "file": "legal.html",
-          "ordinal": 161,
+          "ordinal": 163,
           "kind": "text",
           "block": 83,
           "blockTag": "li",
@@ -3905,9 +3885,9 @@
           "text": "Identification of the copyrighted work you claim has been infringed;"
         },
         {
-          "id": "legal.html:162",
+          "id": "legal.html:164",
           "file": "legal.html",
-          "ordinal": 162,
+          "ordinal": 164,
           "kind": "text",
           "block": 84,
           "blockTag": "li",
@@ -3916,9 +3896,9 @@
           "text": "The URL(s) of the material on this site you claim is infringing;"
         },
         {
-          "id": "legal.html:163",
+          "id": "legal.html:165",
           "file": "legal.html",
-          "ordinal": 163,
+          "ordinal": 165,
           "kind": "text",
           "block": 85,
           "blockTag": "li",
@@ -3927,9 +3907,9 @@
           "text": "A statement, made in good faith, that the use is not authorised by the copyright owner, its agent, or the law;"
         },
         {
-          "id": "legal.html:164",
+          "id": "legal.html:166",
           "file": "legal.html",
-          "ordinal": 164,
+          "ordinal": 166,
           "kind": "text",
           "block": 86,
           "blockTag": "li",
@@ -3938,9 +3918,9 @@
           "text": "A statement, under penalty of perjury, that the information in the notice is accurate and that you are the copyright owner or authorised to act on the owner's behalf;"
         },
         {
-          "id": "legal.html:165",
+          "id": "legal.html:167",
           "file": "legal.html",
-          "ordinal": 165,
+          "ordinal": 167,
           "kind": "text",
           "block": 87,
           "blockTag": "li",
@@ -3949,9 +3929,9 @@
           "text": "Your physical or electronic signature."
         },
         {
-          "id": "legal.html:166",
+          "id": "legal.html:168",
           "file": "legal.html",
-          "ordinal": 166,
+          "ordinal": 168,
           "kind": "text",
           "block": 88,
           "blockTag": "p",
@@ -3960,37 +3940,15 @@
           "text": "We will review valid notices and remove or disable access to material as required by law. False or bad-faith notices may be reported to the sender's ISP or a relevant regulator."
         },
         {
-          "id": "legal.html:167",
+          "id": "legal.html:169",
           "file": "legal.html",
-          "ordinal": 167,
+          "ordinal": 169,
           "kind": "text",
           "block": 89,
           "blockTag": "h2",
           "where": "body > div > h2",
           "original": "10. Warranty disclaimer",
           "text": "10. Warranty disclaimer"
-        },
-        {
-          "id": "legal.html:168",
-          "file": "legal.html",
-          "ordinal": 168,
-          "kind": "text",
-          "block": 90,
-          "blockTag": "p",
-          "where": "body > div > p",
-          "original": "The site and all content, including",
-          "text": "The site and all content, including"
-        },
-        {
-          "id": "legal.html:169",
-          "file": "legal.html",
-          "ordinal": 169,
-          "kind": "text",
-          "block": 90,
-          "blockTag": "p",
-          "where": "div > p > em",
-          "original": "Suit Purge",
-          "text": "Suit Purge"
         },
         {
           "id": "legal.html:170",
@@ -4000,8 +3958,8 @@
           "block": 90,
           "blockTag": "p",
           "where": "body > div > p",
-          "original": ", are provided",
-          "text": ", are provided"
+          "original": "The site and all content, including",
+          "text": "The site and all content, including"
         },
         {
           "id": "legal.html:171",
@@ -4010,9 +3968,9 @@
           "kind": "text",
           "block": 90,
           "blockTag": "p",
-          "where": "div > p > strong",
-          "original": "\"as is\"",
-          "text": "\"as is\""
+          "where": "div > p > em",
+          "original": "Suit Purge",
+          "text": "Suit Purge"
         },
         {
           "id": "legal.html:172",
@@ -4022,8 +3980,8 @@
           "block": 90,
           "blockTag": "p",
           "where": "body > div > p",
-          "original": "and",
-          "text": "and"
+          "original": ", are provided",
+          "text": ", are provided"
         },
         {
           "id": "legal.html:173",
@@ -4033,8 +3991,8 @@
           "block": 90,
           "blockTag": "p",
           "where": "div > p > strong",
-          "original": "\"as available\"",
-          "text": "\"as available\""
+          "original": "\"as is\"",
+          "text": "\"as is\""
         },
         {
           "id": "legal.html:174",
@@ -4044,13 +4002,35 @@
           "block": 90,
           "blockTag": "p",
           "where": "body > div > p",
-          "original": ", without warranties of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, non-infringement, or uninterrupted availability. HTG does not warrant that the site will be error-free, secure, or free of harmful components.",
-          "text": ", without warranties of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, non-infringement, or uninterrupted availability. HTG does not warrant that the site will be error-free, secure, or free of harmful components."
+          "original": "and",
+          "text": "and"
         },
         {
           "id": "legal.html:175",
           "file": "legal.html",
           "ordinal": 175,
+          "kind": "text",
+          "block": 90,
+          "blockTag": "p",
+          "where": "div > p > strong",
+          "original": "\"as available\"",
+          "text": "\"as available\""
+        },
+        {
+          "id": "legal.html:176",
+          "file": "legal.html",
+          "ordinal": 176,
+          "kind": "text",
+          "block": 90,
+          "blockTag": "p",
+          "where": "body > div > p",
+          "original": ", without warranties of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, non-infringement, or uninterrupted availability. HTG does not warrant that the site will be error-free, secure, or free of harmful components.",
+          "text": ", without warranties of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, non-infringement, or uninterrupted availability. HTG does not warrant that the site will be error-free, secure, or free of harmful components."
+        },
+        {
+          "id": "legal.html:177",
+          "file": "legal.html",
+          "ordinal": 177,
           "kind": "text",
           "block": 91,
           "blockTag": "h2",
@@ -4059,9 +4039,9 @@
           "text": "11. Limitation of liability"
         },
         {
-          "id": "legal.html:176",
+          "id": "legal.html:178",
           "file": "legal.html",
-          "ordinal": 176,
+          "ordinal": 178,
           "kind": "text",
           "block": 92,
           "blockTag": "p",
@@ -4070,9 +4050,9 @@
           "text": "To the fullest extent permitted by law, HTG, its members, contractors, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits, revenue, data, or goodwill, arising out of or in connection with your use of, or inability to use, this site or its content, even if HTG has been advised of the possibility of such damages. Nothing in these Terms excludes or limits liability for death or personal injury caused by negligence, fraud, or any other liability that cannot be excluded under applicable law."
         },
         {
-          "id": "legal.html:177",
+          "id": "legal.html:179",
           "file": "legal.html",
-          "ordinal": 177,
+          "ordinal": 179,
           "kind": "text",
           "block": 93,
           "blockTag": "h2",
@@ -4081,9 +4061,9 @@
           "text": "12. Governing law & jurisdiction"
         },
         {
-          "id": "legal.html:178",
+          "id": "legal.html:180",
           "file": "legal.html",
-          "ordinal": 178,
+          "ordinal": 180,
           "kind": "text",
           "block": 94,
           "blockTag": "p",
@@ -4092,9 +4072,9 @@
           "text": "These Terms are governed by and construed in accordance with the law of England and Wales. Any dispute arising out of or in connection with the site or these Terms shall be subject to the exclusive jurisdiction of the courts of England and Wales, without prejudice to any mandatory consumer-protection rights available to you in your country of residence."
         },
         {
-          "id": "legal.html:179",
+          "id": "legal.html:181",
           "file": "legal.html",
-          "ordinal": 179,
+          "ordinal": 181,
           "kind": "text",
           "block": 95,
           "blockTag": "h2",
@@ -4103,9 +4083,9 @@
           "text": "13. Changes to this notice"
         },
         {
-          "id": "legal.html:180",
+          "id": "legal.html:182",
           "file": "legal.html",
-          "ordinal": 180,
+          "ordinal": 182,
           "kind": "text",
           "block": 96,
           "blockTag": "p",
@@ -4114,9 +4094,9 @@
           "text": "HTG may update this notice from time to time. The \"Last updated\" date at the top of this page will change when it does. Continued use of the site after an update constitutes acceptance of the updated Terms."
         },
         {
-          "id": "legal.html:181",
+          "id": "legal.html:183",
           "file": "legal.html",
-          "ordinal": 181,
+          "ordinal": 183,
           "kind": "text",
           "block": 97,
           "blockTag": "h2",
@@ -4125,9 +4105,9 @@
           "text": "14. Contact"
         },
         {
-          "id": "legal.html:182",
+          "id": "legal.html:184",
           "file": "legal.html",
-          "ordinal": 182,
+          "ordinal": 184,
           "kind": "text",
           "block": 98,
           "blockTag": "p",
@@ -4136,9 +4116,9 @@
           "text": "For legal, licensing, privacy, or takedown matters:"
         },
         {
-          "id": "legal.html:183",
+          "id": "legal.html:185",
           "file": "legal.html",
-          "ordinal": 183,
+          "ordinal": 185,
           "kind": "text",
           "block": 98,
           "blockTag": "p",
@@ -4147,9 +4127,9 @@
           "text": "Bookings@htg.productions"
         },
         {
-          "id": "legal.html:185",
+          "id": "legal.html:187",
           "file": "legal.html",
-          "ordinal": 185,
+          "ordinal": 187,
           "kind": "text",
           "block": 99,
           "blockTag": "p",

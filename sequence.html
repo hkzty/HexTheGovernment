@@ -245,7 +245,8 @@
   <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0a0a0a;
@@ -304,7 +305,6 @@
     .embed-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
     .embed-wrap { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: rgba(27, 30, 30, 0.82); }
     .embed-wrap iframe { display: block; width: 100%; border: 0; }
-    .pin-tag { display: inline-block; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--acc); border: 1px solid var(--line); border-radius: 999px; padding: 0.2rem 0.6rem; margin-bottom: 0.6rem; }
 
     .links { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.6rem; }
     .links a {
@@ -358,7 +358,7 @@
 
     <footer class="foot">
       <span>© <span id="legal-year">2026</span> ABRAXAS · HTG — <a href="legal.html">Legal &amp; Privacy</a></span>
-      <span>Back to <a href="index.html">HTG</a> · <a href="abraxas.html">ABRAXAS</a></span>
+      <span><a href="index.html">HTG</a> · <a href="abraxas.html">ABRAXAS</a></span>
     </footer>
     <script>(function(){var y=document.getElementById('legal-year');if(y)y.textContent=new Date().getFullYear();})();</script>
   </div>
@@ -386,7 +386,7 @@
         return wrap;
       }
 
-      function fill(gridId, urls, pinned) {
+      function fill(gridId, urls) {
         var grid = document.getElementById(gridId);
         if (!grid) return;
         grid.innerHTML = '';
@@ -399,22 +399,12 @@
         urls.forEach(function (url) {
           var embed = spotifyEmbed(url);
           if (!embed) return;
-          if (pinned) {
-            var col = document.createElement('div');
-            var tag = document.createElement('span');
-            tag.className = 'pin-tag';
-            tag.textContent = cfg.highlightTag || 'PINNED';
-            col.appendChild(tag);
-            col.appendChild(embed);
-            grid.appendChild(col);
-          } else {
-            grid.appendChild(embed);
-          }
+          grid.appendChild(embed);
         });
       }
 
-      fill('highlightGrid', cfg.highlights, true);
-      fill('albumGrid', cfg.albums, false);
+      fill('highlightGrid', cfg.highlights);
+      fill('albumGrid', cfg.albums);
 
       var openLink = document.getElementById('openSpotify');
       if (openLink && cfg.artist) openLink.href = cfg.artist;

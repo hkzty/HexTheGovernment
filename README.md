@@ -32,7 +32,7 @@ Links, the Sequence, the gallery list and the contact addresses live in **`confi
 ```js
 socials: {
   instagram:  "https://instagram.com/abraxas.htg",
-  spotify:    "",                       // paste your Spotify artist URL when live
+  spotify:    "https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19",
   soundcloud: "https://on.soundcloud.com/uTMdelzf0aAmn2Nx9a",
   tiktok:     "https://www.tiktok.com/@abraxasthemage",
   ...
@@ -78,7 +78,7 @@ gallery: [
 
 Public image URLs work too. Add or remove entries freely — the grid and lightbox rebuild automatically. There is no releases / coming-soon / tours / stats config any more: those sections were removed rather than shown empty (see the content and copy policies in `CLAUDE.md`).
 
-> **Tip:** the current hero video (`assets/htg-hero.mp4`) is ~25 MB and both pages load it. Small mobile encodes already exist in `assets/` (`htg-hero-mobile.mp4` / `.webm`) but are not wired up — see the known-issues list in `CLAUDE.md`. The site skips the video automatically for visitors with Data Saver enabled.
+> The hero video is the 720p pair (`assets/htg-hero-720p.webm` ~0.55 MB, `.mp4` ~0.9 MB). The site skips it for visitors with Data Saver or reduced motion.
 
 ### 5. Bookings / contact
 
@@ -87,7 +87,8 @@ contactForm: {
   endpoint: "",   // Formspree or Web3Forms endpoint — setup notes in config.js
   accessKey: ""   // Web3Forms only
 },
-contactEmail: "Bookings@htg.productions",
+contactEmail: "Abraxas@htg.productions",
+management: "Bookings@htg.productions",
 ```
 
 The contact form validates the message, then delivers it one of two ways. With `contactForm.endpoint` set — a free Formspree or Web3Forms form-to-email endpoint, no backend, setup notes in `config.js` — it sends straight from the page and the visitor never needs a mail app. Without one it falls back to opening the visitor's email app pre-addressed to `contactEmail`, and shows the address to copy in case no mail app is installed. **The endpoint is currently unset**, so every visitor is on the mailto fallback; creating the free account and pasting the endpoint is the open task.
@@ -165,7 +166,7 @@ hexthegovernment/
 ├── CNAME             # custom domain (www.htg.productions) — do not delete
 ├── assets/
 │   ├── htg-hero-720p.webm  # hero loop (mp4 fallback alongside)
-│   ├── share/        # 1200×630 og:image cards, one per page
+│   ├── og/           # 1200×630 og:image cards, one per page
 │   └── gallery/      # ← DROP PHOTOS HERE, they appear automatically
 └── .github/workflows/gallery-manifest.yml
 ```

@@ -96,11 +96,8 @@
       frameborder: '0'
     });
     const card = el('div', { class: `embed-card fade-in${extras.highlight ? ' highlight' : ''}` });
-    if (extras.tag || extras.num) {
-      const head = el('div', { class: 'embed-head' });
-      if (extras.num) head.append(el('span', { class: 'embed-num', text: extras.num }));
-      if (extras.tag) head.append(el('span', { class: 'embed-tag', text: extras.tag }));
-      card.append(head);
+    if (extras.num) {
+      card.append(el('div', { class: 'embed-head' }, [el('span', { class: 'embed-num', text: extras.num })]));
     }
     card.append(iframe);
     return card;
@@ -162,7 +159,6 @@
     if (local && local.title) {
       extras = { ...extras, title: local.title, label: `Play ${local.title} on Spotify` };
     }
-    if (extras.tag) art.append(el('span', { class: 'cover-tag', text: extras.tag }));
     const card = el('button', {
       class: `cover-card fade-in${extras.highlight ? ' highlight' : ''}`,
       type: 'button',
@@ -174,7 +170,7 @@
       ])
     ]);
     card.addEventListener('click', () => {
-      const player = embedCard(item, { highlight: extras.highlight, tag: extras.tag, num: extras.num });
+      const player = embedCard(item, { highlight: extras.highlight, num: extras.num });
       // Created after script.js armed its reveal observer, so show it directly.
       player.classList.add('visible', 'now-playing');
       card.replaceWith(player);
@@ -210,7 +206,6 @@
 
     const highlights = (seq.highlights || []).map((url, index) => coverCard(url, {
       highlight: true,
-      tag: seq.highlightTag || 'PINNED',
       label: `Play pinned track ${index + 1} on Spotify`
     })).filter(Boolean);
     if (highlights.length) {

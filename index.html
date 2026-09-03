@@ -17,7 +17,6 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.htg.productions/" />
   <meta property="og:site_name" content="HTG — Hex The Government" />
-  <meta property="og:locale" content="en_AU" />
   <meta property="og:image" content="https://www.htg.productions/assets/og/htg.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -84,11 +83,10 @@
             "@id": "https://www.htg.productions/justin.html#artist"
           }
         ],
-        "sameAs": [
-          "https://github.com/hkzty/HexTheGovernment",
-          "https://strettys-merch.myshopify.com",
-          "https://donation.streamiverse.io/stretty"
-        ]
+        "potentialAction": {
+          "@type": "DonateAction",
+          "target": "https://donation.streamiverse.io/stretty"
+        }
       },
       {
         "@type": "WebSite",
@@ -129,9 +127,6 @@
         "description": "HEXCORE. Thirteen albums in running order on The Sequence.",
         "image": "https://www.htg.productions/assets/og/abraxas.png",
         "logo": "https://www.htg.productions/assets/logos/abraxas-logo.webp",
-        "recordLabel": {
-          "@id": "https://www.htg.productions/#org"
-        },
         "memberOf": {
           "@id": "https://www.htg.productions/#org"
         },
@@ -157,9 +152,6 @@
         "description": "Dark emo / alt rap.",
         "image": "https://www.htg.productions/assets/og/stretty.png",
         "logo": "https://www.htg.productions/assets/logos/stretty-logo.webp",
-        "recordLabel": {
-          "@id": "https://www.htg.productions/#org"
-        },
         "memberOf": {
           "@id": "https://www.htg.productions/#org"
         },
@@ -179,9 +171,6 @@
         "description": "Streaming on Spotify, SoundCloud and YouTube.",
         "image": "https://www.htg.productions/assets/og/ciggie.png",
         "logo": "https://www.htg.productions/assets/logos/ciggie-logo.webp",
-        "recordLabel": {
-          "@id": "https://www.htg.productions/#org"
-        },
         "memberOf": {
           "@id": "https://www.htg.productions/#org"
         },
@@ -232,14 +221,8 @@
         "gamePlatform": "Web browser",
         "applicationCategory": "GameApplication",
         "operatingSystem": "Any",
-        "playMode": "SinglePlayer",
+        "playMode": "https://schema.org/SinglePlayer",
         "isAccessibleForFree": true,
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "AUD",
-          "availability": "https://schema.org/InStock"
-        },
         "author": {
           "@id": "https://www.htg.productions/abraxas.html#artist"
         },
@@ -822,7 +805,6 @@
 
           <div class="support-block fade-in" id="support" aria-labelledby="support-title">
             <div class="support-copy">
-              <div class="section-kicker">Support</div>
               <h3 class="support-title" id="support-title">Donate crypto</h3>
               <a class="btn btn-primary support-link" href="https://donation.streamiverse.io/stretty" target="_blank" rel="noopener noreferrer">Donate</a>
             </div>

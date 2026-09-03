@@ -633,11 +633,6 @@
       box-shadow: var(--shadow);
     }
 
-    .footer-copy p {
-      color: var(--muted);
-      max-width: 60ch;
-      margin-top: 0.55rem;
-    }
 
     .social-links {
       display: flex;
@@ -872,8 +867,7 @@
         grid-template-columns: 1fr;
       }
 
-      .section-head,
-      .footer-copy p {
+      .section-head {
         max-width: 100%;
       }
     }
@@ -923,18 +917,6 @@
       letter-spacing: 0.2rem;
     }
 
-    .embed-tag {
-      margin-left: auto;
-      padding: 0.2rem 0.65rem;
-      border-radius: 999px;
-      border: 1px solid var(--line-strong);
-      background: rgba(255, 255, 255, 0.14);
-      color: var(--accent);
-      font-size: 0.66rem;
-      font-weight: 700;
-      letter-spacing: 0.2rem;
-      text-transform: uppercase;
-    }
 
     /* Covers-first sequence: the grid shows art, the player loads on tap. */
     .cover-grid {
@@ -1027,21 +1009,6 @@
       color: #0a0a0a;
     }
 
-    .cover-tag {
-      position: absolute;
-      top: 0.65rem;
-      left: 0.65rem;
-      z-index: 1;
-      padding: 0.2rem 0.65rem;
-      border-radius: 999px;
-      border: 1px solid var(--line-strong);
-      background: rgba(10, 10, 10, 0.72);
-      color: var(--accent);
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.2rem;
-      text-transform: uppercase;
-    }
 
     .cover-meta {
       display: grid;
@@ -1302,10 +1269,6 @@
     .support-title {
       font-size: clamp(1.3rem, 2.5vw, 1.9rem);
       margin: 0.25rem 0 0.6rem;
-    }
-    .support-copy p {
-      color: var(--muted);
-      margin: 0 0 1rem;
     }
     .support-qr {
       flex: 0 0 auto;

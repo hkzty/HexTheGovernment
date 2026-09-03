@@ -46,14 +46,8 @@
         "gamePlatform": "Web browser",
         "applicationCategory": "GameApplication",
         "operatingSystem": "Any",
-        "playMode": "SinglePlayer",
+        "playMode": "https://schema.org/SinglePlayer",
         "isAccessibleForFree": true,
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "AUD",
-          "availability": "https://schema.org/InStock"
-        },
         "author": {
           "@id": "https://www.htg.productions/abraxas.html#artist"
         },
@@ -129,6 +123,8 @@
       --accent: #b478ff;
       --accent-soft: #2a0b40;
       --shadow: 0 0 0 1px rgba(180, 120, 255, 0.18), 0 24px 60px rgba(0, 0, 0, 0.6);
+      --ink: var(--text);
+      --dim: var(--muted);
     }
     .standalone-shell { position: relative; z-index: 2; width: min(72rem, 92vw); margin: 0 auto; padding: 1.4rem 0 3rem; }
     .standalone-topline { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0 1.6rem; font-size: 0.72rem; letter-spacing: 0.14em; font-family: "IBM Plex Mono", ui-monospace, monospace; color: var(--ink); }
@@ -188,7 +184,7 @@
 
     <footer class="standalone-foot">
       <span>© <span id="legal-year">2026</span> ABRAXAS · HTG — <a href="legal.html">Legal &amp; Privacy</a></span>
-      <span>Back to <a href="abraxas.html">ABRAXAS</a> · <a href="index.html">HTG</a></span>
+      <span><a href="abraxas.html">ABRAXAS</a> · <a href="index.html">HTG</a></span>
     </footer>
     <script>(function(){var y=document.getElementById('legal-year');if(y)y.textContent=new Date().getFullYear();})();</script>
   </div>

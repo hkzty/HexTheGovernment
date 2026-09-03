@@ -56,7 +56,6 @@ window.ABRAXAS_CONFIG = {
     kicker: "The Sequence",
     note: "ABRAXAS · 01 → 13",
     artist: "https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19",
-    highlightTag: "PINNED",
     highlights: [
       "https://open.spotify.com/track/7Az3pwgwCk09ZfQzlH8slr",
       "https://open.spotify.com/track/2oGrGX4T83boP9ZMIl2gZd",
