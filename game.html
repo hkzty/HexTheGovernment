@@ -21,29 +21,73 @@
   <link rel="canonical" href="https://www.htg.productions/game.html" />
   <meta name="twitter:title" content="Suit Purge — HTG" />
   <meta name="twitter:description" content="A browser shooter by HTG. All characters are fictional." />
+  <!-- schema.org structured data for search engines and AI agents. Static on
+       purpose: most crawlers never run render.js. Keep it in step with
+       config.js and the page copy; never add a title, date or name that
+       is not already real on the site. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "VideoGame",
+        "@type": [
+          "VideoGame",
+          "SoftwareApplication"
+        ],
         "@id": "https://www.htg.productions/game.html#game",
         "name": "Suit Purge",
         "url": "https://www.htg.productions/game.html",
-        "genre": "First-person shooter",
+        "image": "https://www.htg.productions/assets/og/game.png",
+        "description": "Browser first-person shooter. Walls, sprites, weapon and sound are generated in code at runtime; no downloads, no third-party assets. Enemies are four fictional class archetypes (Politician, Billionaire, Trillionaire, High Command). No real person is named, depicted or targeted.",
+        "genre": [
+          "First-person shooter",
+          "Political satire"
+        ],
         "gamePlatform": "Web browser",
-        "applicationCategory": "Game",
+        "applicationCategory": "GameApplication",
         "operatingSystem": "Any",
         "playMode": "SinglePlayer",
         "isAccessibleForFree": true,
-        "image": "https://www.htg.productions/assets/og/game.png",
-        "author": {
-          "@type": "Organization",
-          "@id": "https://www.htg.productions/#htg",
-          "name": "HTG — Hex The Government",
-          "url": "https://www.htg.productions/"
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "AUD",
+          "availability": "https://schema.org/InStock"
         },
-        "description": "Browser shooter by HTG. All characters are fictional class archetypes; no real person is depicted."
+        "author": {
+          "@id": "https://www.htg.productions/abraxas.html#artist"
+        },
+        "publisher": {
+          "@id": "https://www.htg.productions/#org"
+        },
+        "isPartOf": {
+          "@id": "https://www.htg.productions/#website"
+        },
+        "mainEntityOfPage": "https://www.htg.productions/game.html"
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://www.htg.productions/#org",
+        "name": "HTG — Hex The Government",
+        "url": "https://www.htg.productions/"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://www.htg.productions/game.html",
+        "url": "https://www.htg.productions/game.html",
+        "name": "Suit Purge — HTG",
+        "description": "Suit Purge, the HTG browser shooter. Free, dependency-free, fictional enemies only.",
+        "isPartOf": {
+          "@id": "https://www.htg.productions/#website"
+        },
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://www.htg.productions/assets/og/game.png"
+        },
+        "inLanguage": "en",
+        "about": {
+          "@id": "https://www.htg.productions/game.html#game"
+        }
       },
       {
         "@type": "BreadcrumbList",

@@ -17,7 +17,7 @@ There are two versions of the page, and visitors are routed automatically:
 | `index.html` | **Main site** (split build: HTML + `style.css` + `script.js`) |
 | `mobile.html` | **Mobile site** (one-page build with CSS inlined) |
 
-Phones (screens ≤ 820px) landing on `index.html` are redirected to `mobile.html`, and desktops landing on `mobile.html` are sent to `index.html`. Every page has a "Switch to Mobile/Desktop Version" link in the footer that overrides the automatic choice.
+Phones (screens ≤ 820px) landing on `index.html` are redirected to `mobile.html`, and desktops landing on `mobile.html` are sent to `index.html`. The landing page footer has a "Mobile site" / "Desktop site" link that overrides the automatic choice.
 
 `mobile.html` is **generated from** `index.html` + `style.css` — don't edit it by hand. After changing `index.html` or `style.css`, run `npm run build:mobile` (see below).
 
@@ -176,7 +176,7 @@ Script order matters: `config.js` → `render.js` → `script.js`.
 
 ## Search & AI-agent discoverability
 
-`robots.txt`, `sitemap.xml`, `llms.txt` and `site.webmanifest` at the root, plus schema.org JSON-LD and canonical links in every page head, describe the label, roster, profiles, the Sequence and Suit Purge to crawlers and LLM agents. Keep them factual and update them together with any new artist, page or profile URL (details in `CLAUDE.md`).
+`robots.txt`, `sitemap.xml`, `llms.txt` and `site.webmanifest` at the root, plus schema.org JSON-LD and canonical links in every page head, describe the label, roster, profiles, the Sequence and Suit Purge to crawlers and LLM agents. `sitemap.xml` is generated: run `npm run build:sitemap` after editing a page (`npm run check:sitemap` tells you if it is stale). Keep the rest factual and update it together with any new artist, page or profile URL (details in `CLAUDE.md` under "Discoverability layer").
 
 ## Deployment
 

@@ -21,6 +21,10 @@
   <link rel="canonical" href="https://www.htg.productions/stretty.html" />
   <meta name="twitter:title" content="Stretty — Depressions Running Deep" />
   <meta name="twitter:description" content="Dark emo / alt rap. HTG — Hex The Government." />
+  <!-- schema.org structured data for search engines and AI agents. Static on
+       purpose: most crawlers never run render.js. Keep it in step with
+       config.js and the page copy; never add a title, date or name that
+       is not already real on the site. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -35,22 +39,74 @@
           "Alt rap"
         ],
         "slogan": "Depressions Running Deep",
+        "description": "Dark emo / alt rap.",
         "image": "https://www.htg.productions/assets/og/stretty.png",
         "logo": "https://www.htg.productions/assets/logos/stretty-logo.webp",
         "recordLabel": {
-          "@type": "Organization",
-          "@id": "https://www.htg.productions/#htg",
-          "name": "HTG — Hex The Government",
-          "url": "https://www.htg.productions/"
+          "@id": "https://www.htg.productions/#org"
         },
         "memberOf": {
-          "@id": "https://www.htg.productions/#htg"
+          "@id": "https://www.htg.productions/#org"
         },
+        "mainEntityOfPage": "https://www.htg.productions/stretty.html",
         "sameAs": [
           "https://open.spotify.com/artist/4yQchxxguwc9PXmCVqb9Bm",
           "https://stretty.music",
           "https://strettys-merch.myshopify.com"
+        ],
+        "track": [
+          {
+            "@type": "MusicRecording",
+            "@id": "https://open.spotify.com/track/2oGrGX4T83boP9ZMIl2gZd",
+            "url": "https://open.spotify.com/track/2oGrGX4T83boP9ZMIl2gZd",
+            "name": "Schienenzeppelin",
+            "byArtist": {
+              "@id": "https://www.htg.productions/stretty.html#artist"
+            }
+          },
+          {
+            "@type": "MusicRecording",
+            "@id": "https://open.spotify.com/track/5wiaIGjX8ht4vIxYHYHBqG",
+            "url": "https://open.spotify.com/track/5wiaIGjX8ht4vIxYHYHBqG",
+            "name": "Yung Goth",
+            "byArtist": {
+              "@id": "https://www.htg.productions/stretty.html#artist"
+            }
+          },
+          {
+            "@type": "MusicRecording",
+            "@id": "https://open.spotify.com/track/3Vs0qIyXV3UtsWpxCcvJnX",
+            "url": "https://open.spotify.com/track/3Vs0qIyXV3UtsWpxCcvJnX",
+            "name": "Clotted Thoughts",
+            "byArtist": {
+              "@id": "https://www.htg.productions/stretty.html#artist"
+            }
+          }
         ]
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://www.htg.productions/#org",
+        "name": "HTG — Hex The Government",
+        "url": "https://www.htg.productions/"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://www.htg.productions/stretty.html",
+        "url": "https://www.htg.productions/stretty.html",
+        "name": "Stretty — HTG",
+        "description": "Stretty: dark emo / alt rap. Tracks, Spotify player, merch, bookings.",
+        "isPartOf": {
+          "@id": "https://www.htg.productions/#website"
+        },
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://www.htg.productions/assets/og/stretty.png"
+        },
+        "inLanguage": "en",
+        "about": {
+          "@id": "https://www.htg.productions/stretty.html#artist"
+        }
       },
       {
         "@type": "BreadcrumbList",

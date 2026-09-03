@@ -136,26 +136,34 @@ back. Concretely:
 ## Discoverability layer — machine-readable, not visible
 
 The site describes itself to crawlers and AI agents in places visitors
-never read, so the visible page can stay near-silent:
+never read, so the visible page can stay near-silent. Nothing here depends
+on `render.js` running.
 
 | File | Role |
 |---|---|
-| `robots.txt` | Allows everything except `copydesk.html` and `content/`; points at the sitemap. |
-| `sitemap.xml` | The eight visitor pages with their share images. `mobile.html` is not listed — it carries the same canonical as `index.html`. |
-| `llms.txt` | Plain-markdown summary for LLM agents: roster, every profile URL, the Sequence, contact, trademarks, and the ABRAXAS/Stretty Spotify disambiguation. |
+| `robots.txt` | Allows everything public, names the AI crawlers explicitly (GPTBot, ClaudeBot, PerplexityBot, Google-Extended and the rest) and blocks `copydesk.html`, `content/`, `docs/`, `scripts/`. |
+| `sitemap.xml` | **Generated** by `scripts/build-sitemap.js`; `lastmod` is each page's last commit date. `mobile.html` is deliberately absent. After editing any page: `npm run build:sitemap`, and `npm run check:sitemap` before pushing (same deal as `check:mobile`, and for the same reason not in CI). |
+| `llms.txt` | Plain-markdown summary for LLM agents: roster, every profile URL, the Sequence and the deck tracks, contact, trademarks, the explicit "no tour dates, no upcoming releases" line, and the ABRAXAS/Stretty Spotify disambiguation. |
 | `site.webmanifest` | Name, colours, `music`/`entertainment` categories, the SVG mark as icon. |
-| JSON-LD in each page head | `index.html` carries the full `@graph` (Organization, WebSite, three MusicGroups, a Person, the VideoGame, the Sequence ItemList). Each deck repeats its own entity plus a BreadcrumbList, keyed by the same `@id`s. |
+| JSON-LD in each page head | `index.html` carries `Organization` (`#org`), `WebSite` (`#website`), a `WebPage`, the three `MusicGroup`s, the `Person` and the `VideoGame`. Each deck repeats its own entity under the same `@id` plus a `WebPage` and a `BreadcrumbList`; `abraxas.html` adds the thirteen `MusicAlbum` nodes (URL-only — their titles are not on the site), `stretty.html` / `ciggie.html` add `MusicRecording`s for the tracks named on the page, `justin.html` adds `VideoObject`s for the reel, `sequence.html` an `ItemList` of the albums. |
 
 Every visitor page also has `<link rel="canonical">`, a `robots` meta,
 `twitter:title`/`twitter:description`, and the footer social icons carry
-`rel="me"`.
+`rel="me"`. `index.html` advertises `mobile.html` as its phone alternate
+and `mobile.html` keeps the canonical pointing at `index.html`;
+`build-mobile.js` strips the alternate link on the phone copy (and aborts
+if it is missing, like its other anchors). Share cards are in
+`assets/og/`; `twitter:image` used to point at a non-existent
+`assets/share/`.
 
 Rules: **facts only** — genres, handles and IDs come from `config.js` and
 the pages, never guessed (no invented locations, founding dates, member
-counts or genres). When an artist, page or profile URL is added or
-changed, update `llms.txt`, `sitemap.xml` and the JSON-LD graph in the
-same commit. Anything that reads as a pitch belongs in `llms.txt` or
-structured data, not in the page.
+counts or genres), and descriptions are as terse as the page copy: no
+manifesto sentences in `description` fields either. When an artist, page
+or profile URL is added or changed, update `llms.txt`, the JSON-LD graphs
+and the sitemap (`npm run build:sitemap`) in the same commit. Anything
+that reads as a pitch belongs in `llms.txt` or structured data, not in
+the page.
 
 ## The real Spotify artist
 

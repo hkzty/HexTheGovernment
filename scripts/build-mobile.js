@@ -62,6 +62,14 @@ function edits(css) {
       '<a class="inline-link view-toggle" href="mobile.html?mobile=1">Mobile site</a>',
       '<a class="inline-link view-toggle" href="index.html?desktop=1">Desktop site</a>',
     ],
+    [
+      // index.html advertises mobile.html as its phone alternate; the phone
+      // page keeps only the canonical link back to index.html (the search
+      // engines' separate-URL pattern), so the alternate must not survive.
+      'drop the desktop-only alternate link',
+      '  <link rel="alternate" media="only screen and (max-width: 820px)" href="https://www.htg.productions/mobile.html" />\n',
+      '',
+    ],
     ['append the phone chrome', '</head>\n', MOBILE_CHROME + '</head>\n'],
   ];
 }

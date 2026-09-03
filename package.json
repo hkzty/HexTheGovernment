@@ -10,7 +10,9 @@
     "build:gallery": "node scripts/build-gallery.js",
     "check:gallery": "node scripts/build-gallery.js --check",
     "build:copydesk": "node scripts/build-copydesk.js ./copydesk.html --standalone",
-    "scrape": "node scripts/scraper.js"
+    "scrape": "node scripts/scraper.js",
+    "build:sitemap": "node scripts/build-sitemap.js",
+    "check:sitemap": "node scripts/build-sitemap.js --check"
   },
   "engines": {
     "node": ">=18.0.0"

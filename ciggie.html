@@ -21,6 +21,10 @@
   <link rel="canonical" href="https://www.htg.productions/ciggie.html" />
   <meta name="twitter:title" content="ciggyholster — Depressions Running Deep" />
   <meta name="twitter:description" content="HTG — Hex The Government." />
+  <!-- schema.org structured data for search engines and AI agents. Static on
+       purpose: most crawlers never run render.js. Keep it in step with
+       config.js and the page copy; never add a title, date or name that
+       is not already real on the site. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -31,24 +35,85 @@
         "name": "ciggyholster",
         "url": "https://www.htg.productions/ciggie.html",
         "slogan": "Depressions Running Deep",
+        "description": "Streaming on Spotify, SoundCloud and YouTube.",
         "image": "https://www.htg.productions/assets/og/ciggie.png",
         "logo": "https://www.htg.productions/assets/logos/ciggie-logo.webp",
         "recordLabel": {
-          "@type": "Organization",
-          "@id": "https://www.htg.productions/#htg",
-          "name": "HTG — Hex The Government",
-          "url": "https://www.htg.productions/"
+          "@id": "https://www.htg.productions/#org"
         },
         "memberOf": {
-          "@id": "https://www.htg.productions/#htg"
+          "@id": "https://www.htg.productions/#org"
         },
+        "mainEntityOfPage": "https://www.htg.productions/ciggie.html",
         "sameAs": [
           "https://open.spotify.com/artist/0xMdknHv3WOTL2AeK1uHpo",
           "https://soundcloud.com/user-945488980-12789874",
           "https://www.youtube.com/channel/UC0xMqvX0BdM4N9Kbut5PBQA",
           "https://www.instagram.com/ciggyholster",
           "https://linktr.ee/ciggyholster"
+        ],
+        "track": [
+          {
+            "@type": "MusicRecording",
+            "@id": "https://open.spotify.com/track/19YLebLelGLMo9wW38XQCC",
+            "url": "https://open.spotify.com/track/19YLebLelGLMo9wW38XQCC",
+            "name": "Tidal Wave",
+            "byArtist": {
+              "@id": "https://www.htg.productions/ciggie.html#artist"
+            }
+          },
+          {
+            "@type": "MusicRecording",
+            "@id": "https://open.spotify.com/track/4HoXkJ6l8CMiPNRUDuQpvc",
+            "url": "https://open.spotify.com/track/4HoXkJ6l8CMiPNRUDuQpvc",
+            "name": "MISFITS",
+            "byArtist": {
+              "@id": "https://www.htg.productions/ciggie.html#artist"
+            }
+          },
+          {
+            "@type": "MusicRecording",
+            "@id": "https://open.spotify.com/track/21miJ7OVY8YvuA5E4wUbD0",
+            "url": "https://open.spotify.com/track/21miJ7OVY8YvuA5E4wUbD0",
+            "name": "Leptin",
+            "byArtist": {
+              "@id": "https://www.htg.productions/ciggie.html#artist"
+            }
+          },
+          {
+            "@type": "MusicRecording",
+            "@id": "https://open.spotify.com/track/415XlPsdKVSi1KXJSWJSnT",
+            "url": "https://open.spotify.com/track/415XlPsdKVSi1KXJSWJSnT",
+            "name": "Yung Chlordane",
+            "byArtist": {
+              "@id": "https://www.htg.productions/ciggie.html#artist"
+            }
+          }
         ]
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://www.htg.productions/#org",
+        "name": "HTG — Hex The Government",
+        "url": "https://www.htg.productions/"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://www.htg.productions/ciggie.html",
+        "url": "https://www.htg.productions/ciggie.html",
+        "name": "ciggyholster — HTG",
+        "description": "ciggyholster: tracks, Spotify, SoundCloud, YouTube and Instagram links.",
+        "isPartOf": {
+          "@id": "https://www.htg.productions/#website"
+        },
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://www.htg.productions/assets/og/ciggie.png"
+        },
+        "inLanguage": "en",
+        "about": {
+          "@id": "https://www.htg.productions/ciggie.html#artist"
+        }
       },
       {
         "@type": "BreadcrumbList",
