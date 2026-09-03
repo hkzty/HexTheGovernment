@@ -19,7 +19,9 @@
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="HTG — Hex The Government. A private ark on corporate waters." />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://www.htg.productions/assets/share/htg.png" />
+  <meta name="twitter:image" content="https://www.htg.productions/assets/og/htg.png" />
+  <link rel="canonical" href="https://www.htg.productions/" />
+  <link rel="alternate" media="only screen and (max-width: 820px)" href="https://www.htg.productions/mobile.html" />
   <link rel="icon" type="image/svg+xml" href="assets/htg-mark.svg" />
   <script data-page="desktop">
     // Mark JS as available: CSS only arms the reveal animations and the
@@ -246,6 +248,202 @@
       .door, .door-name, .door-reveal, .door-art img, .door-art::after { transition: none; }
     }
   </style>
+  <!-- schema.org structured data for search engines and AI agents. Static on
+       purpose: most crawlers never run render.js. Keep it in step with
+       config.js and the page copy; never add a title, date or name that
+       is not already real on the site. -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.htg.productions/#org",
+      "name": "HTG",
+      "alternateName": [
+        "Hex The Government",
+        "HTG Productions"
+      ],
+      "url": "https://www.htg.productions/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.htg.productions/assets/logos/htg-logo.webp"
+      },
+      "image": "https://www.htg.productions/assets/og/htg.png",
+      "description": "HTG — Hex The Government. An independent music label and collective. A private vessel on corporate waters: home of ABRAXAS, Stretty, ciggyholster and Justinn.clout.",
+      "slogan": "Depressions Running Deep",
+      "email": "Bookings@htg.productions",
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "bookings",
+          "email": "Bookings@htg.productions"
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "general enquiries",
+          "email": "Abraxas@htg.productions"
+        }
+      ],
+      "member": [
+        {
+          "@id": "https://www.htg.productions/abraxas.html#artist"
+        },
+        {
+          "@id": "https://www.htg.productions/stretty.html#artist"
+        },
+        {
+          "@id": "https://www.htg.productions/ciggie.html#artist"
+        },
+        {
+          "@id": "https://www.htg.productions/justin.html#artist"
+        }
+      ],
+      "sameAs": [
+        "https://github.com/hkzty/HexTheGovernment",
+        "https://strettys-merch.myshopify.com"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.htg.productions/#website",
+      "name": "HTG — Hex The Government",
+      "alternateName": "HTG",
+      "url": "https://www.htg.productions/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://www.htg.productions/#org"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.htg.productions/",
+      "url": "https://www.htg.productions/",
+      "name": "HTG — Hex The Government",
+      "description": "A private vessel on corporate waters. Home of ABRAXAS, Stretty, ciggyholster and Justinn.clout: music, streaming links, gallery, contact and bookings.",
+      "isPartOf": {
+        "@id": "https://www.htg.productions/#website"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://www.htg.productions/assets/og/htg.png"
+      },
+      "inLanguage": "en",
+      "about": {
+        "@id": "https://www.htg.productions/#org"
+      }
+    },
+    {
+      "@type": "MusicGroup",
+      "@id": "https://www.htg.productions/abraxas.html#artist",
+      "name": "ABRAXAS",
+      "url": "https://www.htg.productions/abraxas.html",
+      "genre": "HEXCORE",
+      "description": "ABRAXAS — HEXCORE under HTG (Hex The Government). Distorted hooks, purple static, all teeth. Full catalogue: thirteen albums played through in order on The Sequence.",
+      "image": "https://www.htg.productions/assets/og/abraxas.png",
+      "memberOf": {
+        "@id": "https://www.htg.productions/#org"
+      },
+      "sameAs": [
+        "https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19",
+        "https://instagram.com/abraxas.htg",
+        "https://www.tiktok.com/@abraxasthemage",
+        "https://on.soundcloud.com/uTMdelzf0aAmn2Nx9a",
+        "https://linktr.ee/abraxashtg"
+      ]
+    },
+    {
+      "@type": "MusicGroup",
+      "@id": "https://www.htg.productions/stretty.html#artist",
+      "name": "Stretty",
+      "url": "https://www.htg.productions/stretty.html",
+      "genre": [
+        "Dark emo",
+        "Alternative hip hop"
+      ],
+      "description": "Stretty — dark emo / alt rap under HTG (Hex The Government). The Ark: the hull that keeps everyone afloat.",
+      "image": "https://www.htg.productions/assets/og/stretty.png",
+      "memberOf": {
+        "@id": "https://www.htg.productions/#org"
+      },
+      "sameAs": [
+        "https://open.spotify.com/artist/4yQchxxguwc9PXmCVqb9Bm",
+        "https://stretty.music"
+      ]
+    },
+    {
+      "@type": "MusicGroup",
+      "@id": "https://www.htg.productions/ciggie.html#artist",
+      "name": "ciggyholster",
+      "url": "https://www.htg.productions/ciggie.html",
+      "description": "ciggyholster — artist under HTG (Hex The Government). Streaming on Spotify, SoundCloud and YouTube.",
+      "image": "https://www.htg.productions/assets/og/ciggie.png",
+      "memberOf": {
+        "@id": "https://www.htg.productions/#org"
+      },
+      "sameAs": [
+        "https://open.spotify.com/artist/0xMdknHv3WOTL2AeK1uHpo",
+        "https://soundcloud.com/user-945488980-12789874",
+        "https://www.youtube.com/channel/UC0xMqvX0BdM4N9Kbut5PBQA",
+        "https://www.instagram.com/ciggyholster",
+        "https://linktr.ee/ciggyholster"
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.htg.productions/justin.html#artist",
+      "name": "Justinn.clout",
+      "url": "https://www.htg.productions/justin.html",
+      "jobTitle": "Videographer and photographer",
+      "description": "Justinn.clout — video and photo for HTG (Hex The Government). Shooter and editor for the label; work on YouTube and Instagram.",
+      "image": "https://www.htg.productions/assets/og/justin.png",
+      "memberOf": {
+        "@id": "https://www.htg.productions/#org"
+      },
+      "sameAs": [
+        "https://www.youtube.com/@justinclout",
+        "https://www.instagram.com/justinn.clout",
+        "https://ytjobs.co/talent/profile/536835"
+      ]
+    },
+    {
+      "@type": [
+        "VideoGame",
+        "SoftwareApplication"
+      ],
+      "@id": "https://www.htg.productions/game.html#game",
+      "name": "Suit Purge",
+      "url": "https://www.htg.productions/game.html",
+      "image": "https://www.htg.productions/assets/og/game.png",
+      "description": "A first-person maze shooter that runs entirely in the browser: walls, sprites, weapon and sound are generated in code at runtime, with no downloads and no third-party assets. Enemies are four fictional class archetypes — Politician, Billionaire, Trillionaire and High Command. No real person is named, depicted or targeted.",
+      "genre": [
+        "First-person shooter",
+        "Political satire"
+      ],
+      "gamePlatform": "Web browser",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Any",
+      "playMode": "SinglePlayer",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "AUD",
+        "availability": "https://schema.org/InStock"
+      },
+      "author": {
+        "@id": "https://www.htg.productions/abraxas.html#artist"
+      },
+      "publisher": {
+        "@id": "https://www.htg.productions/#org"
+      },
+      "isPartOf": {
+        "@id": "https://www.htg.productions/#website"
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body data-rain="white">
   <canvas id="matrix-rain" aria-hidden="true"></canvas>
