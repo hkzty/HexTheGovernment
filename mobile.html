@@ -1185,11 +1185,12 @@
         grid-template-columns: 1fr;
       }
 
-      /* Phone gallery at half size: two frames per row instead of one, so
-         each thumb is half the width (and, square, half the height). */
+      /* Phone gallery at quarter size: four frames per row, so each thumb
+         is a quarter of the width (and, square, a quarter of the height),
+         matching the roster door collage tiles. */
       .gallery-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0.5rem;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.35rem;
       }
 
       .section-head {
