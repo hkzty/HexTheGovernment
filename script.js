@@ -26,14 +26,22 @@
       menuToggle.querySelector('span:last-child').textContent = isOpen ? 'Close' : 'Menu';
     });
 
+    const closeMenu = () => {
+      if (!nav || !menuToggle || !nav.classList.contains('open')) return;
+      nav.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.querySelector('span:last-child').textContent = 'Menu';
+    };
+
     navLinks.forEach(link => {
       link.addEventListener('click', () => {
-        if (window.innerWidth <= 820 && nav && menuToggle) {
-          nav.classList.remove('open');
-          menuToggle.setAttribute('aria-expanded', 'false');
-          menuToggle.querySelector('span:last-child').textContent = 'Menu';
-        }
+        if (window.innerWidth <= 820) closeMenu();
       });
+    });
+
+    // Tap outside the open phone menu closes it.
+    document.addEventListener('pointerdown', event => {
+      if (window.innerWidth <= 820 && topbar && !topbar.contains(event.target)) closeMenu();
     });
 
     const onScrollFrame = () => {
