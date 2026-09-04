@@ -1,23 +1,13 @@
 /* render.js — builds the page from config.js.
    Load order matters: config.js -> render.js -> script.js
-   Everything here rewrites the static placeholder markup using the values
-   the site owner put in config.js. No config value = keep the fallback. */
+   Everything here rewrites the static markup using the values in
+   config.js. No config value = keep the fallback. */
 
 (() => {
   const cfg = window.ABRAXAS_CONFIG || {};
   const socials = cfg.socials || {};
 
-  const PLATFORM_HOMES = {
-    instagram: 'https://instagram.com/',
-    spotify: 'https://open.spotify.com/',
-    soundcloud: 'https://soundcloud.com/',
-    youtube: 'https://youtube.com/',
-    tiktok: 'https://www.tiktok.com/',
-    appleMusic: 'https://music.apple.com/',
-    youtubeMusic: 'https://music.youtube.com/'
-  };
-
-  const socialUrl = (key) => (socials[key] || '').trim() || PLATFORM_HOMES[key] || '#';
+  const socialUrl = (key) => (socials[key] || '').trim();
 
   const el = (tag, attrs = {}, children = []) => {
     const node = document.createElement(tag);
@@ -29,9 +19,13 @@
     return node;
   };
 
-  /* ---- Profile links: footer icons + Out Now platform cards ------------ */
-  document.querySelectorAll('[data-social]').forEach(a => { a.href = socialUrl(a.dataset.social); });
-  document.querySelectorAll('[data-platform]').forEach(a => { a.href = socialUrl(a.dataset.platform); });
+  /* ---- Profile links: footer icons + Music links -------------------------
+     A platform with no URL in config is dropped from the page, never
+     pointed at the platform's homepage. */
+  document.querySelectorAll('[data-social]').forEach(a => {
+    const url = socialUrl(a.dataset.social);
+    if (url) a.href = url; else a.remove();
+  });
 
   /* ---- Crypto donations block (footer) ---------------------------------- */
   const support = document.getElementById('support');
@@ -41,14 +35,6 @@
     } else {
       support.remove();
     }
-  }
-
-  /* ---- Linktree: "All Links" buttons ------------------------------------ */
-  if (cfg.linktree) {
-    const heroCta = document.querySelector('.hero-cta');
-    if (heroCta) heroCta.append(el('a', { class: 'btn', href: cfg.linktree, target: '_blank', rel: 'noopener noreferrer', text: 'All Links' }));
-    const stickyActions = document.querySelector('.sticky-actions');
-    if (stickyActions) stickyActions.append(el('a', { class: 'btn', href: cfg.linktree, target: '_blank', rel: 'noopener noreferrer', text: 'All Links' }));
   }
 
   /* ---- Hero video --------------------------------------------------------
@@ -110,11 +96,8 @@
       frameborder: '0'
     });
     const card = el('div', { class: `embed-card fade-in${extras.highlight ? ' highlight' : ''}` });
-    if (extras.tag || extras.num) {
-      const head = el('div', { class: 'embed-head' });
-      if (extras.num) head.append(el('span', { class: 'embed-num', text: extras.num }));
-      if (extras.tag) head.append(el('span', { class: 'embed-tag', text: extras.tag }));
-      card.append(head);
+    if (extras.num) {
+      card.append(el('div', { class: 'embed-head' }, [el('span', { class: 'embed-num', text: extras.num })]));
     }
     card.append(iframe);
     return card;
@@ -125,7 +108,7 @@
      players, and nothing loads from Spotify until a card is tapped. Real
      cover art and titles are hydrated in the visitor's browser from
      Spotify's public oEmbed endpoint; when that fetch fails the numbered
-     deck card stands — positions and the artist name, nothing invented. */
+     card stands with no title — positions only, nothing invented. */
   const hydrateCover = (card, url) => {
     const apply = (data) => {
       if (!data) return;
@@ -176,7 +159,6 @@
     if (local && local.title) {
       extras = { ...extras, title: local.title, label: `Play ${local.title} on Spotify` };
     }
-    if (extras.tag) art.append(el('span', { class: 'cover-tag', text: extras.tag }));
     const card = el('button', {
       class: `cover-card fade-in${extras.highlight ? ' highlight' : ''}`,
       type: 'button',
@@ -184,12 +166,11 @@
     }, [
       art,
       el('span', { class: 'cover-meta' }, [
-        el('span', { class: 'cover-title', text: extras.title || '' }),
-        el('span', { class: 'cover-sub', text: 'Tap for the player' })
+        el('span', { class: 'cover-title', text: extras.title || '' })
       ])
     ]);
     card.addEventListener('click', () => {
-      const player = embedCard(item, { highlight: extras.highlight, tag: extras.tag, num: extras.num });
+      const player = embedCard(item, { highlight: extras.highlight, num: extras.num });
       // Created after script.js armed its reveal observer, so show it directly.
       player.classList.add('visible', 'now-playing');
       card.replaceWith(player);
@@ -205,17 +186,13 @@
   if (seqSection && (seq.albums || []).length + (seq.highlights || []).length > 0) {
     const head = seqSection.querySelector('.section-head');
     if (head) {
-      if (seq.kicker) head.querySelector('.section-kicker').textContent = seq.kicker;
-      if (seq.title) head.querySelector('.section-title').textContent = seq.title;
-      if (seq.note) head.querySelector('.section-copy').textContent = seq.note;
+      const kicker = head.querySelector('.section-kicker');
+      const note = head.querySelector('.section-copy');
+      if (seq.kicker && kicker) kicker.textContent = seq.kicker;
+      if (seq.note && note) note.textContent = seq.note;
     }
     seqSection.querySelectorAll('.sequence-block').forEach(n => n.remove());
     seqSection.querySelector('.sequence-fallback')?.remove();
-
-    seqSection.append(el('div', { class: 'sequence-block sequence-open' }, [
-      el('a', { class: 'btn', href: 'sequence.html', text: 'Open the full Sequence' }),
-      el('span', { class: 'sequence-open-note', text: 'Every player on one page. Here, tap a cover to load its player.' })
-    ]));
 
     const artistName = cfg.artist || 'the artist';
     const artistCard = seq.artist ? coverCard(seq.artist, {
@@ -229,9 +206,7 @@
 
     const highlights = (seq.highlights || []).map((url, index) => coverCard(url, {
       highlight: true,
-      tag: seq.highlightTag || 'HIGHLIGHT',
-      title: `Pinned ${String(index + 1).padStart(2, '0')}`,
-      label: `Play pinned highlight ${index + 1} on Spotify`
+      label: `Play pinned track ${index + 1} on Spotify`
     })).filter(Boolean);
     if (highlights.length) {
       seqSection.append(el('div', { class: 'sequence-block cover-grid highlights' }, highlights));
@@ -239,7 +214,6 @@
 
     const albums = (seq.albums || []).map((url, index) => coverCard(url, {
       num: String(index + 1).padStart(2, '0'),
-      title: `Sequence ${String(index + 1).padStart(2, '0')}`,
       label: `Play album ${index + 1} of the Sequence on Spotify`
     })).filter(Boolean);
     if (albums.length) {
@@ -247,12 +221,12 @@
     }
 
     seqSection.append(el('div', { class: 'sequence-block pill-links' }, [
-      el('a', { class: 'inline-link', href: seq.artist || 'https://open.spotify.com/', target: '_blank', rel: 'noopener noreferrer', text: `Open ${artistName} on Spotify` }),
-      el('a', { class: 'inline-link', href: 'sequence.html', text: 'Open the full Sequence' })
+      el('a', { class: 'btn', href: 'sequence.html', text: 'Full Sequence' }),
+      el('a', { class: 'inline-link', href: seq.artist || 'https://open.spotify.com/', target: '_blank', rel: 'noopener noreferrer', text: 'Spotify' })
     ]));
   }
 
-  /* ---- Out Now: extra embeds under the platform cards --------------------- */
+  /* ---- Music: extra embeds under the artist players ----------------------- */
   const embeds = (cfg.outNowEmbeds || []).map(toEmbed).filter(Boolean);
   if (embeds.length) {
     const outNow = document.querySelector('#out-now .container');
@@ -261,73 +235,10 @@
     }
   }
 
-  /* ---- Releases ---------------------------------------------------------- */
-  const releaseCover = (item, index) => item.cover || `assets/placeholders/gallery-${((index) % 6) + 1}.svg`;
-  const releaseGrid = document.querySelector('.release-grid');
-  if (releaseGrid && Array.isArray(cfg.releases) && cfg.releases.length) {
-    releaseGrid.replaceChildren(...cfg.releases.map((item, index) => {
-      const isExternal = /^https?:/i.test(item.link || '');
-      const link = el('a', {
-        class: 'inline-link',
-        href: item.link || '#out-now',
-        text: isExternal ? 'Listen Now' : 'Open Players'
-      });
-      if (isExternal) { link.target = '_blank'; link.rel = 'noopener noreferrer'; }
-      return el('article', { class: 'release-card fade-in' }, [
-        el('img', { class: 'release-cover', src: releaseCover(item, index), alt: `Cover art for ${item.title}`, loading: 'lazy', decoding: 'async', width: 900, height: 900 }),
-        el('div', { class: 'release-body' }, [
-          el('div', { class: 'meta-row' }, [el('span', { text: item.type || 'Release' }), el('span', { text: item.tag || 'HTG' })]),
-          el('div', {}, [el('h3', { text: item.title }), el('p', { text: item.blurb || '' })]),
-          el('div', { class: 'pill-links' }, [link])
-        ])
-      ]);
-    }));
-  }
-
-  /* ---- Auto-synced catalog (assets/data/content.json) ---------------------
-     Written by scripts/scraper.js (run on a schedule by the content-sync
-     GitHub Action). Real album titles + cover art resolved from the URLs in
-     config.js — appended to the releases grid as auto-synced cards.        */
-  const albumsCfg = cfg.albums || {};
-  if (albumsCfg.enabled !== false && releaseGrid) {
-    fetch('assets/data/content.json')
-      .then(res => (res.ok ? res.json() : null))
-      .then(data => {
-        const items = (data && Array.isArray(data.items) ? data.items : [])
-          .filter(i => i.kind === 'album' && i.thumbnail && i.title)
-          .slice(0, albumsCfg.pageSize || 12);
-        if (!items.length) return;
-        releaseGrid.append(...items.map((item, index) => {
-          const link = el('a', { class: 'inline-link', href: item.url, target: '_blank', rel: 'noopener noreferrer', text: 'Listen Now' });
-          return el('article', { class: 'release-card fade-in visible' }, [
-            el('img', { class: 'release-cover', src: item.thumbnail, alt: `Cover art for ${item.title}`, loading: 'lazy', decoding: 'async', width: 900, height: 900 }),
-            el('div', { class: 'release-body' }, [
-              el('div', { class: 'meta-row' }, [el('span', { text: `Album ${String(index + 1).padStart(2, '0')}` }), el('span', { text: 'Auto-Sync' })]),
-              el('div', {}, [el('h3', { text: item.title })]),
-              el('div', { class: 'pill-links' }, [link])
-            ])
-          ]);
-        }));
-      })
-      .catch(() => { /* no synced content yet */ });
-  }
-
-  /* ---- Coming soon -------------------------------------------------------- */
-  const comingGrid = document.querySelector('.coming-grid');
-  if (comingGrid && Array.isArray(cfg.comingSoon) && cfg.comingSoon.length) {
-    comingGrid.replaceChildren(...cfg.comingSoon.map((item, index) => el('article', { class: 'coming-card fade-in' }, [
-      el('img', { class: 'coming-image', src: item.image || `assets/placeholders/gallery-${((index) % 6) + 1}.svg`, alt: `Visual for ${item.title}`, loading: 'lazy', decoding: 'async', width: 900, height: 900 }),
-      el('div', { class: 'coming-body' }, [
-        el('div', { class: 'meta-row' }, [el('span', { text: item.date || 'TBA' }), el('span', { text: item.type || 'Drop' })]),
-        el('div', {}, [el('h3', { text: item.title }), el('p', { text: item.blurb || '' })])
-      ])
-    ])));
-  }
-
   /* ---- Gallery ------------------------------------------------------------
      Built twice if needed: synchronously from config.gallery, then replaced
-     by assets/gallery/manifest.json when the auto-uploaded folder has
-     photos in it (the GitHub Action keeps the manifest current).          */
+     by assets/gallery/manifest.json when the folder has photos in it
+     (npm run build:gallery keeps the manifest current).                   */
   const galleryGrid = document.querySelector('.gallery-grid');
 
   const buildGallery = (items, revealNow) => {
@@ -339,8 +250,7 @@
       'data-full': item.full || item.thumb,
       'data-caption': item.caption || ''
     }, [
-      el('img', { class: 'gallery-thumb', src: item.thumb, alt: item.caption || `Gallery image ${index + 1}`, loading: 'lazy', decoding: 'async', width: 900, height: 900 }),
-      el('span', { class: 'gallery-caption', text: item.caption || '' })
+      el('img', { class: 'gallery-thumb', src: item.thumb, alt: item.caption || `Gallery image ${index + 1}`, loading: 'lazy', decoding: 'async', width: 900, height: 900 })
     ])));
   };
 
@@ -361,7 +271,7 @@
     })
     .catch(() => { /* no manifest yet — config fallback stays */ });
 
-  /* ---- Merchandise: nav button straight to the Shopify storefront --------- */
+  /* ---- Merch: nav button straight to the Shopify storefront --------------- */
   const shopUrl = (cfg.shop && cfg.shop.url || '').trim();
   document.querySelectorAll('[data-shop-link]').forEach(a => {
     if (shopUrl) a.href = shopUrl;
@@ -393,15 +303,6 @@
     }
   }
 
-  /* ---- Stats ---------------------------------------------------------------- */
-  const statsGrid = document.querySelector('.stats-grid');
-  if (statsGrid && Array.isArray(cfg.stats) && cfg.stats.length) {
-    statsGrid.replaceChildren(...cfg.stats.map(item => el('article', { class: 'stat-card fade-in' }, [
-      el('div', { class: 'stat-value', 'data-counter': item.value, text: '0' }),
-      el('div', { class: 'stat-label', text: item.label })
-    ])));
-  }
-
   /* ---- Contact card ----------------------------------------------------------- */
   const contactList = document.querySelector('.contact-list');
   if (contactList) {
@@ -410,13 +311,13 @@
       entries.push(['Email', el('a', { href: `mailto:${cfg.contactEmail}`, text: cfg.contactEmail })]);
     }
     if (cfg.management && cfg.management !== cfg.contactEmail) {
-      entries.push(['Management', el('a', { href: `mailto:${cfg.management}`, text: cfg.management })]);
+      entries.push(['Bookings', el('a', { href: `mailto:${cfg.management}`, text: cfg.management })]);
     }
-    entries.push(['Label', el('span', { text: cfg.label || 'HTG / Hex The Government' })]);
     if (cfg.linktree) {
-      entries.push(['All Links', el('a', { href: cfg.linktree, target: '_blank', rel: 'noopener noreferrer', text: cfg.linktree.replace(/^https?:\/\//, '') })]);
+      entries.push(['Links', el('a', { href: cfg.linktree, target: '_blank', rel: 'noopener noreferrer', text: cfg.linktree.replace(/^https?:\/\//, '') })]);
     }
-    entries.push(['Focus', el('span', { text: 'Bookings, features, visuals, merchandise' })]);
-    contactList.replaceChildren(...entries.map(([label, value]) => el('li', {}, [el('strong', { text: label }), value])));
+    if (entries.length) {
+      contactList.replaceChildren(...entries.map(([label, value]) => el('li', {}, [el('strong', { text: label }), value])));
+    }
   }
 })();

@@ -3,10 +3,7 @@
     const nav = document.getElementById('site-nav');
     const navLinks = [...document.querySelectorAll('.nav-list a')];
     const fadeEls = document.querySelectorAll('.fade-in');
-    const counters = document.querySelectorAll('[data-counter]');
-    const toTop = document.getElementById('toTop');
     const sections = [...document.querySelectorAll('main section[id]')];
-    const parallaxLayers = document.querySelectorAll('.parallax-layer');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     /*
@@ -26,7 +23,7 @@
     menuToggle.addEventListener('click', () => {
       const isOpen = nav.classList.toggle('open');
       menuToggle.setAttribute('aria-expanded', String(isOpen));
-      menuToggle.querySelector('span:last-child').textContent = isOpen ? 'Close Menu' : 'Open Menu';
+      menuToggle.querySelector('span:last-child').textContent = isOpen ? 'Close' : 'Menu';
     });
 
     navLinks.forEach(link => {
@@ -34,7 +31,7 @@
         if (window.innerWidth <= 820) {
           nav.classList.remove('open');
           menuToggle.setAttribute('aria-expanded', 'false');
-          menuToggle.querySelector('span:last-child').textContent = 'Open Menu';
+          menuToggle.querySelector('span:last-child').textContent = 'Menu';
         }
       });
     });
@@ -42,15 +39,6 @@
     const onScrollFrame = () => {
       const scrolled = window.scrollY > 16;
       topbar.classList.toggle('scrolled', scrolled);
-      toTop.classList.toggle('show', window.scrollY > 720);
-
-      if (!prefersReducedMotion) {
-        const scrollY = window.scrollY;
-        parallaxLayers.forEach(layer => {
-          const speed = Number(layer.dataset.speed || 0.1);
-          layer.style.transform = `translate3d(0, ${scrollY * speed}px, 0)`;
-        });
-      }
 
       let currentId = sections[0]?.id || '';
       const offset = window.scrollY + 180;
@@ -89,74 +77,9 @@
       if (!el.classList.contains('visible')) revealObserver.observe(el);
     });
 
-    const animateCounter = (el) => {
-      const target = Number(el.dataset.counter || 0);
-      if (prefersReducedMotion) {
-        el.textContent = target.toString();
-        return;
-      }
-      const duration = 1300;
-      const start = performance.now();
-      const tick = (now) => {
-        const progress = Math.min((now - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.floor(eased * target).toString();
-        if (progress < 1) {
-          requestAnimationFrame(tick);
-        } else {
-          el.textContent = target.toString();
-        }
-      };
-      requestAnimationFrame(tick);
-    };
-
-    const counterObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          animateCounter(entry.target);
-          counterObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.55 });
-
-    counters.forEach(counter => counterObserver.observe(counter));
-
-    toTop.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-    });
-
-    const cursor = document.querySelector('.cursor');
-    const cursorDot = document.querySelector('.cursor-dot');
-    const HOVERABLE_SELECTOR = 'a, button, input, textarea, .gallery-item';
-
-    if (window.matchMedia('(pointer: fine)').matches) {
-      let cursorVisible = false;
-      window.addEventListener('mousemove', (event) => {
-        const { clientX, clientY } = event;
-        cursor.style.left = `${clientX}px`;
-        cursor.style.top = `${clientY}px`;
-        cursorDot.style.left = `${clientX}px`;
-        cursorDot.style.top = `${clientY}px`;
-        if (!cursorVisible) {
-          cursor.classList.add('active');
-          cursorDot.classList.add('active');
-          cursorVisible = true;
-        }
-      });
-
-      // Delegated so gallery rebuilds and injected players still count
-      document.addEventListener('mouseover', (event) => {
-        if (event.target.closest(HOVERABLE_SELECTOR)) cursor.classList.add('link-hover');
-      });
-      document.addEventListener('mouseout', (event) => {
-        if (event.target.closest(HOVERABLE_SELECTOR)) cursor.classList.remove('link-hover');
-      });
-    }
-
     const getGalleryButtons = () => [...document.querySelectorAll('[data-gallery-index]')];
     const lightbox = document.getElementById('lightbox');
     const lightboxImage = document.getElementById('lightboxImage');
-    const lightboxCaption = document.getElementById('lightboxCaption');
     const lightboxClose = document.getElementById('lightboxClose');
     const lightboxPrev = document.getElementById('lightboxPrev');
     const lightboxNext = document.getElementById('lightboxNext');
@@ -168,7 +91,6 @@
       currentGalleryIndex = index;
       lightboxImage.src = item.dataset.full;
       lightboxImage.alt = item.querySelector('img')?.alt || 'Expanded gallery image';
-      lightboxCaption.textContent = item.dataset.caption || 'Gallery image';
     };
 
     let lightboxReturnFocus = null;
@@ -233,10 +155,10 @@
       form is the only copy of their message.
     */
     const openMailto = ({ name, email, subject, message, contactEmail, contactCc, lead }) => {
-      const body = `${message}\n\n— ${name} (${email})`;
+      const body = `${message}\n\n${name}\n${email}`;
       const cc = contactCc.length ? `cc=${encodeURIComponent(contactCc.join(','))}&` : '';
       window.location.href = `mailto:${contactEmail}?${cc}subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      formStatus.textContent = `${lead} If no email app opened, send it yourself to ${contactEmail} — your message is still filled in below.`;
+      formStatus.textContent = `${lead} If nothing opened, email ${contactEmail}.`;
     };
 
     contactForm.addEventListener('submit', async (event) => {
@@ -252,19 +174,19 @@
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       if (name.length < 2) {
-        formError.textContent = 'Enter a real name with at least 2 characters.';
+        formError.textContent = 'Name too short.';
         return;
       }
       if (!emailPattern.test(email)) {
-        formError.textContent = 'Enter a valid email address.';
+        formError.textContent = 'Invalid email.';
         return;
       }
       if (subject.length < 3) {
-        formError.textContent = 'Subject needs at least 3 characters.';
+        formError.textContent = 'Subject too short.';
         return;
       }
       if (message.length < 12) {
-        formError.textContent = 'Message is too short. Add some actual detail.';
+        formError.textContent = 'Message too short.';
         return;
       }
 
@@ -272,7 +194,7 @@
       // Claim success and send nothing.
       if ((formData.get('botcheck') || '').toString().trim()) {
         contactForm.reset();
-        formStatus.textContent = 'Message sent.';
+        formStatus.textContent = 'Sent.';
         return;
       }
 
@@ -287,7 +209,7 @@
       const accessKey = (service.accessKey || '').trim();
 
       if (!endpoint && !contactEmail) {
-        formStatus.textContent = 'Message validated. Set contactForm.endpoint or contactEmail in config.js to make submissions live.';
+        formStatus.textContent = 'Send failed.';
         return;
       }
 
@@ -310,12 +232,12 @@
           });
           if (!res.ok) throw new Error(`form service responded ${res.status}`);
           contactForm.reset();
-          formStatus.textContent = 'Sent — your message is in the HTG inbox. Replies go to the email you gave.';
+          formStatus.textContent = 'Sent.';
         } catch (err) {
           if (contactEmail) {
-            openMailto({ name, email, subject, message, contactEmail, contactCc, lead: 'The form service did not answer, so this fell back to your email app.' });
+            openMailto({ name, email, subject, message, contactEmail, contactCc, lead: 'Send failed. Opening your mail app.' });
           } else {
-            formStatus.textContent = 'Sending failed — please try again in a minute.';
+            formStatus.textContent = 'Send failed. Try again.';
           }
         } finally {
           contactSubmit.disabled = false;
@@ -323,19 +245,9 @@
         return;
       }
 
-      openMailto({ name, email, subject, message, contactEmail, contactCc, lead: `Opening your email app to send this to ${contactEmail}…` });
+      openMailto({ name, email, subject, message, contactEmail, contactCc, lead: 'Opening your mail app.' });
     });
   
-
-    /* Roster slide-down splits: toggle .open + aria-expanded on each panel. */
-    document.querySelectorAll('[data-split] .split-toggle').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const split = btn.closest('[data-split]');
-        if (!split) return;
-        const open = split.classList.toggle('open');
-        btn.setAttribute('aria-expanded', String(open));
-      });
-    });
 
     /*
       Suit Purge easter egg.
@@ -444,9 +356,5 @@
         });
       });
 
-      // A breadcrumb for anyone who opens the console.
-      try {
-        console.log('%cHTG // there is a maze hidden in this page. Try the Konami code, type "purge", or tap the logo three times.', 'color:#b794f6');
-      } catch (e) { /* no console */ }
     })();
 

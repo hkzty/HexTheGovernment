@@ -21,9 +21,9 @@ Deployed by GitHub Pages straight from `main` (see `CNAME`). Merging to
 
 | File | Role |
 |---|---|
-| `config.js` | **The only file most content edits need.** Artist info, social URLs, the Sequence, releases, gallery, stats, contact. Sets `window.ABRAXAS_CONFIG`. |
+| `config.js` | **The only file most content edits need.** Social URLs, the Sequence, gallery, shop, contact. Sets `window.ABRAXAS_CONFIG`. |
 | `render.js` | Reads the config and rewrites the markup at runtime. |
-| `script.js` | Site chrome: nav, scroll-spy, reveals, lightbox, custom cursor, contact form. |
+| `script.js` | Site chrome: nav, scroll-spy, reveals, lightbox, contact form, Suit Purge unlock. |
 | `game.js` | Suit Purge — the in-page shooter. Self-contained IIFE. |
 | `index.html` | Desktop page. |
 | `mobile.html` | Phone page. **Generated — never hand-edit.** |
@@ -41,9 +41,7 @@ viewport width, with `?desktop` / `?mobile` pinning a choice in
 **`mobile.html` is generated. Do not edit it by hand.** It is
 `index.html` with `style.css` inlined, `data-page` flipped to `mobile`,
 the footer view-toggle pointed back at the desktop page, and one
-phone-chrome rule appended (`.topbar { position: static }`, plus
-`main { padding-top: 0 }` unconditionally — `style.css` only zeroes it
-below 640px). Everything else, including the roster, comes straight from
+phone-chrome rule appended (`.topbar { position: static }`). Everything else, including the roster, comes straight from
 `index.html`.
 
 After any edit to `index.html` or `style.css`:
@@ -80,19 +78,95 @@ redirect bounces you straight to `index.html`.
 The site previously shipped a large amount of invented content presented
 as real: three tour dates with fake venues and door times, three
 unreleased "coming soon" titles with dates, three invented release names,
-and fabricated statistics. All of it has been removed and replaced with
-honest empty states.
+and fabricated statistics. All of it has been removed, and so have the
+sections that held it.
 
 **Do not add placeholder content that reads as real.** No invented tour
-dates, venues, release titles, dates, or numbers. If a section has no
-real content, it shows an empty state saying so. Stats must be countable
-from the actual catalog.
+dates, venues, release titles, dates, or numbers. A section with no real
+content does not exist on the page — no "nothing announced yet" empty
+states, no stats counters.
 
 Note the trap that let fakes survive a previous cleanup: `render.js`
-only replaces a section's markup when the matching config array is
-**non-empty**. Emptying `config.comingSoon` therefore left the hardcoded
-fake cards visible in the HTML. **Fix both layers** — the config array
-*and* the markup fallback.
+only replaces a section's markup when the matching config value is
+**non-empty** (the gallery still works this way). Emptying a config array
+leaves the hardcoded fallback visible in the HTML. **Fix both layers** —
+the config value *and* the markup fallback.
+
+## Copy policy — nobody needs the site explained to them
+
+The reference density is Ghostemane's and $uicideboy$'s sites: logo,
+nav, embeds, merch, socials, and almost no sentences. The owner asked for
+everything that read as AI-written to go, and it went. Do not bring it
+back. Concretely:
+
+- **No copy about the site itself.** Nothing that explains what a section
+  is for, how to use it, where the content comes from ("pulled straight
+  from Spotify"), or how honest it is ("counted, not invented").
+- **No UI instructions.** No "tap for the player", "click any frame",
+  "press one and it plays right here". A play icon is the instruction.
+- **No empty-state messaging.** A section with nothing in it is removed,
+  not narrated. The Story timeline, Stats counters, New Releases, Coming
+  Soon and Upcoming Tours sections, the sticky CTA bar, the back-to-top
+  button, the easter-egg hint paragraph, the platform description cards
+  and the door reveal panels were all deleted for this reason.
+- **No template chrome.** The custom cursor, the hero parallax layers, the
+  filename captions overlaid on gallery thumbnails, the console "there is
+  a maze" breadcrumb and the game's "copy the brag" share button went in
+  the same sweep. Sequence cover cards carry no title until Spotify's
+  oEmbed supplies the real one — never a generated "Sequence 01" label.
+- **Section heads are one kicker**, as `<h2 class="section-kicker">`. No
+  section title, no intro paragraph. The Sequence keeps a one-line note.
+- **No metaphor spray.** The Noah/Ark lore is the owner's, and the owner
+  asked for it as a background subtlety only: the faint `.door-lore`
+  watermarks behind the ABRAXAS and STRETTY roster doors, the `NOAH` /
+  `THE ARK` watermark sigils on `abraxas.html` / `stretty.html`, and the
+  THE ARK trademark line on `legal.html`. No visible role lines, no
+  copy. Everything else — "aboard", "boarding card", "Board X →", "the
+  vessel", "pulled out of the water", the sign-off nod lines — is gone.
+  Keep it gone.
+- **Owner voice that stays:** the hero curse line, "Hex The Government",
+  "Depressions Running Deep", the legal footer, the game's own
+  flavour text, and the fiction/satire notice (a legal guard — may be
+  shortened, never removed).
+- **Links point at real profiles or don't exist.** `render.js` removes
+  any `[data-social]` link whose URL is empty in `config.socials`; it
+  never falls back to a platform homepage.
+- Meta descriptions, `og:description`, `aria-label`s, iframe titles and
+  form placeholders follow the same rule: name the thing, don't sell it.
+
+## Discoverability layer — machine-readable, not visible
+
+The site describes itself to crawlers and AI agents in places visitors
+never read, so the visible page can stay near-silent. Nothing here depends
+on `render.js` running.
+
+| File | Role |
+|---|---|
+| `robots.txt` | One `User-agent: *` group: allows everything public (AI crawlers included — the owner wants AI in the back end, never showing on the front end; `legal.html` §2 still forbids training on the content and stays as written) and blocks `copydesk.html`, `content/`, `docs/`, `scripts/`. No per-bot groups — under RFC 9309 a named group inherits nothing from `*`, so a bot-specific `Allow: /` silently drops the Disallows for exactly that bot. |
+| `sitemap.xml` | **Generated** by `scripts/build-sitemap.js`; `lastmod` is each page's last commit date. `mobile.html` is deliberately absent. After editing any page: `npm run build:sitemap`, and `npm run check:sitemap` before pushing (same deal as `check:mobile`, and for the same reason not in CI). |
+| `llms.txt` | Plain-markdown summary for LLM agents: roster, every profile URL, the Sequence and the deck tracks, contact, trademarks, the explicit "no tour dates, no upcoming releases" line, and the ABRAXAS/Stretty Spotify disambiguation. |
+| `site.webmanifest` | Name, colours, `music`/`entertainment` categories, the SVG mark as icon. |
+| JSON-LD in each page head | `index.html` carries `Organization` (`#org`), `WebSite` (`#website`), a `WebPage`, the three `MusicGroup`s, the `Person` and the `VideoGame`. Each deck repeats its own entity under the same `@id` plus a `WebPage` and a `BreadcrumbList`; `abraxas.html` adds the thirteen `MusicAlbum` nodes (URL-only — their titles are not on the site), `stretty.html` / `ciggie.html` add `MusicRecording`s for the tracks named on the page, `sequence.html` an `ItemList` of the albums. No `VideoObject`s: Google requires `name` and `uploadDate`, which the site deliberately does not hand-write. |
+
+Every indexed page also has `<link rel="canonical">`, a `robots` meta,
+`twitter:title`/`twitter:description`, and the footer social icons carry
+`rel="me"`. Location: `legal.html` is governed by NSW law, so every page
+carries `og:locale` `en_AU` and the Organization node an `address` of
+NSW, AU. Nothing prices anything (the game is `isAccessibleForFree`). `index.html` advertises `mobile.html` as its phone alternate
+and `mobile.html` keeps the canonical pointing at `index.html`;
+`build-mobile.js` strips the alternate link on the phone copy (and aborts
+if it is missing, like its other anchors). Share cards are in
+`assets/og/`; `twitter:image` used to point at a non-existent
+`assets/share/`.
+
+Rules: **facts only** — genres, handles and IDs come from `config.js` and
+the pages, never guessed (no invented locations, founding dates, member
+counts or genres), and descriptions are as terse as the page copy: no
+manifesto sentences in `description` fields either. When an artist, page
+or profile URL is added or changed, update `llms.txt`, the JSON-LD graphs
+and the sitemap (`npm run build:sitemap`) in the same commit. Anything
+that reads as a pitch belongs in `llms.txt` or structured data, not in
+the page.
 
 ## The real Spotify artist
 
@@ -152,46 +226,13 @@ out of view, on Escape, and when the tab is hidden.
   them. (If this becomes a frequent edit, promoting that check into a
   dev-only assertion in `game.js` would be worth doing.)
 
-## Search and AI discoverability
-
-Everything a crawler or an AI agent reads is static; none of it depends on
-`render.js` running. Four layers, all in the repo root unless noted:
-
-- **`robots.txt`** — allows everything public, names the AI crawlers
-  explicitly (GPTBot, ClaudeBot, PerplexityBot, Google-Extended and the
-  rest) and blocks `copydesk.html`, `content/`, `docs/`, `scripts/`.
-- **`sitemap.xml`** — generated by `scripts/build-sitemap.js`; `lastmod` is
-  each page's last commit date. `mobile.html` is deliberately absent.
-  After editing any page: `npm run build:sitemap`, and `npm run
-  check:sitemap` before pushing (same deal as `check:mobile`, and for the
-  same reason not in CI).
-- **`llms.txt`** — the llmstxt.org summary for AI agents: what HTG is, every
-  page, every real link, and the explicit statement that there are no
-  tour dates or upcoming releases. Same content policy as the site: only
-  facts already on a page. Update it when the roster, links or contact
-  addresses change.
-- **JSON-LD** in the `<head>` of every public page — `Organization`,
-  `WebSite`, a `MusicGroup`/`Person` per artist, `MusicAlbum` nodes for
-  the thirteen Sequence albums (URL-only: their titles are not on the
-  site, so they are not in the data either), `MusicRecording` for the
-  tracks named on the Stretty and ciggyholster decks, `VideoGame` for
-  Suit Purge, and a `BreadcrumbList` per deck. Artist Spotify IDs come from
-  `config.js` and the deck pages; the same wrong-artist trap applies.
-
-Every page also carries `<link rel="canonical">`. `index.html` advertises
-`mobile.html` as its phone alternate and `mobile.html` keeps the canonical
-pointing at `index.html`; `build-mobile.js` strips the alternate link on
-the phone copy. Share cards are in `assets/og/` — three pages used to point
-`twitter:image` at a non-existent `assets/share/`.
-
 ## The HTG mark
 
 `assets/htg-mark.svg` is the label's drawn sigil — a hexagon holding an H
 whose crossbar is a hull, over a waterline. It is the favicon on the
 HTG-branded pages (`index.html`/`mobile.html`, `game.html`, `legal.html`,
 `404.html`); artist decks keep their own letter icons. The `og:image`
-share cards live per-page in `assets/share/` (see the shareable-face
-work). Reuse the SVG for anything that needs a stamp; don't reintroduce the old
+share cards live per-page in `assets/og/`. Reuse the SVG for anything that needs a stamp; don't reintroduce the old
 plain-letter "H" tile.
 
 ## Drawn logos (`assets/logos/`)
@@ -282,22 +323,17 @@ monospace and that swap is invisible. Do not fold them back into one link.
 - ~~Deduplicate `mobile.html`'s inline CSS against `style.css`.~~ Done —
   `mobile.html` is generated from `style.css`, so there is only one copy
   to edit.
-- **`assets/gallery/` is empty; the gallery shows six local placeholder
-  SVGs** (`assets/placeholders/gallery-*.svg`, via the fallback list in
-  `config.js`) with stylized captions. The `gallery-manifest.yml` Action
-  rebuilds `manifest.json` from whatever image files land in
-  `assets/gallery/`, so real photos dropped in there replace the
-  placeholders automatically — when Actions runs at all (see above).
+- **`assets/gallery/` holds six frames off HTG's own visuals** (hero-reel
+  stills and Suit Purge floors), mirrored in the fallback list in
+  `config.js`. `npm run build:gallery` rebuilds `manifest.json` from
+  whatever image files land in `assets/gallery/` (the `gallery-manifest`
+  Action was meant to, but see above), so real session photos dropped in
+  there replace the frames.
 - ~~`config.heroPoster` is a picsum stock photo~~ Done — it now points at
   `assets/placeholders/hero-poster.svg`, a local placeholder graphic.
-- **`assets/htg-hero.mp4` is 25MB**, the entire weight of the repo — and
-  **both pages load it**. PR #9 shipped small mobile encodes
-  (`assets/htg-hero-mobile.mp4` ~0.9MB / `.webm` ~0.5MB) by hand-editing
-  `mobile.html`; when the generator later rebuilt that file from
-  `index.html` the wiring was wiped, so the two files now sit unreferenced
-  in `assets/`. Re-wiring belongs in `scripts/build-mobile.js` (or a
-  viewport-aware source pick in `render.js`) — never in `mobile.html`
-  itself.
+- ~~`assets/htg-hero.mp4` (25MB) loaded on both pages~~ Done — the hero is
+  the 720p pair (`assets/htg-hero-720p.webm` ~0.55MB / `.mp4` ~0.9MB)
+  referenced from `index.html` and `config.js`.
 - **The contact form's delivery endpoint is unset.** `script.js` POSTs
   submissions to `config.contactForm.endpoint` (Formspree or Web3Forms —
   setup notes in `config.js`) and falls back to `mailto:` without one.

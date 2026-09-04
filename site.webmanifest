@@ -1,0 +1,15 @@
+{
+  "name": "HTG — Hex The Government",
+  "short_name": "HTG",
+  "description": "Independent record label. ABRAXAS, Stretty, ciggyholster, Justinn.clout.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "lang": "en",
+  "categories": ["music", "entertainment"],
+  "icons": [
+    { "src": "/assets/htg-mark.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
