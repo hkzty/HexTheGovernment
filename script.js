@@ -20,7 +20,7 @@
     window.addEventListener('resize', syncNavHeight);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncNavHeight);
 
-    menuToggle.addEventListener('click', () => {
+    if (menuToggle && nav) menuToggle.addEventListener('click', () => {
       const isOpen = nav.classList.toggle('open');
       menuToggle.setAttribute('aria-expanded', String(isOpen));
       menuToggle.querySelector('span:last-child').textContent = isOpen ? 'Close' : 'Menu';
@@ -28,7 +28,7 @@
 
     navLinks.forEach(link => {
       link.addEventListener('click', () => {
-        if (window.innerWidth <= 820) {
+        if (window.innerWidth <= 820 && nav && menuToggle) {
           nav.classList.remove('open');
           menuToggle.setAttribute('aria-expanded', 'false');
           menuToggle.querySelector('span:last-child').textContent = 'Menu';
@@ -38,7 +38,7 @@
 
     const onScrollFrame = () => {
       const scrolled = window.scrollY > 16;
-      topbar.classList.toggle('scrolled', scrolled);
+      if (topbar) topbar.classList.toggle('scrolled', scrolled);
 
       let currentId = sections[0]?.id || '';
       const offset = window.scrollY + 180;
@@ -126,15 +126,17 @@
       if (button) openLightbox(Number(button.dataset.galleryIndex));
     });
 
+    if (lightbox) {
     lightboxClose.addEventListener('click', closeLightbox);
     lightboxPrev.addEventListener('click', () => stepLightbox(-1));
     lightboxNext.addEventListener('click', () => stepLightbox(1));
     lightbox.addEventListener('click', (event) => {
       if (event.target === lightbox) closeLightbox();
     });
+    }
 
     window.addEventListener('keydown', (event) => {
-      if (!lightbox.classList.contains('open')) return;
+      if (!lightbox || !lightbox.classList.contains('open')) return;
       if (event.key === 'Escape') closeLightbox();
       if (event.key === 'ArrowLeft') stepLightbox(-1);
       if (event.key === 'ArrowRight') stepLightbox(1);
@@ -143,7 +145,7 @@
     const contactForm = document.getElementById('contactForm');
     const formError = document.getElementById('formError');
     const formStatus = document.getElementById('formStatus');
-    const contactSubmit = contactForm.querySelector('button[type="submit"]');
+    const contactSubmit = contactForm ? contactForm.querySelector('button[type="submit"]') : null;
 
     /*
       Delivery order: POST to the form service in config.contactForm when
@@ -161,7 +163,7 @@
       formStatus.textContent = `${lead} If nothing opened, email ${contactEmail}.`;
     };
 
-    contactForm.addEventListener('submit', async (event) => {
+    if (contactForm) contactForm.addEventListener('submit', async (event) => {
       event.preventDefault();
       formError.textContent = '';
       formStatus.textContent = '';
@@ -252,9 +254,10 @@
     /*
       Suit Purge easter egg.
 
-      The #game section ships with the `hidden` attribute and is left out of
-      the nav, so a first-time visitor never sees it. It unlocks lots of ways
-      so it is easy to stumble on, on any device:
+      Suit Purge lives on game.html and is left out of the nav, so a
+      first-time visitor never sees it. Any of the triggers below sends the
+      visitor there (or reveals the hidden #game section on a page that still
+      carries one). It is easy to stumble on, on any device:
 
         - the Konami code — with or without the trailing B A
         - typing any of several secret words (purge, play, game, suit, htg…)
@@ -266,12 +269,15 @@
     */
     (() => {
       const gameSection = document.getElementById('game');
-      if (!gameSection) return;
 
       const STORAGE_KEY = 'htg-suit-purge-unlocked';
       let unlocked = false;
 
       const revealGame = (scroll) => {
+        if (!gameSection) {
+          window.location.href = 'game.html';
+          return;
+        }
         // First unlock: drop `hidden`, animate in, and tell the game engine to
         // size its canvas now that the section actually has a box.
         if (!unlocked) {
@@ -294,7 +300,7 @@
       // Restore for the rest of the session after a reload — no scroll, so the
       // page still opens at the top.
       try {
-        if (sessionStorage.getItem(STORAGE_KEY) === '1') revealGame(false);
+        if (gameSection && sessionStorage.getItem(STORAGE_KEY) === '1') revealGame(false);
       } catch (e) { /* private mode */ }
 
       // Shareable link: #game / #play in the hash, or ?play / ?game / ?egg.

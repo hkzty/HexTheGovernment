@@ -112,7 +112,7 @@
         "@id": "https://www.htg.productions/",
         "url": "https://www.htg.productions/",
         "name": "HTG — Hex The Government",
-        "description": "HTG — Hex The Government: roster, Spotify players, the Sequence, gallery, contact.",
+        "description": "HTG — Hex The Government: roster, Spotify players, gallery.",
         "isPartOf": {
           "@id": "https://www.htg.productions/#website"
         },
@@ -1139,9 +1139,15 @@
       }
 
       .player-grid,
-      .gallery-grid,
       .form-grid {
         grid-template-columns: 1fr;
+      }
+
+      /* Phone gallery at half size: two frames per row instead of one, so
+         each thumb is half the width (and, square, half the height). */
+      .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
       }
 
       .section-head {
@@ -1803,7 +1809,7 @@
               <li><a href="sequence.html">The Sequence</a></li>
               <li><a data-shop-link href="https://strettys-merch.myshopify.com" target="_blank" rel="noopener noreferrer">Merch</a></li>
               <li><a href="#gallery">Gallery</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li><a href="contact.html">Contact</a></li>
             </ul>
           </nav>
         </div>
@@ -1931,43 +1937,6 @@
         </div>
       </section>
 
-      <section class="section" id="game" hidden>
-        <div class="container">
-          <div class="section-head fade-in">
-            <h2 class="section-kicker">Suit Purge</h2>
-            <p class="game-disclaimer">Fiction. No real person is depicted. <a href="legal.html#satire">Satire notice</a>.</p>
-          </div>
-        </div>
-
-        <div class="game-stage">
-          <canvas id="gameCanvas" class="game-canvas" role="img" aria-label="Suit Purge"></canvas>
-
-          <div class="game-hud" id="gameHud" aria-hidden="true">
-            <div class="hud-cell"><span>HP</span><b id="hudHealth">100</b></div>
-            <div class="hud-cell"><span>Ammo</span><b id="hudAmmo">60</b></div>
-            <div class="hud-cell"><span>Wave</span><b id="hudWave">1</b></div>
-            <div class="hud-cell"><span>Cleared</span><b id="hudKills">0</b></div>
-          </div>
-
-          <div class="game-overlay" id="gameOverlay">
-            <p class="game-kicker">HTG</p>
-            <h2 id="gameOverlayTitle">SUIT PURGE</h2>
-            <p class="game-lead" id="gameOverlayText">Clear the floor.</p>
-            <button class="btn btn-primary" type="button" id="gamePlay">Play</button>
-            <p class="game-keys"><b>Desktop</b> WASD move &middot; mouse aim &middot; click fire &middot; Esc pause. <b>Phone</b> left thumb moves &middot; right thumb aims &middot; FIRE shoots.</p>
-          </div>
-
-          <div class="game-touch" id="gameTouch" hidden>
-            <button class="game-fire" id="gameFire" type="button" aria-label="Fire">FIRE</button>
-          </div>
-
-          <div class="game-bar">
-            <button class="game-chip" type="button" id="gameExit" hidden>Exit</button>
-            <button class="game-chip" type="button" id="gameMute" aria-pressed="false">Sound on</button>
-          </div>
-        </div>
-      </section>
-
       <section class="section" id="out-now">
         <div class="container">
           <div class="section-head fade-in">
@@ -2014,19 +1983,6 @@
         </div>
       </section>
 
-      <section class="section" id="sequence">
-        <div class="container">
-          <div class="section-head fade-in">
-            <h2 class="section-kicker">The Sequence</h2>
-            <p class="section-copy">ABRAXAS · 01 → 13</p>
-          </div>
-          <div class="pill-links sequence-fallback">
-            <a class="btn" href="sequence.html">Full Sequence</a>
-            <a class="inline-link" href="https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19" target="_blank" rel="noopener noreferrer">Spotify</a>
-          </div>
-        </div>
-      </section>
-
       <section class="section" id="gallery">
         <div class="container">
           <div class="section-head fade-in">
@@ -2060,62 +2016,6 @@
         </div>
       </section>
 
-      <section class="section" id="contact">
-        <div class="container">
-          <div class="section-head fade-in">
-            <h2 class="section-kicker">Contact</h2>
-          </div>
-
-          <div class="contact-wrap">
-            <aside class="contact-card fade-in">
-              <h3>HTG</h3>
-              <ul class="contact-list">
-                <li>
-                  <strong>Email</strong>
-                  <a href="mailto:Abraxas@htg.productions">Abraxas@htg.productions</a>
-                </li>
-                <li>
-                  <strong>Bookings</strong>
-                  <a href="mailto:Bookings@htg.productions">Bookings@htg.productions</a>
-                </li>
-              </ul>
-            </aside>
-
-            <div class="contact-card fade-in">
-              <form class="contact-form" id="contactForm" novalidate>
-                <!-- Honeypot: invisible to people, filled by bots. Checked in
-                     script.js and forwarded to the form service. No label or
-                     placeholder on purpose — it is not copy. -->
-                <input class="hp-field" type="text" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" />
-                <div class="form-grid">
-                  <div class="field">
-                    <label for="name">Name</label>
-                    <input id="name" name="name" type="text" required />
-                  </div>
-                  <div class="field">
-                    <label for="email">Email</label>
-                    <input id="email" name="email" type="email" required />
-                  </div>
-                </div>
-                <div class="field">
-                  <label for="subject">Subject</label>
-                  <input id="subject" name="subject" type="text" required />
-                </div>
-                <div class="field">
-                  <label for="message">Message</label>
-                  <textarea id="message" name="message"></textarea>
-                </div>
-                <div class="error-message" id="formError" aria-live="polite"></div>
-                <div class="form-status" id="formStatus" aria-live="polite"></div>
-                <div>
-                  <button class="btn btn-primary" type="submit">Send</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <footer class="footer">
         <div class="container">
           <div class="footer-grid fade-in">
@@ -2128,6 +2028,7 @@
                 <a class="inline-link" href="ciggie.html">ciggyholster</a>
                 <a class="inline-link" href="sequence.html">The Sequence</a>
                 <a class="inline-link" href="game.html">Suit Purge</a>
+                <a class="inline-link" href="contact.html">Contact</a>
                 <a class="inline-link view-toggle" href="index.html?desktop=1">Desktop site</a>
               </div>
             </div>
@@ -2197,7 +2098,6 @@
 
   <script src="config.js"></script>
   <script src="render.js"></script>
-  <script src="game.js"></script>
   <script src="script.js"></script>
   <script src="matrix.js"></script>
 </body>
