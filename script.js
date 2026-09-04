@@ -24,13 +24,56 @@
       const isOpen = nav.classList.toggle('open');
       menuToggle.setAttribute('aria-expanded', String(isOpen));
       menuToggle.querySelector('span:last-child').textContent = isOpen ? 'Close' : 'Menu';
+      if (isOpen) startNavRain(); else stopNavRain();
     });
+
+    /*
+      Phone menu rain. The panel floats over opaque roster doors, so nothing
+      of #matrix-rain shows behind it. While open, a canvas inside the panel
+      mirrors the live rain at the panel's screen position each frame — the
+      same drops, seen through the menu. One drawImage per frame, only while
+      open; nothing on desktop, where the panel is never a popover.
+    */
+    const rainSource = document.getElementById('matrix-rain');
+    let navRain = null;
+    let navRainRaf = 0;
+    const stopNavRain = () => {
+      if (navRainRaf) cancelAnimationFrame(navRainRaf);
+      navRainRaf = 0;
+      if (navRain) navRain.remove();
+      navRain = null;
+    };
+    const startNavRain = () => {
+      if (!rainSource || window.innerWidth > 820) return;
+      stopNavRain();
+      navRain = document.createElement('canvas');
+      navRain.className = 'nav-rain';
+      navRain.setAttribute('aria-hidden', 'true');
+      nav.prepend(navRain);
+      const ctx = navRain.getContext('2d');
+      const draw = () => {
+        if (!navRain) return;
+        const r = nav.getBoundingClientRect();
+        const dpr = rainSource.width / Math.max(1, rainSource.clientWidth);
+        const w = Math.max(1, Math.round(r.width * dpr));
+        const h = Math.max(1, Math.round(r.height * dpr));
+        if (navRain.width !== w || navRain.height !== h) {
+          navRain.width = w;
+          navRain.height = h;
+        }
+        ctx.clearRect(0, 0, w, h);
+        ctx.drawImage(rainSource, r.left * dpr, r.top * dpr, w, h, 0, 0, w, h);
+        navRainRaf = requestAnimationFrame(draw);
+      };
+      draw();
+    };
 
     const closeMenu = () => {
       if (!nav || !menuToggle || !nav.classList.contains('open')) return;
       nav.classList.remove('open');
       menuToggle.setAttribute('aria-expanded', 'false');
       menuToggle.querySelector('span:last-child').textContent = 'Menu';
+      stopNavRain();
     };
 
     navLinks.forEach(link => {

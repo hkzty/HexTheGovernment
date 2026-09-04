@@ -1828,13 +1828,25 @@
       bottom: calc(100% + 0.6rem);
       min-width: 12.5rem;
       padding: 0.45rem;
-      background: rgba(10, 10, 10, 0.55);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      overflow: hidden;
+      background: rgba(10, 10, 10, 0.32);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
       border: 1px solid rgba(255, 255, 255, 0.45);
       border-radius: var(--radius-sm);
       box-shadow: 0 0 18px rgba(255, 255, 255, 0.22), 0 0 44px rgba(255, 255, 255, 0.08);
     }
+    /* script.js mirrors #matrix-rain into this canvas while the menu is
+       open, so the rain falls inside the panel above the blur. */
+    .nav-rain {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.75;
+    }
+    .nav.open .nav-list { position: relative; }
     .nav-list { gap: 0.15rem; }
     .nav-list a {
       min-height: 40px;
