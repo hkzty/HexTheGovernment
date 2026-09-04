@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — HTG</title>
+  <meta name="description" content="Contact and bookings — HTG, Hex The Government." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta property="og:title" content="Contact — HTG" />
+  <meta property="og:description" content="Contact and bookings." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.htg.productions/contact.html" />
+  <meta property="og:site_name" content="HTG — Hex The Government" />
+  <meta property="og:locale" content="en_AU" />
+  <meta property="og:image" content="https://www.htg.productions/assets/og/htg.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="HTG — Hex The Government" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://www.htg.productions/assets/og/htg.png" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://www.htg.productions/contact.html" />
+  <meta name="twitter:title" content="Contact — HTG" />
+  <meta name="twitter:description" content="Contact and bookings." />
+  <!-- schema.org structured data for search engines and AI agents. Static on
+       purpose: most crawlers never run render.js. Keep it in step with
+       config.js and the page copy. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ContactPage",
+        "@id": "https://www.htg.productions/contact.html",
+        "url": "https://www.htg.productions/contact.html",
+        "name": "Contact — HTG",
+        "description": "Contact and bookings — HTG, Hex The Government.",
+        "inLanguage": "en-AU",
+        "isPartOf": { "@id": "https://www.htg.productions/#website" },
+        "about": { "@id": "https://www.htg.productions/#org" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://www.htg.productions/contact.html#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "HTG", "item": "https://www.htg.productions/" },
+          { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://www.htg.productions/contact.html" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" href="assets/htg-mark.svg" type="image/svg+xml" />
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --ink: #f5f5f3;
+      --dim: #9a9a9a;
+      --line: rgba(255, 255, 255, 0.18);
+      --acc: #ffffff;   /* HTG white — matches the home page */
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; }
+    body {
+      background:
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.08), transparent 30%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 18%),
+        var(--bg);
+      color: var(--ink);
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    /* Same fixed grid overlay as the home page (style.css body::before). */
+    body::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.15));
+    }
+    #matrix-rain { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.55; pointer-events: none; }
+    .veil {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background: radial-gradient(120% 90% at 50% 20%, rgba(10,10,10,0) 0%, rgba(10,10,10,0.74) 66%, rgba(10,10,10,0.94) 100%);
+    }
+    .shell { position: relative; z-index: 2; width: min(72rem, 92vw); margin: 0 auto; padding: 1.4rem 0 3rem; }
+
+    .topline { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0 2rem; font-size: 0.72rem; letter-spacing: 0.14em; }
+    .topline a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+    .topline a:hover { border-color: var(--acc); color: var(--acc); }
+    .topline .tag { color: var(--dim); letter-spacing: 0.3em; text-transform: uppercase; }
+
+    .hero { padding: clamp(1.5rem, 6vh, 4rem) 0 2.5rem; }
+    .eyebrow { font-size: 0.68rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--acc); margin-bottom: 1rem; }
+    .name {
+      font-family: "New Rocker", "IBM Plex Mono", serif;
+      font-weight: 400; line-height: 0.9;
+      font-size: clamp(2.4rem, 10vw, 6rem);
+      text-shadow: 0 0 34px rgba(255, 255, 255, 0.25);
+    }
+    .tagline { margin-top: 0.6rem; font-size: clamp(1rem, 3vw, 1.5rem); color: var(--acc); letter-spacing: 0.04em; }
+
+    .section { margin-top: 2.6rem; }
+    .section-kicker { font-size: 0.68rem; letter-spacing: 0.34em; text-transform: uppercase; color: var(--dim); margin-bottom: 1rem; }
+    .section-kicker b { color: var(--acc); font-weight: 500; }
+    .embed-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+    .embed-wrap { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: rgba(27, 30, 30, 0.82); }
+    .embed-wrap iframe { display: block; width: 100%; border: 0; }
+
+    .links { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.6rem; }
+    .links a {
+      display: inline-block; padding: 0.6rem 1.4rem; border: 1px solid var(--line);
+      border-radius: 999px; color: var(--ink); text-decoration: none;
+      font-size: 0.76rem; letter-spacing: 0.12em;
+    }
+    .links a:hover { border-color: var(--acc); color: var(--acc); }
+
+    .foot { margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--line); font-size: 0.74rem; color: var(--dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .foot a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+    .foot a:hover { border-color: var(--acc); color: var(--acc); }
+
+    @media (max-width: 560px) {
+      .foot { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+    .contact-wrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 1rem; }
+    .contact-card { padding: 1.3rem; border: 1px solid var(--line); border-radius: 14px; background: rgba(27, 30, 30, 0.82); }
+    .contact-card h3 { font-family: "New Rocker", "IBM Plex Mono", serif; font-weight: 400; font-size: 1.6rem; }
+    .contact-list { list-style: none; display: grid; gap: 0.85rem; margin-top: 1rem; }
+    .contact-list li { display: grid; gap: 0.25rem; padding: 0.8rem 0.9rem; border-radius: 10px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.04); }
+    .contact-list strong { color: var(--acc); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.16rem; }
+    .contact-list a { color: var(--ink); text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.5); text-underline-offset: 3px; overflow-wrap: anywhere; }
+    .contact-list a:hover { color: var(--acc); }
+    .contact-form { display: grid; gap: 1rem; }
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .field { display: grid; gap: 0.4rem; }
+    .field label { font-size: 0.72rem; letter-spacing: 0.16rem; text-transform: uppercase; color: var(--dim); }
+    .field input, .field textarea { width: 100%; padding: 0.8rem 0.9rem; border-radius: 10px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.04); color: var(--ink); font: inherit; }
+    .field input:focus, .field textarea:focus { outline: none; border-color: var(--acc); }
+    .field textarea { min-height: 9rem; resize: vertical; }
+    .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+    .btn { display: inline-block; padding: 0.7rem 1.6rem; border: 1px solid var(--acc); border-radius: 999px; background: var(--acc); color: var(--bg); font: inherit; font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; }
+    .btn:hover { background: transparent; color: var(--acc); }
+    .btn:disabled { opacity: 0.5; cursor: default; }
+    .error-message { color: #ff8d8d; font-size: 0.8rem; min-height: 1.2em; }
+    .form-status { color: var(--dim); font-size: 0.8rem; min-height: 1.2em; }
+    @media (max-width: 820px) { .contact-wrap { grid-template-columns: 1fr; } }
+    @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body data-rain="white">
+  <canvas id="matrix-rain" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
+
+  <div class="shell">
+    <div class="topline">
+      <a href="index.html">← HTG</a>
+      <span class="tag">Hex The Government</span>
+      <a href="sequence.html">The Sequence →</a>
+    </div>
+
+    <header class="hero">
+      <p class="eyebrow">HTG</p>
+      <h1 class="name">CONTACT</h1>
+    </header>
+
+    <section class="section" aria-label="Contact">
+      <div class="contact-wrap">
+        <aside class="contact-card">
+          <h3>HTG</h3>
+          <ul class="contact-list">
+            <li>
+              <strong>Email</strong>
+              <a href="mailto:Abraxas@htg.productions">Abraxas@htg.productions</a>
+            </li>
+            <li>
+              <strong>Bookings</strong>
+              <a href="mailto:Bookings@htg.productions">Bookings@htg.productions</a>
+            </li>
+          </ul>
+        </aside>
+
+        <div class="contact-card">
+          <form class="contact-form" id="contactForm" novalidate>
+            <!-- Honeypot: invisible to people, filled by bots. Checked in
+                 script.js and forwarded to the form service. No label or
+                 placeholder on purpose — it is not copy. -->
+            <input class="hp-field" type="text" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <div class="form-grid">
+              <div class="field">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" required />
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" required />
+              </div>
+            </div>
+            <div class="field">
+              <label for="subject">Subject</label>
+              <input id="subject" name="subject" type="text" required />
+            </div>
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message"></textarea>
+            </div>
+            <div class="error-message" id="formError" aria-live="polite"></div>
+            <div class="form-status" id="formStatus" aria-live="polite"></div>
+            <div>
+              <button class="btn" type="submit">Send</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>© <span id="legal-year">2026</span> HTG — <a href="legal.html">Legal &amp; Privacy</a></span>
+      <span><a href="index.html">HTG</a> · <a href="sequence.html">The Sequence</a> · <a href="game.html">Suit Purge</a></span>
+    </footer>
+    <script>(function(){var y=document.getElementById('legal-year');if(y)y.textContent=new Date().getFullYear();})();</script>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="render.js"></script>
+  <script src="script.js"></script>
+  <script src="matrix.js"></script>
+</body>
+</html>

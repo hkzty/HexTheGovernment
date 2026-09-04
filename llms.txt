@@ -35,7 +35,8 @@ Disambiguation: several unrelated artists on Spotify are also called ABRAXAS, an
 
 ## Pages
 
-- [Home](https://www.htg.productions/): roster, Spotify players, the Sequence, gallery, contact and booking form.
+- [Home](https://www.htg.productions/): roster, Spotify players, gallery, crypto donations, legal footer.
+- [Contact](https://www.htg.productions/contact.html): contact and booking form.
 - [Suit Purge](https://www.htg.productions/game.html): browser first-person shooter by HTG. Walls, sprites, weapon and sound are generated in code at runtime; no downloads, no third-party assets. Enemies are four fictional class archetypes (Politician, Billionaire, Trillionaire, High Command). No real person is named, depicted or targeted.
 - [Merch](https://strettys-merch.myshopify.com)
 - [Crypto donations](https://donation.streamiverse.io/stretty)
