@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery — HTG</title>
+  <meta name="description" content="HTG gallery." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta property="og:title" content="Gallery — HTG" />
+  <meta property="og:description" content="HTG gallery." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.htg.productions/gallery.html" />
+  <meta property="og:site_name" content="HTG — Hex The Government" />
+  <meta property="og:locale" content="en_AU" />
+  <meta property="og:image" content="https://www.htg.productions/assets/og/htg.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="HTG — Hex The Government" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://www.htg.productions/assets/og/htg.png" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://www.htg.productions/gallery.html" />
+  <meta name="twitter:title" content="Gallery — HTG" />
+  <meta name="twitter:description" content="HTG gallery." />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://www.htg.productions/gallery.html",
+        "url": "https://www.htg.productions/gallery.html",
+        "name": "Gallery — HTG",
+        "description": "HTG gallery.",
+        "inLanguage": "en-AU",
+        "isPartOf": { "@id": "https://www.htg.productions/#website" },
+        "about": { "@id": "https://www.htg.productions/#org" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://www.htg.productions/gallery.html#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "HTG", "item": "https://www.htg.productions/" },
+          { "@type": "ListItem", "position": 2, "name": "Gallery", "item": "https://www.htg.productions/gallery.html" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" href="assets/htg-mark.svg" type="image/svg+xml" />
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .std-shell { position: relative; z-index: 2; width: min(72rem, 92vw); margin: 0 auto; padding: 1.4rem 0 3rem; }
+    .std-topline { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0 2rem; font-size: 0.72rem; letter-spacing: 0.14em; }
+    .std-topline a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+    .std-topline a:hover { border-color: var(--accent); color: var(--accent); }
+    .std-topline .tag { color: var(--muted); letter-spacing: 0.3em; text-transform: uppercase; }
+    .std-head { padding: clamp(1.5rem, 6vh, 4rem) 0 0; }
+    .std-head .eyebrow { font-size: 0.68rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .std-head h1 { font-family: "New Rocker", "IBM Plex Mono", serif; font-weight: 400; line-height: 0.9; font-size: clamp(2.4rem, 10vw, 6rem); text-shadow: 0 0 34px rgba(255, 255, 255, 0.25); }
+    .std-shell .section { padding-top: clamp(1.5rem, 4vw, 2.5rem); }
+    .std-shell .container { width: 100%; }
+    .std-foot { margin-top: 1rem; padding-top: 1.6rem; border-top: 1px solid var(--line); font-size: 0.74rem; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .std-foot a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); }
+    .std-foot a:hover { border-color: var(--accent); color: var(--accent); }
+    @media (max-width: 560px) { .std-foot { flex-direction: column; } }
+  </style>
+</head>
+<body data-rain="white">
+  <canvas id="matrix-rain" aria-hidden="true"></canvas>
+
+  <div class="std-shell">
+    <div class="std-topline">
+      <a href="music.html">← Music</a>
+      <span class="tag">Hex The Government</span>
+      <a href="sequence.html">The Sequence →</a>
+    </div>
+
+    <header class="std-head">
+      <p class="eyebrow">HTG</p>
+      <h1>GALLERY</h1>
+    </header>
+
+    <main>
+      <section class="section" id="gallery">
+        <div class="container">
+          <!-- Frames off HTG's own visuals — the hero reel and live Suit Purge
+               floors. Keep this fallback in step with assets/gallery/manifest.json
+               (npm run build:gallery) so the grid doesn't change when render.js
+               loads the manifest. -->
+          <div class="gallery-grid">
+            <button class="gallery-item fade-in" type="button" data-gallery-index="0" data-full="assets/gallery/htg-hero-reel-01.jpg" data-caption="htg hero reel 01">
+              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/gallery/htg-hero-reel-01.jpg" alt="htg hero reel 01" />
+            </button>
+            <button class="gallery-item fade-in" type="button" data-gallery-index="1" data-full="assets/gallery/htg-hero-reel-02.jpg" data-caption="htg hero reel 02">
+              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/gallery/htg-hero-reel-02.jpg" alt="htg hero reel 02" />
+            </button>
+            <button class="gallery-item fade-in" type="button" data-gallery-index="2" data-full="assets/gallery/suit-purge-floor-01.jpg" data-caption="suit purge floor 01">
+              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/gallery/suit-purge-floor-01.jpg" alt="suit purge floor 01" />
+            </button>
+            <button class="gallery-item fade-in" type="button" data-gallery-index="3" data-full="assets/gallery/suit-purge-floor-02.jpg" data-caption="suit purge floor 02">
+              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/gallery/suit-purge-floor-02.jpg" alt="suit purge floor 02" />
+            </button>
+            <button class="gallery-item fade-in" type="button" data-gallery-index="4" data-full="assets/gallery/suit-purge-floor-03.jpg" data-caption="suit purge floor 03">
+              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/gallery/suit-purge-floor-03.jpg" alt="suit purge floor 03" />
+            </button>
+            <button class="gallery-item fade-in" type="button" data-gallery-index="5" data-full="assets/gallery/suit-purge-floor-04.jpg" data-caption="suit purge floor 04">
+              <img class="gallery-thumb" loading="lazy" decoding="async" width="900" height="900" src="assets/gallery/suit-purge-floor-04.jpg" alt="suit purge floor 04" />
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="std-foot">
+      <span>© <span id="legal-year">2026</span> HTG — <a href="legal.html">Legal &amp; Privacy</a></span>
+      <span><a href="index.html">HTG</a> · <a href="roster.html">Roster</a> · <a href="music.html">Music</a> · <a href="gallery.html">Gallery</a> · <a href="sequence.html">The Sequence</a> · <a href="contact.html">Contact</a></span>
+    </footer>
+    <script>(function(){var y=document.getElementById('legal-year');if(y)y.textContent=new Date().getFullYear();})();</script>
+  </div>
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Image lightbox">
+    <div class="lightbox-dialog">
+      <div class="lightbox-figure">
+        <img id="lightboxImage" src="" alt="Expanded gallery image" />
+      </div>
+      <div class="lightbox-bar">
+        <div class="lightbox-actions">
+          <button class="icon-btn" type="button" id="lightboxPrev" aria-label="Previous image">←</button>
+          <button class="icon-btn" type="button" id="lightboxNext" aria-label="Next image">→</button>
+          <button class="icon-btn" type="button" id="lightboxClose" aria-label="Close lightbox">✕</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="config.js"></script>
+  <script src="render.js"></script>
+  <script src="script.js"></script>
+  <script src="matrix.js"></script>
+</body>
+</html>

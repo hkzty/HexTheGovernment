@@ -25,7 +25,8 @@ Deployed by GitHub Pages straight from `main` (see `CNAME`). Merging to
 | `render.js` | Reads the config and rewrites the markup at runtime. |
 | `script.js` | Site chrome: nav, scroll-spy, reveals, lightbox, contact form, Suit Purge unlock. |
 | `game.js` | Suit Purge — the in-page shooter. Self-contained IIFE. |
-| `index.html` | Desktop page: hero, roster, music, gallery, donation + legal footer. Everything else is a standalone page. |
+| `index.html` | Desktop page: hero, roster, music, gallery, donation + legal footer. Everything else is a standalone page. The hero is a full-screen gate (`body.hero-gate`, `script.js`): the page is locked on it until the first wheel / swipe / tap / key, which scrolls to the roster. |
+| `roster.html`, `music.html`, `gallery.html` | Standalone copies of the home sections in the `sequence.html` shell; the nav links here, the home page keeps the sections for scrolling. They embed the same markup as `index.html` — edit both. |
 | `contact.html` | Standalone contact page (form handler lives in `script.js`). Suit Purge and the Sequence are `game.html` / `sequence.html`; the home page carries no `#game`, `#sequence` or `#contact` section. |
 | `mobile.html` | Phone page. **Generated — never hand-edit.** |
 | `style.css` | Stylesheet for every page (inlined into `mobile.html`). |

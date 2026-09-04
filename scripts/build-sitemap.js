@@ -32,6 +32,9 @@ const PAGES = [
   ['justin.html', 'justin.html', '0.8', 'monthly'],
   ['sequence.html', 'sequence.html', '0.8', 'monthly'],
   ['game.html', 'game.html', '0.7', 'monthly'],
+  ['roster.html', 'roster.html', '0.8', 'monthly'],
+  ['music.html', 'music.html', '0.8', 'monthly'],
+  ['gallery.html', 'gallery.html', '0.6', 'monthly'],
   ['contact.html', 'contact.html', '0.6', 'monthly'],
   ['legal.html', 'legal.html', '0.3', 'yearly'],
 ];
