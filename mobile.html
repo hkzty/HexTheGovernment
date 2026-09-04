@@ -520,13 +520,59 @@
          the loop plays behind whatever height the mast needs. The top
          padding clears the fixed header (main no longer reserves that
          space) so the wordmark sits high on landing. */
-      min-height: auto;
+      /* One full screen: the page opens on the hero alone and any input
+         (wheel, swipe, tap, key) scrolls it away — script.js, hero gate. */
+      min-height: 100svh;
       display: grid;
-      align-items: start;
+      align-items: center;
       overflow: hidden;
       padding-top: calc(var(--nav-height) + 1.75rem);
-      padding-bottom: clamp(2rem, 5vw, 4rem);
+      padding-bottom: clamp(3rem, 8vw, 5rem);
       border-bottom: 1px solid var(--line-neutral);
+    }
+
+    /* Hero gate: while body.hero-gate is set the page cannot scroll and the
+       header is off-screen; the first input drops the class and glides to
+       the roster. */
+    body.hero-gate {
+      overflow: hidden;
+      height: 100svh;
+    }
+
+    .topbar {
+      transition: opacity 500ms ease, transform 500ms ease;
+    }
+
+    body.hero-gate .topbar {
+      opacity: 0;
+      transform: translateY(-1rem);
+      pointer-events: none;
+    }
+
+    .hero-cue {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(1rem, 4vh, 2.5rem);
+      z-index: 3;
+      width: 44px;
+      height: 44px;
+      transform: translateX(-50%);
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      opacity: 0;
+      cursor: pointer;
+      transition: opacity 500ms ease;
+      animation: hero-cue-bob 1.8s ease-in-out infinite;
+    }
+
+    .hero-cue svg { width: 100%; height: 100%; }
+
+    body.hero-gate .hero-cue { opacity: 0.75; }
+
+    @keyframes hero-cue-bob {
+      0%, 100% { translate: 0 0; }
+      50% { translate: 0 6px; }
     }
 
     .hero-video,
@@ -1107,10 +1153,6 @@
         border-radius: var(--radius-sm);
       }
 
-      .hero {
-        min-height: auto;
-      }
-
       .hero h1 {
         font-size: clamp(2.7rem, 14vw, 4.5rem);
       }
@@ -1156,6 +1198,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
+      .hero-cue { animation: none; }
       html {
         scroll-behavior: auto;
       }
@@ -1882,11 +1925,11 @@
 
           <nav class="nav" id="site-nav" aria-label="Primary navigation">
             <ul class="nav-list">
-              <li><a href="#roster">Roster</a></li>
-              <li><a href="#out-now">Music</a></li>
+              <li><a href="roster.html">Roster</a></li>
+              <li><a href="music.html">Music</a></li>
               <li><a href="sequence.html">The Sequence</a></li>
               <li><a data-shop-link href="https://strettys-merch.myshopify.com" target="_blank" rel="noopener noreferrer">Merch</a></li>
-              <li><a href="#gallery">Gallery</a></li>
+              <li><a href="gallery.html">Gallery</a></li>
               <li><a href="contact.html">Contact</a></li>
             </ul>
           </nav>
@@ -1912,6 +1955,9 @@
             <p class="expand">Hex The Government</p>
           </div>
         </div>
+        <button class="hero-cue" type="button" id="heroCue" aria-label="Scroll to roster">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8l8 8 8-8" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        </button>
       </section>
 
       <section class="section" id="roster">

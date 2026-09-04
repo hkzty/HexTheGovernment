@@ -87,6 +87,50 @@
       if (window.innerWidth <= 820 && topbar && !topbar.contains(event.target)) closeMenu();
     });
 
+    /*
+      Hero gate. The home page opens on the hero alone: the body is locked
+      (body.hero-gate, style.css) and the header hidden until the visitor
+      does anything — wheel, swipe, tap, click, key. That one input unlocks
+      the page and glides it down to the roster. Only when landing at the
+      top with no hash; a deep link or a reload mid-page skips it.
+    */
+    (() => {
+      const hero = document.querySelector('.hero');
+      const first = document.getElementById('roster');
+      if (!hero || !first) return;
+      if (location.hash && location.hash !== '#home') return;
+      if (window.scrollY > 8) return;
+
+      document.body.classList.add('hero-gate');
+      let open = true;
+
+      const exit = () => {
+        if (!open) return;
+        open = false;
+        document.body.classList.remove('hero-gate');
+        window.removeEventListener('wheel', onWheel);
+        window.removeEventListener('touchmove', onTouchMove);
+        window.removeEventListener('keydown', onKey);
+        hero.removeEventListener('click', exit);
+        requestAnimationFrame(() => {
+          first.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+        });
+      };
+
+      const onWheel = (event) => { if (event.deltaY > 0) exit(); };
+      const onTouchMove = () => exit();
+      const onKey = (event) => {
+        if (['ArrowDown', 'PageDown', 'Space', 'Enter'].includes(event.code) || event.key === ' ') exit();
+      };
+
+      window.addEventListener('wheel', onWheel, { passive: true });
+      window.addEventListener('touchmove', onTouchMove, { passive: true });
+      window.addEventListener('keydown', onKey);
+      hero.addEventListener('click', exit);
+      const cue = document.getElementById('heroCue');
+      if (cue) cue.addEventListener('click', exit);
+    })();
+
     const onScrollFrame = () => {
       const scrolled = window.scrollY > 16;
       if (topbar) topbar.classList.toggle('scrolled', scrolled);

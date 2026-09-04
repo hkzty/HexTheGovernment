@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roster — HTG</title>
+  <meta name="description" content="ABRAXAS, Stretty, Justinn.clout, ciggyholster." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta property="og:title" content="Roster — HTG" />
+  <meta property="og:description" content="ABRAXAS, Stretty, Justinn.clout, ciggyholster." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.htg.productions/roster.html" />
+  <meta property="og:site_name" content="HTG — Hex The Government" />
+  <meta property="og:locale" content="en_AU" />
+  <meta property="og:image" content="https://www.htg.productions/assets/og/htg.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="HTG — Hex The Government" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://www.htg.productions/assets/og/htg.png" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://www.htg.productions/roster.html" />
+  <meta name="twitter:title" content="Roster — HTG" />
+  <meta name="twitter:description" content="ABRAXAS, Stretty, Justinn.clout, ciggyholster." />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://www.htg.productions/roster.html",
+        "url": "https://www.htg.productions/roster.html",
+        "name": "Roster — HTG",
+        "description": "ABRAXAS, Stretty, Justinn.clout, ciggyholster.",
+        "inLanguage": "en-AU",
+        "isPartOf": { "@id": "https://www.htg.productions/#website" },
+        "about": { "@id": "https://www.htg.productions/#org" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://www.htg.productions/roster.html#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "HTG", "item": "https://www.htg.productions/" },
+          { "@type": "ListItem", "position": 2, "name": "Roster", "item": "https://www.htg.productions/roster.html" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" href="assets/htg-mark.svg" type="image/svg+xml" />
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* HTG-only chrome: the masthead wordmark and the artist doors.
+       Everything else on this page comes from style.css. */
+    :root { --abx: #b478ff; --str: #16c85a; --jus: #ff9b3d; --cig: #2fd4e0; }
+
+    a.brand-title { color: inherit; text-decoration: none; }
+
+    /* No hero aside on HTG — collapse style.css's two-column hero to one. */
+    .hero-content { grid-template-columns: 1fr; }
+    .mast { text-align: center; max-width: 52rem; margin: 0 auto; }
+    .mast .curse {
+      font-size: clamp(0.62rem, 1.6vw, 0.8rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.4rem;
+    }
+    .mast .wordmark {
+      font-family: "New Rocker", "IBM Plex Mono", serif;
+      font-weight: 400;
+      line-height: 0.9;
+      font-size: clamp(3.4rem, 15vw, 9rem);
+      letter-spacing: 0.02em;
+    }
+    /* Drawn logos — alpha-keyed webp cut from the supplied artwork
+       (assets/logos/). The name stays in the DOM as alt / visually-hidden
+       text for screen readers and search. */
+    .wordmark-logo {
+      display: block;
+      width: min(100%, 44rem);
+      height: auto;
+      margin: -1.2rem auto -1.6rem;
+      filter: drop-shadow(0 0 28px rgba(255, 255, 255, 0.18));
+    }
+    .door-logo {
+      display: block;
+      position: relative;
+      z-index: 1;
+      width: min(92%, 24rem);
+      height: auto;
+      margin: 0 auto 0.4rem;
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+    .door:hover .door-logo, .door:focus-visible .door-logo { transform: scale(1.04); }
+    .door-name--logo { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .mast .expand {
+      margin-top: 0.85rem;
+      font-size: clamp(0.72rem, 2.2vw, 1rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      padding-left: 0.5em; /* optical: absorb the trailing letter-spacing */
+    }
+
+    /* ---- The artist doors ------------------------------------------------ */
+    .doors {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .door {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      /* Basis >1/3 forces exactly two per row; the row height lives here rather
+         than on .doors so both rows stay full-height once the list wraps. */
+      flex: 1 1 40%;
+      min-height: clamp(15rem, 28vh, 21rem);
+      padding: 2rem 1.25rem;
+      overflow: hidden;
+      text-align: center;
+      text-decoration: none;
+      color: var(--text);
+      background: rgba(10, 10, 10, 0.62);
+      transition: flex-grow 0.5s ease, background 0.4s ease, filter 0.4s ease;
+    }
+    /* ABRAXAS is the lit, dominant door; the rest sit recessed and dimmer. */
+    .door--abx { flex-grow: 1.35; --door-c: rgba(180, 120, 255, 0.5); }
+    .door--str, .door--jus, .door--cig { filter: brightness(0.72) saturate(0.6); }
+    .door--str { --door-c: rgba(22, 200, 90, 0.45); }
+    .door--jus { --door-c: rgba(255, 155, 61, 0.45); }
+    .door--cig { --door-c: rgba(47, 212, 224, 0.45); }
+    .door:hover, .door:focus-visible { flex-grow: 2; filter: none; background: rgba(10, 10, 10, 0.25); }
+
+    /* The wall of work behind each name: a collage of that artist's real
+       cover art (resolved at runtime from Spotify's oEmbed — see the loader
+       script by the doors) or video stills. Sits dim and desaturated under
+       the typography, snaps to full colour with the deck glow on hover.
+       If the art never resolves the imgs stay src-less and invisible, and
+       the door is exactly the typography-only door it was before. */
+    .door-art {
+      position: absolute; inset: 0; z-index: 0;
+      display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr;
+      pointer-events: none;
+    }
+    .door-art img {
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0;
+      filter: grayscale(1) brightness(0.34) contrast(1.05);
+      transition: opacity 0.6s ease, filter 0.45s ease;
+    }
+    .door-art img.ok { opacity: 0.85; }
+    /* Three tiles: let the odd one out take the whole bottom row. */
+    .door-art img.ok:last-child:nth-child(odd) { grid-column: 1 / -1; }
+    .door-art::after {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(120% 100% at 50% 100%, var(--door-c, transparent), transparent 72%);
+      opacity: 0; transition: opacity 0.45s ease;
+    }
+    .door:hover .door-art img, .door:focus-visible .door-art img {
+      filter: grayscale(0) brightness(0.6) saturate(1.15);
+    }
+    .door:hover .door-art::after, .door:focus-visible .door-art::after { opacity: 0.5; }
+    .door-name { position: relative; z-index: 1; }
+    .door--abx:hover, .door--abx:focus-visible { box-shadow: inset 0 0 140px rgba(180, 120, 255, 0.28); }
+    .door--str:hover, .door--str:focus-visible { box-shadow: inset 0 0 140px rgba(22, 200, 90, 0.24); }
+    .door--jus:hover, .door--jus:focus-visible { box-shadow: inset 0 0 140px rgba(255, 155, 61, 0.24); }
+    .door--cig:hover, .door--cig:focus-visible { box-shadow: inset 0 0 140px rgba(47, 212, 224, 0.24); }
+
+    .door-name {
+      font-family: "New Rocker", serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      line-height: 1;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      transition: color 0.4s ease, text-shadow 0.4s ease;
+    }
+    .door--abx:hover .door-name, .door--abx:focus-visible .door-name {
+      color: var(--abx); text-shadow: 0 0 30px rgba(180, 120, 255, 0.55);
+    }
+    .door--str:hover .door-name, .door--str:focus-visible .door-name {
+      color: var(--str); text-shadow: 0 0 30px rgba(22, 200, 90, 0.5);
+    }
+    .door--jus:hover .door-name, .door--jus:focus-visible .door-name {
+      color: var(--jus); text-shadow: 0 0 30px rgba(255, 155, 61, 0.5);
+    }
+    .door--cig:hover .door-name, .door--cig:focus-visible .door-name {
+      color: var(--cig); text-shadow: 0 0 30px rgba(47, 212, 224, 0.5);
+    }
+    /* Lore watermark: sits between the cover art and the logo, barely there. */
+    .door-lore {
+      position: absolute; inset: 0; z-index: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: "New Rocker", serif;
+      font-size: clamp(3rem, 9vw, 7rem);
+      line-height: 1;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: var(--text);
+      opacity: 0.045;
+      pointer-events: none;
+      user-select: none;
+      transition: opacity 0.45s ease;
+    }
+    .door:hover .door-lore, .door:focus-visible .door-lore { opacity: 0.09; }
+
+    @media (max-width: 760px) {
+      .doors { flex-direction: column; flex-wrap: nowrap; }
+      /* Stacked, four deep — drop the row height so the list stays scannable. */
+      .door { flex: 1 1 auto; min-height: 0; }
+      .door--str, .door--jus, .door--cig { filter: brightness(0.8) saturate(0.7); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .door, .door-name, .door-lore, .door-art img, .door-art::after { transition: none; }
+    }
+  </style>
+  <style>
+    .std-shell { position: relative; z-index: 2; width: min(72rem, 92vw); margin: 0 auto; padding: 1.4rem 0 3rem; }
+    .std-topline { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0 2rem; font-size: 0.72rem; letter-spacing: 0.14em; }
+    .std-topline a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+    .std-topline a:hover { border-color: var(--accent); color: var(--accent); }
+    .std-topline .tag { color: var(--muted); letter-spacing: 0.3em; text-transform: uppercase; }
+    .std-head { padding: clamp(1.5rem, 6vh, 4rem) 0 0; }
+    .std-head .eyebrow { font-size: 0.68rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .std-head h1 { font-family: "New Rocker", "IBM Plex Mono", serif; font-weight: 400; line-height: 0.9; font-size: clamp(2.4rem, 10vw, 6rem); text-shadow: 0 0 34px rgba(255, 255, 255, 0.25); }
+    .std-shell .section { padding-top: clamp(1.5rem, 4vw, 2.5rem); }
+    .std-shell .container { width: 100%; }
+    .std-foot { margin-top: 1rem; padding-top: 1.6rem; border-top: 1px solid var(--line); font-size: 0.74rem; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .std-foot a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); }
+    .std-foot a:hover { border-color: var(--accent); color: var(--accent); }
+    @media (max-width: 560px) { .std-foot { flex-direction: column; } }
+  </style>
+</head>
+<body data-rain="white">
+  <canvas id="matrix-rain" aria-hidden="true"></canvas>
+
+  <div class="std-shell">
+    <div class="std-topline">
+      <a href="index.html">← HTG</a>
+      <span class="tag">Hex The Government</span>
+      <a href="music.html">Music →</a>
+    </div>
+
+    <header class="std-head">
+      <p class="eyebrow">HTG</p>
+      <h1>ROSTER</h1>
+    </header>
+
+    <main>
+      <section class="section" id="roster">
+        <div class="container">
+          <nav class="doors fade-in" aria-label="Artists">
+            <a class="door door--abx" href="abraxas.html">
+              <!-- Covers from the Sequence in config.js — albums 01, 02, 12, 13.
+                   Every data-cover URL feeds the oEmbed loader after the doors. -->
+              <span class="door-art" aria-hidden="true">
+                <img alt="" data-cover="https://open.spotify.com/album/44Mb4ylrmZhzqqWPClRMot" />
+                <img alt="" data-cover="https://open.spotify.com/album/6oib72faDOWbdjGCKDv8jG" />
+                <img alt="" data-cover="https://open.spotify.com/album/1gvEKFbi6CIZu8yZf5E0q9" />
+                <img alt="" data-cover="https://open.spotify.com/album/5vbKU5ZwNhl0G8Pv1OOXYB" />
+              </span>
+              <img class="door-logo" src="assets/logos/abraxas-gen-hollow-logo.svg" alt="" width="2939" height="1515" loading="lazy" decoding="async" />
+              <span class="door-lore" aria-hidden="true">Noah</span>
+              <span class="door-name door-name--logo">ABRAXAS</span>
+            </a>
+
+            <a class="door door--str" href="stretty.html">
+              <!-- Only tracks credited to stretty's artist id (4yQchxxguwc9PXmCVqb9Bm).
+                   Another Spotify artist is also named Stretty — check the artist
+                   link on a release before adding it. -->
+              <span class="door-art" aria-hidden="true">
+                <img alt="" data-cover="https://open.spotify.com/track/2oGrGX4T83boP9ZMIl2gZd" />
+                <img alt="" data-cover="https://open.spotify.com/track/5wiaIGjX8ht4vIxYHYHBqG" />
+                <img alt="" data-cover="https://open.spotify.com/track/3Vs0qIyXV3UtsWpxCcvJnX" />
+              </span>
+              <img class="door-logo" src="assets/logos/stretty-gen-hollow-logo.svg" alt="" width="2896" height="1559" loading="lazy" decoding="async" />
+              <span class="door-lore" aria-hidden="true">The Ark</span>
+              <span class="door-name door-name--logo">STRETTY</span>
+            </a>
+
+            <a class="door door--jus" href="justin.html">
+              <!-- Same four videos as the reel on justin.html, YouTube's own thumbnails. -->
+              <span class="door-art" aria-hidden="true">
+                <img alt="" loading="lazy" decoding="async" data-thumb="https://i.ytimg.com/vi/pRW9l-BuEk4/hqdefault.jpg" />
+                <img alt="" loading="lazy" decoding="async" data-thumb="https://i.ytimg.com/vi/ppEZ-0AxEUI/hqdefault.jpg" />
+                <img alt="" loading="lazy" decoding="async" data-thumb="https://i.ytimg.com/vi/fizEx-a5ViY/hqdefault.jpg" />
+                <img alt="" loading="lazy" decoding="async" data-thumb="https://i.ytimg.com/vi/i210dyJM_84/hqdefault.jpg" />
+              </span>
+              <img class="door-logo" src="assets/logos/justinclout-hollow-logo.svg" alt="" width="4197" height="1636" loading="lazy" decoding="async" />
+              <span class="door-name door-name--logo">JUSTINN.CLOUT</span>
+            </a>
+
+            <a class="door door--cig" href="ciggie.html">
+              <!-- ciggyholster releases (artist 0xMdknHv3WOTL2AeK1uHpo). -->
+              <span class="door-art" aria-hidden="true">
+                <img alt="" data-cover="https://open.spotify.com/track/19YLebLelGLMo9wW38XQCC" />
+                <img alt="" data-cover="https://open.spotify.com/track/4HoXkJ6l8CMiPNRUDuQpvc" />
+                <img alt="" data-cover="https://open.spotify.com/track/21miJ7OVY8YvuA5E4wUbD0" />
+                <img alt="" data-cover="https://open.spotify.com/track/415XlPsdKVSi1KXJSWJSnT" />
+              </span>
+              <img class="door-logo" src="assets/logos/ciggieholster-hollow-logo.svg" alt="" width="4735" height="1516" loading="lazy" decoding="async" />
+              <span class="door-name door-name--logo">CIGGYHOLSTER</span>
+            </a>
+          </nav>
+
+          <script>
+            (function () {
+              /* Door art loader. Spotify's oEmbed endpoint is CORS-open and
+                 needs no key, so each data-cover URL resolves to its real
+                 cover art in the visitor's browser. (Server-side this repo
+                 has never managed that call — datacenter IPs get 403s, see
+                 scripts/scraper.js — but browsers on normal connections are
+                 fine.) Any failure just leaves that img src-less and
+                 invisible: the door falls back to typography only.
+                 data-thumb imgs are plain direct-src thumbnails. */
+              var conn = navigator.connection;
+              if (conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || ''))) return;
+
+              document.querySelectorAll('.door-art img[data-thumb]').forEach(function (img) {
+                img.addEventListener('load', function () { img.classList.add('ok'); }, { once: true });
+                img.src = img.getAttribute('data-thumb');
+              });
+
+              var cacheGet = function (k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } };
+              var cacheSet = function (k, v) { try { sessionStorage.setItem(k, v); } catch (e) { /* full/blocked */ } };
+              document.querySelectorAll('.door-art img[data-cover]').forEach(function (img) {
+                var url = img.getAttribute('data-cover');
+                var key = 'htg-cover:' + url;
+                img.addEventListener('load', function () { img.classList.add('ok'); }, { once: true });
+                var cached = cacheGet(key);
+                if (cached) { img.src = cached; return; }
+                fetch('https://open.spotify.com/oembed?url=' + encodeURIComponent(url))
+                  .then(function (res) { return res.ok ? res.json() : null; })
+                  .then(function (data) {
+                    if (data && data.thumbnail_url) {
+                      cacheSet(key, data.thumbnail_url);
+                      img.src = data.thumbnail_url;
+                    }
+                  })
+                  .catch(function () { /* stays typography-only */ });
+              });
+            })();
+          </script>
+        </div>
+      </section>
+    </main>
+
+    <footer class="std-foot">
+      <span>© <span id="legal-year">2026</span> HTG — <a href="legal.html">Legal &amp; Privacy</a></span>
+      <span><a href="index.html">HTG</a> · <a href="roster.html">Roster</a> · <a href="music.html">Music</a> · <a href="gallery.html">Gallery</a> · <a href="sequence.html">The Sequence</a> · <a href="contact.html">Contact</a></span>
+    </footer>
+    <script>(function(){var y=document.getElementById('legal-year');if(y)y.textContent=new Date().getFullYear();})();</script>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="render.js"></script>
+  <script src="script.js"></script>
+  <script src="matrix.js"></script>
+</body>
+</html>
