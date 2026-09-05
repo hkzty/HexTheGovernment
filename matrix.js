@@ -175,6 +175,15 @@
   const FX_GLOW = 0.8;          // peak alpha of the white lift on the head
                                 // (the canvas paints at 0.55 opacity, so the
                                 // on-screen lift is roughly half of this)
+  /* Forcefield: a disc around the pointer that shoves drops sideways. Each
+     column carries a horizontal offset with a spring back to its lane, so
+     glyphs part around the cursor and close again behind it. The ring is a
+     single stroked arc — no gradient, nothing per-pixel. */
+  const FIELD_RADIUS = 90;      // px radius of the forcefield
+  const FIELD_PUSH = 3.2;       // px/frame of shove at the pointer, per frame
+  const FIELD_SPRING = 0.06;    // pull back to the lane, per frame
+  const FIELD_DAMP = 0.86;      // velocity damping, per frame
+  const FIELD_MAX = 120;        // px cap on how far a column can be pushed
   const finePointer = mq('(pointer: fine)').matches;
   let pointerX = -1e9;
   let pointerY = -1e9;
@@ -229,6 +238,8 @@
       glyph: pickGlyph(),
       swapT: Math.random() * 0.3,
       ink: pickInk(i),
+      ox: 0,
+      vx: 0,
     }));
 
     if (stillOnly) drawStill();
@@ -290,9 +301,36 @@
     ctx.fillRect(0, 0, width, height);
     const resetChance = 1 - Math.exp(-RESET_CHANCE_PER_SEC * dt);
 
+    const fieldOn = fxOn && pointerX > -1e8;
+    const damp = Math.pow(FIELD_DAMP, step);
+
     for (let i = 0; i < columns.length; i++) {
       const col = columns[i];
-      const x = i * FONT_SIZE;
+      const laneX = i * FONT_SIZE;
+
+      /* Forcefield: shove the head out of the disc, spring the column back
+         once it is clear. Direction is left/right by which side of the
+         pointer the glyph sits, so drops split around the cursor. */
+      if (fieldOn) {
+        const fdx = laneX + col.ox + FONT_SIZE * 0.5 - pointerX;
+        const fdy = col.y + FONT_SIZE * 0.5 - pointerY;
+        const fd2 = fdx * fdx + fdy * fdy;
+        if (fd2 < FIELD_RADIUS * FIELD_RADIUS) {
+          const fd = Math.sqrt(fd2) || 1;
+          const push = (1 - fd / FIELD_RADIUS) * FIELD_PUSH * step;
+          const dir = fdx === 0 ? (i & 1 ? 1 : -1) : fdx / Math.abs(fdx);
+          col.vx += push * dir;
+        }
+      }
+      if (col.ox !== 0 || col.vx !== 0) {
+        col.vx -= col.ox * FIELD_SPRING * step;
+        col.vx *= damp;
+        col.ox += col.vx * step;
+        if (col.ox > FIELD_MAX) { col.ox = FIELD_MAX; col.vx = 0; }
+        else if (col.ox < -FIELD_MAX) { col.ox = -FIELD_MAX; col.vx = 0; }
+        if (Math.abs(col.ox) < 0.05 && Math.abs(col.vx) < 0.05) { col.ox = 0; col.vx = 0; }
+      }
+      const x = laneX + col.ox;
 
       /* Column proximity (horizontal) drives the speed-up; the white lift on
          the head fades with true distance so the glow pools at the pointer
@@ -338,6 +376,14 @@
         col.speed = rand(SPEED_MIN, SPEED_MAX);
         col.ink = pickInk(i);  // re-roll the ink so the mix keeps shifting
       }
+    }
+
+    if (fieldOn) {
+      ctx.beginPath();
+      ctx.arc(pointerX, pointerY, FIELD_RADIUS, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.10)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
     }
 
     schedule();
