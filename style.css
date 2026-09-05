@@ -1324,13 +1324,56 @@
       margin-top: 0.2rem;
     }
 
-    .game-best {
-      color: var(--accent);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.22rem;
+    .game-tag {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
     }
 
+    .game-tag input {
+      width: 5ch;
+      padding: 0.35rem 0.4rem;
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font: inherit;
+      font-size: 0.9rem;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.3rem;
+    }
+
+    .game-board {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.2rem;
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.12rem;
+      text-transform: uppercase;
+    }
+
+    .game-board li {
+      display: grid;
+      grid-template-columns: 4ch 5ch 4ch;
+      gap: 0.6rem;
+      text-align: right;
+    }
+
+    .game-board b {
+      text-align: left;
+      font-weight: 500;
+    }
+
+    .game-board i {
+      font-style: normal;
+    }
+
+    .game-board .is-new {
+      color: var(--accent);
+    }
 
     .game-touch {
       position: absolute;
