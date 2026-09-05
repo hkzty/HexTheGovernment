@@ -1382,6 +1382,36 @@
       }
     }
 
+    /* Jars (rain.js): upgrade row along the bottom of the stage. */
+    .jar-shop {
+      position: absolute;
+      left: 0.6rem;
+      right: 0.6rem;
+      bottom: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .jar-shop .game-chip:disabled {
+      opacity: 0.45;
+      cursor: default;
+    }
+
+    .jar-sell {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .jar-sell:disabled {
+      opacity: 0.45;
+      cursor: default;
+    }
+
+    .jar-stage .game-canvas.is-playing {
+      cursor: none;
+    }
+
     /*
       Both body overlays are fixed, full-viewport and masked/blended, so the
       compositor re-blends them on every canvas repaint - measured at a 23fps
@@ -1409,6 +1439,11 @@
         right: auto;
         bottom: 0.6rem;
         left: 0.6rem;
+      }
+
+      /* Shop row sits above the bottom-left bar on a phone. */
+      .jar-stage .jar-shop {
+        bottom: 2.7rem;
       }
     }
 

@@ -25,6 +25,7 @@ Deployed by GitHub Pages straight from `main` (see `CNAME`). Merging to
 | `render.js` | Reads the config and rewrites the markup at runtime. |
 | `script.js` | Site chrome: nav, scroll-spy, reveals, lightbox, contact form, Suit Purge unlock. |
 | `game.js` | Suit Purge — the in-page shooter. Self-contained IIFE. |
+| `rain.js`, `rain.html` | Jars — the second hidden game, on the rain. Self-contained IIFE. Unlocked only from `game.html`. |
 | `index.html` | Desktop page: hero, roster, music, gallery, donation + legal footer. Everything else is a standalone page. The hero is a full-screen gate (`body.hero-gate`, `script.js`): the page is locked on it until the first wheel / swipe / tap / key, which scrolls to the roster. |
 | `roster.html`, `music.html`, `gallery.html` | Standalone copies of the home sections in the `sequence.html` shell; the nav links here, the home page keeps the sections for scrolling. They embed the same markup as `index.html` — edit both. |
 | `contact.html` | Standalone contact page (form handler lives in `script.js`). Suit Purge and the Sequence are `game.html` / `sequence.html`; the home page carries no `#game`, `#sequence` or `#contact` section. |
@@ -229,6 +230,31 @@ out of view, on Escape, and when the tab is hidden.
   `MAP_SRC` that visits all open cells and confirms each spawn is among
   them. (If this becomes a frequent edit, promoting that check into a
   dev-only assertion in `game.js` would be worth doing.)
+
+## Jars (`rain.js`, `rain.html`) — the second egg
+
+A catch-and-defend game built on the same glyph rain as `matrix.js`
+(same glyphs, inks, fall and fade constants — keep the two in step). A
+jar on a rail catches whatever crosses it; full jars sell for cash; cash
+buys Walls, Turret, Rim, Cloud and Market; the same four fictional
+archetypes as Suit Purge walk in from both edges, endlessly. Same rules
+as Suit Purge: no downloads, no third-party assets, **no real person**.
+
+It is doubly hidden: nothing links to it except `game.html`'s own
+footer-less unlock script — on the Suit Purge page, type `rain` or `jar`,
+tap the title three times, or add `?rain` / `?jar`. `rain.html` links
+back to Suit Purge; nothing else links forward. Indexed like Suit Purge
+(sitemap, `llms.txt`, JSON-LD).
+
+Non-obvious things in the code:
+
+- **The rain draws into an offscreen buffer** blitted onto the display
+  each frame. Drawing it straight onto the display let the fade trail
+  smear the jar, fort and hordes into ghosts across the rail.
+- **`groundY` is measured from the shop row's `offsetTop`**, which wraps
+  to three lines on a phone; `start()` sets the button labels before
+  `resize()` so the measurement is of the wrapped row.
+- HUD and shop buttons only write to the DOM on change, as in `game.js`.
 
 ## The HTG mark
 
