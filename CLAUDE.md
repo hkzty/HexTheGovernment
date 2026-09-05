@@ -42,8 +42,10 @@ viewport width, with `?desktop` / `?mobile` pinning a choice in
 
 **`mobile.html` is generated. Do not edit it by hand.** It is
 `index.html` with `style.css` inlined, `data-page` flipped to `mobile`,
-the footer view-toggle pointed back at the desktop page, and one
-phone-chrome rule appended (`.topbar { position: static }`). Everything else, including the roster, comes straight from
+and the footer view-toggle pointed back at the desktop page. There is no
+phone-only chrome any more: the floating bottom-right menu pill is the
+header on every width (`style.css`, `.topbar` / `.menu-toggle` /
+`.nav.open`). Everything else, including the roster, comes straight from
 `index.html`.
 
 After any edit to `index.html` or `style.css`:
@@ -279,11 +281,11 @@ release before wiring it in, same rule as the ABRAXAS ID above.
 
 ## `--nav-height`
 
-Set at runtime in `script.js` from the header's measured height, on load,
-on resize, and again once the webfont lands. It was previously hardcoded
-to `114px` while the real header measures 178–229px depending on width,
-so page content sat underneath the fixed header at every desktop size.
-Do not hardcode it again.
+`0px` in `style.css`. The header is a floating pill pinned bottom-right,
+so nothing sits under it. It used to be measured at runtime in
+`script.js` when the header was a fixed top bar (hardcoding it then left
+content underneath the bar); if a top bar ever returns, measure it
+again rather than guessing a number.
 
 ## Webfont loading — two links on purpose
 
@@ -298,6 +300,15 @@ monospace and that swap is invisible. Do not fold them back into one link.
 
 ## Known broken / open work
 
+- **The rain on Brave desktop.** Reported not running there twice; the
+  cause is unconfirmed (Brave's documented canvas/timer protections do
+  not stop a 2D loop, its filter lists carry nothing matching
+  `matrix.js`). `matrix.js` now defends every layer it can: a heartbeat
+  hands the loop to `setTimeout` if rAF stops delivering, a paint probe
+  two seconds in rebuilds the canvas if nothing has landed, and the two
+  mirrors in `script.js` (hero, menu panel) race rAF against a 100ms
+  timer. Load any page with `?raindebug=1` and the console prints one
+  `[rain]` line of state — ask for that line before hardening again.
 - **`scripts/scraper.js` does not work.** Its workflow was deleted after
   83 consecutive failures; it never once produced
   `assets/data/content.json`. Every source returns `403 Forbidden` from

@@ -1,10 +1,15 @@
 (function () {
-  const canvas = document.getElementById('matrix-rain');
+  let canvas = document.getElementById('matrix-rain');
   if (!canvas) return;
   // Some privacy-hardened builds hand back null for the options form of
   // getContext; the bare call is the widely supported one, so try it second.
-  const ctx = canvas.getContext('2d', { alpha: true }) || canvas.getContext('2d');
+  const getCtx = (c) => {
+    try { return c.getContext('2d', { alpha: true }) || c.getContext('2d'); }
+    catch (e) { return null; }
+  };
+  let ctx = getCtx(canvas);
   if (!ctx) return;
+  const DEBUG = /[?&]raindebug/.test(location.search);
 
   const GLYPHS =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/\\|=+-*[]{}:;.?!$#%&@' +
@@ -369,6 +374,62 @@
   resize();
   start();
   bindPointer();
+
+  /* ---- Paint probe -------------------------------------------------------
+     Two seconds in, read a coarse grid of pixels back. A canvas the loop
+     has been drawing into for two seconds is never all ground; if it is,
+     the context is not putting pixels on screen (seen as "no rain" on
+     Brave desktop with the loop reporting frames). Swap in a fresh canvas
+     with a fresh context, once. Readback noise from fingerprint farbling
+     is a few units per channel, far under the threshold. */
+  let probed = false;
+  function painted() {
+    try {
+      const w = canvas.width, h = canvas.height;
+      if (!w || !h) return false;
+      for (let y = 0; y < 8; y++) {
+        const d = ctx.getImageData(0, ((y + 0.5) / 8 * h) | 0, w, 1).data;
+        for (let i = 0; i < d.length; i += 4 * 3) {
+          if (d[i] > 40 || d[i + 1] > 40 || d[i + 2] > 40) return true;
+        }
+      }
+      return false;
+    } catch (e) {
+      return true; // readback blocked outright: nothing to learn, leave it
+    }
+  }
+  function rebuildCanvas() {
+    const fresh = document.createElement('canvas');
+    fresh.id = canvas.id;
+    fresh.className = canvas.className;
+    fresh.setAttribute('aria-hidden', 'true');
+    const next = getCtx(fresh);
+    if (!next) return false;
+    canvas.replaceWith(fresh);
+    canvas = fresh;
+    ctx = next;
+    stop();
+    useTimer = true;   // the timer path is the one with no rAF dependency
+    resize();
+    start();
+    return true;
+  }
+  setTimeout(() => {
+    if (probed) return;
+    probed = true;
+    const ok = stillOnly || document.hidden || painted();
+    const rebuilt = ok ? false : rebuildCanvas();
+    if (DEBUG) {
+      console.log('[rain]', JSON.stringify({
+        painted: ok, rebuilt, useTimer, framesSeen, paused, stillOnly,
+        size: [canvas.width, canvas.height], dpr, columns: columns.length,
+        finePointer, hidden: document.hidden,
+        gameActive: document.body.classList.contains('game-active'),
+        ua: navigator.userAgent,
+        brave: !!(navigator.brave && navigator.brave.isBrave),
+      }));
+    }
+  }, 2000);
 
   const onReduceMotionChange = () => {
     stillOnly = reduceMotion.matches;
