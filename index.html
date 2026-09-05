@@ -482,14 +482,6 @@
 
     <main>
       <section class="hero" id="home">
-        <!-- 6s 720p loop, ~0.5–0.9MB per encoding — behind the overlays the
-             upscale never shows. render.js strips the sources for Data Saver,
-             2G and reduced-motion visitors, leaving the poster. -->
-        <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/placeholders/hero-poster.svg" aria-hidden="true" tabindex="-1">
-          <source src="assets/htg-hero-720p.webm" type="video/webm" />
-          <source src="assets/htg-hero-720p.mp4" type="video/mp4" />
-        </video>
-        <div class="hero-overlay"></div>
         <p class="hero-echo" aria-hidden="true">Hex The Government</p>
         <canvas class="hero-rain" aria-hidden="true"></canvas>
 
