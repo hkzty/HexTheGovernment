@@ -236,6 +236,8 @@
       glyph: pickGlyph(),
       swapT: Math.random() * 0.3,
       ink: pickInk(i),
+      ox: 0,
+      vx: 0,
     }));
 
     if (stillOnly) drawStill();
@@ -300,9 +302,36 @@
     ctx.fillRect(0, 0, width, height);
     const resetChance = 1 - Math.exp(-RESET_CHANCE_PER_SEC * dt);
 
+    const fieldOn = fxOn && pointerX > -1e8;
+    const damp = Math.pow(FIELD_DAMP, step);
+
     for (let i = 0; i < columns.length; i++) {
       const col = columns[i];
-      const x = i * FONT_SIZE;
+      const laneX = i * FONT_SIZE;
+
+      /* Forcefield: shove the head out of the disc, spring the column back
+         once it is clear. Direction is left/right by which side of the
+         pointer the glyph sits, so drops split around the cursor. */
+      if (fieldOn) {
+        const fdx = laneX + col.ox + FONT_SIZE * 0.5 - pointerX;
+        const fdy = col.y + FONT_SIZE * 0.5 - pointerY;
+        const fd2 = fdx * fdx + fdy * fdy;
+        if (fd2 < FIELD_RADIUS * FIELD_RADIUS) {
+          const fd = Math.sqrt(fd2) || 1;
+          const push = (1 - fd / FIELD_RADIUS) * FIELD_PUSH * step;
+          const dir = fdx === 0 ? (i & 1 ? 1 : -1) : fdx / Math.abs(fdx);
+          col.vx += push * dir;
+        }
+      }
+      if (col.ox !== 0 || col.vx !== 0) {
+        col.vx -= col.ox * FIELD_SPRING * step;
+        col.vx *= damp;
+        col.ox += col.vx * step;
+        if (col.ox > FIELD_MAX) { col.ox = FIELD_MAX; col.vx = 0; }
+        else if (col.ox < -FIELD_MAX) { col.ox = -FIELD_MAX; col.vx = 0; }
+        if (Math.abs(col.ox) < 0.05 && Math.abs(col.vx) < 0.05) { col.ox = 0; col.vx = 0; }
+      }
+      const x = laneX + col.ox;
 
       /* Column proximity (horizontal) drives the speed-up; the white lift on
          the head fades with true distance so the glow pools at the pointer
@@ -348,6 +377,14 @@
         col.speed = rand(SPEED_MIN, SPEED_MAX);
         col.ink = pickInk(i);  // re-roll the ink so the mix keeps shifting
       }
+    }
+
+    if (fieldOn) {
+      ctx.beginPath();
+      ctx.arc(pointerX, pointerY, FIELD_RADIUS, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.10)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
     }
 
     schedule();
