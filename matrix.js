@@ -15,8 +15,9 @@
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/\\|=+-*[]{}:;.?!$#%&@' +
     'アカサタナハマヤラワイキシチニヒミリヰウクスツヌフムユルエケセテネヘメレヱオコソトノホモヨロヲ';
   const FONT_SIZE = 16;
-  const SPEED_MIN = 0.35;
-  const SPEED_MAX = 0.95;
+  // Rest speed is deliberately slow; the pointer is what makes it hurry.
+  const SPEED_MIN = 0.16;
+  const SPEED_MAX = 0.45;
   const FADE_ALPHA_PER_SEC = 4.8;
   const RESET_CHANCE_PER_SEC = 1.5;
 
@@ -54,17 +55,6 @@
     mixed:  ['white', 'purple', 'green', 'pair'],
   };
   const PARTNER = { orange: 'cyan', cyan: 'orange' };
-
-  /* ---- Pointer proximity ---------------------------------------------------
-     Columns whose head glyph is near the cursor briefly run faster and burn
-     brighter, then settle back. Mouse-only and animation-only: the listener is
-     never attached on a touch device or under reduced motion, so the still
-     frame stays exactly as still as it was.                                 */
-  const POINTER_RADIUS = 120;      // px from the head glyph
-  const POINTER_SPEED_BOOST = 0.5; // +50% fall speed at full charge
-  const POINTER_HEAD_ALPHA = 0.45; // overdraw strength at full charge
-  const POINTER_DECAY_TAU = 0.18;  // ~0.5s back to rest
-  const CHARGE_FLOOR = 0.01;       // below this a column is simply at rest
 
   /* The bright head is precomputed per ink, once. Building a colour string
      per column per frame would put string work in the hot loop for an effect
@@ -173,14 +163,14 @@
   let stillOnly = reduceMotion.matches;
 
   /* ---- The rain notices the visitor ----------------------------------------
-     Columns near the pointer run a little faster, and glyphs close to it get
+     Columns near the pointer run several times faster, and glyphs close to it get
      a white lift on top of their ink, so the rain reads as presence instead
      of wallpaper. Guarded three ways: it needs a real pointer (no effect on
      touch), reduced motion never runs the loop at all, and a frame-budget
      check switches it off for good if the page can't hold ~30fps — the
      effect is a garnish and never worth dropped frames. */
-  const FX_RADIUS = 160;        // px each side of the pointer that reacts
-  const FX_SPEED = 0.9;         // up to +90% fall speed at the pointer
+  const FX_RADIUS = 220;        // px each side of the pointer that reacts
+  const FX_SPEED = 2.5;         // up to +250% fall speed at the pointer
   const FX_GLOW = 0.8;          // peak alpha of the white lift on the head
                                 // (the canvas paints at 0.55 opacity, so the
                                 // on-screen lift is roughly half of this)
@@ -238,7 +228,6 @@
       glyph: pickGlyph(),
       swapT: Math.random() * 0.3,
       ink: pickInk(i),
-      charge: 0,
     }));
 
     if (stillOnly) drawStill();
@@ -299,9 +288,6 @@
     ctx.fillStyle = 'rgba(10, 10, 10, ' + fadeAlpha.toFixed(3) + ')';
     ctx.fillRect(0, 0, width, height);
     const resetChance = 1 - Math.exp(-RESET_CHANCE_PER_SEC * dt);
-    // One exp() for the whole frame rather than one per column.
-    const chargeDecay = Math.exp(-dt / POINTER_DECAY_TAU);
-    const radius2 = POINTER_RADIUS * POINTER_RADIUS;
 
     for (let i = 0; i < columns.length; i++) {
       const col = columns[i];
