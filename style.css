@@ -1,3 +1,12 @@
+    @font-face {
+      font-family: "HTG Heavycore";
+      src: url("assets/fonts/HTGHeavycore.woff2") format("woff2"),
+           url("assets/fonts/HTGHeavycore.ttf") format("truetype");
+      font-weight: 900;
+      font-style: normal;
+      font-display: block;
+    }
+
     :root {
       --bg: #0a0a0a;
       --bg-soft: #000000;
@@ -147,7 +156,7 @@
     }
 
     .brand-title {
-      font-family: "New Rocker", system-ui;
+      font-family: "HTG Heavycore", "New Rocker", system-ui;
       font-size: clamp(1.55rem, 4vw, 2.7rem);
       letter-spacing: 0.12rem;
       text-shadow: 0 0 14px rgba(255, 255, 255, 0.22);
@@ -384,7 +393,7 @@
     }
 
     .hero h1 {
-      font-family: "New Rocker", system-ui;
+      font-family: "HTG Heavycore", "New Rocker", system-ui;
       font-size: clamp(3.4rem, 11vw, 7.2rem);
       line-height: 0.95;
       margin-bottom: 1rem;
@@ -1212,7 +1221,7 @@
     }
 
     .game-overlay h2 {
-      font-family: "New Rocker", system-ui;
+      font-family: "HTG Heavycore", "New Rocker", system-ui;
       font-size: clamp(2rem, 7vw, 4rem);
       line-height: 1;
       text-transform: uppercase;
