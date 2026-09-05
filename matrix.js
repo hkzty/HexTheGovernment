@@ -28,8 +28,9 @@
     cyan:   { head: 'rgba(160, 245, 252, 0.95)', tail: 'rgba(47, 212, 224, 0.70)' },
   };
   /* Weighted bags — repeated keys raise the odds of that ink for a column.
-     Each deck runs its own colour dominant with the landing white mixed in;
-     the landing keeps white dominant over all four.
+     Each deck runs its own colour dominant with every other ink mixed in, so
+     all five colours fall on every page; the landing keeps white dominant
+     over the other four.
 
      'pair' is the joined orange+cyan pair rather than a single ink: Justin
      and Ciggie came aboard together, so on every bag but their own two decks
@@ -43,8 +44,8 @@
     white:  ['white', 'white', 'white', 'white', 'white', 'purple', 'green', 'pair'],
     purple: ['purple', 'purple', 'purple', 'purple', 'purple', 'white', 'green', 'pair'],
     green:  ['green', 'green', 'green', 'green', 'green', 'white', 'purple', 'pair'],
-    orange: ['orange', 'orange', 'orange', 'orange', 'orange', 'white', 'cyan'],
-    cyan:   ['cyan', 'cyan', 'cyan', 'cyan', 'cyan', 'white', 'orange'],
+    orange: ['orange', 'orange', 'orange', 'orange', 'orange', 'white', 'cyan', 'purple', 'green'],
+    cyan:   ['cyan', 'cyan', 'cyan', 'cyan', 'cyan', 'white', 'orange', 'purple', 'green'],
     mixed:  ['white', 'purple', 'green', 'pair'],
   };
   const PARTNER = { orange: 'cyan', cyan: 'orange' };
