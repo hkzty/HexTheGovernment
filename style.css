@@ -319,6 +319,40 @@
       z-index: 1;
     }
 
+    /* The fixed #matrix-rain sits under .site-shell, so the hero video and
+       overlay cover it. This canvas mirrors the live rain (script.js) over
+       the video and under the wordmark. */
+    .hero-rain {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      /* The source canvas is opaque black; screen drops the black and keeps
+         the glyphs, so the echo and video read through the rain. */
+      mix-blend-mode: screen;
+    }
+
+    /* Echo of the wordmark: the "Hex The Government" line at three times
+       its size, faint, behind the rain and the logo. */
+    .hero-echo {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      margin: 0;
+      padding: 0 1rem;
+      pointer-events: none;
+      font-size: clamp(2.16rem, 6.6vw, 3rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 1.1;
+      color: rgba(255, 255, 255, 0.16);
+    }
+
 
     .hero-content {
       position: relative;

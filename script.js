@@ -68,6 +68,42 @@
       draw();
     };
 
+    /*
+      Hero rain. The hero video and overlay sit above the fixed #matrix-rain,
+      so the same mirror puts the live rain over the video and under the
+      wordmark. Runs only while the hero is on screen.
+    */
+    (() => {
+      const heroRain = document.querySelector('.hero-rain');
+      const hero = heroRain && heroRain.closest('.hero');
+      if (!heroRain || !hero || !rainSource) return;
+      const ctx = heroRain.getContext('2d');
+      if (!ctx) return;
+      let raf = 0;
+      const draw = () => {
+        raf = 0;
+        const r = hero.getBoundingClientRect();
+        const dpr = rainSource.width / Math.max(1, rainSource.clientWidth);
+        const w = Math.max(1, Math.round(r.width * dpr));
+        const h = Math.max(1, Math.round(r.height * dpr));
+        if (heroRain.width !== w || heroRain.height !== h) {
+          heroRain.width = w;
+          heroRain.height = h;
+        }
+        ctx.clearRect(0, 0, w, h);
+        ctx.drawImage(rainSource, r.left * dpr, r.top * dpr, w, h, 0, 0, w, h);
+        if (!prefersReducedMotion) raf = requestAnimationFrame(draw);
+      };
+      let inView = true;
+      const stop = () => { if (raf) cancelAnimationFrame(raf); raf = 0; };
+      const start = () => { if (!raf && inView && !document.hidden) raf = requestAnimationFrame(draw); };
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(([e]) => { inView = e.isIntersecting; inView ? start() : stop(); }, { threshold: 0 }).observe(hero);
+      } else start();
+      document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+      window.addEventListener('resize', () => { if (prefersReducedMotion) draw(); });
+    })();
+
     const closeMenu = () => {
       if (!nav || !menuToggle || !nav.classList.contains('open')) return;
       nav.classList.remove('open');
