@@ -164,14 +164,14 @@
   let stillOnly = reduceMotion.matches;
 
   /* ---- The rain notices the visitor ----------------------------------------
-     Columns near the pointer run 3.33× faster, and glyphs close to it get
+     Columns near the pointer run 9.3× faster, and glyphs close to it get
      a white lift on top of their ink, so the rain reads as presence instead
      of wallpaper. Guarded three ways: it needs a real pointer (no effect on
      touch), reduced motion never runs the loop at all, and a frame-budget
      check switches it off for good if the page can't hold ~30fps — the
      effect is a garnish and never worth dropped frames. */
   const FX_RADIUS = 220;        // px each side of the pointer that reacts
-  const FX_SPEED = 2.33;        // 3.33× fall speed at the pointer
+  const FX_SPEED = 8.3;         // 9.3× fall speed at the pointer
   const FX_GLOW = 0.8;          // peak alpha of the white lift on the head
                                 // (the canvas paints at 0.55 opacity, so the
                                 // on-screen lift is roughly half of this)
