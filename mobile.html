@@ -540,6 +540,78 @@
       transform: translateY(-1px);
     }
 
+    /* Standalone Merch pill beside the menu button. Desktop only: the phone
+       page keeps the single menu pill, with Merch inside it. */
+    .merch-pill { display: none; }
+
+    @media (min-width: 821px) {
+      .nav-wrap {
+        align-items: center;
+        gap: 0.9rem;
+      }
+
+      .merch-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 88px;
+        padding: 0 2rem;
+        border: 2px solid #fff;
+        border-radius: 999px;
+        background: #fff;
+        box-shadow: 0 0 18px rgba(255, 255, 255, 0.45), 0 0 44px rgba(255, 255, 255, 0.18);
+        color: #000;
+        font-family: "New Rocker", system-ui;
+        font-size: 1.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.36rem;
+        transition: background var(--transition), color var(--transition), box-shadow var(--transition), transform var(--transition);
+      }
+
+      .merch-pill:hover,
+      .merch-pill:focus-visible {
+        background: #000;
+        color: #fff;
+        box-shadow: 0 0 26px rgba(255, 255, 255, 0.6), 0 0 60px rgba(255, 255, 255, 0.25);
+        transform: translateY(-2px);
+      }
+
+      /* Menu pill and panel at twice the phone size. */
+      .menu-toggle {
+        gap: 1rem;
+        min-height: 88px;
+        padding: 0 2rem;
+        border-width: 2px;
+        letter-spacing: 0.36rem;
+      }
+
+      .menu-toggle span:first-child { font-size: 2rem; }
+      .menu-toggle span:last-child { font-size: 1.56rem; }
+
+      .nav.open {
+        bottom: calc(100% + 1.2rem);
+        min-width: 25rem;
+        padding: 0.9rem;
+        border-width: 2px;
+      }
+
+      .nav-list { gap: 0.3rem; }
+
+      .nav-list a {
+        min-height: 80px;
+        padding: 1rem 2rem;
+        font-size: 1.56rem;
+        letter-spacing: 0.32rem;
+        border-width: 2px;
+      }
+
+      .nav-list a[data-shop-link] {
+        background: #fff;
+        color: #000;
+        text-shadow: none;
+      }
+    }
+
     main {
       padding-top: 0;
     }
@@ -1862,6 +1934,7 @@
         </div>
 
         <div class="nav-wrap">
+          <a class="merch-pill" data-shop-link href="https://strettys-merch.myshopify.com" target="_blank" rel="noopener noreferrer">Merch</a>
           <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" id="menuToggle">
             <span aria-hidden="true">☰</span>
             <span>Menu</span>
