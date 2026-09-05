@@ -1,7 +1,7 @@
 {
   "name": "hexthegovernment",
   "version": "2.0.0",
-  "description": "ABRAXAS × HTG — static site with keyless auto-synced social/music content",
+  "description": "ABRAXAS \u00d7 HTG \u2014 static site with keyless auto-synced social/music content",
   "private": true,
   "scripts": {
     "build": "echo 'Static site - no build needed'",
@@ -12,7 +12,8 @@
     "build:copydesk": "node scripts/build-copydesk.js ./copydesk.html --standalone",
     "scrape": "node scripts/scraper.js",
     "build:sitemap": "node scripts/build-sitemap.js",
-    "check:sitemap": "node scripts/build-sitemap.js --check"
+    "check:sitemap": "node scripts/build-sitemap.js --check",
+    "build:font": "python3 scripts/build-font.py --preview"
   },
   "engines": {
     "node": ">=18.0.0"
