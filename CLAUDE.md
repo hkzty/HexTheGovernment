@@ -333,9 +333,12 @@ monospace and that swap is invisible. Do not fold them back into one link.
   there replace the frames.
 - ~~`config.heroPoster` is a picsum stock photo~~ Done — it now points at
   `assets/placeholders/hero-poster.svg`, a local placeholder graphic.
-- ~~`assets/htg-hero.mp4` (25MB) loaded on both pages~~ Done — the hero is
-  the 720p pair (`assets/htg-hero-720p.webm` ~0.55MB / `.mp4` ~0.9MB)
-  referenced from `index.html` and `config.js`.
+- ~~`assets/htg-hero.mp4` (25MB) loaded on both pages~~ Done — and the
+  hero no longer plays a video at all: the owner asked for the coloured
+  glyph rain behind the wordmark instead of the green-text reel. The
+  720p pair stays in `assets/` and `config.js` (`render.js` guards on the
+  missing `.hero-video`), and a `.hero-rain` canvas mirrors `#matrix-rain`
+  inside the hero under a faint `.hero-echo` of the wordmark line.
 - **The contact form's delivery endpoint is unset.** `script.js` POSTs
   submissions to `config.contactForm.endpoint` (Formspree or Web3Forms —
   setup notes in `config.js`) and falls back to `mailto:` without one.
