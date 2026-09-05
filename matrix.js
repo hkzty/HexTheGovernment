@@ -175,21 +175,28 @@
   const FX_GLOW = 0.8;          // peak alpha of the white lift on the head
                                 // (the canvas paints at 0.55 opacity, so the
                                 // on-screen lift is roughly half of this)
+  // The boost only runs while the mouse is actually moving: each mousemove
+  // sets the activity to 1 and it decays back to rest within ~0.5s of
+  // stillness, so a parked cursor leaves the rain at its slow pace.
+  const FX_IDLE_TAU = 0.12;     // seconds; ~0.5s to fade out
   const finePointer = mq('(pointer: fine)').matches;
   let pointerX = -1e9;
   let pointerY = -1e9;
+  let pointerActivity = 0;
   let fxDisabled = false;
   let fxStrikes = 0;
 
   const onPointerMove = (e) => {
     pointerX = e.clientX;
     pointerY = e.clientY;
+    pointerActivity = 1;
   };
   // Pointer gone — park it far away so the last position doesn't keep a
   // patch of rain permanently lit.
   const onPointerLeave = () => {
     pointerX = -1e9;
     pointerY = -1e9;
+    pointerActivity = 0;
   };
   let pointerBound = false;
   function bindPointer() {
@@ -283,7 +290,10 @@
     } else if (fxStrikes > 0) {
       fxStrikes -= 2;
     }
-    const fxOn = finePointer && !fxDisabled;
+    // One exp() per frame; below 1% the pointer counts as still.
+    pointerActivity *= Math.exp(-dt / FX_IDLE_TAU);
+    if (pointerActivity < 0.01) pointerActivity = 0;
+    const fxOn = finePointer && !fxDisabled && pointerActivity > 0;
 
     const fadeAlpha = Math.min(1, FADE_ALPHA_PER_SEC * dt);
     ctx.fillStyle = 'rgba(10, 10, 10, ' + fadeAlpha.toFixed(3) + ')';
@@ -302,11 +312,11 @@
       if (fxOn) {
         const dx = x + FONT_SIZE * 0.5 - pointerX;
         if (dx > -FX_RADIUS && dx < FX_RADIUS) {
-          const near = 1 - Math.abs(dx) / FX_RADIUS;
+          const near = (1 - Math.abs(dx) / FX_RADIUS) * pointerActivity;
           speedMul = 1 + near * FX_SPEED;
           const dy = col.y - pointerY;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < FX_RADIUS) glow = (1 - dist / FX_RADIUS) * FX_GLOW;
+          if (dist < FX_RADIUS) glow = (1 - dist / FX_RADIUS) * FX_GLOW * pointerActivity;
         }
       }
 
