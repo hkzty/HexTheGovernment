@@ -1198,12 +1198,21 @@
         grid-template-columns: 1fr;
       }
 
-      /* Phone gallery at quarter size: four frames per row, so each thumb
-         is a quarter of the width (and, square, a quarter of the height),
-         matching the roster door collage tiles. */
+      /* Phone gallery: one full-width strip per frame, fixed short height,
+         the image cropped through it like a letterbox highlight. */
       .gallery-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 0.35rem;
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+
+      .gallery-item {
+        height: 6.5rem;
+        min-height: 0;
+      }
+
+      .gallery-thumb {
+        aspect-ratio: auto;
+        height: 100%;
       }
 
       .section-head {
