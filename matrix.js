@@ -1,10 +1,15 @@
 (function () {
-  const canvas = document.getElementById('matrix-rain');
+  let canvas = document.getElementById('matrix-rain');
   if (!canvas) return;
   // Some privacy-hardened builds hand back null for the options form of
   // getContext; the bare call is the widely supported one, so try it second.
-  const ctx = canvas.getContext('2d', { alpha: true }) || canvas.getContext('2d');
+  const getCtx = (c) => {
+    try { return c.getContext('2d', { alpha: true }) || c.getContext('2d'); }
+    catch (e) { return null; }
+  };
+  let ctx = getCtx(canvas);
   if (!ctx) return;
+  const DEBUG = /[?&]raindebug/.test(location.search);
 
   const GLYPHS =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/\\|=+-*[]{}:;.?!$#%&@' +
@@ -113,36 +118,49 @@
 
   /* ---- Scheduling ----------------------------------------------------------
      The loop is driven by requestAnimationFrame, but is not allowed to depend
-     on it: if no frame lands within a second of start() while the page is
-     visible (seen on privacy-hardened mobile browsers that throttle or
-     coarsen rAF), the loop switches to a setTimeout tick for the rest of the
-     page view. Time is read from performance.now(), never the rAF argument,
+     on it: if a second passes with no frame while the page is visible
+     (seen on privacy-hardened browsers, Brave on phone and desktop, that
+     throttle, coarsen or drop rAF), the loop switches to a setTimeout tick
+     for the rest of the page view — at start or at any later point. Time is read from performance.now(), never the rAF argument,
      so a coarsened or repeated timestamp cannot stall the fall or the fade. */
   const FRAME_MS = 1000 / 60;
+  const HEARTBEAT_MS = 1000;
   let useTimer = false;
   let framesSeen = 0;
-  let watchdog = 0;
+  let heartbeat = 0;
   const now = () => (window.performance && performance.now) ? performance.now() : Date.now();
+  const raf = window.requestAnimationFrame;
   function schedule() {
-    if (useTimer) rafId = setTimeout(() => frame(now()), FRAME_MS);
-    else rafId = requestAnimationFrame(frame);
+    if (useTimer || !raf) rafId = setTimeout(() => frame(now()), FRAME_MS);
+    else rafId = raf(frame);
   }
   function unschedule() {
     if (!rafId) return;
-    if (useTimer) clearTimeout(rafId); else cancelAnimationFrame(rafId);
+    if (useTimer || !raf) clearTimeout(rafId); else cancelAnimationFrame(rafId);
     rafId = 0;
   }
-  function armWatchdog() {
-    clearTimeout(watchdog);
-    if (useTimer) return;
-    framesSeen = 0;
-    watchdog = setTimeout(() => {
-      if (paused || stillOnly || document.hidden || framesSeen > 0) return;
+  /* The heartbeat runs for the whole page view, not just the first second:
+     Brave desktop was reported to lose the rain too, and a one-shot check at
+     start cannot catch a loop that ran and then stalled (rAF throttled or
+     dropped later, a callback that never came back). Every second while the
+     page is visible: no frame since last beat with rAF in charge means rAF
+     is not delivering, so hand the loop to the timer; a loop that has died
+     outright (no callback booked, not paused) is booked again. */
+  function armHeartbeat() {
+    if (heartbeat) return;
+    heartbeat = setInterval(() => {
+      if (paused || stillOnly || document.hidden) return;
+      if (document.body.classList.contains('game-active')) return;
+      if (framesSeen > 0) { framesSeen = 0; return; }
       unschedule();
       useTimer = true;
       lastT = 0;
       schedule();
-    }, 1000);
+    }, HEARTBEAT_MS);
+  }
+  function disarmHeartbeat() {
+    clearInterval(heartbeat);
+    heartbeat = 0;
   }
 
   /* Reduced motion stills the rain, it does not delete it. Hiding the canvas
@@ -150,7 +168,8 @@
      on — the site's whole backdrop, gone, with nothing in its place. What the
      setting asks for is no animation, so we paint one still frame of the same
      rain and never start the loop. */
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const mq = (q) => (window.matchMedia ? window.matchMedia(q) : { matches: false });
+  const reduceMotion = mq('(prefers-reduced-motion: reduce)');
   let stillOnly = reduceMotion.matches;
 
   /* ---- The rain notices the visitor ----------------------------------------
@@ -165,7 +184,7 @@
   const FX_GLOW = 0.8;          // peak alpha of the white lift on the head
                                 // (the canvas paints at 0.55 opacity, so the
                                 // on-screen lift is roughly half of this)
-  const finePointer = window.matchMedia('(pointer: fine)').matches;
+  const finePointer = mq('(pointer: fine)').matches;
   let pointerX = -1e9;
   let pointerY = -1e9;
   let fxDisabled = false;
@@ -342,18 +361,75 @@
     if (document.body.classList.contains('game-active')) return;
     paused = false;
     lastT = 0;
+    framesSeen = 0;
     schedule();
-    armWatchdog();
+    armHeartbeat();
   }
   function stop() {
     paused = true;
-    clearTimeout(watchdog);
+    disarmHeartbeat();
     unschedule();
   }
 
   resize();
   start();
   bindPointer();
+
+  /* ---- Paint probe -------------------------------------------------------
+     Two seconds in, read a coarse grid of pixels back. A canvas the loop
+     has been drawing into for two seconds is never all ground; if it is,
+     the context is not putting pixels on screen (seen as "no rain" on
+     Brave desktop with the loop reporting frames). Swap in a fresh canvas
+     with a fresh context, once. Readback noise from fingerprint farbling
+     is a few units per channel, far under the threshold. */
+  let probed = false;
+  function painted() {
+    try {
+      const w = canvas.width, h = canvas.height;
+      if (!w || !h) return false;
+      for (let y = 0; y < 8; y++) {
+        const d = ctx.getImageData(0, ((y + 0.5) / 8 * h) | 0, w, 1).data;
+        for (let i = 0; i < d.length; i += 4 * 3) {
+          if (d[i] > 40 || d[i + 1] > 40 || d[i + 2] > 40) return true;
+        }
+      }
+      return false;
+    } catch (e) {
+      return true; // readback blocked outright: nothing to learn, leave it
+    }
+  }
+  function rebuildCanvas() {
+    const fresh = document.createElement('canvas');
+    fresh.id = canvas.id;
+    fresh.className = canvas.className;
+    fresh.setAttribute('aria-hidden', 'true');
+    const next = getCtx(fresh);
+    if (!next) return false;
+    canvas.replaceWith(fresh);
+    canvas = fresh;
+    ctx = next;
+    stop();
+    useTimer = true;   // the timer path is the one with no rAF dependency
+    resize();
+    start();
+    return true;
+  }
+  setTimeout(() => {
+    if (probed) return;
+    probed = true;
+    const ok = stillOnly || document.hidden || painted();
+    const rebuilt = ok ? false : rebuildCanvas();
+    if (DEBUG) {
+      console.log('[rain]', JSON.stringify({
+        painted: ok, rebuilt, useTimer, framesSeen, paused, stillOnly,
+        size: [canvas.width, canvas.height], dpr, columns: columns.length,
+        finePointer, hidden: document.hidden,
+        gameActive: document.body.classList.contains('game-active'),
+        ua: navigator.userAgent,
+        brave: !!(navigator.brave && navigator.brave.isBrave),
+      }));
+    }
+  }, 2000);
 
   const onReduceMotionChange = () => {
     stillOnly = reduceMotion.matches;
@@ -371,6 +447,15 @@
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) stop(); else start();
   });
+  // Back/forward cache restores the page with the loop cancelled and the
+  // canvas as it was left; repaint the ground and run again.
+  window.addEventListener('pageshow', (e) => {
+    if (!e.persisted) return;
+    stop();
+    resize();
+    start();
+  });
+  window.addEventListener('pagehide', stop);
 
   const suppressObserver = new MutationObserver(() => {
     if (document.body.classList.contains('game-active')) stop();

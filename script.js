@@ -6,19 +6,8 @@
     const sections = [...document.querySelectorAll('main section[id]')];
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    /*
-      --nav-height drives the top padding that keeps content clear of the
-      fixed header, but the header's real height depends on viewport width
-      and on the webfont landing. Measure it instead of hardcoding a guess.
-    */
-    const syncNavHeight = () => {
-      if (!topbar) return;
-      document.documentElement.style.setProperty('--nav-height', `${topbar.offsetHeight}px`);
-    };
-
-    syncNavHeight();
-    window.addEventListener('resize', syncNavHeight);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncNavHeight);
+    /* The header is a floating pill bottom-right; no content sits under it,
+       so --nav-height stays at the 0 set in style.css. */
 
     if (menuToggle && nav) menuToggle.addEventListener('click', () => {
       const isOpen = nav.classList.toggle('open');
@@ -28,23 +17,40 @@
     });
 
     /*
-      Phone menu rain. The panel floats over opaque roster doors, so nothing
-      of #matrix-rain shows behind it. While open, a canvas inside the panel
+      Menu rain. The panel floats over opaque roster doors, so nothing of
+      #matrix-rain shows behind it. While open, a canvas inside the panel
       mirrors the live rain at the panel's screen position each frame — the
       same drops, seen through the menu. One drawImage per frame, only while
-      open; nothing on desktop, where the panel is never a popover.
+      open.
     */
-    const rainSource = document.getElementById('matrix-rain');
+    /* One frame, rAF first, with a timer behind it: if no rAF callback
+       lands within 100ms (browsers that throttle or drop it), the timer
+       runs the frame instead. Returns a cancel function. */
+    const nextFrame = (cb) => {
+      let raf = 0;
+      let timer = 0;
+      const run = () => {
+        if (raf) cancelAnimationFrame(raf);
+        clearTimeout(timer);
+        raf = 0; timer = 0;
+        cb();
+      };
+      raf = requestAnimationFrame(run);
+      timer = setTimeout(run, 100);
+      return () => { if (raf) cancelAnimationFrame(raf); clearTimeout(timer); };
+    };
+    // Looked up per frame: matrix.js may swap the canvas for a fresh one.
+    const getRainSource = () => document.getElementById('matrix-rain');
     let navRain = null;
-    let navRainRaf = 0;
+    let navRainCancel = null;
     const stopNavRain = () => {
-      if (navRainRaf) cancelAnimationFrame(navRainRaf);
-      navRainRaf = 0;
+      if (navRainCancel) navRainCancel();
+      navRainCancel = null;
       if (navRain) navRain.remove();
       navRain = null;
     };
     const startNavRain = () => {
-      if (!rainSource || window.innerWidth > 820) return;
+      if (!getRainSource()) return;
       stopNavRain();
       navRain = document.createElement('canvas');
       navRain.className = 'nav-rain';
@@ -54,6 +60,8 @@
       const draw = () => {
         if (!navRain) return;
         const r = nav.getBoundingClientRect();
+        const rainSource = getRainSource();
+        if (!rainSource) return;
         const dpr = rainSource.width / Math.max(1, rainSource.clientWidth);
         const w = Math.max(1, Math.round(r.width * dpr));
         const h = Math.max(1, Math.round(r.height * dpr));
@@ -63,7 +71,7 @@
         }
         ctx.clearRect(0, 0, w, h);
         ctx.drawImage(rainSource, r.left * dpr, r.top * dpr, w, h, 0, 0, w, h);
-        navRainRaf = requestAnimationFrame(draw);
+        navRainCancel = nextFrame(draw);
       };
       draw();
     };
@@ -76,13 +84,15 @@
     (() => {
       const heroRain = document.querySelector('.hero-rain');
       const hero = heroRain && heroRain.closest('.hero');
-      if (!heroRain || !hero || !rainSource) return;
+      if (!heroRain || !hero || !getRainSource()) return;
       const ctx = heroRain.getContext('2d');
       if (!ctx) return;
-      let raf = 0;
+      let cancel = null;
       const draw = () => {
-        raf = 0;
+        cancel = null;
         const r = hero.getBoundingClientRect();
+        const rainSource = getRainSource();
+        if (!rainSource) return;
         const dpr = rainSource.width / Math.max(1, rainSource.clientWidth);
         const w = Math.max(1, Math.round(r.width * dpr));
         const h = Math.max(1, Math.round(r.height * dpr));
@@ -92,11 +102,11 @@
         }
         ctx.clearRect(0, 0, w, h);
         ctx.drawImage(rainSource, r.left * dpr, r.top * dpr, w, h, 0, 0, w, h);
-        if (!prefersReducedMotion) raf = requestAnimationFrame(draw);
+        if (!prefersReducedMotion) cancel = nextFrame(draw);
       };
       let inView = true;
-      const stop = () => { if (raf) cancelAnimationFrame(raf); raf = 0; };
-      const start = () => { if (!raf && inView && !document.hidden) raf = requestAnimationFrame(draw); };
+      const stop = () => { if (cancel) cancel(); cancel = null; };
+      const start = () => { if (!cancel && inView && !document.hidden) cancel = nextFrame(draw); };
       if ('IntersectionObserver' in window) {
         new IntersectionObserver(([e]) => { inView = e.isIntersecting; inView ? start() : stop(); }, { threshold: 0 }).observe(hero);
       } else start();
@@ -113,14 +123,12 @@
     };
 
     navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        if (window.innerWidth <= 820) closeMenu();
-      });
+      link.addEventListener('click', closeMenu);
     });
 
-    // Tap outside the open phone menu closes it.
+    // Tap outside the open menu closes it.
     document.addEventListener('pointerdown', event => {
-      if (window.innerWidth <= 820 && topbar && !topbar.contains(event.target)) closeMenu();
+      if (topbar && !topbar.contains(event.target)) closeMenu();
     });
 
     /*
