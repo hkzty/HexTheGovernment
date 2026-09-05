@@ -225,6 +225,7 @@
   <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=block" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
+    @font-face { font-family: "HTG Heavycore"; src: url("assets/fonts/HTGHeavycore.woff2") format("woff2"), url("assets/fonts/HTGHeavycore.ttf") format("truetype"); font-weight: 900; font-style: normal; font-display: block; }
     :root {
       --bg: #1f0335;
       --ink: #f2f2f2;
@@ -237,7 +238,7 @@
     body {
       background: var(--bg);
       color: var(--ink);
-      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-family: "HTG Heavycore", "IBM Plex Mono", ui-monospace, monospace;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
       line-height: 1.6;
@@ -259,7 +260,7 @@
        gradient tames it. Decoration only. */
     .sigil {
       position: fixed; z-index: 1; right: 0; top: 10vh; line-height: 1; white-space: nowrap;
-      font-family: "New Rocker", serif; font-size: min(40vh, 22vw); letter-spacing: 0.04em;
+      font-family: "HTG Heavycore", "New Rocker", serif; font-size: min(40vh, 22vw); letter-spacing: 0.04em;
       color: var(--abx); opacity: 0.05; pointer-events: none; user-select: none;
     }
 
@@ -288,7 +289,7 @@
     @keyframes hero-scan { from { background-position: 220% 0; } to { background-position: -220% 0; } }
     .eyebrow { font-size: 0.68rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--abx); margin-bottom: 1rem; }
     .name {
-      font-family: "New Rocker", "IBM Plex Mono", serif;
+      font-family: "HTG Heavycore", "New Rocker", "IBM Plex Mono", serif;
       font-weight: 400; line-height: 0.9;
       font-size: clamp(3rem, 13vw, 8rem);
       text-shadow: 0 0 34px rgba(180, 120, 255, 0.32);
@@ -325,7 +326,7 @@
       border-color: var(--abx); transform: translateY(-2px);
       box-shadow: 0 8px 30px rgba(180, 120, 255, 0.18);
     }
-    .door h2 { font-family: "New Rocker", "IBM Plex Mono", serif; font-weight: 400; font-size: 1.5rem; }
+    .door h2 { font-family: "HTG Heavycore", "New Rocker", "IBM Plex Mono", serif; font-weight: 400; font-size: 1.5rem; }
     .door p { margin-top: 0.4rem; font-size: 0.78rem; color: var(--dim); }
     @media (max-width: 620px) { .doors { grid-template-columns: 1fr; } }
 

@@ -41,7 +41,7 @@
     }
 
     body {
-      font-family: "IBM Plex Mono", monospace;
+      font-family: "HTG Heavycore", "IBM Plex Mono", monospace;
       background:
         radial-gradient(circle at top, rgba(255, 255, 255, 0.08), transparent 30%),
         linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 18%),
@@ -516,7 +516,7 @@
 
     /* Section heads are the kicker alone, as the h2. */
     h2.section-kicker {
-      font-family: inherit;
+      font-family: "HTG Heavycore", "IBM Plex Mono", monospace;
       font-weight: 500;
       margin: 0;
     }
@@ -1405,3 +1405,7 @@
       margin: 0 0 0.7rem;
     }
     .legal-footer-copy:last-child { margin-bottom: 0; }
+
+    input, textarea, select {
+      font-family: "IBM Plex Mono", monospace;
+    }
