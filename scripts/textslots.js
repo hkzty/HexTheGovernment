@@ -23,6 +23,7 @@ const PAGES = [
   ['stretty.html',  'Stretty deck',  'Stretty'],
   ['sequence.html', 'The Sequence',  'Sequence'],
   ['game.html',     'Suit Purge',    'Suit Purge'],
+  ['contact.html',  'Contact',       'Contact'],
   ['legal.html',    'Legal',         'Legal']
 ];
 
