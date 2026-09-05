@@ -1,7 +1,9 @@
 (function () {
   const canvas = document.getElementById('matrix-rain');
   if (!canvas) return;
-  const ctx = canvas.getContext('2d', { alpha: true });
+  // Some privacy-hardened builds hand back null for the options form of
+  // getContext; the bare call is the widely supported one, so try it second.
+  const ctx = canvas.getContext('2d', { alpha: true }) || canvas.getContext('2d');
   if (!ctx) return;
 
   const GLYPHS =
@@ -107,6 +109,40 @@
   let rafId = 0;
   let paused = false;
   let lastT = 0;
+
+  /* ---- Scheduling ----------------------------------------------------------
+     The loop is driven by requestAnimationFrame, but is not allowed to depend
+     on it: if no frame lands within a second of start() while the page is
+     visible (seen on privacy-hardened mobile browsers that throttle or
+     coarsen rAF), the loop switches to a setTimeout tick for the rest of the
+     page view. Time is read from performance.now(), never the rAF argument,
+     so a coarsened or repeated timestamp cannot stall the fall or the fade. */
+  const FRAME_MS = 1000 / 60;
+  let useTimer = false;
+  let framesSeen = 0;
+  let watchdog = 0;
+  const now = () => (window.performance && performance.now) ? performance.now() : Date.now();
+  function schedule() {
+    if (useTimer) rafId = setTimeout(() => frame(now()), FRAME_MS);
+    else rafId = requestAnimationFrame(frame);
+  }
+  function unschedule() {
+    if (!rafId) return;
+    if (useTimer) clearTimeout(rafId); else cancelAnimationFrame(rafId);
+    rafId = 0;
+  }
+  function armWatchdog() {
+    clearTimeout(watchdog);
+    if (useTimer) return;
+    framesSeen = 0;
+    watchdog = setTimeout(() => {
+      if (paused || stillOnly || document.hidden || framesSeen > 0) return;
+      unschedule();
+      useTimer = true;
+      lastT = 0;
+      schedule();
+    }, 1000);
+  }
 
   /* Reduced motion stills the rain, it does not delete it. Hiding the canvas
      outright took every colour off every page for anyone with the OS setting
@@ -218,9 +254,15 @@
     }
   }
 
-  function frame(t) {
+  function frame() {
     if (paused) { rafId = 0; return; }
-    const dt = lastT ? Math.min((t - lastT) / 1000, 0.1) : 0;
+    framesSeen++;
+    const t = now();
+    let dt = lastT ? (t - lastT) / 1000 : 0;
+    // A clock that does not advance (coarsened timers, repeated timestamps)
+    // must not freeze the rain: assume a nominal frame instead of zero.
+    if (!(dt > 0)) dt = lastT ? 1 / 60 : 0;
+    dt = Math.min(dt, 0.1);
     lastT = t;
     const step = dt * 60;
 
@@ -291,7 +333,7 @@
       }
     }
 
-    rafId = requestAnimationFrame(frame);
+    schedule();
   }
 
   function start() {
@@ -299,12 +341,13 @@
     if (document.body.classList.contains('game-active')) return;
     paused = false;
     lastT = 0;
-    rafId = requestAnimationFrame(frame);
+    schedule();
+    armWatchdog();
   }
   function stop() {
     paused = true;
-    if (rafId) cancelAnimationFrame(rafId);
-    rafId = 0;
+    clearTimeout(watchdog);
+    unschedule();
   }
 
   resize();
