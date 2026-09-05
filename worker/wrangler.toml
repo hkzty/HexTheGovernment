@@ -1,0 +1,16 @@
+name = "htg-suit-purge-scores"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# Create the namespace once, then paste its id here:
+#   npx wrangler kv namespace create SCORES
+[[kv_namespaces]]
+binding = "SCORES"
+id = "REPLACE_WITH_NAMESPACE_ID"
+
+[vars]
+# Origins allowed to read and submit. Comma-separated, no trailing slash.
+ALLOWED_ORIGINS = "https://www.htg.productions,https://htg.productions"
+
+# Optional custom route instead of the workers.dev URL.
+# routes = [{ pattern = "scores.htg.productions", custom_domain = true }]

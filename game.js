@@ -1217,12 +1217,51 @@
 
   /*
     Highscores. A top-ten table of runs — suits cleared, wave as the
-    tie-breaker — with a three-letter tag per entry, kept in localStorage.
-    Per browser only: the site is static, so there is no shared board.
+    tie-breaker — with a three-letter tag per entry.
+
+    With config.game.scoresEndpoint set, the table is the shared board on
+    the Cloudflare Worker in worker/: read on game over, written only when
+    the player presses Save. Nothing is sent otherwise. Without an endpoint,
+    or when it fails, the table is the per-browser one in localStorage.
     Storage failures (private mode, blocked cookies) degrade to a session
     with no memory, never an error.
   */
   const SCORES_KEY = 'htg-suit-purge-scores';
+  const CONFIG = window.ABRAXAS_CONFIG || {};
+  const SCORES_URL = String((CONFIG.game && CONFIG.game.scoresEndpoint) || '').trim();
+  const cleanRows = (rows) =>
+    (Array.isArray(rows) ? rows : [])
+      .map((row) => ({ tag: cleanTag(row && row.tag), kills: row.kills | 0, wave: row.wave | 0 }))
+      .filter((row) => row.kills >= 0 && row.wave >= 1)
+      .slice(0, SCORES_MAX);
+
+  // Last board seen from the worker; null until a fetch succeeds.
+  let remoteRows = null;
+
+  const fetchRemote = () => {
+    if (!SCORES_URL || typeof fetch !== 'function') return Promise.resolve(null);
+    return fetch(SCORES_URL, { method: 'GET', mode: 'cors' })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => { remoteRows = data ? cleanRows(data.scores) : remoteRows; return remoteRows; })
+      .catch(() => null);
+  };
+
+  const postRemote = (entry) => {
+    if (!SCORES_URL || typeof fetch !== 'function') return Promise.resolve(null);
+    return fetch(SCORES_URL, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(entry)
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!data) return null;
+        remoteRows = cleanRows(data.scores);
+        return { rows: remoteRows, index: (data.rank | 0) - 1 };
+      })
+      .catch(() => null);
+  };
   const TAG_KEY = 'htg-suit-purge-tag';
   const SCORES_MAX = 10;
   const TAG_LEN = 3;
@@ -1230,18 +1269,12 @@
   const cleanTag = (value) =>
     String(value || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, TAG_LEN);
 
-  const readScores = () => {
-    try {
-      const parsed = JSON.parse(localStorage.getItem(SCORES_KEY));
-      if (!Array.isArray(parsed)) return [];
-      return parsed
-        .map((row) => ({ tag: cleanTag(row && row.tag), kills: row.kills | 0, wave: row.wave | 0 }))
-        .filter((row) => row.kills >= 0 && row.wave >= 1)
-        .slice(0, SCORES_MAX);
-    } catch (err) {
-      return [];
-    }
+  const readLocal = () => {
+    try { return cleanRows(JSON.parse(localStorage.getItem(SCORES_KEY))); } catch (err) { return []; }
   };
+
+  // The board on show: the shared one when the worker answered, else local.
+  const readScores = () => (remoteRows ? remoteRows : readLocal());
 
   const writeScores = (rows) => {
     try {
@@ -1275,8 +1308,8 @@
   let scoreInput = null;
   let pendingRun = null;
 
-  const renderScores = (highlight) => {
-    const rows = readScores();
+  const renderScores = (highlight, given) => {
+    const rows = given || readScores();
     scoreTable.textContent = '';
     scoreTable.hidden = rows.length === 0;
     rows.forEach((row, i) => {
@@ -1300,26 +1333,40 @@
     scoreForm.hidden = true;
     const tag = cleanTag(scoreInput.value);
     if (tag) writeTag(tag);
-    const rows = readScores();
-    const index = placement(run, rows);
-    if (index < 0) { renderScores(-1); return; }
-    rows.splice(index, 0, { tag: tag, kills: run.kills, wave: run.wave });
-    writeScores(rows.slice(0, SCORES_MAX));
-    renderScores(index);
+    const entry = { tag: tag, kills: run.kills, wave: run.wave };
+
+    // The browser copy is always kept, so the run survives a dead worker.
+    const local = readLocal();
+    const localIndex = placement(run, local);
+    if (localIndex >= 0) {
+      local.splice(localIndex, 0, entry);
+      writeScores(local.slice(0, SCORES_MAX));
+    }
+
+    if (!SCORES_URL || tag.length !== TAG_LEN) { renderScores(localIndex); return; }
+    postRemote(entry).then((result) => {
+      if (result) renderScores(result.index, result.rows);
+      else renderScores(-1, remoteRows || readLocal()); // rejected or offline: board unchanged
+    });
   };
 
   const showScore = (run) => {
     if (!scoreBox) return;
-    const rows = readScores();
-    const index = placement(run, rows);
-    pendingRun = index < 0 ? null : run;
-    scoreForm.hidden = index < 0;
-    renderScores(-1);
-    scoreBox.hidden = index < 0 && rows.length === 0;
-    if (index >= 0) {
-      scoreInput.value = readTag();
-      setTimeout(() => scoreInput.focus(), 0);
-    }
+    const show = () => {
+      if (pendingRun !== run) return; // a new run started while fetching
+      const rows = readScores();
+      const index = placement(run, rows);
+      if (index < 0) pendingRun = null;
+      scoreForm.hidden = index < 0;
+      renderScores(-1, rows);
+      scoreBox.hidden = index < 0 && rows.length === 0;
+      if (index >= 0) {
+        scoreInput.value = readTag();
+        setTimeout(() => scoreInput.focus(), 0);
+      }
+    };
+    pendingRun = run;
+    if (SCORES_URL) fetchRemote().then(show); else show();
   };
 
   if (overlay && playButton) {
@@ -1344,6 +1391,7 @@
     scoreForm.append(scoreInput, saveButton);
     scoreForm.addEventListener('submit', (event) => {
       event.preventDefault();
+      if (SCORES_URL && cleanTag(scoreInput.value).length !== TAG_LEN) { scoreInput.focus(); return; }
       commitScore();
     });
 

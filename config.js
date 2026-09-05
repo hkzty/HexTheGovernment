@@ -114,6 +114,15 @@ window.ABRAXAS_CONFIG = {
     url: "https://strettys-merch.myshopify.com"
   },
 
+  /* ---- Suit Purge highscores ----------------------------------------------
+     Shared top ten, served by the Cloudflare Worker in worker/ (deploy
+     steps in worker/README.md). Paste the worker's /scores URL here. The
+     game only sends a run when the player presses Save; with "" the table
+     lives in each visitor's browser instead.                              */
+  game: {
+    scoresEndpoint: ""
+  },
+
   /* ---- Contact -----------------------------------------------------------
      How a submitted form reaches the inbox, tried in this order:
 
