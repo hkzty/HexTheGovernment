@@ -11,15 +11,49 @@
   if (!ctx) return;
   const DEBUG = /[?&]raindebug/.test(location.search);
 
-  const GLYPHS =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/\\|=+-*[]{}:;.?!$#%&@' +
-    'アカサタナハマヤラワイキシチニヒミリヰウクスツヌフムユルエケセテネヘメレヱオコソトノホモヨロヲ';
-  const FONT_SIZE = 16;
+  /* ---- What falls ----------------------------------------------------------
+     Real code, not a glyph bag: each column streams the next character of
+     SOURCE every time its head steps down a cell, so a drop reads as a line
+     of the site's own JavaScript falling past. Whitespace runs are collapsed
+     to single spaces (a blank cell), which is what makes words separable. */
+  const SOURCE = [
+    "(function () { let canvas = document.getElementById('matrix-rain'); if (!canvas) return;",
+    "const getCtx = (c) => { try { return c.getContext('2d', { alpha: true }) || c.getContext('2d'); } catch (e) { return null; } };",
+    "const INKS = { white: { head: 'rgba(240, 240, 240, 0.95)', tail: 'rgba(170, 170, 170, 0.55)' } };",
+    "function pickInk(i) { const owed = owedByColumn[i]; if (owed) { owedByColumn[i] = null; return INKS[owed]; } }",
+    "const now = () => (window.performance && performance.now) ? performance.now() : Date.now();",
+    "function schedule() { if (useTimer || !raf) rafId = setTimeout(() => frame(now()), FRAME_MS); else rafId = raf(frame); }",
+    "heartbeat = setInterval(() => { if (paused || stillOnly || document.hidden) return; if (framesSeen > 0) { framesSeen = 0; return; } }, HEARTBEAT_MS);",
+    "const reduceMotion = mq('(prefers-reduced-motion: reduce)'); let stillOnly = reduceMotion.matches;",
+    "pointerActivity *= Math.exp(-dt / FX_IDLE_TAU); if (pointerActivity < 0.01) pointerActivity = 0;",
+    "const fd2 = fdx * fdx + fdy * fdy; if (fd2 < FIELD_RADIUS * FIELD_RADIUS) { const fd = Math.sqrt(fd2) || 1; col.vx += push * dir; }",
+    "for (let y = 0; y < 8; y++) { const d = ctx.getImageData(0, ((y + 0.5) / 8 * h) | 0, w, 1).data; }",
+    "document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });",
+    "const MAP_SRC = ['################', '#..............#', '#..##....##....#']; const SPAWNS = [[3, 3], [12, 3], [3, 12]];",
+    "function castRay(px, py, angle) { const sin = Math.sin(angle), cos = Math.cos(angle); let dist = 0; while (dist < MAX_DEPTH) { dist += STEP; } }",
+    "const enemy = { type: pickType(wave), hp: DEF.hp, speed: DEF.speed, x: sx + 0.5, y: sy + 0.5, dir: Math.random() * Math.PI * 2 };",
+    "if (e.hp <= 0) { e.dead = true; score += DEF.score; kills++; hud.dirty = true; playSound('down'); }",
+    "const osc = actx.createOscillator(); osc.type = 'square'; osc.frequency.setValueAtTime(220, actx.currentTime);",
+    "window.ABRAXAS_CONFIG = { socials: { spotify: 'https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19' } };",
+    "document.querySelectorAll('[data-social]').forEach((a) => { const url = socials[a.dataset.social]; if (!url) a.remove(); else a.href = url; });",
+    "const io = new IntersectionObserver((entries) => { entries.forEach((en) => { if (en.isIntersecting) en.target.classList.add('in'); }); }, { threshold: 0.15 });",
+    "body.classList.add('hero-gate'); const release = () => { body.classList.remove('hero-gate'); roster.scrollIntoView({ behavior: 'smooth' }); };",
+    "fetch(endpoint, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) }).then((r) => r.ok ? form.reset() : Promise.reject(r));",
+  ].join(' ').replace(/\s+/g, ' ');
+
+  const FONT_SIZE = 19;
+  // Cells per second at speed 1.0; rest speeds below give ~4-10 cells/s.
+  const CELLS_PER_SEC = 36;
+  // Stored characters drawn above the head. Trimmed on phones: it is the one
+  // per-column cost that scales, ~14 fillText per column per frame.
+  const trailLen = () => (width < 700 ? 8 : 14);
   // Rest speed is 30% of the original 0.35–0.95; the pointer is what makes
   // it hurry.
   const SPEED_MIN = 0.105;
   const SPEED_MAX = 0.285;
-  const FADE_ALPHA_PER_SEC = 4.8;
+  // The trail is drawn from stored characters, so the fade only has to clear
+  // the cell the tail just left; fast enough that nothing smears.
+  const FADE_ALPHA_PER_SEC = 12;
   const RESET_CHANCE_PER_SEC = 1.5;
 
   /* ---- Deck palette --------------------------------------------------------
@@ -179,6 +213,13 @@
   // sets the activity to 1 and it decays back to rest within ~0.5s of
   // stillness, so a parked cursor leaves the rain at its slow pace.
   const FX_IDLE_TAU = 0.12;     // seconds; ~0.5s to fade out
+  /* Forcefield: a disc around the pointer that shoves drops sideways off
+     their lane, with a spring pulling them back once clear. */
+  const FIELD_RADIUS = 90;      // px radius of the forcefield
+  const FIELD_PUSH = 3.2;       // px of shove at the pointer, per frame
+  const FIELD_SPRING = 0.06;    // pull back to the lane, per frame
+  const FIELD_DAMP = 0.86;      // velocity damping, per frame
+  const FIELD_MAX = 120;        // px cap on how far a column can be pushed
   const finePointer = mq('(pointer: fine)').matches;
   let pointerX = -1e9;
   let pointerY = -1e9;
@@ -214,7 +255,29 @@
   }
 
   const rand = (min, max) => Math.random() * (max - min) + min;
-  const pickGlyph = () => GLYPHS.charAt((Math.random() * GLYPHS.length) | 0);
+  /* Stream the next SOURCE character into the column's trail (index 0 is the
+     head). Each column reads from its own cursor so neighbours show different
+     stretches of the same code. */
+  function pushChar(col) {
+    col.trail.unshift(SOURCE.charAt(col.pos));
+    col.pos = (col.pos + 1) % SOURCE.length;
+    if (col.trail.length > trailLen()) col.trail.length = trailLen();
+  }
+  function makeColumn(i, row, prefill) {
+    const col = {
+      row,                       // head cell index; y is row * FONT_SIZE
+      y: row * FONT_SIZE,
+      acc: Math.random(),        // fractional cells banked toward the next step
+      speed: rand(SPEED_MIN, SPEED_MAX),
+      pos: (Math.random() * SOURCE.length) | 0,
+      trail: [],
+      ink: pickInk(i),
+      ox: 0,
+      vx: 0,
+    };
+    if (prefill) for (let n = 0; n < trailLen(); n++) pushChar(col);
+    return col;
+  }
 
   function resize() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -230,15 +293,11 @@
 
     const colCount = Math.ceil(width / FONT_SIZE);
     owedByColumn = new Array(colCount).fill(null);
-    columns = new Array(colCount).fill(0).map((_, i) => ({
-      y: rand(-height, 0),
-      speed: rand(SPEED_MIN, SPEED_MAX),
-      glyph: pickGlyph(),
-      swapT: Math.random() * 0.3,
-      ink: pickInk(i),
-      ox: 0,
-      vx: 0,
-    }));
+    const rows = Math.ceil(height / FONT_SIZE);
+    // Prefilled so the first frame (and the reduced-motion still) already
+    // carries readable trails instead of lone heads.
+    columns = new Array(colCount).fill(0).map((_, i) =>
+      makeColumn(i, -((Math.random() * rows) | 0), true));
 
     if (stillOnly) drawStill();
     else {
@@ -247,29 +306,45 @@
     }
   }
 
-  /* One still frame: every column drawn where it stands, each with a short
-     tail above it so the glyph trails still read as falling rain. Nothing
-     moves and nothing is scheduled. */
-  const STILL_TAIL = 7;
+  /* One still frame: every column drawn where it stands with its stored
+     trail, so the code still reads. Nothing moves and nothing is scheduled. */
   function drawStill() {
     ctx.fillStyle = 'rgba(10, 10, 10, 1)';
     ctx.fillRect(0, 0, width, height);
     for (let i = 0; i < columns.length; i++) {
       const col = columns[i];
-      const x = i * FONT_SIZE;
       // Spread the heads over the full height — the animated loop starts them
       // above the fold and relies on falling to fill the screen.
-      const headY = ((col.y % height) + height) % height;
-      ctx.fillStyle = col.ink.head;
-      ctx.fillText(col.glyph, x, headY);
-      ctx.fillStyle = col.ink.tail;
-      for (let n = 1; n <= STILL_TAIL; n++) {
-        const y = headY - n * FONT_SIZE;
-        if (y < -FONT_SIZE) break;
-        ctx.globalAlpha = 1 - n / (STILL_TAIL + 1);
-        ctx.fillText(pickGlyph(), x, y);
-      }
-      ctx.globalAlpha = 1;
+      const rows = Math.max(1, (height / FONT_SIZE) | 0);
+      const headRow = ((col.row % rows) + rows) % rows;
+      drawColumn(col, i * FONT_SIZE, headRow * FONT_SIZE, 0);
+    }
+  }
+
+  /* Head in the bright ink, then each stored character one cell up at a
+     stepped alpha. `glow` is the pointer's white lift, on the head and the
+     first trail cell only. */
+  function drawColumn(col, x, y, glow) {
+    const trail = col.trail;
+    if (!trail.length) return;
+    ctx.fillStyle = col.ink.head;
+    ctx.fillText(trail[0], x, y);
+    if (glow > 0) {
+      ctx.fillStyle = 'rgba(255, 255, 255, ' + glow.toFixed(3) + ')';
+      ctx.fillText(trail[0], x, y);
+    }
+    ctx.fillStyle = col.ink.tail;
+    const len = trail.length;
+    for (let n = 1; n < len; n++) {
+      const ty = y - n * FONT_SIZE;
+      if (ty < -FONT_SIZE) break;
+      ctx.globalAlpha = 1 - n / (len + 1);
+      ctx.fillText(trail[n], x, ty);
+    }
+    ctx.globalAlpha = 1;
+    if (glow > 0 && len > 1) {
+      ctx.fillStyle = 'rgba(255, 255, 255, ' + (glow * 0.6).toFixed(3) + ')';
+      ctx.fillText(trail[1], x, y - FONT_SIZE);
     }
   }
 
@@ -349,33 +424,22 @@
         }
       }
 
-      ctx.fillStyle = col.ink.head;
-      ctx.fillText(col.glyph, x, col.y);
-      if (glow > 0) {
-        ctx.fillStyle = 'rgba(255, 255, 255, ' + glow.toFixed(3) + ')';
-        ctx.fillText(col.glyph, x, col.y);
-      }
+      drawColumn(col, x, col.y, glow);
 
-      ctx.fillStyle = col.ink.tail;
-      ctx.fillText(col.glyph, x, col.y - FONT_SIZE);
-      if (glow > 0) {
-        // Lift the tail too: the sped-up columns space their trails out, so
-        // without this the extra speed cancels the head glow and the pointer
-        // reads as nothing at all.
-        ctx.fillStyle = 'rgba(255, 255, 255, ' + (glow * 0.6).toFixed(3) + ')';
-        ctx.fillText(col.glyph, x, col.y - FONT_SIZE);
+      /* Advance on a cell grid: bank fractional cells, step whole ones. The
+         characters land on fixed rows and hold there, which is what keeps
+         the code legible while it falls. */
+      col.acc += dt * CELLS_PER_SEC * col.speed * speedMul;
+      while (col.acc >= 1) {
+        col.acc -= 1;
+        col.row++;
+        pushChar(col);
       }
-
-      col.y += col.speed * FONT_SIZE * 0.6 * step * speedMul;
-      col.swapT -= dt;
-      if (col.swapT <= 0) {
-        col.glyph = pickGlyph();
-        col.swapT = 0.08 + Math.random() * 0.3;
-      }
-      if (col.y > height + FONT_SIZE * 2 && Math.random() < resetChance) {
-        col.y = rand(-height * 0.5, -FONT_SIZE);
-        col.speed = rand(SPEED_MIN, SPEED_MAX);
-        col.ink = pickInk(i);  // re-roll the ink so the mix keeps shifting
+      col.y = col.row * FONT_SIZE;
+      if (col.y > height + trailLen() * FONT_SIZE && Math.random() < resetChance) {
+        const fresh = makeColumn(i, -((Math.random() * height * 0.5 / FONT_SIZE) | 0) - 1, false);
+        fresh.ox = col.ox; fresh.vx = col.vx;
+        columns[i] = fresh;   // new speed, ink and code cursor; empty trail
       }
     }
 
