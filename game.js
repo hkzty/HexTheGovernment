@@ -1216,59 +1216,142 @@
   const touchLayer = document.getElementById('gameTouch');
 
   /*
-    Best run. One number the player can push — suits cleared,
-    with the wave as the tie-breaker — kept in localStorage so a good run
-    survives the reload. Storage failures (private mode, blocked cookies)
-    degrade to a session with no memory, never an error.
+    Highscores. A top-ten table of runs — suits cleared, wave as the
+    tie-breaker — with a three-letter tag per entry, kept in localStorage.
+    Per browser only: the site is static, so there is no shared board.
+    Storage failures (private mode, blocked cookies) degrade to a session
+    with no memory, never an error.
   */
-  const BEST_KEY = 'htg-suit-purge-best';
+  const SCORES_KEY = 'htg-suit-purge-scores';
+  const TAG_KEY = 'htg-suit-purge-tag';
+  const SCORES_MAX = 10;
+  const TAG_LEN = 3;
 
-  const readBest = () => {
+  const cleanTag = (value) =>
+    String(value || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, TAG_LEN);
+
+  const readScores = () => {
     try {
-      const parsed = JSON.parse(localStorage.getItem(BEST_KEY));
-      if (!parsed) return null;
-      const kills = parsed.kills | 0;
-      const wave = parsed.wave | 0;
-      if (kills < 0 || wave < 1) return null;
-      return { kills: kills, wave: wave };
+      const parsed = JSON.parse(localStorage.getItem(SCORES_KEY));
+      if (!Array.isArray(parsed)) return [];
+      return parsed
+        .map((row) => ({ tag: cleanTag(row && row.tag), kills: row.kills | 0, wave: row.wave | 0 }))
+        .filter((row) => row.kills >= 0 && row.wave >= 1)
+        .slice(0, SCORES_MAX);
     } catch (err) {
-      return null;
+      return [];
     }
   };
 
-  const writeBest = (run) => {
+  const writeScores = (rows) => {
     try {
-      localStorage.setItem(BEST_KEY, JSON.stringify(run));
+      localStorage.setItem(SCORES_KEY, JSON.stringify(rows));
     } catch (err) { /* no storage — the run still shows, it just isn't kept */ }
   };
 
-  const beats = (run, best) =>
-    !best || run.kills > best.kills || (run.kills === best.kills && run.wave > best.wave);
+  const readTag = () => {
+    try { return cleanTag(localStorage.getItem(TAG_KEY)); } catch (err) { return ''; }
+  };
+
+  const writeTag = (tag) => {
+    try { localStorage.setItem(TAG_KEY, tag); } catch (err) { /* see writeScores */ }
+  };
+
+  const beats = (a, b) => a.kills > b.kills || (a.kills === b.kills && a.wave > b.wave);
+
+  // Index the run would take on the table, or -1 if it does not place.
+  const placement = (run, rows) => {
+    if (run.kills < 1) return -1;
+    let i = 0;
+    while (i < rows.length && !beats(run, rows[i])) i++;
+    return i < SCORES_MAX ? i : -1;
+  };
 
   // The score block is built here rather than in the page markup so every
-  // page carrying the game (index, mobile, game.html) gets it unchanged.
+  // page carrying the game gets it unchanged.
   let scoreBox = null;
-  let scoreBest = null;
+  let scoreTable = null;
+  let scoreForm = null;
+  let scoreInput = null;
+  let pendingRun = null;
+
+  const renderScores = (highlight) => {
+    const rows = readScores();
+    scoreTable.textContent = '';
+    scoreTable.hidden = rows.length === 0;
+    rows.forEach((row, i) => {
+      const li = document.createElement('li');
+      if (i === highlight) li.className = 'is-new';
+      const tag = document.createElement('b');
+      tag.textContent = row.tag || '---';
+      const kills = document.createElement('span');
+      kills.textContent = String(row.kills);
+      const wave = document.createElement('i');
+      wave.textContent = 'W' + row.wave;
+      li.append(tag, kills, wave);
+      scoreTable.appendChild(li);
+    });
+  };
+
+  const commitScore = () => {
+    if (!pendingRun) return;
+    const run = pendingRun;
+    pendingRun = null;
+    scoreForm.hidden = true;
+    const tag = cleanTag(scoreInput.value);
+    if (tag) writeTag(tag);
+    const rows = readScores();
+    const index = placement(run, rows);
+    if (index < 0) { renderScores(-1); return; }
+    rows.splice(index, 0, { tag: tag, kills: run.kills, wave: run.wave });
+    writeScores(rows.slice(0, SCORES_MAX));
+    renderScores(index);
+  };
 
   const showScore = (run) => {
     if (!scoreBox) return;
-    const best = readBest();
-    const newBest = beats(run, best);
-    if (newBest) writeBest(run);
-    const shown = newBest ? run : best;
-    scoreBest.textContent = newBest
-      ? 'New best run.'
-      : 'Best run: ' + shown.kills + ' suits, wave ' + shown.wave + '.';
-    scoreBox.hidden = false;
+    const rows = readScores();
+    const index = placement(run, rows);
+    pendingRun = index < 0 ? null : run;
+    scoreForm.hidden = index < 0;
+    renderScores(-1);
+    scoreBox.hidden = index < 0 && rows.length === 0;
+    if (index >= 0) {
+      scoreInput.value = readTag();
+      setTimeout(() => scoreInput.focus(), 0);
+    }
   };
 
   if (overlay && playButton) {
     scoreBox = document.createElement('div');
     scoreBox.className = 'game-score';
     scoreBox.hidden = true;
-    scoreBest = document.createElement('p');
-    scoreBest.className = 'game-best';
-    scoreBox.appendChild(scoreBest);
+
+    scoreForm = document.createElement('form');
+    scoreForm.className = 'game-tag';
+    scoreForm.hidden = true;
+    scoreInput = document.createElement('input');
+    scoreInput.type = 'text';
+    scoreInput.maxLength = TAG_LEN;
+    scoreInput.autocomplete = 'off';
+    scoreInput.spellcheck = false;
+    scoreInput.setAttribute('aria-label', 'Tag');
+    scoreInput.addEventListener('input', () => { scoreInput.value = cleanTag(scoreInput.value); });
+    const saveButton = document.createElement('button');
+    saveButton.type = 'submit';
+    saveButton.className = 'game-chip';
+    saveButton.textContent = 'Save';
+    scoreForm.append(scoreInput, saveButton);
+    scoreForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      commitScore();
+    });
+
+    scoreTable = document.createElement('ol');
+    scoreTable.className = 'game-board';
+    scoreTable.hidden = true;
+
+    scoreBox.append(scoreForm, scoreTable);
     overlay.insertBefore(scoreBox, playButton);
   }
 
@@ -1341,6 +1424,7 @@
   const start = () => {
     initAudio();
     if (audio && audio.state === 'suspended') audio.resume();
+    pendingRun = null;
     if (state.over || state.enemies.length === 0) resetGame();
     state.running = true;
     if (overlay) overlay.hidden = true;
