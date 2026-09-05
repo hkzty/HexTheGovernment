@@ -25,6 +25,7 @@ Deployed by GitHub Pages straight from `main` (see `CNAME`). Merging to
 | `render.js` | Reads the config and rewrites the markup at runtime. |
 | `script.js` | Site chrome: nav, scroll-spy, reveals, lightbox, contact form, Suit Purge unlock. |
 | `game.js` | Suit Purge — the in-page shooter. Self-contained IIFE. |
+| `worker/` | Cloudflare Worker + KV for the Suit Purge shared highscores. Not served by Pages. |
 | `rain.js`, `rain.html` | Jars — the second hidden game, on the rain. Self-contained IIFE. Unlocked only from `game.html`. |
 | `index.html` | Desktop page: hero, roster, music, gallery, donation + legal footer. Everything else is a standalone page. The hero is a full-screen gate (`body.hero-gate`, `script.js`): the page is locked on it until the first wheel / swipe / tap / key, which scrolls to the roster. |
 | `roster.html`, `music.html`, `gallery.html` | Standalone copies of the home sections in the `sequence.html` shell; the nav links here, the home page keeps the sections for scrolling. They embed the same markup as `index.html` — edit both. |
@@ -230,6 +231,22 @@ out of view, on Escape, and when the tab is hidden.
   `MAP_SRC` that visits all open cells and confirms each spawn is among
   them. (If this becomes a frequent edit, promoting that check into a
   dev-only assertion in `game.js` would be worth doing.)
+
+### Highscores (`worker/`)
+
+Shared top ten: a Cloudflare Worker + KV in `worker/` (`GET`/`POST
+/scores`), deploy steps in `worker/README.md`, URL pasted into
+`config.game.scoresEndpoint`. `game.js` reads the board on FLATLINED and
+posts a run **only when the player presses Save**; with the endpoint
+empty, or when it fails, the board is the per-browser localStorage copy.
+`game.html` loads `config.js` for this — it did not before.
+
+Limits to know: the game is client-side, so scores are forgeable; the
+worker only rejects impossible runs (kills above the spawn total for the
+wave — keep `maxKillsForWave` in step with `spawnWave`), foreign origins
+and rapid resubmits. KV is last-write-wins, so two submits in the same
+second can drop one. A Durable Object fixes that if it ever matters.
+`robots.txt` blocks `/worker/`.
 
 ## Jars (`rain.js`, `rain.html`) — the second egg
 

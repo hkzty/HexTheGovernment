@@ -9,5 +9,6 @@ Disallow: /copydesk.html
 Disallow: /content/
 Disallow: /docs/
 Disallow: /scripts/
+Disallow: /worker/
 
 Sitemap: https://www.htg.productions/sitemap.xml
