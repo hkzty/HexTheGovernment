@@ -298,7 +298,7 @@ HTG is the hero `<h1>` on `index.html`. Each artist mark appears in two
 places with **two different assets**: the roster door on `index.html`
 uses the hollow (outline-only, transparent) SVG —
 `abraxas-gen-hollow-logo.svg`, `stretty-gen-hollow-logo.svg`,
-`ciggieholster-hollow-logo.svg`, `justinclout-hollow-logo.svg` — while
+`ciggyholster-hollow-logo.svg`, `justinclout-hollow-logo.svg` — while
 the `<h1>` on each deck (`abraxas.html`, `stretty.html`, `ciggie.html`,
 `justin.html`) keeps the filled `.webp`. That split is deliberate; do not
 unify them. The `width`/`height` on the door `<img>`s come from each
