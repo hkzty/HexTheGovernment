@@ -1,4 +1,4 @@
-# ABRAXAS × HTG — Official Site (www.htg.productions)
+# HTG — Official Site (www.htg.productions)
 
 **Tagline:** Depressions Running Deep
 **Label:** HTG - Hex The Government
