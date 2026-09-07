@@ -443,14 +443,6 @@
       }
     }
 
-    if (fieldOn) {
-      ctx.beginPath();
-      ctx.arc(pointerX, pointerY, FIELD_RADIUS, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.10)';
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    }
-
     schedule();
   }
 
