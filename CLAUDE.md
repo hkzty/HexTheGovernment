@@ -189,8 +189,10 @@ Every indexed page also has `<link rel="canonical">`, a `robots` meta,
 `twitter:title`/`twitter:description`, `<meta name="color-scheme"
 content="dark">` (dark UA scrollbars and form chrome on the all-black
 pages), and the footer social icons carry `rel="me"`. The Organization
-node carries `sameAs` (the repo and the store — add MusicBrainz / the
-custom shop domain when they exist) and a `logo` on a dark tile
+node carries `sameAs` (the source repo only — add the MusicBrainz label
+entry once it exists; never the merch store, which is already Stretty's
+identity in that `MusicGroup`'s own `sameAs`, and asserting it for HTG
+too tells Google the two are one entity) and a `logo` on a dark tile
 (`assets/icons/icon-512.png`): Google draws the logo on white, where the
 white-on-transparent wordmark is invisible. Location: `legal.html` is governed by NSW law, so every page
 carries `og:locale` `en_AU` and the Organization node an `address` of
