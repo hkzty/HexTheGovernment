@@ -29,6 +29,13 @@ let html = fs.readFileSync(path.join(__dirname, 'copydesk-template.html'), 'utf8
    it in its own document skeleton. Served straight off GitHub Pages it needs a
    real skeleton of its own — and noindex, since it's an internal editing tool,
    not a page for visitors or search engines. */
+if (!standalone) {
+  /* The bare build is served from content/ on GitHub Pages too, so it carries
+     the same noindex as the standalone one — robots.txt blocks the directory,
+     but a Disallow is never read as a noindex. */
+  html = '<meta name="robots" content="noindex, nofollow" />\n' + html;
+}
+
 if (standalone) {
   const marker = '<div class="rail">';
   const cut = html.indexOf(marker);

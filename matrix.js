@@ -280,9 +280,12 @@
   }
 
   function resize() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
     width = window.innerWidth;
     height = window.innerHeight;
+    // Phones cap at 1.5x: a 19px monospace glyph is still sharp there and
+    // the per-frame fill drops by ~44% on a 2.75x device, which was the
+    // whole of the long-task budget on a throttled mid-range Android.
+    dpr = Math.min(window.devicePixelRatio || 1, width < 700 ? 1.5 : 2);
     canvas.width = Math.floor(width * dpr);
     canvas.height = Math.floor(height * dpr);
     canvas.style.width = width + 'px';
@@ -454,6 +457,7 @@
     framesSeen = 0;
     schedule();
     armHeartbeat();
+    armProbe();
   }
   function stop() {
     paused = true;
@@ -462,7 +466,20 @@
   }
 
   resize();
-  start();
+  /* The loop starts at the first idle moment rather than mid-parse: on a
+     throttled phone its per-frame cost was the whole of the page's blocking
+     time while the rest of the page was still loading. The delay is one idle
+     tick (1.2s ceiling), and the rain has always filled the screen by falling
+     in from above the fold, so this reads as the same load — not as a blank
+     page. Never deferred to `load`: that waits on every embed. The paint
+     probe is armed by start(), so it still gets its two seconds. */
+  (function () {
+    var started = false;
+    var go = function () { if (started) return; started = true; start(); };
+    if (document.readyState === 'complete') go();
+    else if (window.requestIdleCallback) requestIdleCallback(go, { timeout: 1200 });
+    else setTimeout(go, 250);
+  })();
   bindPointer();
 
   /* ---- Paint probe -------------------------------------------------------
@@ -473,6 +490,7 @@
      with a fresh context, once. Readback noise from fingerprint farbling
      is a few units per channel, far under the threshold. */
   let probed = false;
+  let probeArmed = false;
   function painted() {
     try {
       const w = canvas.width, h = canvas.height;
@@ -504,7 +522,15 @@
     start();
     return true;
   }
-  setTimeout(() => {
+  /* Armed by start(), never at parse time: the loop's first run may be
+     deferred (see below), and a probe that fires before it would read an
+     unpainted canvas and rebuild it for nothing. */
+  function armProbe() {
+    if (probeArmed) return;
+    probeArmed = true;
+    setTimeout(probe, 2000);
+  }
+  function probe() {
     if (probed) return;
     probed = true;
     const ok = stillOnly || document.hidden || painted();
@@ -519,7 +545,7 @@
         brave: !!(navigator.brave && navigator.brave.isBrave),
       }));
     }
-  }, 2000);
+  }
 
   const onReduceMotionChange = () => {
     stillOnly = reduceMotion.matches;

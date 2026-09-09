@@ -15,7 +15,11 @@ window.ABRAXAS_CONFIG = {
   artist: "ABRAXAS",
 
   /* ---- Linked profiles ---------------------------------------------------
-     Footer icons and the Music links. "" = the link is removed.          */
+     Footer icons and the Music links. "" = the link is removed. A platform
+     that gains a URL here also needs its <a data-social> anchor back in
+     index.html (footer icons + Music links) and music.html: the static
+     markup mirrors these values for crawlers that never run render.js, and
+     render.js only rewrites anchors that exist.                           */
   socials: {
     instagram:    "https://instagram.com/abraxas.htg",
     spotify:      "https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19",
@@ -121,6 +125,20 @@ window.ABRAXAS_CONFIG = {
      lives in each visitor's browser instead.                              */
   game: {
     scoresEndpoint: ""
+  },
+
+  /* ---- Analytics (Cloudflare Web Analytics) --------------------------------
+     Cookie-free, fingerprint-free page-view counts, no consent banner
+     needed, free on the Cloudflare account that already serves the DNS.
+     Cloudflare dashboard -> Analytics & Logs -> Web Analytics -> Add a site
+     -> www.htg.productions -> copy the token out of the JS snippet. "" =
+     nothing is loaded (analytics.js). Do NOT use Cloudflare's "automatic"
+     edge injection: it silently stops if the proxy is ever switched off.
+     When a token is set, update legal.html in the same commit: §7 "What we
+     do NOT collect" (say Cloudflare Web Analytics, a cookie-free aggregate
+     counter, is used) and §6's third-party list.                          */
+  analytics: {
+    cloudflareToken: ""
   },
 
   /* ---- Contact -----------------------------------------------------------

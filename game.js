@@ -602,9 +602,11 @@
   window.addEventListener('keydown', (event) => {
     const action = KEY_MAP[event.code];
     if (!action || !state.running) return;
+    // Every mapped key is the game's while a run is on — otherwise the
+    // arrows also scroll the page and walk the stage off-screen.
+    event.preventDefault();
     keys[action] = true;
     if (event.code === 'Space') {
-      event.preventDefault();
       // Edge-triggered so a quick tap always registers, not just a held key.
       fire();
     }
@@ -1471,7 +1473,9 @@
 
   const start = () => {
     initAudio();
-    if (audio && audio.state === 'suspended') audio.resume();
+    // Not just 'suspended': WebKit also reports 'interrupted' after a call
+    // or app switch, and resume() can reject — never let that surface.
+    if (audio && audio.state !== 'running') audio.resume().catch(() => {});
     pendingRun = null;
     if (state.over || state.enemies.length === 0) resetGame();
     state.running = true;

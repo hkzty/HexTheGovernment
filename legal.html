@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
   <title>Legal | HTG — Hex The Government</title>
   <meta name="description" content="Terms of Use, Privacy Policy, Trademark, Copyright, and satire disclosures for HTG (Hex The Government) and its artists ABRAXAS, Stretty, ciggyholster and Justinn.clout." />
   <meta name="robots" content="index, follow, max-snippet:-1" />
@@ -56,6 +57,7 @@
   <meta name="author" content="HTG — Hex The Government" />
   <meta name="copyright" content="© HTG — Hex The Government" />
   <meta name="theme-color" content="#0a0a0a" />
+  <link rel="manifest" href="site.webmanifest" />
   <meta property="og:title" content="Legal — HTG" />
   <meta property="og:description" content="Terms of Use, Privacy Policy, Trademark, Copyright, and satire disclosures for HTG." />
   <meta property="og:type" content="website" />
@@ -70,14 +72,14 @@
   <meta name="twitter:image" content="https://www.htg.productions/assets/og/htg.png" />
   <meta name="twitter:title" content="Legal — HTG" />
   <meta name="twitter:description" content="Terms of Use, Privacy Policy, Trademark, Copyright, and satire disclosures for HTG." />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
   <link rel="icon" type="image/svg+xml" href="assets/htg-mark.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- New Rocker loads with display=block so headings paint once, in the gothic
-       face — never the serif fallback morphing mid-load. Plex Mono keeps swap:
-       its fallback is another monospace, so that swap is invisible. -->
-  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=block" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <!-- Self-hosted (assets/fonts/fonts.css): New Rocker display=block, Plex Mono
+       display=swap — keep that split, see CLAUDE.md. Only the block face is
+       preloaded; it is the one that gates heading paint. -->
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/NewRocker-Regular.woff2" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css" />
   <link rel="stylesheet" href="style.css" />
   <style>
     /* Legal page: standalone typographic layout, uses tokens from style.css */
@@ -101,6 +103,17 @@
     /* Dimmer than the rest of the site: this page is a wall of text. */
     body.legal-page #matrix-rain { opacity: 0.3; }
     .legal-notice { border: 1px solid rgba(255, 180, 60, 0.4); background: rgba(255, 180, 60, 0.06); border-radius: 12px; padding: 1rem 1.25rem; margin: 1rem 0; color: #ffd89b; }
+    /* Paper / Save-as-PDF: black on white, no rain, no chrome. Firefox and
+       Safari print with backgrounds off, so the light-on-dark text would
+       otherwise come out white on white. */
+    @media print {
+      #matrix-rain, body::before, body::after, .legal-back { display: none !important; }
+      body.legal-page { background: #fff; color: #000; }
+      .legal-wrap p, .legal-wrap li, .legal-wrap h1, .legal-wrap h2, .legal-wrap h3,
+      .legal-wrap a, .legal-wrap .kicker, .legal-meta { color: #000; }
+      .legal-toc, .legal-notice { background: none; border-color: #000; color: #000; }
+      .legal-wrap a { text-decoration: underline; }
+    }
   </style>
 </head>
 <body class="legal-page" data-rain="mixed">
@@ -110,7 +123,7 @@
     <header class="legal-head">
       <div class="kicker">HTG // Legal</div>
       <h1>Legal, Privacy &amp; Disclosures</h1>
-      <p class="legal-meta">Last updated: 3 September 2026 · Governs use of <strong>www.htg.productions</strong> and all HTG content published on it.</p>
+      <p class="legal-meta">Last updated: 9 September 2026 · Governs use of <strong>www.htg.productions</strong> and all HTG content published on it.</p>
     </header>
 
     <nav class="legal-toc" aria-label="Legal table of contents">
@@ -131,6 +144,8 @@
         <li><a href="#contact">14. Contact</a></li>
       </ul>
     </nav>
+
+    <main>
 
     <h2 id="operator">1. Site operator</h2>
     <p>This website (<strong>www.htg.productions</strong>) is operated by <strong>HTG — Hex The Government</strong> ("HTG", "we", "us"), an independent music label and creative project based in New South Wales, Australia. The recording artists <strong>ABRAXAS</strong>, <strong>Stretty</strong> and <strong>ciggyholster</strong> and the videographer <strong>Justinn.clout</strong> work under this label. Business enquiries and legal notices may be sent to <a href="mailto:Bookings@htg.productions">Bookings@htg.productions</a>.</p>
@@ -190,7 +205,7 @@
     <p><em>Suit Purge</em> is provided free of charge as part of this site. It contains cartoon-style violence against fictional enemies. The game runs entirely in your browser: no downloads, no third-party assets, and no personal data is transmitted by playing it.</p>
 
     <h2 id="thirdparty">6. Third-party links, embeds &amp; services</h2>
-    <p>This site links to and embeds media from third-party platforms including, without limitation: Spotify, SoundCloud, YouTube, Apple Music, TikTok, Instagram, Shopify, GitHub Pages, Linktree, and Google Fonts. HTG does not control and is not responsible for the content, privacy practices, or availability of those services. The names, logos, and marks of those services are the property of their respective owners.</p>
+    <p>This site links to and embeds media from third-party platforms including, without limitation: Spotify, SoundCloud, YouTube, Apple Music, TikTok, Instagram, Shopify, GitHub Pages, and Linktree. HTG does not control and is not responsible for the content, privacy practices, or availability of those services. The names, logos, and marks of those services are the property of their respective owners.</p>
     <p>Where you interact with an embedded player or an outbound link, the operator of that service may collect data about you under its own privacy policy. Please read those policies before use.</p>
 
     <h2 id="privacy">7. Privacy Policy</h2>
@@ -216,7 +231,7 @@
     <p>This site does not set advertising or analytics cookies. It uses only:</p>
     <ul>
       <li><strong>sessionStorage</strong> (<code>abx-view</code>) to remember whether you chose the desktop or mobile version of the page during your visit. It is cleared when you close the tab.</li>
-      <li>Any cookies that third-party embeds (Spotify, YouTube, etc.) or fonts (Google Fonts) may set when they load. Those are governed by the respective operators' policies.</li>
+      <li>Any cookies that third-party embeds (Spotify, YouTube, etc.) may set when they load. Those are governed by the respective operators' policies.</li>
     </ul>
 
     <h2 id="dmca">9. Copyright complaints (DMCA / notice-and-takedown)</h2>
@@ -247,7 +262,10 @@
     <p>For legal, licensing, privacy, or takedown matters: <a href="mailto:Bookings@htg.productions">Bookings@htg.productions</a>.</p>
 
     <p class="legal-meta" style="margin-top:3rem;">© HTG — Hex The Government. All rights reserved. HTG™, HEX THE GOVERNMENT™, HTG PRODUCTIONS™, HEXCORE™, SUIT PURGE™, THE ARK™, ABRAXAS™, STRETTY™, CIGGYHOLSTER™, CIGGIE BUMP BRAIN™ and JUSTINN.CLOUT™ are trademarks of HTG and/or the respective artists.</p>
+    </main>
   </div>
   <script src="matrix.js"></script>
+  <script src="config.js"></script>
+  <script src="analytics.js"></script>
 </body>
 </html>

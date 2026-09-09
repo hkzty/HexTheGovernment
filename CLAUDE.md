@@ -26,6 +26,7 @@ Deployed by GitHub Pages straight from `main` (see `CNAME`). Merging to
 | `script.js` | Site chrome: nav, scroll-spy, reveals, lightbox, contact form, Suit Purge unlock. |
 | `game.js` | Suit Purge — the in-page shooter. Self-contained IIFE. |
 | `worker/` | Cloudflare Worker + KV for the Suit Purge shared highscores. Not served by Pages. |
+| `analytics.js` | Loads Cloudflare Web Analytics only when `config.analytics.cloudflareToken` is set. Off by default; enabling it changes `legal.html` §6/§7 (see the comment in `config.js`). |
 | `rain.js`, `rain.html` | Jars — the second hidden game, on the rain. Self-contained IIFE. Unlocked only from `game.html`. |
 | `index.html` | Desktop page: hero, roster, music, gallery, donation + legal footer. Everything else is a standalone page. The hero is a full-screen gate (`body.hero-gate`, `script.js`): the page is locked on it until the first wheel / swipe / tap / key, which scrolls to the roster. |
 | `roster.html`, `music.html`, `gallery.html` | Standalone copies of the home sections in the `sequence.html` shell; the nav links here, the home page keeps the sections for scrolling. They embed the same markup as `index.html` — edit both. |
@@ -40,7 +41,15 @@ Deployed by GitHub Pages straight from `main` (see `CNAME`). Merging to
 `index.html` and `mobile.html` are two files serving the same site. An
 inline script at the top of each (`data-page`) redirects between them by
 viewport width, with `?desktop` / `?mobile` pinning a choice in
-`sessionStorage`.
+`sessionStorage`. That script sits directly after the viewport meta on
+purpose: further down the head, Chromium's preload scanner had already
+fetched style.css, the scripts and the 400 KB wordmark before the redirect
+fired, all thrown away on a phone. Never move it *above* the viewport meta
+(matchMedia then reads the default layout viewport and the redirect stops
+firing). The same head script adds `html.js` and disarms it 2.5 s later
+unless `script.js` has set `window.__htgRevealArmed`; that handshake is
+what stops a failed `script.js` (404, parse error) leaving every
+`.fade-in` element invisible.
 
 **`mobile.html` is generated. Do not edit it by hand.** It is
 `index.html` with `style.css` inlined, `data-page` flipped to `mobile`,
@@ -79,6 +88,14 @@ instead of emitting a half-converted page.
 **Testing mobile requires `?mobile=1`** on a wide viewport, or the
 redirect bounces you straight to `index.html`.
 
+The hero gate (`body.hero-gate`) holds its scroll lock until the glide to
+the roster has landed (read off `scrollY`, 1.2 s deadline) and cancels
+wheel and `touchmove` meanwhile: dropping the lock on the first wheel tick
+let trackpad inertia carry the page hundreds of pixels past the roster,
+and any user scroll gesture cancels a smooth scroll. While gated the
+topbar is `visibility: hidden` so its pills are out of the tab order, and
+focus leaving the hero (Tab to a door) releases the gate.
+
 ## Content policy — this matters here
 
 The site previously shipped a large amount of invented content presented
@@ -115,6 +132,10 @@ back. Concretely:
   Soon and Upcoming Tours sections, the sticky CTA bar, the back-to-top
   button, the easter-egg hint paragraph, the platform description cards
   and the door reveal panels were all deleted for this reason.
+  `sequence.html` renders lazy Spotify players straight from
+  `config.sequence` and carries no generated titles; the click-to-play
+  cover-card path that once lived in `render.js` was unreachable from
+  every page and has been removed.
 - **No template chrome.** The custom cursor, the hero parallax layers, the
   filename captions overlaid on gallery thumbnails, the console "there is
   a maze" breadcrumb and the game's "copy the brag" share button went in
@@ -136,7 +157,13 @@ back. Concretely:
   shortened, never removed).
 - **Links point at real profiles or don't exist.** `render.js` removes
   any `[data-social]` link whose URL is empty in `config.socials`; it
-  never falls back to a platform homepage.
+  never falls back to a platform homepage. The static anchors in
+  `index.html` / `music.html` carry the same real URLs as `config.js`
+  (crawlers that never run `render.js` read the file as shipped), so a
+  platform that gains a URL in config also gets its anchor back in the
+  markup, and one that loses it has the anchor deleted. Do not link a
+  domain that does not resolve: `stretty.music` was NXDOMAIN and came
+  out of `stretty.html`, the JSON-LD and `llms.txt`.
 - Meta descriptions, `og:description`, `aria-label`s, iframe titles and
   form placeholders follow the same rule: name the thing, don't sell it.
 
@@ -151,12 +178,21 @@ on `render.js` running.
 | `robots.txt` | One `User-agent: *` group: allows everything public (AI crawlers included — the owner wants AI in the back end, never showing on the front end; `legal.html` §2 still forbids training on the content and stays as written) and blocks `copydesk.html`, `content/`, `docs/`, `scripts/`. No per-bot groups — under RFC 9309 a named group inherits nothing from `*`, so a bot-specific `Allow: /` silently drops the Disallows for exactly that bot. |
 | `sitemap.xml` | **Generated** by `scripts/build-sitemap.js`; `lastmod` is each page's last commit date. `mobile.html` is deliberately absent. After editing any page: `npm run build:sitemap`, and `npm run check:sitemap` before pushing (same deal as `check:mobile`, and for the same reason not in CI). |
 | `llms.txt` | Plain-markdown summary for LLM agents: roster, every profile URL, the Sequence and the deck tracks, contact, trademarks, the explicit "no tour dates, no upcoming releases" line, and the ABRAXAS/Stretty Spotify disambiguation. |
-| `site.webmanifest` | Name, colours, `music`/`entertainment` categories, the SVG mark as icon. |
+| `site.webmanifest` | Name, colours, `music`/`entertainment` categories, PNG icons (192, 512, maskable 512) plus the SVG mark. Linked from every visitor page. |
+| `favicon.ico`, `assets/icons/` | Raster icons rasterised from `assets/htg-mark.svg` (Safari before 26 ignores SVG favicons; iOS home-screen and bookmarks need `apple-touch-icon`). Every page declares `.ico` + SVG + `apple-touch-icon`; the four decks keep their own letter tiles, rasterised to `assets/icons/<artist>-32/180.png`. Regenerate by screenshotting the SVG with Playwright at 16/32/48/180/192/512. |
+| `aa3ba17e5adc90eee1d183ab3f140bf9.txt` | IndexNow key file (Bing, DuckDuckGo, Yandex, Naver, Seznam). `npm run ping:indexnow` POSTs every sitemap URL after a deploy that changed pages. Google does not use IndexNow. |
+| `.well-known/security.txt` | RFC 9116 contact; `Expires` must stay under a year out — bump it each September. |
+| `.nojekyll` | Skips the Jekyll pass on deploy, which would otherwise drop `.well-known/`. |
 | JSON-LD in each page head | `index.html` carries `Organization` (`#org`), `WebSite` (`#website`), a `WebPage`, the three `MusicGroup`s, the `Person` and the `VideoGame`. Each deck repeats its own entity under the same `@id` plus a `WebPage` and a `BreadcrumbList`; `abraxas.html` adds the thirteen `MusicAlbum` nodes (URL-only — their titles are not on the site), `stretty.html` / `ciggie.html` add `MusicRecording`s for the tracks named on the page, `sequence.html` an `ItemList` of the albums. No `VideoObject`s: Google requires `name` and `uploadDate`, which the site deliberately does not hand-write. |
 
 Every indexed page also has `<link rel="canonical">`, a `robots` meta,
-`twitter:title`/`twitter:description`, and the footer social icons carry
-`rel="me"`. Location: `legal.html` is governed by NSW law, so every page
+`twitter:title`/`twitter:description`, `<meta name="color-scheme"
+content="dark">` (dark UA scrollbars and form chrome on the all-black
+pages), and the footer social icons carry `rel="me"`. The Organization
+node carries `sameAs` (the repo and the store — add MusicBrainz / the
+custom shop domain when they exist) and a `logo` on a dark tile
+(`assets/icons/icon-512.png`): Google draws the logo on white, where the
+white-on-transparent wordmark is invisible. Location: `legal.html` is governed by NSW law, so every page
 carries `og:locale` `en_AU` and the Organization node an `address` of
 NSW, AU. Nothing prices anything (the game is `isAccessibleForFree`). `index.html` advertises `mobile.html` as its phone alternate
 and `mobile.html` keeps the canonical pointing at `index.html`;
@@ -295,15 +331,22 @@ brush mark (black-on-white source inverted to white). The older HD PNG
 sources live in `assets/logos/src/`; nothing references them.
 
 HTG is the hero `<h1>` on `index.html`. Each artist mark appears in two
-places with **two different assets**: the roster door on `index.html`
-uses the hollow (outline-only, transparent) SVG —
-`abraxas-gen-hollow-logo.svg`, `stretty-gen-hollow-logo.svg`,
-`ciggyholster-hollow-logo.svg`, `justinclout-hollow-logo.svg` — while
+places with **two different assets**: the roster door on `index.html` /
+`roster.html` uses the hollow (outline-only, transparent) mark, while
 the `<h1>` on each deck (`abraxas.html`, `stretty.html`, `ciggie.html`,
-`justin.html`) keeps the filled `.webp`. That split is deliberate; do not
-unify them. The `width`/`height` on the door `<img>`s come from each
-SVG's viewBox. The name text stays in the DOM (alt / visually hidden) —
-keep it there. They are plain `<img>`s with
+`justin.html`) keeps the filled mark. That split is deliberate; do not
+unify them. The hollow marks ship as webp rasters
+(`<name>-hollow-768.webp` / `-1152.webp`, `srcset` by width) rasterised
+from the traced SVGs, which stay in the repo as sources
+(`abraxas-gen-hollow-logo.svg`, `stretty-gen-hollow-logo.svg`,
+`ciggyholster-hollow-logo.svg`, `justinclout-hollow-logo.svg`): the SVGs
+are 500-750 KB of potrace paths each, 2.4 MB per home-page load for
+marks that render 384 px wide, and `loading="lazy"` never deferred them.
+The `width`/`height` on the door `<img>`s are the 768 raster's pixels.
+Every filled mark and the hero wordmark also carry an 800 px `srcset`
+variant and are encoded with `alphaQuality: 60` — the alpha plane was
+most of the file. The name text stays in the DOM (alt / visually hidden)
+— keep it there. They are plain `<img>`s with
 real alpha: do not try `mix-blend-mode` to drop a background, the
 `.fade-in` opacity transition isolates the stacking context and the blend
 silently no-ops.
@@ -330,19 +373,38 @@ so nothing sits under it. It used to be measured at runtime in
 content underneath the bar); if a top bar ever returns, measure it
 again rather than guessing a number.
 
-## Webfont loading — two links on purpose
+## Webfont loading — self-hosted, block/swap split on purpose
 
-Every visitor page loads Google Fonts as **two** `css2` links: New Rocker
-with `display=block`, IBM Plex Mono with `display=swap`. They used to be
-one link with `display=swap` for both, which made every heading paint in
-the serif fallback and then visibly morph into New Rocker once the font
-arrived — reported by the owner as "the font across the site changed".
-`block` holds heading text briefly instead, so the gothic face is the only
-one ever shown. Plex Mono keeps `swap` because its fallback is another
-monospace and that swap is invisible. Do not fold them back into one link.
+Every visitor page loads `assets/fonts/fonts.css` (four `@font-face`
+rules, latin-subset woff2, both faces SIL OFL 1.1 with the licences beside
+the files) and preloads the New Rocker file. New Rocker is
+`font-display: block`, IBM Plex Mono `swap`. They used to be Google Fonts
+links, and before that one link with `swap` for both, which made every
+heading paint in the serif fallback and then visibly morph into New
+Rocker once the font arrived — reported by the owner as "the font across
+the site changed". `block` holds heading text briefly instead, so the
+gothic face is the only one ever shown. Plex Mono keeps `swap` because its
+fallback is another monospace and that swap is invisible. Self-hosting
+removed the render-blocking round trip to fonts.googleapis.com (first
+paint tracked Google's response time exactly) and the two third-party
+connections `legal.html` used to have to disclose. Keep the block/swap
+split; do not put the Google links back.
 
 ## Known broken / open work
 
+- **The rain's start is deferred one idle tick** (`requestIdleCallback`,
+  1.2 s ceiling, never to `load` — that waits on every embed). Its per-frame
+  cost was the whole of a throttled phone's blocking time while the page was
+  still loading. The canvas is dark for roughly half a second longer than it
+  used to be; the rain has always filled the screen by falling in from above
+  the fold, so it reads as the same load. `dpr` is capped at 1.5 below 700 px
+  (`resize()` — assign `width` before `dpr`, or the cap silently misses on the
+  first call). The paint probe is armed by `start()`, never at parse time: a
+  probe that fires before the first frame reads an unpainted canvas and
+  rebuilds it for nothing.
+- **`-webkit-tap-highlight-color: transparent` is set site-wide**, so any
+  full-bleed tappable block needs its own `:active` state or a phone gets no
+  touch feedback at all — see `.door:active` in `index.html` / `roster.html`.
 - **The rain on Brave desktop.** Reported not running there twice; the
   cause is unconfirmed (Brave's documented canvas/timer protections do
   not stop a 2D loop, its filter lists carry nothing matching
@@ -398,7 +460,18 @@ monospace and that swap is invisible. Do not fold them back into one link.
   setup notes in `config.js`) and falls back to `mailto:` without one.
   Until someone creates the free account and pastes the endpoint into
   `config.js`, every visitor is on the mailto path, which does nothing —
-  silently — for anyone without a desktop mail app.
+  silently — for anyone without a desktop mail app. Step one of
+  `docs/launch-checklist.md`.
+- **Everything that needs an account or DNS is in
+  `docs/launch-checklist.md`**: Search Console, Bing/IndexNow, the
+  GitHub Pages domain check behind the Cloudflare proxy, profile
+  backlinks, MusicBrainz, the shop domain, analytics. None of it is
+  visible on the site.
+- **Cross-browser testing here is Chromium-only.** WebKit and Firefox
+  cannot be installed in the remote sandbox; Safari/Firefox behaviour is
+  audited from source (prefixes, `svh` fallbacks, `:has()`, forced-colors,
+  print, `-webkit-user-select`, iOS input zoom) and should be checked on a
+  real iPhone and a Firefox before big CSS changes.
 
 ## Testing
 
