@@ -126,9 +126,15 @@
       link.addEventListener('click', closeMenu);
     });
 
-    // Tap outside the open menu closes it.
+    // Tap outside the open menu closes it; so does Escape.
     document.addEventListener('pointerdown', event => {
       if (topbar && !topbar.contains(event.target)) closeMenu();
+    });
+    window.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && nav && nav.classList.contains('open')) {
+        closeMenu();
+        menuToggle.focus();
+      }
     });
 
     /*
@@ -147,29 +153,77 @@
 
       document.body.classList.add('hero-gate');
       let open = true;
+      let released = false;
 
-      const exit = () => {
-        if (!open) return;
-        open = false;
-        document.body.classList.remove('hero-gate');
+      /* body.hero-gate (overflow: hidden) blocks user scrolling but not the
+         programmatic glide, so it stays on until the glide has landed:
+         dropping it on the first wheel tick let trackpad inertia and touch
+         flings carry the page hundreds of pixels past the roster. The lock
+         (overflow: hidden) swallows wheel input without cancelling the glide,
+         so the wheel listener stays passive; touch moves are cancelled
+         outright, because iOS Safari ignores overflow: hidden on body for
+         touch. Landing is read off scrollY (no scrollend dependency; Safari
+         lacks it), and release also waits for the wheel to go quiet for
+         250ms, so trackpad momentum that outlasts the glide is absorbed. A
+         deadline keeps a glide that never arrives from holding the page. */
+      let lastWheel = 0;
+      const release = () => {
+        if (released) return;
+        released = true;
         window.removeEventListener('wheel', onWheel);
         window.removeEventListener('touchmove', onTouchMove);
-        window.removeEventListener('keydown', onKey);
-        hero.removeEventListener('click', exit);
-        requestAnimationFrame(() => {
-          first.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
-        });
+        document.body.classList.remove('hero-gate');
       };
 
-      const onWheel = (event) => { if (event.deltaY > 0) exit(); };
-      const onTouchMove = () => exit();
+      const exit = (immediate) => {
+        if (!open) return;
+        open = false;
+        window.removeEventListener('keydown', onKey);
+        document.removeEventListener('focusin', onFocus);
+        hero.removeEventListener('click', exit);
+        const margin = parseFloat(getComputedStyle(first).scrollMarginTop) || 0;
+        const targetY = first.getBoundingClientRect().top + window.scrollY - margin;
+        // Focus already moved into the roster: no glide, just let go.
+        if (immediate === true) {
+          first.scrollIntoView({ behavior: 'auto', block: 'start' });
+          release();
+          return;
+        }
+        const deadline = performance.now() + (prefersReducedMotion ? 60 : 2500);
+        first.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+        const settle = () => {
+          if (released) return;
+          const now = performance.now();
+          const landed = Math.abs(window.scrollY - targetY) < 2;
+          if ((landed && now - lastWheel > 250) || now > deadline) release();
+          else requestAnimationFrame(settle);
+        };
+        requestAnimationFrame(settle);
+      };
+
+      const onWheel = (event) => {
+        lastWheel = performance.now();
+        if (open && event.deltaY > 0) exit();
+      };
+      const onTouchMove = (event) => {
+        if (!released && event.cancelable) event.preventDefault();
+        exit();
+      };
       const onKey = (event) => {
         if (['ArrowDown', 'PageDown', 'Space', 'Enter'].includes(event.code) || event.key === ' ') exit();
       };
+      // Tab reaching anything below the hero (the doors) unlocks too; the
+      // skip link is exempt so it can still be reached first.
+      const onFocus = (event) => {
+        const t = event.target;
+        if (t && t.closest && !hero.contains(t) && !t.closest('.skip-link')) exit(true);
+      };
 
       window.addEventListener('wheel', onWheel, { passive: true });
-      window.addEventListener('touchmove', onTouchMove, { passive: true });
+      // Non-passive only for the life of the gate; removed at release.
+      window.addEventListener('touchmove', onTouchMove, { passive: false });
       window.addEventListener('keydown', onKey);
+      document.addEventListener('focusin', onFocus);
       hero.addEventListener('click', exit);
       const cue = document.getElementById('heroCue');
       if (cue) cue.addEventListener('click', exit);
@@ -215,6 +269,10 @@
     fadeEls.forEach(el => {
       if (!el.classList.contains('visible')) revealObserver.observe(el);
     });
+    // Handshake with the head script that set html.js: if this line is never
+    // reached (404, parse error, a throw above) the head removes the class
+    // after 2.5s and the .fade-in content shows without the reveal.
+    window.__htgRevealArmed = true;
 
     const getGalleryButtons = () => [...document.querySelectorAll('[data-gallery-index]')];
     const lightbox = document.getElementById('lightbox');

@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
   <title>Gallery — HTG</title>
   <meta name="description" content="HTG gallery." />
   <meta name="theme-color" content="#0a0a0a" />
+  <link rel="manifest" href="site.webmanifest" />
   <meta property="og:title" content="Gallery — HTG" />
   <meta property="og:description" content="HTG gallery." />
   <meta property="og:type" content="website" />
@@ -47,17 +49,25 @@
     ]
   }
   </script>
-  <link rel="icon" href="assets/htg-mark.svg" type="image/svg+xml" />
-  <script>document.documentElement.classList.add('js');</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=block" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="assets/htg-mark.svg" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <script>
+    document.documentElement.classList.add('js');
+    // Disarm if script.js never reaches its reveal (404, parse error, early
+    // throw): after 2.5s the .fade-in content shows without the animation.
+    setTimeout(function () { if (!window.__htgRevealArmed) document.documentElement.classList.remove('js'); }, 2500);
+  </script>
+  <!-- Self-hosted (assets/fonts/fonts.css): New Rocker display=block, Plex Mono
+       display=swap — keep that split, see CLAUDE.md. Only the block face is
+       preloaded; it is the one that gates heading paint. -->
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/NewRocker-Regular.woff2" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css" />
   <link rel="stylesheet" href="style.css" />
   <style>
     .std-shell { position: relative; z-index: 2; width: min(72rem, 92vw); margin: 0 auto; padding: 1.4rem 0 3rem; }
     .std-topline { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0 2rem; font-size: 0.72rem; letter-spacing: 0.14em; }
-    .std-topline a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+    .std-topline a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); padding: 0.6rem 0 2px; display: inline-block; }
     .std-topline a:hover { border-color: var(--accent); color: var(--accent); }
     .std-topline .tag { color: var(--muted); letter-spacing: 0.3em; text-transform: uppercase; }
     .std-head { padding: clamp(1.5rem, 6vh, 4rem) 0 0; }
@@ -126,7 +136,7 @@
   <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Image lightbox">
     <div class="lightbox-dialog">
       <div class="lightbox-figure">
-        <img id="lightboxImage" src="" alt="Expanded gallery image" />
+        <img id="lightboxImage" alt="Expanded gallery image" width="1600" height="900" />
       </div>
       <div class="lightbox-bar">
         <div class="lightbox-actions">
@@ -143,5 +153,6 @@
   <script src="render.js"></script>
   <script src="script.js"></script>
   <script src="matrix.js"></script>
+  <script src="analytics.js"></script>
 </body>
 </html>

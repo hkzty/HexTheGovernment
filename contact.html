@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
   <title>Contact — HTG</title>
   <meta name="description" content="Contact and bookings — HTG, Hex The Government." />
   <meta name="theme-color" content="#0a0a0a" />
+  <link rel="manifest" href="site.webmanifest" />
   <meta property="og:title" content="Contact — HTG" />
   <meta property="og:description" content="Contact and bookings." />
   <meta property="og:type" content="website" />
@@ -50,12 +52,20 @@
     ]
   }
   </script>
-  <link rel="icon" href="assets/htg-mark.svg" type="image/svg+xml" />
-  <script>document.documentElement.classList.add('js');</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=block" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="assets/htg-mark.svg" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <script>
+    document.documentElement.classList.add('js');
+    // Disarm if script.js never reaches its reveal (404, parse error, early
+    // throw): after 2.5s the .fade-in content shows without the animation.
+    setTimeout(function () { if (!window.__htgRevealArmed) document.documentElement.classList.remove('js'); }, 2500);
+  </script>
+  <!-- Self-hosted (assets/fonts/fonts.css): New Rocker display=block, Plex Mono
+       display=swap — keep that split, see CLAUDE.md. Only the block face is
+       preloaded; it is the one that gates heading paint. -->
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/NewRocker-Regular.woff2" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css" />
   <style>
     :root {
       --bg: #0a0a0a;
@@ -84,6 +94,7 @@
         linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
       background-size: 48px 48px;
+      -webkit-mask-image: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.15));
       mask-image: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.15));
     }
     #matrix-rain { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.55; pointer-events: none; }
@@ -94,7 +105,7 @@
     .shell { position: relative; z-index: 2; width: min(72rem, 92vw); margin: 0 auto; padding: 1.4rem 0 3rem; }
 
     .topline { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0 2rem; font-size: 0.72rem; letter-spacing: 0.14em; }
-    .topline a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+    .topline a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); padding: 0.6rem 0 2px; display: inline-block; }
     .topline a:hover { border-color: var(--acc); color: var(--acc); }
     .topline .tag { color: var(--dim); letter-spacing: 0.3em; text-transform: uppercase; }
 
@@ -133,7 +144,7 @@
     @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
     .contact-wrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 1rem; }
     .contact-card { padding: 1.3rem; border: 1px solid var(--line); border-radius: 14px; background: rgba(27, 30, 30, 0.82); }
-    .contact-card h3 { font-family: "New Rocker", "IBM Plex Mono", serif; font-weight: 400; font-size: 1.6rem; }
+    .contact-card h2 { font-family: "New Rocker", "IBM Plex Mono", serif; font-weight: 400; font-size: 1.6rem; }
     .contact-list { list-style: none; display: grid; gap: 0.85rem; margin-top: 1rem; }
     .contact-list li { display: grid; gap: 0.25rem; padding: 0.8rem 0.9rem; border-radius: 10px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.04); }
     .contact-list strong { color: var(--acc); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.16rem; }
@@ -172,10 +183,11 @@
       <h1 class="name">CONTACT</h1>
     </header>
 
+    <main>
     <section class="section" aria-label="Contact">
       <div class="contact-wrap">
         <aside class="contact-card">
-          <h3>HTG</h3>
+          <h2>HTG</h2>
           <ul class="contact-list">
             <li>
               <strong>Email</strong>
@@ -221,6 +233,7 @@
         </div>
       </div>
     </section>
+    </main>
 
     <footer class="foot">
       <span>© <span id="legal-year">2026</span> HTG — <a href="legal.html">Legal &amp; Privacy</a></span>
@@ -233,5 +246,6 @@
   <script src="render.js"></script>
   <script src="script.js"></script>
   <script src="matrix.js"></script>
+  <script src="analytics.js"></script>
 </body>
 </html>

@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
   <title>Roster — HTG</title>
   <meta name="description" content="ABRAXAS, Stretty, Justinn.clout, ciggyholster." />
   <meta name="theme-color" content="#0a0a0a" />
+  <link rel="manifest" href="site.webmanifest" />
   <meta property="og:title" content="Roster — HTG" />
   <meta property="og:description" content="ABRAXAS, Stretty, Justinn.clout, ciggyholster." />
   <meta property="og:type" content="website" />
@@ -47,12 +49,20 @@
     ]
   }
   </script>
-  <link rel="icon" href="assets/htg-mark.svg" type="image/svg+xml" />
-  <script>document.documentElement.classList.add('js');</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=block" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="assets/htg-mark.svg" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <script>
+    document.documentElement.classList.add('js');
+    // Disarm if script.js never reaches its reveal (404, parse error, early
+    // throw): after 2.5s the .fade-in content shows without the animation.
+    setTimeout(function () { if (!window.__htgRevealArmed) document.documentElement.classList.remove('js'); }, 2500);
+  </script>
+  <!-- Self-hosted (assets/fonts/fonts.css): New Rocker display=block, Plex Mono
+       display=swap — keep that split, see CLAUDE.md. Only the block face is
+       preloaded; it is the one that gates heading paint. -->
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/NewRocker-Regular.woff2" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css" />
   <link rel="stylesheet" href="style.css" />
   <style>
     /* HTG-only chrome: the masthead wordmark and the artist doors.
@@ -142,6 +152,9 @@
     .door--jus { --door-c: rgba(255, 155, 61, 0.45); }
     .door--cig { --door-c: rgba(47, 212, 224, 0.45); }
     .door:hover, .door:focus-visible { flex-grow: 2; filter: none; background: rgba(10, 10, 10, 0.25); }
+    /* The UA tap flash is suppressed site-wide, so the doors carry their own
+       touch feedback. No flex-grow here: the row must not reflow under a thumb. */
+    .door:active { filter: none; background: rgba(10, 10, 10, 0.25); }
 
     /* The wall of work behind each name: a collage of that artist's real
        cover art (resolved at runtime from Spotify's oEmbed — see the loader
@@ -211,6 +224,7 @@
       color: var(--text);
       opacity: 0.045;
       pointer-events: none;
+      -webkit-user-select: none;
       user-select: none;
       transition: opacity 0.45s ease;
     }
@@ -229,7 +243,7 @@
   <style>
     .std-shell { position: relative; z-index: 2; width: min(72rem, 92vw); margin: 0 auto; padding: 1.4rem 0 3rem; }
     .std-topline { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0 2rem; font-size: 0.72rem; letter-spacing: 0.14em; }
-    .std-topline a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+    .std-topline a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); padding: 0.6rem 0 2px; display: inline-block; }
     .std-topline a:hover { border-color: var(--accent); color: var(--accent); }
     .std-topline .tag { color: var(--muted); letter-spacing: 0.3em; text-transform: uppercase; }
     .std-head { padding: clamp(1.5rem, 6vh, 4rem) 0 0; }
@@ -271,7 +285,7 @@
                 <img alt="" data-cover="https://open.spotify.com/album/1gvEKFbi6CIZu8yZf5E0q9" />
                 <img alt="" data-cover="https://open.spotify.com/album/5vbKU5ZwNhl0G8Pv1OOXYB" />
               </span>
-              <img class="door-logo" src="assets/logos/abraxas-gen-hollow-logo.svg" alt="" width="2939" height="1515" loading="lazy" decoding="async" />
+              <img class="door-logo" src="assets/logos/abraxas-hollow-768.webp" srcset="assets/logos/abraxas-hollow-768.webp 768w, assets/logos/abraxas-hollow-1152.webp 1152w" sizes="(max-width: 26rem) 92vw, 384px" alt="" width="768" height="407" loading="lazy" decoding="async" fetchpriority="low" />
               <span class="door-lore" aria-hidden="true">Noah</span>
               <span class="door-name door-name--logo">ABRAXAS</span>
             </a>
@@ -285,7 +299,7 @@
                 <img alt="" data-cover="https://open.spotify.com/track/5wiaIGjX8ht4vIxYHYHBqG" />
                 <img alt="" data-cover="https://open.spotify.com/track/3Vs0qIyXV3UtsWpxCcvJnX" />
               </span>
-              <img class="door-logo" src="assets/logos/stretty-gen-hollow-logo.svg" alt="" width="2896" height="1559" loading="lazy" decoding="async" />
+              <img class="door-logo" src="assets/logos/stretty-hollow-768.webp" srcset="assets/logos/stretty-hollow-768.webp 768w, assets/logos/stretty-hollow-1152.webp 1152w" sizes="(max-width: 26rem) 92vw, 384px" alt="" width="768" height="390" loading="lazy" decoding="async" fetchpriority="low" />
               <span class="door-lore" aria-hidden="true">The Ark</span>
               <span class="door-name door-name--logo">STRETTY</span>
             </a>
@@ -298,7 +312,7 @@
                 <img alt="" loading="lazy" decoding="async" data-thumb="https://i.ytimg.com/vi/fizEx-a5ViY/hqdefault.jpg" />
                 <img alt="" loading="lazy" decoding="async" data-thumb="https://i.ytimg.com/vi/i210dyJM_84/hqdefault.jpg" />
               </span>
-              <img class="door-logo" src="assets/logos/justinclout-hollow-logo.svg" alt="" width="4197" height="1636" loading="lazy" decoding="async" />
+              <img class="door-logo" src="assets/logos/justinclout-hollow-768.webp" srcset="assets/logos/justinclout-hollow-768.webp 768w, assets/logos/justinclout-hollow-1152.webp 1152w" sizes="(max-width: 26rem) 92vw, 384px" alt="" width="768" height="305" loading="lazy" decoding="async" fetchpriority="low" />
               <span class="door-name door-name--logo">JUSTINN.CLOUT</span>
             </a>
 
@@ -310,7 +324,7 @@
                 <img alt="" data-cover="https://open.spotify.com/track/21miJ7OVY8YvuA5E4wUbD0" />
                 <img alt="" data-cover="https://open.spotify.com/track/415XlPsdKVSi1KXJSWJSnT" />
               </span>
-              <img class="door-logo" src="assets/logos/ciggyholster-hollow-logo.svg" alt="" width="5040" height="1495" loading="lazy" decoding="async" />
+              <img class="door-logo" src="assets/logos/ciggyholster-hollow-768.webp" srcset="assets/logos/ciggyholster-hollow-768.webp 768w, assets/logos/ciggyholster-hollow-1152.webp 1152w" sizes="(max-width: 26rem) 92vw, 384px" alt="" width="768" height="231" loading="lazy" decoding="async" fetchpriority="low" />
               <span class="door-name door-name--logo">CIGGYHOLSTER</span>
             </a>
           </nav>
@@ -368,5 +382,6 @@
   <script src="render.js"></script>
   <script src="script.js"></script>
   <script src="matrix.js"></script>
+  <script src="analytics.js"></script>
 </body>
 </html>

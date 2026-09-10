@@ -191,7 +191,7 @@ Real: artist identity, the Spotify artist page and the full Sequence (13 albums 
 
 Still placeholder (swap in `config.js` as they become real): gallery frames until session photos land in `assets/gallery/`, the hero poster. Apple Music / YouTube / YouTube Music links are empty and therefore not shown. The invented release titles, merch products, and tour dates that used to ship here have been removed outright, along with their sections (see the content policy in `CLAUDE.md`).
 
-Also external for now (self-host before heavy promo pushes): Google Fonts. Placeholder art is now bundled locally under `assets/placeholders/` — no third-party image host in the runtime path.
+Webfonts are self-hosted (`assets/fonts/`, SIL OFL). Placeholder art is now bundled locally under `assets/placeholders/` — no third-party image host in the runtime path.
 
 ---
 

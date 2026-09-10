@@ -60,6 +60,7 @@
         linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
       background-size: 48px 48px;
+      -webkit-mask-image: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.15));
       mask-image: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.15));
       z-index: 0;
     }
@@ -91,10 +92,25 @@
       text-decoration: none;
     }
 
+    /* No grey UA tap flash on iOS / Android; the designed :hover and :active
+       states are the feedback. */
+    a,
+    button,
+    [role="button"] {
+      -webkit-tap-highlight-color: transparent;
+    }
+
     img,
     video {
       display: block;
       max-width: 100%;
+    }
+
+    /* The pages declare color-scheme: dark, which an embedded document inherits
+       when it states none of its own. Pin third-party players back to light so
+       they render exactly as they did before. */
+    iframe {
+      color-scheme: light;
     }
 
     button,
@@ -329,6 +345,16 @@
 
       .nav-list { gap: 0.3rem; }
 
+      /* Six 80px links need ~658px of viewport; on short laptop viewports the
+         list scrolls instead of the top item being pushed off-screen. The
+         panel (and its rain canvas) keep their size; only the list scrolls.
+         88px pill + 0.9rem pill offset + 1.2rem gap + 1.8rem padding + 1rem. */
+      .nav.open .nav-list {
+        max-height: calc(100vh - 88px - 4.9rem - env(safe-area-inset-bottom, 0px));
+        max-height: calc(100dvh - 88px - 4.9rem - env(safe-area-inset-bottom, 0px));
+        overflow-y: auto;
+      }
+
       .nav-list a {
         min-height: 80px;
         padding: 1rem 2rem;
@@ -365,6 +391,7 @@
          space) so the wordmark sits high on landing. */
       /* One full screen: the page opens on the hero alone and any input
          (wheel, swipe, tap, key) scrolls it away — script.js, hero gate. */
+      min-height: 100vh;
       min-height: 100svh;
       display: grid;
       align-items: center;
@@ -379,17 +406,22 @@
        the roster. */
     body.hero-gate {
       overflow: hidden;
+      height: 100vh;
       height: 100svh;
     }
 
     .topbar {
-      transition: opacity 500ms ease, transform 500ms ease;
+      transition: opacity 500ms ease, transform 500ms ease, visibility 0s;
     }
 
+    /* visibility: hidden keeps the pills out of the tab order while gated;
+       the delayed visibility transition lets the 500ms fade play on hide. */
     body.hero-gate .topbar {
       opacity: 0;
       transform: translateY(1rem);
       pointer-events: none;
+      visibility: hidden;
+      transition: opacity 500ms ease, transform 500ms ease, visibility 0s linear 500ms;
     }
 
     .hero-cue {
@@ -414,8 +446,8 @@
     body.hero-gate .hero-cue { opacity: 0.75; }
 
     @keyframes hero-cue-bob {
-      0%, 100% { translate: 0 0; }
-      50% { translate: 0 6px; }
+      0%, 100% { transform: translate(-50%, 0); }
+      50% { transform: translate(-50%, 6px); }
     }
 
     /* The fixed #matrix-rain sits under .site-shell at 0.55 opacity. This
@@ -452,6 +484,10 @@
       color: rgba(255, 255, 255, 0.16);
     }
 
+    /* Windows contrast themes discard the alpha and paint a backplate. */
+    @media (forced-colors: active) {
+      .hero-echo { display: none; }
+    }
 
     .hero-content {
       position: relative;
@@ -644,7 +680,7 @@
       border-radius: var(--radius-sm);
     }
 
-    .contact-card h3 {
+    .contact-card h2 {
       font-size: 1rem;
       text-transform: uppercase;
       letter-spacing: 0.12rem;
@@ -798,8 +834,16 @@
       color: var(--accent);
     }
 
+    /* Bottom padding clears the fixed bottom-right pills (44px on phones,
+       88px from 821px — keep in step with .menu-toggle / .topbar-pill). */
     .footer {
-      padding: 0 0 3rem;
+      padding: 0 0 calc(44px + 1.8rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    @media (min-width: 821px) {
+      .footer {
+        padding-bottom: calc(88px + 1.8rem + env(safe-area-inset-bottom, 0px));
+      }
     }
 
     .footer-grid {
@@ -885,6 +929,7 @@
 
     .lightbox-figure img {
       width: 100%;
+      height: auto;
       max-height: 76vh;
       object-fit: contain;
       background: #000;
@@ -1041,7 +1086,8 @@
         transition: none !important;
       }
 
-      .fade-in {
+      .fade-in,
+      .js .fade-in {
         opacity: 1;
         transform: none;
       }
@@ -1076,135 +1122,6 @@
       letter-spacing: 0.2rem;
     }
 
-
-    /* Covers-first sequence: the grid shows art, the player loads on tap. */
-    .cover-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .cover-card {
-      display: flex;
-      flex-direction: column;
-      padding: 0;
-      text-align: left;
-      font: inherit;
-      color: var(--text);
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform var(--transition), border-color var(--transition);
-    }
-
-    .cover-card:hover,
-    .cover-card:focus-visible {
-      transform: translateY(-3px);
-      border-color: var(--line-strong);
-    }
-
-    .cover-card.highlight {
-      border-color: rgba(255, 255, 255, 0.75);
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35), 0 0 34px rgba(255, 255, 255, 0.25), var(--shadow);
-    }
-
-    /* ABRAXAS deck purple as the placeholder art; a real cover from
-       Spotify's oEmbed covers it entirely once it arrives. */
-    .cover-art {
-      position: relative;
-      display: block;
-      aspect-ratio: 1 / 1;
-      min-height: 3rem;
-      background:
-        radial-gradient(120% 120% at 85% 15%, rgba(180, 120, 255, 0.42), transparent 55%),
-        linear-gradient(145deg, rgba(180, 120, 255, 0.16), rgba(10, 10, 10, 0.92) 60%),
-        var(--surface);
-    }
-
-    .cover-img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .cover-num {
-      position: absolute;
-      left: 0.75rem;
-      bottom: 0.4rem;
-      z-index: 1;
-      font-size: 2.1rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      color: rgba(245, 245, 243, 0.92);
-      text-shadow: 0 0 14px rgba(0, 0, 0, 0.85);
-    }
-
-    .cover-play {
-      position: absolute;
-      right: 0.65rem;
-      bottom: 0.65rem;
-      z-index: 1;
-      display: grid;
-      place-items: center;
-      width: 2.2rem;
-      height: 2.2rem;
-      border-radius: 50%;
-      border: 1px solid var(--line-strong);
-      background: rgba(10, 10, 10, 0.72);
-      color: var(--accent);
-      font-size: 0.72rem;
-      transition: background var(--transition), color var(--transition);
-    }
-
-    .cover-card:hover .cover-play,
-    .cover-card:focus-visible .cover-play {
-      background: var(--accent);
-      color: #0a0a0a;
-    }
-
-
-    .cover-meta {
-      display: grid;
-      gap: 0.2rem;
-      padding: 0.7rem 0.85rem 0.85rem;
-    }
-
-    /* No title until Spotify's oEmbed supplies the real one. */
-    .cover-meta:has(> .cover-title:empty) { display: none; }
-
-    .cover-title {
-      font-size: 0.82rem;
-      font-weight: 700;
-      line-height: 1.35;
-    }
-
-    /* The artist strip above the grids — the same card, laid on its side. */
-    .cover-card--artist {
-      flex-direction: row;
-      align-items: stretch;
-      max-width: 760px;
-    }
-
-    .cover-card--artist .cover-art {
-      flex: 0 0 7rem;
-      aspect-ratio: auto;
-      min-height: 7rem;
-    }
-
-    .cover-card--artist .cover-meta {
-      align-content: center;
-    }
-
-    /* A tapped card swaps to the live player and takes the full row. */
-    .cover-grid .now-playing {
-      grid-column: 1 / -1;
-    }
 
     .insta-grid iframe {
       background: #fff;
@@ -1337,7 +1254,7 @@
       border: 1px solid var(--accent);
       color: var(--accent);
       font: inherit;
-      font-size: 0.9rem;
+      font-size: 1rem; /* 16px: below that iOS Safari zooms the page on focus */
       text-align: center;
       text-transform: uppercase;
       letter-spacing: 0.3rem;
@@ -1484,9 +1401,25 @@
         left: 0.6rem;
       }
 
-      /* Shop row sits above the bottom-left bar on a phone. */
+      /* Shop row sits above the bottom-left bar on a phone — clears the 40px
+         chips below it (rain.js re-measures groundY off this row). */
       .jar-stage .jar-shop {
-        bottom: 2.7rem;
+        bottom: calc(40px + 1.2rem);
+      }
+
+      /* Suit Purge only: while playing, the left thumb owns the bottom-left
+         corner (the move zone), so the Exit/Mute chips sit under the HUD at
+         top-right instead. Jars keeps its bar under the shop row. */
+      .game-stage:not(.jar-stage) .game-canvas.is-playing ~ .game-bar {
+        top: 3.4rem;
+        right: 0.6rem;
+        bottom: auto;
+        left: auto;
+      }
+
+      .game-chip {
+        min-height: 40px;
+        padding: 0 0.9rem;
       }
     }
 
@@ -1540,6 +1473,8 @@
       text-transform: uppercase;
     }
     .legal-footer-links a {
+      display: inline-block;
+      padding: 0.5rem 0;
       color: var(--accent);
       text-decoration: underline;
       text-underline-offset: 3px;

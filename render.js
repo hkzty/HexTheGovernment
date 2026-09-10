@@ -92,8 +92,7 @@
       title: item.title,
       height: item.height,
       loading: 'lazy',
-      allow: 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture',
-      frameborder: '0'
+      allow: 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture'
     });
     const card = el('div', { class: `embed-card fade-in${extras.highlight ? ' highlight' : ''}` });
     if (extras.num) {
@@ -102,129 +101,6 @@
     card.append(iframe);
     return card;
   };
-
-  /* ---- THE SEQUENCE: covers first, players on click ----------------------
-     The catalog reads as a grid of art instead of a wall of identical
-     players, and nothing loads from Spotify until a card is tapped. Real
-     cover art and titles are hydrated in the visitor's browser from
-     Spotify's public oEmbed endpoint; when that fetch fails the numbered
-     card stands with no title — positions only, nothing invented. */
-  const hydrateCover = (card, url) => {
-    const apply = (data) => {
-      if (!data) return;
-      const art = card.querySelector('.cover-art');
-      if (data.thumbnail_url && art && !art.querySelector('.cover-img')) {
-        art.prepend(el('img', { class: 'cover-img', src: data.thumbnail_url, alt: '', loading: 'lazy', decoding: 'async' }));
-      }
-      if (data.title) {
-        const title = card.querySelector('.cover-title');
-        if (title) title.textContent = data.title;
-        card.setAttribute('aria-label', `Play ${data.title} on Spotify`);
-      }
-    };
-    const key = `htg-oembed:${url}`;
-    let cached = null;
-    try { cached = JSON.parse(sessionStorage.getItem(key)); } catch { /* no cache */ }
-    if (cached) { apply(cached); return; }
-    fetch(`https://open.spotify.com/oembed?url=${encodeURIComponent(url)}`)
-      .then(res => (res.ok ? res.json() : null))
-      .then(data => {
-        if (!data) return;
-        const slim = { title: data.title || '', thumbnail_url: data.thumbnail_url || '' };
-        try { sessionStorage.setItem(key, JSON.stringify(slim)); } catch { /* storage full or blocked */ }
-        apply(slim);
-      })
-      .catch(() => { /* endpoint unreachable — the numbered card stands */ });
-  };
-
-  /* Committed cover art wins over the oEmbed fetch: config.sequence.covers
-     maps a Spotify ID to { src, title } for a file under assets/covers/. */
-  const localCover = (url) => {
-    const id = (url.match(/\/(?:track|album|playlist|artist|episode|show)\/([A-Za-z0-9]+)/) || [])[1];
-    const entry = id && (seqCovers[id] || null);
-    return entry && (entry.src || entry.title) ? entry : null;
-  };
-
-  const coverCard = (url, extras = {}) => {
-    const item = toEmbed(url);
-    if (!item) return null;
-    const local = localCover(url);
-    const art = el('span', { class: 'cover-art', 'aria-hidden': 'true' }, [
-      el('span', { class: 'cover-num', text: extras.num || '' }),
-      el('span', { class: 'cover-play', text: '▶' })
-    ]);
-    if (local && local.src) {
-      art.prepend(el('img', { class: 'cover-img', src: local.src, alt: '', loading: 'lazy', decoding: 'async', width: 640, height: 640 }));
-    }
-    if (local && local.title) {
-      extras = { ...extras, title: local.title, label: `Play ${local.title} on Spotify` };
-    }
-    const card = el('button', {
-      class: `cover-card fade-in${extras.highlight ? ' highlight' : ''}`,
-      type: 'button',
-      'aria-label': extras.label || 'Play on Spotify'
-    }, [
-      art,
-      el('span', { class: 'cover-meta' }, [
-        el('span', { class: 'cover-title', text: extras.title || '' })
-      ])
-    ]);
-    card.addEventListener('click', () => {
-      const player = embedCard(item, { highlight: extras.highlight, num: extras.num });
-      // Created after script.js armed its reveal observer, so show it directly.
-      player.classList.add('visible', 'now-playing');
-      card.replaceWith(player);
-      player.querySelector('iframe')?.focus();
-    }, { once: true });
-    if (!(local && local.src && local.title)) hydrateCover(card, url);
-    return card;
-  };
-
-  const seq = cfg.sequence || {};
-  const seqCovers = seq.covers || {};
-  const seqSection = document.querySelector('#sequence .container');
-  if (seqSection && (seq.albums || []).length + (seq.highlights || []).length > 0) {
-    const head = seqSection.querySelector('.section-head');
-    if (head) {
-      const kicker = head.querySelector('.section-kicker');
-      const note = head.querySelector('.section-copy');
-      if (seq.kicker && kicker) kicker.textContent = seq.kicker;
-      if (seq.note && note) note.textContent = seq.note;
-    }
-    seqSection.querySelectorAll('.sequence-block').forEach(n => n.remove());
-    seqSection.querySelector('.sequence-fallback')?.remove();
-
-    const artistName = cfg.artist || 'the artist';
-    const artistCard = seq.artist ? coverCard(seq.artist, {
-      title: artistName,
-      label: `Play ${artistName} on Spotify`
-    }) : null;
-    if (artistCard) {
-      artistCard.classList.add('cover-card--artist');
-      seqSection.append(el('div', { class: 'sequence-block sequence-artist' }, [artistCard]));
-    }
-
-    const highlights = (seq.highlights || []).map((url, index) => coverCard(url, {
-      highlight: true,
-      label: `Play pinned track ${index + 1} on Spotify`
-    })).filter(Boolean);
-    if (highlights.length) {
-      seqSection.append(el('div', { class: 'sequence-block cover-grid highlights' }, highlights));
-    }
-
-    const albums = (seq.albums || []).map((url, index) => coverCard(url, {
-      num: String(index + 1).padStart(2, '0'),
-      label: `Play album ${index + 1} of the Sequence on Spotify`
-    })).filter(Boolean);
-    if (albums.length) {
-      seqSection.append(el('div', { class: 'sequence-block cover-grid' }, albums));
-    }
-
-    seqSection.append(el('div', { class: 'sequence-block pill-links' }, [
-      el('a', { class: 'btn', href: 'sequence.html', text: 'Full Sequence' }),
-      el('a', { class: 'inline-link', href: seq.artist || 'https://open.spotify.com/', target: '_blank', rel: 'noopener noreferrer', text: 'Spotify' })
-    ]));
-  }
 
   /* ---- Music: extra embeds under the artist players ----------------------- */
   const embeds = (cfg.outNowEmbeds || []).map(toEmbed).filter(Boolean);
@@ -295,7 +171,6 @@
           title: 'Instagram post',
           height: 540,
           loading: 'lazy',
-          frameborder: '0',
           scrolling: 'no',
           allowtransparency: 'true'
         })

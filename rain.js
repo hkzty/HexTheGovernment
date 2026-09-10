@@ -676,7 +676,7 @@
   }
   function start() {
     ensureAudio();
-    if (audio && audio.state === 'suspended') audio.resume().catch(() => {});
+    if (audio && audio.state !== 'running') audio.resume().catch(() => {});
     if (shop) shop.hidden = false;
     if (sellButton) sellButton.hidden = false;
     reset();
