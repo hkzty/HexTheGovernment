@@ -368,7 +368,11 @@
       const formData = new FormData(contactForm);
       const name = (formData.get('name') || '').toString().trim();
       const email = (formData.get('email') || '').toString().trim();
-      const subject = (formData.get('subject') || '').toString().trim();
+      const service = (formData.get('service') || '').toString().trim();
+      const subjectRaw = (formData.get('subject') || '').toString().trim();
+      // Service desks (hexboy.html) add a <select name="service">; its value
+      // rides in front of the subject so the inbox can sort by desk.
+      const subject = service ? `[${service}] ${subjectRaw}` : subjectRaw;
       const message = (formData.get('message') || '').toString().trim();
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -380,7 +384,7 @@
         formError.textContent = 'Invalid email.';
         return;
       }
-      if (subject.length < 3) {
+      if (subjectRaw.length < 3) {
         formError.textContent = 'Subject too short.';
         return;
       }
@@ -398,14 +402,16 @@
       }
 
       const cfg = window.ABRAXAS_CONFIG || {};
-      const contactEmail = (cfg.contactEmail || '').trim();
+      // A desk page sets data-to on its form (hexboy.html reads it off
+      // config.services); the site-wide contactEmail is the default.
+      const contactEmail = ((contactForm.dataset.to || '') || cfg.contactEmail || '').trim();
       // Delivery-only copies: every submission also lands in these inboxes.
       // They ride along as cc on both paths and are never shown on the page.
       const contactCc = (Array.isArray(cfg.contactCc) ? cfg.contactCc : [])
         .map(a => String(a).trim()).filter(Boolean);
-      const service = cfg.contactForm || {};
-      const endpoint = (service.endpoint || '').trim();
-      const accessKey = (service.accessKey || '').trim();
+      const formService = cfg.contactForm || {};
+      const endpoint = (formService.endpoint || '').trim();
+      const accessKey = (formService.accessKey || '').trim();
 
       if (!endpoint && !contactEmail) {
         formStatus.textContent = 'Send failed.';

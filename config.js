@@ -141,6 +141,29 @@ window.ABRAXAS_CONFIG = {
     cloudflareToken: ""
   },
 
+  /* ---- Services desks (hexboy.html, later graveboy) ----------------------
+     One key per desk. Every list starts empty and the page hides any
+     section whose list is empty — nothing here is a placeholder. Fill in
+     real offerings only; prices are free text (e.g. "AUD 80") and a bundle
+     without one just shows no price line.
+
+       email:     To: address for that desk's form. "" = contactEmail.
+       store:     storefront URL for music sales. "" = no link.
+       embeds:    Spotify / SoundCloud / YouTube URLs to embed under Music.
+       mastering: [{ name, detail, price }] mastering / engineering services.
+       bundles:   [{ name, detail, price }] session bundles.
+       links:     [{ label, url }] extra pills under the contact card.       */
+  services: {
+    hexboy: {
+      email: "",
+      store: "",
+      embeds: [],
+      mastering: [],
+      bundles: [],
+      links: []
+    }
+  },
+
   /* ---- Contact -----------------------------------------------------------
      How a submitted form reaches the inbox, tried in this order:
 
