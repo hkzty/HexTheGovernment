@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <title>HexBoy · Mastering, engineering, sessions — HTG</title>
+  <meta name="description" content="HexBoy — ABRAXAS production desk. Music, audio mastering and engineering, session bundles. HTG — Hex The Government." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="manifest" href="site.webmanifest" />
+  <meta property="og:title" content="HexBoy — HTG" />
+  <meta property="og:description" content="Music, audio mastering and engineering, session bundles. HTG — Hex The Government." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.htg.productions/hexboy.html" />
+  <meta property="og:site_name" content="HTG — Hex The Government" />
+  <meta property="og:locale" content="en_AU" />
+  <meta property="og:image" content="https://www.htg.productions/assets/og/htg.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="HTG — Hex The Government" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://www.htg.productions/assets/og/htg.png" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://www.htg.productions/hexboy.html" />
+  <meta name="twitter:title" content="HexBoy — HTG" />
+  <meta name="twitter:description" content="Music, audio mastering and engineering, session bundles. HTG — Hex The Government." />
+  <!-- schema.org structured data. Static on purpose: most crawlers never run
+       JS. Service names here are the section names on the page and nothing
+       more — no prices, no turnaround claims, until they are real in
+       config.js. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://www.htg.productions/hexboy.html",
+        "url": "https://www.htg.productions/hexboy.html",
+        "name": "HexBoy — HTG",
+        "description": "HexBoy: ABRAXAS production desk. Music, audio mastering and engineering, session bundles.",
+        "isPartOf": { "@id": "https://www.htg.productions/#website" },
+        "inLanguage": "en",
+        "about": { "@id": "https://www.htg.productions/abraxas.html#artist" }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://www.htg.productions/hexboy.html#mastering",
+        "name": "Audio mastering and engineering",
+        "serviceType": "Audio mastering",
+        "provider": { "@id": "https://www.htg.productions/#org" },
+        "areaServed": { "@type": "Country", "name": "AU" },
+        "url": "https://www.htg.productions/hexboy.html#mastering"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://www.htg.productions/hexboy.html#sessions",
+        "name": "Session bundles",
+        "serviceType": "Recording session",
+        "provider": { "@id": "https://www.htg.productions/#org" },
+        "areaServed": { "@type": "Country", "name": "AU" },
+        "url": "https://www.htg.productions/hexboy.html#sessions"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "HTG", "item": "https://www.htg.productions/" },
+          { "@type": "ListItem", "position": 2, "name": "ABRAXAS", "item": "https://www.htg.productions/abraxas.html" },
+          { "@type": "ListItem", "position": 3, "name": "HexBoy", "item": "https://www.htg.productions/hexboy.html" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" href="favicon.ico" sizes="32x32" />
+  <link rel="icon" href="assets/htg-mark.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <script>document.documentElement.classList.add('js');</script>
+  <!-- Self-hosted (assets/fonts/fonts.css): New Rocker display=block, Plex Mono
+       display=swap — keep that split, see CLAUDE.md. -->
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/NewRocker-Regular.woff2" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css" />
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --ink: #f2f2f2;
+      --dim: #8a8a8a;
+      --line: rgba(242, 242, 242, 0.14);
+      --acc: #f2f2f2;   /* HexBoy: black desk, white accent. No artist colour. */
+      --acc-rgb: 242, 242, 242;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    #matrix-rain { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.3; pointer-events: none; }
+    .veil {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background: radial-gradient(120% 90% at 50% 20%, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.84) 66%, rgba(10,10,10,0.97) 100%);
+    }
+    .shell { position: relative; z-index: 2; width: min(72rem, 92vw); margin: 0 auto; padding: 1.4rem 0 3rem; }
+
+    .topline { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0 2rem; font-size: 0.72rem; letter-spacing: 0.14em; }
+    .topline a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); padding: 0.6rem 0 2px; display: inline-block; }
+    .topline a:hover { border-color: var(--acc); color: var(--acc); }
+    .topline .tag { color: var(--dim); letter-spacing: 0.3em; text-transform: uppercase; }
+
+    /* ---- Hero ------------------------------------------------------------ */
+    .hero { padding: clamp(1.5rem, 6vh, 4rem) 0 2.5rem; }
+    @keyframes deck-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+    html.js .hero > * { animation: deck-rise 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    html.js .hero > *:nth-child(2) { animation-delay: 0.07s; }
+    html.js .hero > *:nth-child(3) { animation-delay: 0.14s; }
+    .hero::after {
+      content: ""; display: block; height: 1px; margin-top: 2.4rem; opacity: 0.55;
+      background: linear-gradient(90deg, transparent, var(--acc), transparent);
+      background-size: 220% 100%;
+      animation: hero-scan 6s linear infinite;
+    }
+    @keyframes hero-scan { from { background-position: 220% 0; } to { background-position: -220% 0; } }
+    .eyebrow { font-size: 0.68rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--dim); margin-bottom: 1rem; }
+    .name {
+      font-family: "New Rocker", "IBM Plex Mono", serif;
+      font-weight: 400; line-height: 0.9;
+      font-size: clamp(3rem, 13vw, 8rem);
+      text-shadow: 0 0 34px rgba(var(--acc-rgb), 0.22);
+    }
+    .tagline { margin-top: 0.6rem; font-size: clamp(0.9rem, 2.4vw, 1.2rem); color: var(--dim); letter-spacing: 0.04em; }
+
+    /* ---- Sections -------------------------------------------------------- */
+    .section { margin-top: 3rem; }
+    .section-kicker { font-size: 0.68rem; letter-spacing: 0.34em; text-transform: uppercase; color: var(--dim); margin-bottom: 1rem; }
+    .embed-wrap {
+      border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: rgba(20, 20, 20, 0.5);
+      transition: border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+    .embed-wrap:hover, .embed-wrap:focus-within { border-color: rgba(var(--acc-rgb), 0.55); box-shadow: 0 0 36px rgba(var(--acc-rgb), 0.10); }
+    .embed-wrap iframe { display: block; width: 100%; border: 0; }
+    .cut-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0.9rem; }
+
+    /* Offer cards — mastering, bundles. Filled from config.services. */
+    .offer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 0.9rem; }
+    .offer {
+      display: grid; gap: 0.5rem; align-content: start;
+      padding: 1.2rem 1.3rem; border: 1px solid var(--line); border-radius: 14px;
+      background: rgba(20, 20, 20, 0.6);
+      transition: border-color 0.25s ease, transform 0.25s ease;
+    }
+    .offer:hover { border-color: rgba(var(--acc-rgb), 0.5); transform: translateY(-2px); }
+    .offer h3 { font-family: "New Rocker", "IBM Plex Mono", serif; font-weight: 400; font-size: 1.35rem; line-height: 1.1; }
+    .offer p { font-size: 0.82rem; color: var(--dim); }
+    .offer .price { font-size: 0.78rem; letter-spacing: 0.12em; color: var(--ink); margin-top: auto; padding-top: 0.4rem; }
+
+    /* ---- Links ----------------------------------------------------------- */
+    .links { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.2rem; }
+    .links a {
+      display: inline-block; padding: 0.6rem 1.4rem; border: 1px solid var(--line);
+      border-radius: 999px; color: var(--ink); text-decoration: none;
+      font-size: 0.76rem; letter-spacing: 0.12em;
+      transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .links a:hover, .links a:focus-visible { border-color: var(--acc); transform: translateY(-2px); box-shadow: 0 6px 22px rgba(var(--acc-rgb), 0.12); }
+
+    /* ---- Contact (same shape as contact.html) ---------------------------- */
+    .contact-wrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 1rem; }
+    .contact-card { padding: 1.3rem; border: 1px solid var(--line); border-radius: 14px; background: rgba(20, 20, 20, 0.82); }
+    .contact-card h2 { font-family: "New Rocker", "IBM Plex Mono", serif; font-weight: 400; font-size: 1.6rem; }
+    .contact-list { list-style: none; display: grid; gap: 0.85rem; margin-top: 1rem; }
+    .contact-list li { display: grid; gap: 0.25rem; padding: 0.8rem 0.9rem; border-radius: 10px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.04); }
+    .contact-list strong { color: var(--dim); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.16rem; }
+    .contact-list a { color: var(--ink); text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.5); text-underline-offset: 3px; overflow-wrap: anywhere; }
+    .contact-form { display: grid; gap: 1rem; }
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .field { display: grid; gap: 0.4rem; }
+    .field label { font-size: 0.72rem; letter-spacing: 0.16rem; text-transform: uppercase; color: var(--dim); }
+    .field input, .field textarea, .field select { width: 100%; padding: 0.8rem 0.9rem; border-radius: 10px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.04); color: var(--ink); font: inherit; }
+    .field select option { background: #141414; }
+    .field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--acc); }
+    .field textarea { min-height: 9rem; resize: vertical; }
+    .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+    .btn { display: inline-block; padding: 0.7rem 1.6rem; border: 1px solid var(--acc); border-radius: 999px; background: var(--acc); color: var(--bg); font: inherit; font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; }
+    .btn:hover { background: transparent; color: var(--acc); }
+    .btn:disabled { opacity: 0.5; cursor: default; }
+    .error-message { color: #ff8d8d; font-size: 0.8rem; min-height: 1.2em; }
+    .form-status { color: var(--dim); font-size: 0.8rem; min-height: 1.2em; }
+
+    /* ---- Footer ---------------------------------------------------------- */
+    .foot { margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--line); font-size: 0.74rem; color: var(--dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .foot a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+    .foot a:hover { border-color: var(--acc); }
+
+    @media (max-width: 820px) { .contact-wrap { grid-template-columns: 1fr; } }
+    @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 560px) { .foot { flex-direction: column; } }
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto; }
+      html.js .hero > *, .hero::after { animation: none !important; }
+      .links a, .embed-wrap, .offer { transition: none; }
+      .links a:hover, .links a:focus-visible, .offer:hover { transform: none; }
+    }
+  </style>
+</head>
+<body data-rain="white">
+  <canvas id="matrix-rain" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
+
+  <div class="shell">
+    <div class="topline">
+      <a href="abraxas.html">← ABRAXAS</a>
+      <span class="tag">Hex The Government</span>
+      <a href="index.html">HTG →</a>
+    </div>
+
+    <header class="hero">
+      <p class="eyebrow">ABRAXAS · Production</p>
+      <h1 class="name">HEXBOY</h1>
+      <p class="tagline">Mastering · Engineering · Sessions</p>
+    </header>
+
+    <main>
+    <!-- Every section below is filled from config.services.hexboy by the
+         script at the foot of the page. A section whose list is empty is
+         removed from the DOM, not narrated. Nothing static here is an
+         offering — do not add example cards or prices to this markup. -->
+
+    <section class="section" id="music" data-desk-section="music" aria-label="HexBoy — music">
+      <p class="section-kicker">Music</p>
+      <div class="cut-grid" data-desk-embeds></div>
+      <div class="links" data-desk-store></div>
+    </section>
+
+    <section class="section" id="mastering" data-desk-section="mastering" aria-label="HexBoy — mastering and engineering">
+      <p class="section-kicker">Mastering &amp; Engineering</p>
+      <div class="offer-grid" data-desk-offers="mastering"></div>
+    </section>
+
+    <section class="section" id="sessions" data-desk-section="bundles" aria-label="HexBoy — session bundles">
+      <p class="section-kicker">Session Bundles</p>
+      <div class="offer-grid" data-desk-offers="bundles"></div>
+    </section>
+
+    <section class="section" id="contact" aria-label="HexBoy — contact">
+      <p class="section-kicker">Contact</p>
+      <div class="contact-wrap">
+        <aside class="contact-card">
+          <h2>HexBoy</h2>
+          <ul class="contact-list" data-desk-contact>
+            <li>
+              <strong>Email</strong>
+              <a href="mailto:Abraxas@htg.productions">Abraxas@htg.productions</a>
+            </li>
+          </ul>
+          <div class="links" data-desk-links></div>
+        </aside>
+
+        <div class="contact-card">
+          <form class="contact-form" id="contactForm" novalidate>
+            <!-- Honeypot: invisible to people, filled by bots. Checked in
+                 script.js and forwarded to the form service. -->
+            <input class="hp-field" type="text" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <div class="form-grid">
+              <div class="field">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" required />
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" required />
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="field">
+                <label for="service">Service</label>
+                <select id="service" name="service">
+                  <option value="HexBoy · Mastering">Mastering</option>
+                  <option value="HexBoy · Engineering">Engineering</option>
+                  <option value="HexBoy · Session">Session</option>
+                  <option value="HexBoy · Music">Music</option>
+                  <option value="HexBoy">Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="subject">Subject</label>
+                <input id="subject" name="subject" type="text" required />
+              </div>
+            </div>
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message"></textarea>
+            </div>
+            <div class="error-message" id="formError" aria-live="polite"></div>
+            <div class="form-status" id="formStatus" aria-live="polite"></div>
+            <div>
+              <button class="btn" type="submit">Send</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    </main>
+
+    <footer class="foot">
+      <span>© <span id="legal-year">2026</span> HexBoy · ABRAXAS · HTG — <a href="legal.html">Legal &amp; Privacy</a></span>
+      <span><a href="abraxas.html">ABRAXAS</a> · <a href="sequence.html">The Sequence</a> · <a href="contact.html">Contact</a> · <a href="index.html">HTG</a></span>
+    </footer>
+    <script>(function(){var y=document.getElementById('legal-year');if(y)y.textContent=new Date().getFullYear();})();</script>
+  </div>
+
+  <script src="config.js"></script>
+  <!-- Desk renderer. Reads config.services.hexboy; every list is real
+       content or nothing. render.js is not loaded here on purpose: it
+       rewrites .contact-list with the site-wide contact card. -->
+  <script>
+  (function () {
+    var cfg = (window.ABRAXAS_CONFIG || {}).services || {};
+    var desk = cfg.hexboy || {};
+    var list = function (v) { return Array.isArray(v) ? v.filter(Boolean) : []; };
+    var text = function (v) { return (v == null ? '' : String(v)).trim(); };
+
+    var el = function (tag, attrs, children) {
+      var n = document.createElement(tag);
+      Object.keys(attrs || {}).forEach(function (k) {
+        if (k === 'text') n.textContent = attrs[k]; else n.setAttribute(k, attrs[k]);
+      });
+      (children || []).forEach(function (c) { n.appendChild(c); });
+      return n;
+    };
+
+    /* Embeds: same URL shapes render.js accepts. Spotify only for now —
+       add SoundCloud / YouTube branches when the first such URL lands. */
+    var embed = function (url) {
+      var m = /open\.spotify\.com\/(track|album|playlist|artist)\/([A-Za-z0-9]+)/.exec(url);
+      if (!m) return null;
+      var tall = m[1] !== 'track';
+      var frame = el('iframe', {
+        title: 'HexBoy on Spotify',
+        src: 'https://open.spotify.com/embed/' + m[1] + '/' + m[2] + '?utm_source=generator&theme=0',
+        height: tall ? '352' : '152',
+        loading: 'lazy',
+        allow: 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture'
+      });
+      return el('div', { class: 'embed-wrap' }, [frame]);
+    };
+
+    var offer = function (item) {
+      var name = text(item && item.name);
+      if (!name) return null;
+      var kids = [el('h3', { text: name })];
+      var detail = text(item.detail);
+      var price = text(item.price);
+      if (detail) kids.push(el('p', { text: detail }));
+      if (price) kids.push(el('span', { class: 'price', text: price }));
+      return el('article', { class: 'offer' }, kids);
+    };
+
+    var pill = function (label, url) {
+      label = text(label); url = text(url);
+      if (!label || !url) return null;
+      var a = el('a', { href: url, text: label });
+      if (/^https?:/i.test(url)) { a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener noreferrer'); }
+      return a;
+    };
+
+    var fill = function (host, nodes) {
+      if (!host) return 0;
+      nodes = nodes.filter(Boolean);
+      nodes.forEach(function (n) { host.appendChild(n); });
+      return nodes.length;
+    };
+
+    /* Music: embeds + store link. */
+    var musicCount = fill(document.querySelector('[data-desk-embeds]'), list(desk.embeds).map(embed));
+    musicCount += fill(document.querySelector('[data-desk-store]'), [pill('Buy', desk.store)]);
+
+    /* Offer grids. */
+    var counts = { music: musicCount };
+    ['mastering', 'bundles'].forEach(function (key) {
+      counts[key] = fill(document.querySelector('[data-desk-offers="' + key + '"]'), list(desk[key]).map(offer));
+    });
+
+    /* Drop any section with nothing in it. */
+    document.querySelectorAll('[data-desk-section]').forEach(function (sec) {
+      if (!counts[sec.getAttribute('data-desk-section')]) sec.remove();
+    });
+
+    /* Contact: desk email overrides the site-wide one, on the card and the
+       form's To:. Links row under the card. */
+    var email = text(desk.email) || text((window.ABRAXAS_CONFIG || {}).contactEmail);
+    var card = document.querySelector('[data-desk-contact]');
+    if (card && email) {
+      card.replaceChildren(el('li', {}, [el('strong', { text: 'Email' }), el('a', { href: 'mailto:' + email, text: email })]));
+    }
+    var form = document.getElementById('contactForm');
+    if (form && email) form.dataset.to = email;
+    fill(document.querySelector('[data-desk-links]'), list(desk.links).map(function (l) { return pill(l && l.label, l && l.url); }));
+  })();
+  </script>
+  <script src="script.js"></script>
+  <script src="matrix.js"></script>
+  <script src="analytics.js"></script>
+</body>
+</html>

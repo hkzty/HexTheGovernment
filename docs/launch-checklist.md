@@ -215,6 +215,19 @@ page load for every bio-link visitor, at the cost of the documented
 desktop/mobile split, the `rel="alternate"` line, and the matching anchor
 in `scripts/build-mobile.js`. Not done here; it is the owner's call.
 
+## 10. Service desk subdomain (`hexboy.htg.productions`)
+
+`hexboy.html` ships on the main domain; GitHub Pages serves one custom
+domain per repo, so a real subdomain is DNS plus a redirect, not a page:
+
+1. Cloudflare → DNS → `CNAME hexboy → www.htg.productions`, proxied.
+2. Cloudflare → Rules → Redirect Rules: host equals
+   `hexboy.htg.productions` → `https://www.htg.productions/hexboy.html`,
+   301, preserve nothing. Same pattern for `graveboy` when that page lands.
+
+Serving the page *at* the subdomain (no redirect) means a second repo with
+its own `CNAME`; not worth it for one page.
+
 ## Not worth doing
 
 - Paid directories, "SEO submission" services, link exchanges.

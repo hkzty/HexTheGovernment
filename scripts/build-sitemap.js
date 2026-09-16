@@ -28,6 +28,7 @@ const PAGES = [
   ['index.html', '', '1.0', 'weekly'],
   ['abraxas.html', 'abraxas.html', '0.9', 'monthly'],
   ['stretty.html', 'stretty.html', '0.9', 'monthly'],
+  ['hexboy.html', 'hexboy.html', '0.8', 'monthly'],
   ['ciggie.html', 'ciggie.html', '0.8', 'monthly'],
   ['justin.html', 'justin.html', '0.8', 'monthly'],
   ['sequence.html', 'sequence.html', '0.8', 'monthly'],
