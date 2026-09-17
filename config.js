@@ -141,23 +141,103 @@ window.ABRAXAS_CONFIG = {
     cloudflareToken: ""
   },
 
-  /* ---- Services desks (hexboy.html, later graveboy) ----------------------
-     One key per desk. Every list starts empty and the page hides any
-     section whose list is empty — nothing here is a placeholder. Fill in
-     real offerings only; prices are free text (e.g. "AUD 80") and a bundle
-     without one just shows no price line.
+  /* ---- Services desks (hexboy.html, graveboy.html) -----------------------
+     One key per desk, read by desk.js off <body data-desk="…">. A section
+     whose list is empty is removed from the page — nothing here is a
+     placeholder. Prices are AUD numbers; `standard` is the post-launch
+     price shown beside the launch price. `shop` is a Shopify cart
+     permalink (https://<store>/cart/<variantId>:1) so Check out lands
+     straight in checkout; the products live as drafts in the H.T.G Merch
+     store until they are published there. `service` picks the option in
+     the desk's contact form when a visitor presses Enquire.
 
        email:     To: address for that desk's form. "" = contactEmail.
        store:     storefront URL for music sales. "" = no link.
-       embeds:    Spotify / SoundCloud / YouTube URLs to embed under Music.
-       mastering: [{ name, detail, price }] mastering / engineering services.
-       bundles:   [{ name, detail, price }] session bundles.
+       embeds:    Spotify URLs to embed under Music.
+       packages:  [{ name, summary, price, standard, includes[], turnaround,
+                     revisions, note, service, shop }]
+       addons:    [{ name, detail, price, shop }]
+       mastering: [{ name, detail, price }]   legacy offer cards, unused
+       bundles:   [{ name, detail, price }]   legacy offer cards, unused
        links:     [{ label, url }] extra pills under the contact card.       */
   services: {
     hexboy: {
       email: "",
       store: "",
       embeds: [],
+      packages: [
+        {
+          name: "Mix + Master",
+          summary: "One track. Mix, master, instrumental and clean.",
+          price: 140, standard: 330,
+          includes: ["Mix + master", "Instrumental", "Clean version", "24-bit WAV + streaming MP3"],
+          turnaround: "7 days from stems", revisions: "2 included",
+          service: "HexBoy · Engineering",
+          shop: "https://strettys-merch.myshopify.com/cart/47687126941780:1"
+        },
+        {
+          name: "Mix",
+          summary: "One track mixed. Instrumental and acapella.",
+          price: 100, standard: 250,
+          includes: ["24-bit WAV mix", "Instrumental", "Acapella"],
+          turnaround: "5 days from stems", revisions: "2 included",
+          note: "Stems via Drive or WeTransfer after checkout.",
+          service: "HexBoy · Engineering",
+          shop: "https://strettys-merch.myshopify.com/cart/47687126417492:1"
+        },
+        {
+          name: "Master",
+          summary: "One track mastered for release.",
+          price: 60, standard: 120,
+          includes: ["24-bit WAV master", "Streaming MP3", "ISRC embed on request"],
+          turnaround: "2 days", revisions: "1 included",
+          service: "HexBoy · Mastering",
+          shop: "https://strettys-merch.myshopify.com/cart/47687126712404:1"
+        },
+        {
+          name: "Stem Master",
+          summary: "Stem-balanced master.",
+          price: 80, standard: 150,
+          includes: ["Stem-balanced 24-bit WAV master"],
+          turnaround: "3 days", revisions: "1 included",
+          service: "HexBoy · Mastering",
+          shop: "https://strettys-merch.myshopify.com/cart/47687126974548:1"
+        },
+        {
+          name: "EP Bundle",
+          summary: "Four tracks, mix + master, instrumentals.",
+          price: 480, standard: 1100,
+          includes: ["4× mix + master", "4× instrumental"],
+          turnaround: "21 days from stems", revisions: "2 per track",
+          service: "HexBoy · Engineering",
+          shop: "https://strettys-merch.myshopify.com/cart/47687127007316:1"
+        },
+        {
+          name: "Album",
+          summary: "Ten tracks, mix + master.",
+          price: 1100, standard: 2500,
+          includes: ["10× mix + master"],
+          turnaround: "45 days from stems", revisions: "2 per track",
+          note: "50% deposit at checkout, balance on delivery.",
+          service: "HexBoy · Engineering",
+          shop: "https://strettys-merch.myshopify.com/cart/47687127236692:1"
+        }
+      ],
+      addons: [
+        { name: "Vocal tuning / edit", detail: "Per track. Tuned, timed, comped.", price: 40, shop: "https://strettys-merch.myshopify.com/cart/47687127302228:1" },
+        { name: "Extra revision", detail: "Beyond those included.", price: 25, shop: "https://strettys-merch.myshopify.com/cart/47687127367764:1" },
+        { name: "Rush 48h", detail: "Subject to an open slot.", price: 50, shop: "https://strettys-merch.myshopify.com/cart/47687127466068:1" }
+      ],
+      mastering: [],
+      bundles: [],
+      links: []
+    },
+    graveboy: {
+      email: "",
+      store: "",
+      embeds: [],
+      packages: [],
+      addons: [],
       mastering: [],
       bundles: [],
       links: []

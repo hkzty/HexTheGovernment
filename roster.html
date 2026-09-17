@@ -147,7 +147,12 @@
     }
     /* ABRAXAS is the lit, dominant door; the rest sit recessed and dimmer. */
     .door--abx { flex-grow: 1.35; --door-c: rgba(180, 120, 255, 0.5); }
-    .door--str, .door--jus, .door--cig { filter: brightness(0.72) saturate(0.6); }
+    .door--str, .door--jus, .door--cig, .door--hex, .door--grv { filter: brightness(0.72) saturate(0.6); }
+    /* Service desks: same row shape, white ink, no art. */
+    .door--hex, .door--grv { --door-c: rgba(242, 242, 242, 0.35); }
+    .door--hex:hover, .door--hex:focus-visible, .door--grv:hover, .door--grv:focus-visible { box-shadow: inset 0 0 140px rgba(242, 242, 242, 0.14); }
+    .door--hex:hover .door-name, .door--hex:focus-visible .door-name,
+    .door--grv:hover .door-name, .door--grv:focus-visible .door-name { color: #fff; text-shadow: 0 0 30px rgba(242, 242, 242, 0.45); }
     .door--str { --door-c: rgba(22, 200, 90, 0.45); }
     .door--jus { --door-c: rgba(255, 155, 61, 0.45); }
     .door--cig { --door-c: rgba(47, 212, 224, 0.45); }
@@ -234,7 +239,7 @@
       .doors { flex-direction: column; flex-wrap: nowrap; }
       /* Stacked, four deep — drop the row height so the list stays scannable. */
       .door { flex: 1 1 auto; min-height: 0; }
-      .door--str, .door--jus, .door--cig { filter: brightness(0.8) saturate(0.7); }
+      .door--str, .door--jus, .door--cig, .door--hex, .door--grv { filter: brightness(0.8) saturate(0.7); }
     }
     @media (prefers-reduced-motion: reduce) {
       .door, .door-name, .door-lore, .door-art img, .door-art::after { transition: none; }
@@ -326,6 +331,14 @@
               </span>
               <img class="door-logo" src="assets/logos/ciggyholster-hollow-768.webp" srcset="assets/logos/ciggyholster-hollow-768.webp 768w, assets/logos/ciggyholster-hollow-1152.webp 1152w" sizes="(max-width: 26rem) 92vw, 384px" alt="" width="768" height="231" loading="lazy" decoding="async" fetchpriority="low" />
               <span class="door-name door-name--logo">CIGGYHOLSTER</span>
+            </a>
+
+            <a class="door door--hex" href="hexboy.html">
+              <span class="door-name">HEXBOY</span>
+            </a>
+
+            <a class="door door--grv" href="graveboy.html">
+              <span class="door-name">GRAVEBOY</span>
             </a>
           </nav>
 
