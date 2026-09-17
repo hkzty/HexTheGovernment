@@ -30,7 +30,7 @@ Deployed by GitHub Pages straight from `main` (see `CNAME`). Merging to
 | `rain.js`, `rain.html` | Jars — the second hidden game, on the rain. Self-contained IIFE. Unlocked only from `game.html`. |
 | `index.html` | Desktop page: hero, roster, music, gallery, donation + legal footer. Everything else is a standalone page. The hero is a full-screen gate (`body.hero-gate`, `script.js`): the page is locked on it until the first wheel / swipe / tap / key, which scrolls to the roster. |
 | `roster.html`, `music.html`, `gallery.html` | Standalone copies of the home sections in the `sequence.html` shell; the nav links here, the home page keeps the sections for scrolling. They embed the same markup as `index.html` — edit both. |
-| `hexboy.html` | HexBoy — ABRAXAS's production desk: music sales, mastering / engineering, session bundles, own contact form. Black deck shell, white accent. Every section is filled from `config.services.hexboy` and removed when its list is empty; the markup carries no offerings. Template for the later Stretty-side desk (graveboy): copy the page, add a `services.<key>` block, point the renderer at it. |
+| `hexboy.html`, `graveboy.html`, `desk.js` | Service desks. HexBoy is ABRAXAS's mixing/mastering desk, Graveboy is Stretty's side desk. Same black deck shell, white accent; `desk.js` reads `config.services[<body data-desk>]` and removes any section whose list is empty. HexBoy's packages and add-ons are real prices from the owner's rate card; each `shop` is a Shopify cart permalink into the H.T.G Merch store (products are drafts there until published). Both desks are roster doors on `index.html` / `roster.html`. |
 | `contact.html` | Standalone contact page (form handler lives in `script.js`). Suit Purge and the Sequence are `game.html` / `sequence.html`; the home page carries no `#game`, `#sequence` or `#contact` section. |
 | `mobile.html` | Phone page. **Generated — never hand-edit.** |
 | `style.css` | Stylesheet for every page (inlined into `mobile.html`). |
@@ -197,7 +197,7 @@ too tells Google the two are one entity) and a `logo` on a dark tile
 (`assets/icons/icon-512.png`): Google draws the logo on white, where the
 white-on-transparent wordmark is invisible. Location: `legal.html` is governed by NSW law, so every page
 carries `og:locale` `en_AU` and the Organization node an `address` of
-NSW, AU. Nothing prices anything (the game is `isAccessibleForFree`). `index.html` advertises `mobile.html` as its phone alternate
+NSW, AU. The only priced things on the site are HexBoy's packages, which are real rate-card prices; the game is `isAccessibleForFree`. `index.html` advertises `mobile.html` as its phone alternate
 and `mobile.html` keeps the canonical pointing at `index.html`;
 `build-mobile.js` strips the alternate link on the phone copy (and aborts
 if it is missing, like its other anchors). Share cards are in
