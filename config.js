@@ -169,7 +169,7 @@ window.ABRAXAS_CONFIG = {
         {
           name: "Mix + Master",
           summary: "One track. Mix, master, instrumental and clean.",
-          price: 140, standard: 330,
+          price: 93, standard: 330,
           includes: ["Mix + master", "Instrumental", "Clean version", "24-bit WAV + streaming MP3"],
           turnaround: "7 days from stems", revisions: "2 included",
           service: "HexBoy · Engineering",
@@ -188,7 +188,7 @@ window.ABRAXAS_CONFIG = {
         {
           name: "Master",
           summary: "One track mastered for release.",
-          price: 60, standard: 120,
+          price: 69, standard: 120,
           includes: ["24-bit WAV master", "Streaming MP3", "ISRC embed on request"],
           turnaround: "2 days", revisions: "1 included",
           service: "HexBoy · Mastering",
