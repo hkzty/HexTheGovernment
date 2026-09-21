@@ -13,10 +13,12 @@ addresses, not GitHub's; the apex already carries a
 resolves to the proxy but is not connected in Shopify; `stretty.music` is
 unregistered (NXDOMAIN) and its links were removed.
 
-## 1. Contact form delivery (10 min) — the site's one conversion
+## 1. Contact form delivery — DONE except the junk filter
 
-Every enquiry today goes down a `mailto:` path that does nothing, silently,
-for anyone without a desktop mail app.
+Web3Forms is wired (`config.contactForm` in `config.js`, September 2026).
+Remaining owner step: 4 below. The key delivers to the address it was
+created for at web3forms.com; `contactCc` addresses are copied via
+`ccemail`.
 
 1. https://web3forms.com → *Create your Access Key* → enter
    `Abraxas@htg.productions` → open the confirmation email → copy the key.
@@ -103,7 +105,7 @@ Bing feeds DuckDuckGo, Yahoo and Ecosia.
    that owns the Microsoft 365 tenant → *Import* → *Import from Google
    Search Console* → authorise → pick `htg.productions`. Verification and
    the sitemap come across; no DNS change.
-2. Sitemaps → confirm `sitemap.xml` shows 13 URLs.
+2. Sitemaps → confirm `sitemap.xml` shows 15 URLs.
 3. IndexNow → the key file at the site root is detected once deployed.
    After any deploy that changed pages, from the repo:
 

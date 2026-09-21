@@ -268,8 +268,8 @@ window.ABRAXAS_CONFIG = {
      contactCc is delivery-only — those addresses receive every
      submission but are never rendered anywhere on the site.            */
   contactForm: {
-    endpoint: "",
-    accessKey: ""   // Web3Forms only — leave "" for Formspree
+    endpoint: "https://api.web3forms.com/submit",
+    accessKey: "a6207845-06de-4728-a582-6daea0adda47"   // Web3Forms only — leave "" for Formspree
   },
   contactEmail: "Abraxas@htg.productions",
   contactCc: ["hkukic.2015@gmail.com"],
