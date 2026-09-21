@@ -527,7 +527,12 @@
       // Any of these typed anywhere unlocks it. Longest first so the rolling
       // buffer is sized to the longest word.
       const secretWords = ['purge', 'suit', 'play', 'game', 'htg', 'hex'];
-      const bufferLen = Math.max(...secretWords.map((w) => w.length));
+      // The other door: typed "llms" or "agent" (or ?agent) opens the deck
+      // written for crawlers and AI agents. Nothing on the page points at it.
+      const agentWords = ['agent', 'llms'];
+      const openAgentDeck = () => { window.location.href = 'llms.txt'; };
+      if (/[?&]agent(=|&|$)/.test((location.search || '').toLowerCase())) openAgentDeck();
+      const bufferLen = Math.max(...secretWords.concat(agentWords).map((w) => w.length));
       let typed = '';
 
       window.addEventListener('keydown', (event) => {
@@ -545,6 +550,7 @@
 
         if (event.key && event.key.length === 1) {
           typed = (typed + event.key.toLowerCase()).slice(-bufferLen);
+          if (agentWords.some((w) => typed.endsWith(w))) { openAgentDeck(); return; }
           if (secretWords.some((w) => typed.endsWith(w))) revealGame(true);
         }
       });

@@ -178,6 +178,7 @@ on `render.js` running.
 |---|---|
 | `robots.txt` | One `User-agent: *` group: allows everything public (AI crawlers included — the owner wants AI in the back end, never showing on the front end; `legal.html` §2 still forbids training on the content and stays as written) and blocks `copydesk.html`, `content/`, `docs/`, `scripts/`. No per-bot groups — under RFC 9309 a named group inherits nothing from `*`, so a bot-specific `Allow: /` silently drops the Disallows for exactly that bot. |
 | `sitemap.xml` | **Generated** by `scripts/build-sitemap.js`; `lastmod` is each page's last commit date. `mobile.html` is deliberately absent. After editing any page: `npm run build:sitemap`, and `npm run check:sitemap` before pushing (same deal as `check:mobile`, and for the same reason not in CI). |
+| `humans.txt` | humanstxt.org credits: roster, which agent each artist works from, stack, games. Linked as `rel="author"` from every visitor page. |
 | `llms.txt` | Plain-markdown summary for LLM agents: roster, every profile URL, the Sequence and the deck tracks, contact, trademarks, the explicit "no tour dates, no upcoming releases" line, and the ABRAXAS/Stretty Spotify disambiguation. |
 | `site.webmanifest` | Name, colours, `music`/`entertainment` categories, PNG icons (192, 512, maskable 512) plus the SVG mark. Linked from every visitor page. |
 | `favicon.ico`, `assets/icons/` | Raster icons rasterised from `assets/htg-mark.svg` (Safari before 26 ignores SVG favicons; iOS home-screen and bookmarks need `apple-touch-icon`). Every page declares `.ico` + SVG + `apple-touch-icon`; the four decks keep their own letter tiles, rasterised to `assets/icons/<artist>-32/180.png`. Regenerate by screenshotting the SVG with Playwright at 16/32/48/180/192/512. |
@@ -185,6 +186,8 @@ on `render.js` running.
 | `.well-known/security.txt` | RFC 9116 contact; `Expires` must stay under a year out — bump it each September. |
 | `.nojekyll` | Skips the Jekyll pass on deploy, which would otherwise drop `.well-known/`. |
 | JSON-LD in each page head | `index.html` carries `Organization` (`#org`), `WebSite` (`#website`), a `WebPage`, the three `MusicGroup`s, the `Person` and the `VideoGame`. Each deck repeats its own entity under the same `@id` plus a `WebPage` and a `BreadcrumbList`; `abraxas.html` adds the thirteen `MusicAlbum` nodes (URL-only — their titles are not on the site), `stretty.html` / `ciggie.html` add `MusicRecording`s for the tracks named on the page, `sequence.html` an `ItemList` of the albums. No `VideoObject`s: Google requires `name` and `uploadDate`, which the site deliberately does not hand-write. |
+
+Every visitor page opens with one source comment addressed to whoever reads the markup (pointers to `llms.txt` / `humans.txt` and a hex-encoded tagline), and `script.js` opens `llms.txt` when `llms` or `agent` is typed or `?agent` is in the URL — the agent-facing layer stays invisible on the rendered page; do not surface any of it in copy.
 
 Every indexed page also has `<link rel="canonical">`, a `robots` meta,
 `twitter:title`/`twitter:description`, `<meta name="color-scheme"
@@ -405,6 +408,7 @@ split; do not put the Google links back.
   first call). The paint probe is armed by `start()`, never at parse time: a
   probe that fires before the first frame reads an unpainted canvas and
   rebuilds it for nothing.
+- **Game exits chain Jars → Suit Purge → HTG home.** `game.js` reads `data-exit` off the Exit button (`game.html` sets `index.html`); without it, it falls back to scrolling to `#out-now` for a page that still embeds the game. `legal.html` §5 and the home footer name both games.
 - **`-webkit-tap-highlight-color: transparent` is set site-wide**, so any
   full-bleed tappable block needs its own `:active` state or a phone gets no
   touch feedback at all — see `.door:active` in `index.html` / `roster.html`.

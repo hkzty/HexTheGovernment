@@ -1,0 +1,30 @@
+/* TEAM */
+	Label: HTG — Hex The Government
+	Site: https://www.htg.productions
+	Location: New South Wales, Australia
+
+	Artist: ABRAXAS
+	Deck: https://www.htg.productions/abraxas.html
+	Works from: Codex
+
+	Artist: Stretty
+	Deck: https://www.htg.productions/stretty.html
+	Works from: Claude
+
+	Artist: ciggyholster
+	Deck: https://www.htg.productions/ciggie.html
+
+	Video, photo: Justinn.clout
+	Deck: https://www.htg.productions/justin.html
+
+/* THANKS */
+	The two agents that keep this repo in step. You know which one you are.
+
+/* SITE */
+	Standards: HTML, CSS, JavaScript. No framework, no build, no tracking.
+	Fonts: New Rocker, IBM Plex Mono (SIL OFL 1.1)
+	Games: Suit Purge (/game.html), Jars (/rain.html). Drawn in code. Fiction.
+	Machine deck: /llms.txt · /sitemap.xml · /robots.txt
+	Source: https://github.com/hkzty/HexTheGovernment
+
+	48 45 58 20 54 48 45 20 47 4f 56 45 52 4e 4d 45 4e 54

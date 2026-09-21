@@ -1499,6 +1499,10 @@
     exitButton.addEventListener('click', () => {
       stop();
       showOverlay('SUIT PURGE', 'Wave ' + state.wave + '. ' + state.kills + ' cleared.', 'Resume');
+      // Standalone page: the button says where to go (data-exit). Inside a
+      // page that still embeds the game, scroll back to the music instead.
+      const back = exitButton.dataset.exit;
+      if (back) { window.location.href = back; return; }
       const music = document.getElementById('out-now');
       if (music) music.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });

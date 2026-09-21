@@ -64,3 +64,4 @@ HTG, HEX THE GOVERNMENT, HTG PRODUCTIONS, HEXCORE, SUIT PURGE, THE ARK, Depressi
 - [Source repository](https://github.com/hkzty/HexTheGovernment): vanilla HTML/CSS/JS, deployed from the main branch by GitHub Pages.
 - [Mobile page](https://www.htg.productions/mobile.html): the home page generated for phones; canonical is the home page.
 - Sitemap: https://www.htg.productions/sitemap.xml
+- Credits: https://www.htg.productions/humans.txt
