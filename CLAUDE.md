@@ -462,13 +462,6 @@ split; do not put the Google links back.
   720p pair stays in `assets/` and `config.js` (`render.js` guards on the
   missing `.hero-video`), and a `.hero-rain` canvas mirrors `#matrix-rain`
   inside the hero under a faint `.hero-echo` of the wordmark line.
-- **The contact form's delivery endpoint is unset.** `script.js` POSTs
-  submissions to `config.contactForm.endpoint` (Formspree or Web3Forms —
-  setup notes in `config.js`) and falls back to `mailto:` without one.
-  Until someone creates the free account and pastes the endpoint into
-  `config.js`, every visitor is on the mailto path, which does nothing —
-  silently — for anyone without a desktop mail app. Step one of
-  `docs/launch-checklist.md`.
 - **Everything that needs an account or DNS is in
   `docs/launch-checklist.md`**: Search Console, Bing/IndexNow, the
   GitHub Pages domain check behind the Cloudflare proxy, profile
