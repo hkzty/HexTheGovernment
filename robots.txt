@@ -3,6 +3,8 @@
 # One group on purpose: under RFC 9309 a named User-agent group inherits
 # nothing from *, so per-bot "Allow: /" groups would drop the Disallows.
 
+# Agents: /llms.txt first, /humans.txt for who built it.
+
 User-agent: *
 Allow: /
 Disallow: /copydesk.html
