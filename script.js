@@ -419,14 +419,16 @@
       }
 
       if (endpoint) {
-        // Web3Forms wants access_key + botcheck and copies `ccemail`;
-        // Formspree reads its meta fields from _-prefixed keys (`_cc` is a
-        // paid-tier feature there). Shape the payload for whichever service
-        // the config points at.
-        const ccList = contactCc.join(',');
+        // Web3Forms wants access_key + botcheck. Its `ccemail` field is
+        // Pro-only: sending it on the free tier gets a 400 ("Please Upgrade
+        // to use ccemail") and every submit fell through to mailto:. So
+        // contactCc is not sent to Web3Forms — delivery goes to the inbox
+        // the access key was issued for. Formspree reads its meta fields
+        // from _-prefixed keys (`_cc` is paid there too, so it is not
+        // sent either). contactCc still rides along on the mailto: path.
         const payload = accessKey
-          ? { access_key: accessKey, name, email, subject, message, botcheck: false, ...(ccList && { ccemail: ccList }) }
-          : { name, email, subject, message, _subject: subject, _replyto: email, _gotcha: '', ...(ccList && { _cc: ccList }) };
+          ? { access_key: accessKey, name, email, subject, message, botcheck: false }
+          : { name, email, subject, message, _subject: subject, _replyto: email, _gotcha: '' };
         contactSubmit.disabled = true;
         formStatus.textContent = 'Sending…';
         try {

@@ -248,10 +248,12 @@ window.ABRAXAS_CONFIG = {
      How a submitted form reaches the inbox, tried in this order:
 
      1. contactForm.endpoint — a free form-to-email service, no backend.
-        Web3Forms is the one to use here: its free tier delivers to
-        contactEmail AND copies every address in contactCc.
-          - Web3Forms (web3forms.com): request an access key for
-            contactEmail (Abraxas@htg.productions), set endpoint to
+        Web3Forms is the one in use. Delivery goes to the inbox the
+        access key was issued for — NOT contactEmail, and NOT contactCc
+        (cc is a paid feature on both services and is not sent; the
+        site fell back to mailto: on every submit while it was).
+          - Web3Forms (web3forms.com): request an access key for the
+            inbox that should receive the form, set endpoint to
             "https://api.web3forms.com/submit" and put the key in
             accessKey. The key is meant to live in client-side code.
           - Formspree (formspree.io) also works — create a form that
@@ -265,8 +267,8 @@ window.ABRAXAS_CONFIG = {
         mail app.
 
      contactEmail is shown on the contact card and is the To: address.
-     contactCc is delivery-only — those addresses receive every
-     submission but are never rendered anywhere on the site.            */
+     contactCc is mailto:-path only — copied on the fallback email, never
+     sent to the form service, never rendered anywhere on the site.     */
   contactForm: {
     endpoint: "https://api.web3forms.com/submit",
     accessKey: "a6207845-06de-4728-a582-6daea0adda47"   // Web3Forms only — leave "" for Formspree
