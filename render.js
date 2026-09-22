@@ -183,10 +183,10 @@
   if (contactList) {
     const entries = [];
     if (cfg.contactEmail) {
-      entries.push(['Email', el('a', { href: `mailto:${cfg.contactEmail}`, text: cfg.contactEmail })]);
+      entries.push(['Email', el('span', { text: cfg.contactEmail })]);
     }
     if (cfg.management && cfg.management !== cfg.contactEmail) {
-      entries.push(['Bookings', el('a', { href: `mailto:${cfg.management}`, text: cfg.management })]);
+      entries.push(['Bookings', el('span', { text: cfg.management })]);
     }
     if (cfg.linktree) {
       entries.push(['Links', el('a', { href: cfg.linktree, target: '_blank', rel: 'noopener noreferrer', text: cfg.linktree.replace(/^https?:\/\//, '') })]);

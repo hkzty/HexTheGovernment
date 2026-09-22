@@ -261,14 +261,12 @@ window.ABRAXAS_CONFIG = {
             "https://formspree.io/f/abcdwxyz" — but its cc field is a
             paid feature, so on the free plan only contactEmail is
             delivered to.
-     2. mailto: fallback — only with no endpoint set. The form then opens
-        the visitor's email app addressed to contactEmail with contactCc
-        on copy. With an endpoint set, a failed send never opens a mail
-        app; it shows contactEmail as text instead.
+     2. There is no mailto: fallback. A failed send (or no endpoint) shows
+        contactEmail as plain text; the site never opens a mail app.
 
      contactEmail is shown on the contact card and is the To: address.
-     contactCc is mailto:-path only — copied on the fallback email, never
-     sent to the form service, never rendered anywhere on the site.     */
+     contactCc is unused by the form service (cc is a paid feature there)
+     and is never rendered anywhere on the site.                        */
   contactForm: {
     endpoint: "https://api.web3forms.com/submit",
     accessKey: "a6207845-06de-4728-a582-6daea0adda47"   // Web3Forms only — leave "" for Formspree
