@@ -348,8 +348,9 @@
       Delivery order: POST to the form service in config.contactForm when
       one is set, so sending works without a mail app — mailto: alone does
       nothing, silently, for visitors without one, and bookings are the
-      site's one conversion. mailto: stays as the no-endpoint default and
-      the network-failure fallback. On the mailto path the form is NOT
+      site's one conversion. mailto: is only the no-endpoint default; with
+      an endpoint set, a failed send shows the address as text and never
+      opens a mail app. On the mailto path the form is NOT
       reset: for someone with no mail app the text still sitting in the
       form is the only copy of their message.
     */
@@ -441,11 +442,12 @@
           contactForm.reset();
           formStatus.textContent = 'Sent.';
         } catch (err) {
-          if (contactEmail) {
-            openMailto({ name, email, subject, message, contactEmail, contactCc, lead: 'Send failed. Opening your mail app.' });
-          } else {
-            formStatus.textContent = 'Send failed. Try again.';
-          }
+          // With a form service configured the site never hands off to a
+          // mail app: the owner asked for that. Keep the text in the form
+          // and show the address so the visitor can still get in touch.
+          formStatus.textContent = contactEmail
+            ? `Send failed. Try again, or email ${contactEmail}.`
+            : 'Send failed. Try again.';
         } finally {
           contactSubmit.disabled = false;
         }
