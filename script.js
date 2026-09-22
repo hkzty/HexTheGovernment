@@ -345,21 +345,11 @@
     const contactSubmit = contactForm ? contactForm.querySelector('button[type="submit"]') : null;
 
     /*
-      Delivery order: POST to the form service in config.contactForm when
-      one is set, so sending works without a mail app — mailto: alone does
-      nothing, silently, for visitors without one, and bookings are the
-      site's one conversion. mailto: is only the no-endpoint default; with
-      an endpoint set, a failed send shows the address as text and never
-      opens a mail app. On the mailto path the form is NOT
-      reset: for someone with no mail app the text still sitting in the
-      form is the only copy of their message.
+      The form POSTs to the form service in config.contactForm and does
+      nothing else. There is no mailto: path anywhere on the site — the
+      owner does not want a visitor's mail app opened, ever. A failed send
+      leaves the text in the form and shows the address as plain text.
     */
-    const openMailto = ({ name, email, subject, message, contactEmail, contactCc, lead }) => {
-      const body = `${message}\n\n${name}\n${email}`;
-      const cc = contactCc.length ? `cc=${encodeURIComponent(contactCc.join(','))}&` : '';
-      window.location.href = `mailto:${contactEmail}?${cc}subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      formStatus.textContent = `${lead} If nothing opened, email ${contactEmail}.`;
-    };
 
     if (contactForm) contactForm.addEventListener('submit', async (event) => {
       event.preventDefault();
@@ -406,55 +396,45 @@
       // A desk page sets data-to on its form (hexboy.html reads it off
       // config.services); the site-wide contactEmail is the default.
       const contactEmail = ((contactForm.dataset.to || '') || cfg.contactEmail || '').trim();
-      // Delivery-only copies: every submission also lands in these inboxes.
-      // They ride along as cc on both paths and are never shown on the page.
-      const contactCc = (Array.isArray(cfg.contactCc) ? cfg.contactCc : [])
-        .map(a => String(a).trim()).filter(Boolean);
       const formService = cfg.contactForm || {};
       const endpoint = (formService.endpoint || '').trim();
       const accessKey = (formService.accessKey || '').trim();
 
-      if (!endpoint && !contactEmail) {
-        formStatus.textContent = 'Send failed.';
+      const failed = () => {
+        formStatus.textContent = contactEmail
+          ? `Send failed. Try again, or email ${contactEmail}.`
+          : 'Send failed. Try again.';
+      };
+
+      if (!endpoint) {
+        failed();
         return;
       }
 
-      if (endpoint) {
-        // Web3Forms wants access_key + botcheck. Its `ccemail` field is
-        // Pro-only: sending it on the free tier gets a 400 ("Please Upgrade
-        // to use ccemail") and every submit fell through to mailto:. So
-        // contactCc is not sent to Web3Forms — delivery goes to the inbox
-        // the access key was issued for. Formspree reads its meta fields
-        // from _-prefixed keys (`_cc` is paid there too, so it is not
-        // sent either). contactCc still rides along on the mailto: path.
-        const payload = accessKey
-          ? { access_key: accessKey, name, email, subject, message, botcheck: false }
-          : { name, email, subject, message, _subject: subject, _replyto: email, _gotcha: '' };
-        contactSubmit.disabled = true;
-        formStatus.textContent = 'Sending…';
-        try {
-          const res = await fetch(endpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify(payload)
-          });
-          if (!res.ok) throw new Error(`form service responded ${res.status}`);
-          contactForm.reset();
-          formStatus.textContent = 'Sent.';
-        } catch (err) {
-          // With a form service configured the site never hands off to a
-          // mail app: the owner asked for that. Keep the text in the form
-          // and show the address so the visitor can still get in touch.
-          formStatus.textContent = contactEmail
-            ? `Send failed. Try again, or email ${contactEmail}.`
-            : 'Send failed. Try again.';
-        } finally {
-          contactSubmit.disabled = false;
-        }
-        return;
+      // Web3Forms wants access_key + botcheck. Its `ccemail` field is
+      // Pro-only: sending it on the free tier gets a 400 ("Please Upgrade
+      // to use ccemail"), so contactCc is never sent — delivery goes to the
+      // inbox the access key was issued for. Formspree reads its meta
+      // fields from _-prefixed keys (`_cc` is paid there too).
+      const payload = accessKey
+        ? { access_key: accessKey, name, email, subject, message, botcheck: false }
+        : { name, email, subject, message, _subject: subject, _replyto: email, _gotcha: '' };
+      contactSubmit.disabled = true;
+      formStatus.textContent = 'Sending…';
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error(`form service responded ${res.status}`);
+        contactForm.reset();
+        formStatus.textContent = 'Sent.';
+      } catch (err) {
+        failed();
+      } finally {
+        contactSubmit.disabled = false;
       }
-
-      openMailto({ name, email, subject, message, contactEmail, contactCc, lead: 'Opening your mail app.' });
     });
   
 

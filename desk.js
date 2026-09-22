@@ -167,7 +167,7 @@
   var email = text(desk.email) || text(root.contactEmail);
   var card = document.querySelector('[data-desk-contact]');
   if (card && email) {
-    card.replaceChildren(el('li', {}, [el('strong', { text: 'Email' }), el('a', { href: 'mailto:' + email, text: email })]));
+    card.replaceChildren(el('li', {}, [el('strong', { text: 'Email' }), el('span', { text: email })]));
   }
   if (form && email) form.dataset.to = email;
   fill(document.querySelector('[data-desk-links]'), list(desk.links).map(function (l) { return pill(l && l.label, l && l.url); }));
