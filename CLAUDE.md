@@ -348,10 +348,11 @@ and ciggyholster marks are `HEXBOY #1a1a1a #f2f2f2 7`, `GRAVEBOY
 spikes shortened so its proportions sit closer to the ABRAXAS and
 STRETTY marks (HexBoy still measures taller, 768×455 against ABRAXAS's
 768×407 — six letters under the same crown). A long name widens the
-canvas on its own. Twelve letters at the same font size make a wide, low
-mark, so `ciggie.html` runs its deck mark at `min(100%, 64rem)` with
-2048 / 1024 rasters instead of 40rem with 2000 / 800: the letters then
-land at the size the seven-letter marks get at 40rem. The roster grid
+canvas on its own. **The ciggyholster deck mark is the owner's pick and
+stays as it is**: `ciggie-logo.webp` (2000×602, from the hand-traced
+`ciggyholster-logo.svg`) on `ciggie.html`; only the roster door uses the
+regenerated hollow. Do not swap the deck mark for the generated one
+again. The roster grid
 (`grid-auto-rows: 1fr`, and a fixed row with `max-height` on the mark
 below 760 px) keeps all six doors the same size whatever a mark measures.
 
@@ -371,7 +372,7 @@ for marks that render 384 px wide, and `loading="lazy"` never deferred
 them.
 The `width`/`height` on the door `<img>`s are the 768 raster's pixels.
 Every filled mark and the hero wordmark also carry a smaller `srcset`
-variant (800 px; 1024 px for the 2048-wide ciggyholster deck mark) and are encoded with `alphaQuality: 60` — the alpha plane was
+variant (800 px) and are encoded with `alphaQuality: 60` — the alpha plane was
 most of the file. The name text stays in the DOM (alt / visually hidden)
 — keep it there. They are plain `<img>`s with
 real alpha: do not try `mix-blend-mode` to drop a background, the
