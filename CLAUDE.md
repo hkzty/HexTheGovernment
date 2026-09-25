@@ -177,7 +177,7 @@ on `render.js` running.
 | File | Role |
 |---|---|
 | `robots.txt` | One `User-agent: *` group: allows everything public (AI crawlers included — the owner wants AI in the back end, never showing on the front end; `legal.html` §2 still forbids training on the content and stays as written) and blocks `copydesk.html`, `content/`, `docs/`, `scripts/`. No per-bot groups — under RFC 9309 a named group inherits nothing from `*`, so a bot-specific `Allow: /` silently drops the Disallows for exactly that bot. |
-| `sitemap.xml` | **Generated** by `scripts/build-sitemap.js`; `lastmod` is each page's last commit date. `mobile.html` is deliberately absent. After editing any page: `npm run build:sitemap`, and `npm run check:sitemap` before pushing (same deal as `check:mobile`, and for the same reason not in CI). |
+| `sitemap.xml` | **Generated** by `scripts/build-sitemap.js`; `lastmod` is each page's last commit date. `mobile.html` is deliberately absent. **Commit the page first**: `lastmod` is read with `git log -1`, so a sitemap built before the page commit carries the previous date (PR #94 shipped a stale one that way). After the commit: `npm run build:sitemap`, commit the sitemap as a follow-up, and `npm run check:sitemap` before pushing (same deal as `check:mobile`, and for the same reason not in CI). |
 | `humans.txt` | humanstxt.org credits: roster, which agent each artist works from, stack, games. Linked as `rel="author"` from every visitor page. |
 | `llms.txt` | Plain-markdown summary for LLM agents: roster, every profile URL, the Sequence and the deck tracks, contact, trademarks, the explicit "no tour dates, no upcoming releases" line, and the ABRAXAS/Stretty Spotify disambiguation. |
 | `site.webmanifest` | Name, colours, `music`/`entertainment` categories, PNG icons (192, 512, maskable 512) plus the SVG mark. Linked from every visitor page. |
@@ -366,8 +366,9 @@ rasterised from the traced SVGs, which stay in the repo as sources
 (`abraxas-gen-hollow-logo.svg`, `stretty-gen-hollow-logo.svg`,
 `ciggyholster-gen-hollow-logo.svg`, `justinclout-hollow-logo.svg`,
 `hexboy-gen-hollow-logo.svg`, `graveboy-gen-hollow-logo.svg`): the SVGs
-are 500-750 KB of potrace paths each, 2.4 MB per home-page load for
-marks that render 384 px wide, and `loading="lazy"` never deferred them.
+are 500-1130 KB of potrace paths each, about 4.5 MB per home-page load
+for marks that render 384 px wide, and `loading="lazy"` never deferred
+them.
 The `width`/`height` on the door `<img>`s are the 768 raster's pixels.
 Every filled mark and the hero wordmark also carry an 800 px `srcset`
 variant and are encoded with `alphaQuality: 60` — the alpha plane was

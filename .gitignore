@@ -28,3 +28,15 @@ content/preview.json
 # (served live for both Claude and Codex). Rebuild with:
 #   node scripts/build-copydesk.js
 
+
+# deathlogo.py intermediates (assets/logos/) — only *-gen-logo.svg / *-gen-hollow-logo.svg are sources
+assets/logos/*.pbm
+assets/logos/*-mass.svg
+assets/logos/*-core.svg
+assets/logos/*-outline.svg
+assets/logos/*-hollow-mass.svg
+assets/logos/*-hollow-core.svg
+assets/logos/*-hollow-outline.svg
+assets/logos/*-lineart.svg
+assets/logos/*-hd-transparent.png
+__pycache__/
