@@ -6,26 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="dark" />
   <title>Graveboy — HTG</title>
-  <meta name="description" content="Graveboy — Stretty side desk. HTG — Hex The Government." />
+  <meta name="description" content="Graveboy — Stretty's desk: sites, marks, stores, browser games, IT and security. HTG — Hex The Government." />
   <meta name="theme-color" content="#0a0a0a" />
   <link rel="manifest" href="site.webmanifest" />
   <link rel="author" href="humans.txt" />
   <meta property="og:title" content="Graveboy — HTG" />
-  <meta property="og:description" content="Stretty side desk. HTG — Hex The Government." />
+  <meta property="og:description" content="Stretty's desk: sites, marks, stores, browser games, IT and security. HTG — Hex The Government." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.htg.productions/graveboy.html" />
   <meta property="og:site_name" content="HTG — Hex The Government" />
   <meta property="og:locale" content="en_AU" />
-  <meta property="og:image" content="https://www.htg.productions/assets/og/htg.png" />
+  <meta property="og:image" content="https://www.htg.productions/assets/og/graveboy.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="HTG — Hex The Government" />
+  <meta property="og:image:alt" content="Graveboy — HTG" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://www.htg.productions/assets/og/htg.png" />
+  <meta name="twitter:image" content="https://www.htg.productions/assets/og/graveboy.png" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
   <link rel="canonical" href="https://www.htg.productions/graveboy.html" />
   <meta name="twitter:title" content="Graveboy — HTG" />
-  <meta name="twitter:description" content="Stretty side desk. HTG — Hex The Government." />
+  <meta name="twitter:description" content="Stretty's desk: sites, marks, stores, browser games, IT and security. HTG — Hex The Government." />
   <!-- schema.org structured data. Static on purpose: most crawlers never run
        JS. Service names here are the section names on the page and nothing
        more — no prices, no turnaround claims, until they are real in
@@ -39,7 +39,7 @@
         "@id": "https://www.htg.productions/graveboy.html",
         "url": "https://www.htg.productions/graveboy.html",
         "name": "Graveboy — HTG",
-        "description": "Graveboy: Stretty side desk.",
+        "description": "Graveboy: Stretty's desk for sites, marks, stores, browser games, IT and security.",
         "isPartOf": { "@id": "https://www.htg.productions/#website" },
         "inLanguage": "en",
         "about": { "@id": "https://www.htg.productions/stretty.html#artist" }
@@ -120,6 +120,7 @@
       filter: drop-shadow(0 0 30px rgba(var(--acc-rgb), 0.22));
     }
     .tagline { margin-top: 0.6rem; font-size: clamp(0.9rem, 2.4vw, 1.2rem); color: var(--dim); letter-spacing: 0.04em; }
+    .blurb { margin-top: 1rem; max-width: 40rem; font-size: 0.95rem; line-height: 1.6; color: var(--dim); }
 
     /* ---- Sections -------------------------------------------------------- */
     .section { margin-top: 3rem; }
@@ -250,6 +251,9 @@
     <header class="hero">
       <p class="eyebrow">Stretty</p>
       <h1 class="name"><img class="name-logo" src="assets/logos/graveboy-logo.webp" srcset="assets/logos/graveboy-logo-800.webp 800w, assets/logos/graveboy-logo.webp 2000w" sizes="(max-width: 820px) 92vw, 640px" alt="GRAVEBOY" width="2000" height="1197" decoding="async" fetchpriority="high" /></h1>
+      <p class="tagline">Sites · Systems · Security</p>
+      <!-- Owner copy — the one blurb on the site, kept at the owner's request. -->
+      <p class="blurb">Stretty off the mic. Built htg.productions end to end: the site, both games, the highscore Worker, the store, the search and agent layer. Engineering, IT and security by trade.</p>
     </header>
 
     <main>
@@ -316,6 +320,11 @@
               <div class="field">
                 <label for="service">Service</label>
                 <select id="service" name="service">
+                  <option value="Graveboy · Sites">Sites</option>
+                  <option value="Graveboy · Marks">Marks</option>
+                  <option value="Graveboy · Store">Store</option>
+                  <option value="Graveboy · Games">Games</option>
+                  <option value="Graveboy · IT &amp; Security">IT &amp; Security</option>
                   <option value="Graveboy · Booking">Booking</option>
                   <option value="Graveboy · Music">Music</option>
                   <option value="Graveboy">Other</option>

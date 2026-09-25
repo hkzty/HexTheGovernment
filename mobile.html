@@ -1866,8 +1866,11 @@
 
     /* ---- The artist doors ------------------------------------------------ */
     .doors {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      /* Equal rows: 1fr auto-rows stretch every row to the tallest one, so
+         the six doors stay the same size whatever their marks measure. */
+      grid-auto-rows: 1fr;
       gap: 1px;
       background: var(--line);
       border: 1px solid var(--line);
@@ -1880,9 +1883,6 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      /* Basis >1/3 forces exactly two per row; the row height lives here rather
-         than on .doors so both rows stay full-height once the list wraps. */
-      flex: 1 1 40%;
       min-height: clamp(15rem, 28vh, 21rem);
       padding: 2rem 1.25rem;
       overflow: hidden;
@@ -1890,11 +1890,10 @@
       text-decoration: none;
       color: var(--text);
       background: rgba(10, 10, 10, 0.62);
-      transition: flex-grow 0.5s ease, background 0.4s ease, filter 0.4s ease;
+      transition: background 0.4s ease, filter 0.4s ease;
     }
-    /* ABRAXAS is the lit, dominant door; the rest sit recessed and dimmer. */
-    .door--abx { flex-grow: 1.35; --door-c: rgba(180, 120, 255, 0.5); }
-    .door--str, .door--jus, .door--cig, .door--hex, .door--grv { filter: brightness(0.72) saturate(0.6); }
+    /* Six equal doors: no featured door, no dimmed doors, no reflow on hover. */
+    .door--abx { --door-c: rgba(180, 120, 255, 0.5); }
     /* Service desks: same row shape, white ink, no art. */
     .door--hex, .door--grv { --door-c: rgba(242, 242, 242, 0.35); }
     .door--hex:hover, .door--hex:focus-visible, .door--grv:hover, .door--grv:focus-visible { box-shadow: inset 0 0 140px rgba(242, 242, 242, 0.14); }
@@ -1903,9 +1902,9 @@
     .door--str { --door-c: rgba(22, 200, 90, 0.45); }
     .door--jus { --door-c: rgba(255, 155, 61, 0.45); }
     .door--cig { --door-c: rgba(47, 212, 224, 0.45); }
-    .door:hover, .door:focus-visible { flex-grow: 2; filter: none; background: rgba(10, 10, 10, 0.25); }
+    .door:hover, .door:focus-visible { filter: none; background: rgba(10, 10, 10, 0.25); }
     /* The UA tap flash is suppressed site-wide, so the doors carry their own
-       touch feedback. No flex-grow here: the row must not reflow under a thumb. */
+       touch feedback. */
     .door:active { filter: none; background: rgba(10, 10, 10, 0.25); }
 
     /* The wall of work behind each name: a collage of that artist's real
@@ -1983,10 +1982,10 @@
     .door:hover .door-lore, .door:focus-visible .door-lore { opacity: 0.09; }
 
     @media (max-width: 760px) {
-      .doors { flex-direction: column; flex-wrap: nowrap; }
-      /* Stacked, four deep — drop the row height so the list stays scannable. */
-      .door { flex: 1 1 auto; min-height: 0; }
-      .door--str, .door--jus, .door--cig, .door--hex, .door--grv { filter: brightness(0.8) saturate(0.7); }
+      .doors { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; }
+      /* Stacked, six deep: one fixed row height, marks capped to fit it. */
+      .door { min-height: 14rem; }
+      .door-logo { max-height: 9.5rem; object-fit: contain; }
     }
     @media (prefers-reduced-motion: reduce) {
       .door, .door-name, .door-lore, .door-art img, .door-art::after { transition: none; }
@@ -2122,8 +2121,8 @@
               /* Door art loader. Spotify's oEmbed endpoint is CORS-open and
                  needs no key, so each data-cover URL resolves to its real
                  cover art in the visitor's browser. (Server-side this repo
-                 has never managed that call — datacenter IPs get 403s, see
-                 scripts/scraper.js — but browsers on normal connections are
+                 has never managed that call — datacenter IPs get 403s, which is
+                 what killed the content scraper — but browsers on normal connections are
                  fine.) Any failure just leaves that img src-less and
                  invisible: the door falls back to typography only.
                  data-thumb imgs are plain direct-src thumbnails. */

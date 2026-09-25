@@ -13,27 +13,13 @@ addresses, not GitHub's; the apex already carries a
 resolves to the proxy but is not connected in Shopify; `stretty.music` is
 unregistered (NXDOMAIN) and its links were removed.
 
-## 1. Contact form delivery — DONE except the junk filter
+## 1. Contact form delivery — DONE
 
-Web3Forms is wired (`config.contactForm` in `config.js`, September 2026).
-Remaining owner step: 4 below. The key delivers to the address it was
-created for at web3forms.com; `contactCc` addresses are copied via
-`ccemail`.
-
-1. https://web3forms.com → *Create your Access Key* → enter
-   `Abraxas@htg.productions` → open the confirmation email → copy the key.
-2. `config.js`: `contactForm: { endpoint: "https://api.web3forms.com/submit", accessKey: "<the key>" }`.
-   `script.js` already sends `access_key`, `botcheck` and `ccemail` in the
-   shape Web3Forms expects. The key is meant to be public.
-3. Commit, then send a test from https://www.htg.productions/contact.html:
-   status line reads `Sent.`, message lands in `Abraxas@htg.productions`
-   and every `contactCc` address.
-4. Stop it landing in Junk: Outlook on the web → Settings → Mail → Junk
-   email → *Safe senders and domains* → add `web3forms.com` (or, in the
-   Exchange admin centre, a mail-flow rule *sender domain is web3forms.com
-   → set SCL −1*).
-5. Delete the "contact form's delivery endpoint is unset" item from
-   `CLAUDE.md`.
+Web3Forms is wired (`config.contactForm` in `config.js`, September 2026)
+and `web3forms.com` is on the mailbox's safe-sender list, so submissions
+land in the inbox. The key delivers to the address it was created for at
+web3forms.com; `contactCc` addresses are copied via `ccemail`. The key is
+meant to be public.
 
 Free tier: 250 submissions a month.
 

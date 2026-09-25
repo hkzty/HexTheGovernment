@@ -10,8 +10,8 @@ treat it as a source of truth.
 ## Stack
 
 Vanilla HTML / CSS / JS. No build step, no framework, no runtime
-dependencies. `package.json` exists only to pin Node for the scraper
-script; `npm run build` is a no-op by design.
+dependencies. `package.json` exists only to pin Node for the build
+scripts; `npm run build` is a no-op by design.
 
 Deployed by GitHub Pages straight from `main` (see `CNAME`). Merging to
 `main` **is** the deploy — there is no deploy workflow. A
@@ -30,12 +30,11 @@ Deployed by GitHub Pages straight from `main` (see `CNAME`). Merging to
 | `rain.js`, `rain.html` | Jars — the second hidden game, on the rain. Self-contained IIFE. Unlocked only from `game.html`. |
 | `index.html` | Desktop page: hero, roster, music, gallery, donation + legal footer. Everything else is a standalone page. The hero is a full-screen gate (`body.hero-gate`, `script.js`): the page is locked on it until the first wheel / swipe / tap / key, which scrolls to the roster. |
 | `roster.html`, `music.html`, `gallery.html` | Standalone copies of the home sections in the `sequence.html` shell; the nav links here, the home page keeps the sections for scrolling. They embed the same markup as `index.html` — edit both. |
-| `hexboy.html`, `graveboy.html`, `desk.js` | Service desks. HexBoy is ABRAXAS's mixing/mastering desk, Graveboy is Stretty's side desk. Same black deck shell, white accent; `desk.js` reads `config.services[<body data-desk>]` and removes any section whose list is empty. HexBoy's packages and add-ons are real prices from the owner's rate card; each `shop` is a Shopify cart permalink into the H.T.G Merch store (products are drafts there until published). Both desks are roster doors on `index.html` / `roster.html`. |
+| `hexboy.html`, `graveboy.html`, `desk.js` | Service desks. HexBoy is ABRAXAS's mixing/mastering desk; Graveboy is Stretty's desk for sites, marks, stores, browser games and IT/security work — Stretty built this site, and the short blurb under the Graveboy mark is owner copy, the one blurb on the site. Same black deck shell, white accent; `desk.js` reads `config.services[<body data-desk>]` and removes any section whose list is empty. HexBoy's packages and add-ons are real prices from the owner's rate card; each `shop` is a Shopify cart permalink into the H.T.G Merch store (published). Graveboy's packages carry no `price` and no `shop` on purpose — quoted per job — so they render Details + Enquire only; never add a placeholder price. Both desks are roster doors on `index.html` / `roster.html`. |
 | `contact.html` | Standalone contact page (form handler lives in `script.js`). Suit Purge and the Sequence are `game.html` / `sequence.html`; the home page carries no `#game`, `#sequence` or `#contact` section. |
 | `mobile.html` | Phone page. **Generated — never hand-edit.** |
 | `style.css` | Stylesheet for every page (inlined into `mobile.html`). |
 | `scripts/build-mobile.js` | Builds `mobile.html` from `index.html` + `style.css`. |
-| `scripts/scraper.js` | Content sync. **Currently broken, workflow removed.** |
 
 ### The desktop/mobile split — read this before editing either page
 
@@ -344,8 +343,11 @@ licence beside it). `python3 deathlogo.py TEXT name '#mass' '#ink' seed
 (plus intermediates — keep those out of the repo). The HexBoy and
 Graveboy marks are `HEXBOY #1a1a1a #f2f2f2 7` and `GRAVEBOY #141414
 #cbc4b4 11` with `door_reach 0.8`: the door variant is rendered again
-with the crown/drip spikes shortened so its raster sits as wide-and-low
-as the four artist doors, otherwise the roster row grows to fit it.
+with the crown/drip spikes shortened so its proportions sit closer to
+the four artist marks (HexBoy still measures taller, 768×455 against
+ABRAXAS's 768×407 — six letters under the same crown). The roster grid
+(`grid-auto-rows: 1fr`, and a fixed row with `max-height` on the mark
+below 760 px) keeps all six doors the same size whatever a mark measures.
 
 HTG is the hero `<h1>` on `index.html`. Each artist mark appears in two
 places with **two different assets**: the roster door on `index.html` /
@@ -433,16 +435,13 @@ split; do not put the Google links back.
   mirrors in `script.js` (hero, menu panel) race rAF against a 100ms
   timer. Load any page with `?raindebug=1` and the console prints one
   `[rain]` line of state — ask for that line before hardening again.
-- **`scripts/scraper.js` does not work.** Its workflow was deleted after
-  83 consecutive failures; it never once produced
-  `assets/data/content.json`. Every source returns `403 Forbidden` from
-  `https://open.spotify.com/oembed`, so the script hits its own
-  "No items resolved — refusing to overwrite content.json" guard and
-  exits 1. Most likely Spotify's oEmbed rejects datacenter IPs and
-  Actions runners are datacenter IPs — consistent with a job that has
-  never succeeded rather than one that broke. A fix probably means the
-  Spotify Web API with client credentials in Actions secrets, not oEmbed.
-  The script is kept so the fetch path can be repaired.
+- **The content scraper is gone.** `scripts/scraper.js` was removed
+  (September 2026): every source returned `403` from
+  `https://open.spotify.com/oembed` (datacenter IPs), it never produced
+  `assets/data/content.json`, and nothing consumed that file. A future
+  sync means the Spotify Web API with client credentials in Actions
+  secrets, not oEmbed — and see the next item before adding a workflow
+  for it.
 
   Note that this diagnosis only covers the runs that actually executed.
   **28 of the 30 recorded `content-sync` runs failed in 3-5 seconds

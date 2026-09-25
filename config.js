@@ -147,9 +147,11 @@ window.ABRAXAS_CONFIG = {
      placeholder. Prices are AUD numbers; `standard` is the post-launch
      price shown beside the launch price. `shop` is a Shopify cart
      permalink (https://<store>/cart/<variantId>:1) so Check out lands
-     straight in checkout; the products live as drafts in the H.T.G Merch
-     store until they are published there. `service` picks the option in
-     the desk's contact form when a visitor presses Enquire.
+     straight in checkout; the products are published in the H.T.G Merch
+     store. `price` and `shop` are optional: a package without them
+     renders Details + Enquire only (Graveboy quotes per job — never put
+     a placeholder price there). `service` picks the option in the desk's
+     contact form when a visitor presses Enquire.
 
        email:     To: address for that desk's form. "" = contactEmail.
        store:     storefront URL for music sales. "" = no link.
@@ -236,7 +238,40 @@ window.ABRAXAS_CONFIG = {
       email: "",
       store: "",
       embeds: [],
-      packages: [],
+      /* Stretty's own desk. Every package here is work already done on this
+         site or for the roster; no prices, quoted per job. */
+      packages: [
+        {
+          name: "Site",
+          summary: "A site like this one. Static, no framework, no tracking.",
+          includes: ["Design and build", "Domain, DNS, hosting", "Share cards, structured data, sitemap, llms.txt", "Phone and desktop"],
+          service: "Graveboy · Sites"
+        },
+        {
+          name: "Mark",
+          summary: "A drawn mark in the HTG treatment.",
+          includes: ["Deck and door variants", "SVG source, webp and PNG exports", "Favicon and share card"],
+          service: "Graveboy · Marks"
+        },
+        {
+          name: "Store",
+          summary: "Shopify wired to a site.",
+          includes: ["Products and variants", "Checkout links from the page", "Store domain"],
+          service: "Graveboy · Store"
+        },
+        {
+          name: "Game",
+          summary: "A browser game on a page. No downloads.",
+          includes: ["Original, drawn in code", "Shared highscores (Cloudflare Worker + KV)"],
+          service: "Graveboy · Games"
+        },
+        {
+          name: "IT & Security",
+          summary: "Devices, accounts, networks.",
+          includes: ["Hardening and privacy setups", "Backups and recovery", "Ongoing support"],
+          service: "Graveboy · IT & Security"
+        }
+      ],
       addons: [],
       mastering: [],
       bundles: [],
