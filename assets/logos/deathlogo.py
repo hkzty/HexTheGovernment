@@ -39,6 +39,10 @@ def render(text, font_path, fontsize, seed=7, W=5200, H=2400, reach=1.0):
     1.0 for the deck mark, ~0.8 for the door mark so it sits as wide-and-low
     as the other doors' marks. Same seed → same spike positions."""
     font=ImageFont.truetype(font_path, fontsize)
+    # a long name (CIGGYHOLSTER) needs a wider canvas than the default, or
+    # the side spikes clip: text width plus room for the mass and spikes
+    tw0=ImageDraw.Draw(Image.new('L',(1,1))).textbbox((0,0),text,font=font)[2]
+    W=max(W, int(tw0+2600))
     img=Image.new('L',(W,H),0); d=ImageDraw.Draw(img)
     bb=d.textbbox((0,0),text,font=font)
     tw,th=bb[2]-bb[0],bb[3]-bb[1]

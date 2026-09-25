@@ -191,17 +191,13 @@ DNS). To turn it on:
    Cloudflare Web Analytics, a cookie-free aggregate page-view counter that
    stores no IP address or identifier, is used. §8 stays true (no cookie).
 
-## 9. One owner decision: the phone redirect
+## 9. The phone redirect — DONE (retired, September 2026)
 
-Phones landing on `/` fetch `index.html`, then get bounced to
-`mobile.html` and fetch it too. The redirect script now runs before the
-preload scanner starts fetching, which removes most of the waste, but the
-second document remains. `mobile.html` differs from `index.html` only by
-having `style.css` inlined. Retiring the width redirect (keep the footer
-*Mobile site* toggle and `?mobile=1` for testing) would save the second
-page load for every bio-link visitor, at the cost of the documented
-desktop/mobile split, the `rel="alternate"` line, and the matching anchor
-in `scripts/build-mobile.js`. Not done here; it is the owner's call.
+Phones used to fetch `index.html`, get bounced to `mobile.html` and fetch
+that too. The width redirect is gone: one document per visit.
+`mobile.html` stays reachable from the footer *Mobile site* toggle and
+keeps its canonical pointing at `index.html`, so Search Console listing
+it as *Alternate page with proper canonical tag* (§3) is still correct.
 
 ## 10. Service desk subdomain (`hexboy.htg.productions`)
 
