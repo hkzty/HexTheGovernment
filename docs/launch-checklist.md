@@ -207,7 +207,7 @@ domain per repo, so a real subdomain is DNS plus a redirect, not a page:
 1. Cloudflare → DNS → `CNAME hexboy → www.htg.productions`, proxied.
 2. Cloudflare → Rules → Redirect Rules: host equals
    `hexboy.htg.productions` → `https://www.htg.productions/hexboy.html`,
-   301, preserve nothing. Same pattern for `graveboy` when that page lands.
+   301, preserve nothing. Same pattern for `graveboy` → `/graveboy.html`.
 
 Serving the page *at* the subdomain (no redirect) means a second repo with
 its own `CNAME`; not worth it for one page.
