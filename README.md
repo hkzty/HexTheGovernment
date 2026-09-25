@@ -10,7 +10,7 @@ Label site for **HTG** and its roster (ABRAXAS, Stretty, ciggyholster, Justinn.c
 
 ## How the site works
 
-There are two versions of the page, and visitors are routed automatically:
+There are two versions of the page:
 
 | File | Role |
 |------|------|

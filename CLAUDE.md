@@ -370,8 +370,8 @@ are 500-1130 KB of potrace paths each, about 4.5 MB per home-page load
 for marks that render 384 px wide, and `loading="lazy"` never deferred
 them.
 The `width`/`height` on the door `<img>`s are the 768 raster's pixels.
-Every filled mark and the hero wordmark also carry an 800 px `srcset`
-variant and are encoded with `alphaQuality: 60` — the alpha plane was
+Every filled mark and the hero wordmark also carry a smaller `srcset`
+variant (800 px; 1024 px for the 2048-wide ciggyholster deck mark) and are encoded with `alphaQuality: 60` — the alpha plane was
 most of the file. The name text stays in the DOM (alt / visually hidden)
 — keep it there. They are plain `<img>`s with
 real alpha: do not try `mix-blend-mode` to drop a background, the

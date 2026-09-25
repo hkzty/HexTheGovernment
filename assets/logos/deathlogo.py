@@ -141,7 +141,7 @@ def trace(mask,path):
 if __name__=='__main__':
     # usage: deathlogo.py TEXT name '#mass' '#ink' seed [font.ttf|-] [door_reach]
     # writes name-logo.svg (deck h1), name-hollow-logo.svg (roster door,
-    # rendered again at door_reach — 0.8 for HEXBOY / GRAVEBOY),
+    # rendered again at door_reach — 0.8 for HEXBOY / GRAVEBOY / CIGGYHOLSTER),
     # name-lineart.svg and name-hd-transparent.png next to the cwd.
     text,name,dark,light,seed=sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],int(sys.argv[5])
     import os
