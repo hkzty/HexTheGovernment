@@ -5,10 +5,13 @@
 
 	Artist: ABRAXAS
 	Deck: https://www.htg.productions/abraxas.html
+	Desk: https://www.htg.productions/hexboy.html
 	Works from: Codex
 
 	Artist: Stretty
 	Deck: https://www.htg.productions/stretty.html
+	Desk: https://www.htg.productions/graveboy.html
+	Built this site.
 	Works from: Claude
 
 	Artist: ciggyholster

@@ -95,23 +95,12 @@ The contact form validates the message, then delivers it one of two ways. With `
 
 ---
 
-## Auto content sync (scraper) — currently broken
+## Content
 
-`scripts/scraper.js` was meant to keep the site's catalog current without anyone editing
-files by hand: resolve the Spotify / SoundCloud URLs already in `config.js` through the
-platforms' public oEmbed endpoints and write `assets/data/content.json`. Nothing on the
-site reads that file any more — the New Releases grid it fed was removed — so a repaired
-scraper would also need a new consumer.
-
-**It has never produced that file.** Every source returns `403 Forbidden` from Spotify's
-oEmbed endpoint (which appears to reject datacenter IPs, and Actions runners are datacenter
-IPs), so the script exits on its own "No items resolved" guard. Its workflow
-(`content-sync.yml`) was deleted after 83 consecutive failures. The script is kept so the
-fetch path can be repaired — a fix probably means the Spotify Web API with client
-credentials in Actions secrets, not oEmbed. Details in `CLAUDE.md`.
-
-The site is unaffected: with no `content.json` it simply shows the hand-written config
-content. Run the script locally with `npm run scrape` (Node 18+, no dependencies).
+All content is hand-written in `config.js` and the pages. A scraper that pulled release
+data from Spotify / SoundCloud oEmbed was removed in September 2026: oEmbed returns `403`
+to datacenter IPs, so it never once succeeded, and nothing on the site read its output.
+A future sync would need the Spotify Web API with client credentials in Actions secrets.
 
 ---
 

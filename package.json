@@ -1,7 +1,7 @@
 {
   "name": "hexthegovernment",
   "version": "2.0.0",
-  "description": "ABRAXAS \u00d7 HTG \u2014 static site with keyless auto-synced social/music content",
+  "description": "HTG \u2014 Hex The Government. Static site.",
   "private": true,
   "scripts": {
     "build": "echo 'Static site - no build needed'",
@@ -10,7 +10,6 @@
     "build:gallery": "node scripts/build-gallery.js",
     "check:gallery": "node scripts/build-gallery.js --check",
     "build:copydesk": "node scripts/build-copydesk.js ./copydesk.html --standalone",
-    "scrape": "node scripts/scraper.js",
     "build:sitemap": "node scripts/build-sitemap.js",
     "check:sitemap": "node scripts/build-sitemap.js --check",
     "build:font": "python3 scripts/build-font.py --preview",
