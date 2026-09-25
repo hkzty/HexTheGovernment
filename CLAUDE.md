@@ -38,18 +38,19 @@ Deployed by GitHub Pages straight from `main` (see `CNAME`). Merging to
 
 ### The desktop/mobile split — read this before editing either page
 
-`index.html` and `mobile.html` are two files serving the same site. An
-inline script at the top of each (`data-page`) redirects between them by
-viewport width, with `?desktop` / `?mobile` pinning a choice in
-`sessionStorage`. That script sits directly after the viewport meta on
-purpose: further down the head, Chromium's preload scanner had already
-fetched style.css, the scripts and the 400 KB wordmark before the redirect
-fired, all thrown away on a phone. Never move it *above* the viewport meta
-(matchMedia then reads the default layout viewport and the redirect stops
-firing). The same head script adds `html.js` and disarms it 2.5 s later
-unless `script.js` has set `window.__htgRevealArmed`; that handshake is
-what stops a failed `script.js` (404, parse error) leaving every
-`.fade-in` element invisible.
+`index.html` and `mobile.html` are two files serving the same site:
+`mobile.html` is the same page with `style.css` inlined, reached only
+through the footer *Mobile site* toggle. **There is no width redirect
+between them any more.** The inline script that used to bounce phones
+from `index.html` to `mobile.html` (and desktops back, with `?desktop` /
+`?mobile` pins in `sessionStorage`) was retired in September 2026: it
+cost every bio-link visitor a second document for a page that differs
+only by inlined CSS. The head script directly after the viewport meta is
+now only the `html.js` handshake: it adds `html.js` and disarms it 2.5 s
+later unless `script.js` has set `window.__htgRevealArmed`; that
+handshake is what stops a failed `script.js` (404, parse error) leaving
+every `.fade-in` element invisible. Its `data-page` attribute is a marker
+`build-mobile.js` flips; nothing reads it.
 
 **`mobile.html` is generated. Do not edit it by hand.** It is
 `index.html` with `style.css` inlined, `data-page` flipped to `mobile`,
@@ -85,8 +86,8 @@ The generator aborts if any of its find/replace anchors in `index.html`
 stops matching exactly once, so a reshaped `index.html` fails loudly
 instead of emitting a half-converted page.
 
-**Testing mobile requires `?mobile=1`** on a wide viewport, or the
-redirect bounces you straight to `index.html`.
+**Testing the phone copy:** open `mobile.html` directly at any width;
+nothing redirects either way.
 
 The hero gate (`body.hero-gate`) holds its scroll lock until the glide to
 the roster has landed (read off `scrollY`, 1.2 s deadline) and cancels
@@ -176,7 +177,7 @@ on `render.js` running.
 | File | Role |
 |---|---|
 | `robots.txt` | One `User-agent: *` group: allows everything public (AI crawlers included — the owner wants AI in the back end, never showing on the front end; `legal.html` §2 still forbids training on the content and stays as written) and blocks `copydesk.html`, `content/`, `docs/`, `scripts/`. No per-bot groups — under RFC 9309 a named group inherits nothing from `*`, so a bot-specific `Allow: /` silently drops the Disallows for exactly that bot. |
-| `sitemap.xml` | **Generated** by `scripts/build-sitemap.js`; `lastmod` is each page's last commit date. `mobile.html` is deliberately absent. After editing any page: `npm run build:sitemap`, and `npm run check:sitemap` before pushing (same deal as `check:mobile`, and for the same reason not in CI). |
+| `sitemap.xml` | **Generated** by `scripts/build-sitemap.js`; `lastmod` is each page's last commit date. `mobile.html` is deliberately absent. **Commit the page first**: `lastmod` is read with `git log -1`, so a sitemap built before the page commit carries the previous date (PR #94 shipped a stale one that way). After the commit: `npm run build:sitemap`, commit the sitemap as a follow-up, and `npm run check:sitemap` before pushing (same deal as `check:mobile`, and for the same reason not in CI). |
 | `humans.txt` | humanstxt.org credits: roster, which agent each artist works from, stack, games. Linked as `rel="author"` from every visitor page. |
 | `llms.txt` | Plain-markdown summary for LLM agents: roster, every profile URL, the Sequence and the deck tracks, contact, trademarks, the explicit "no tour dates, no upcoming releases" line, and the ABRAXAS/Stretty Spotify disambiguation. |
 | `site.webmanifest` | Name, colours, `music`/`entertainment` categories, PNG icons (192, 512, maskable 512) plus the SVG mark. Linked from every visitor page. |
@@ -199,10 +200,10 @@ too tells Google the two are one entity) and a `logo` on a dark tile
 (`assets/icons/icon-512.png`): Google draws the logo on white, where the
 white-on-transparent wordmark is invisible. Location: `legal.html` is governed by NSW law, so every page
 carries `og:locale` `en_AU` and the Organization node an `address` of
-NSW, AU. The only priced things on the site are HexBoy's packages, which are real rate-card prices; the game is `isAccessibleForFree`. `index.html` advertises `mobile.html` as its phone alternate
-and `mobile.html` keeps the canonical pointing at `index.html`;
-`build-mobile.js` strips the alternate link on the phone copy (and aborts
-if it is missing, like its other anchors). Share cards are in
+NSW, AU. The only priced things on the site are HexBoy's packages, which are real rate-card prices; the game is `isAccessibleForFree`. `mobile.html` keeps its canonical pointing at `index.html`
+so it is never indexed as a duplicate; `index.html` no longer advertises
+it as a phone alternate (that pattern describes a redirect, and the
+redirect is gone). Share cards are in
 `assets/og/`; `twitter:image` used to point at a non-existent
 `assets/share/`.
 
@@ -340,12 +341,17 @@ references them.
 draws with Metal Mania (SIL OFL, `src/MetalMania-Regular.ttf` with its
 licence beside it). `python3 deathlogo.py TEXT name '#mass' '#ink' seed
 [font|-] [door_reach]` writes `name-logo.svg` and `name-hollow-logo.svg`
-(plus intermediates — keep those out of the repo). The HexBoy and
-Graveboy marks are `HEXBOY #1a1a1a #f2f2f2 7` and `GRAVEBOY #141414
-#cbc4b4 11` with `door_reach 0.8`: the door variant is rendered again
-with the crown/drip spikes shortened so its proportions sit closer to
-the four artist marks (HexBoy still measures taller, 768×455 against
-ABRAXAS's 768×407 — six letters under the same crown). The roster grid
+(plus intermediates — keep those out of the repo). The HexBoy, Graveboy
+and ciggyholster marks are `HEXBOY #1a1a1a #f2f2f2 7`, `GRAVEBOY
+#141414 #cbc4b4 11` and `CIGGYHOLSTER #03222a #2fd4e0 11`, all with
+`door_reach 0.8`: the door variant is rendered again with the crown/drip
+spikes shortened so its proportions sit closer to the ABRAXAS and
+STRETTY marks (HexBoy still measures taller, 768×455 against ABRAXAS's
+768×407 — six letters under the same crown). A long name widens the
+canvas on its own. Twelve letters at the same font size make a wide, low
+mark, so `ciggie.html` runs its deck mark at `min(100%, 64rem)` with
+2048 / 1024 rasters instead of 40rem with 2000 / 800: the letters then
+land at the size the seven-letter marks get at 40rem. The roster grid
 (`grid-auto-rows: 1fr`, and a fixed row with `max-height` on the mark
 below 760 px) keeps all six doors the same size whatever a mark measures.
 
@@ -358,13 +364,14 @@ That split is deliberate; do not unify them. The hollow marks ship as
 webp rasters (`<name>-hollow-768.webp` / `-1152.webp`, `srcset` by width)
 rasterised from the traced SVGs, which stay in the repo as sources
 (`abraxas-gen-hollow-logo.svg`, `stretty-gen-hollow-logo.svg`,
-`ciggyholster-hollow-logo.svg`, `justinclout-hollow-logo.svg`,
+`ciggyholster-gen-hollow-logo.svg`, `justinclout-hollow-logo.svg`,
 `hexboy-gen-hollow-logo.svg`, `graveboy-gen-hollow-logo.svg`): the SVGs
-are 500-750 KB of potrace paths each, 2.4 MB per home-page load for
-marks that render 384 px wide, and `loading="lazy"` never deferred them.
+are 500-1130 KB of potrace paths each, about 4.5 MB per home-page load
+for marks that render 384 px wide, and `loading="lazy"` never deferred
+them.
 The `width`/`height` on the door `<img>`s are the 768 raster's pixels.
-Every filled mark and the hero wordmark also carry an 800 px `srcset`
-variant and are encoded with `alphaQuality: 60` — the alpha plane was
+Every filled mark and the hero wordmark also carry a smaller `srcset`
+variant (800 px; 1024 px for the 2048-wide ciggyholster deck mark) and are encoded with `alphaQuality: 60` — the alpha plane was
 most of the file. The name text stays in the DOM (alt / visually hidden)
 — keep it there. They are plain `<img>`s with
 real alpha: do not try `mix-blend-mode` to drop a background, the

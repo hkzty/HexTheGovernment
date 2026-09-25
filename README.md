@@ -10,14 +10,14 @@ Label site for **HTG** and its roster (ABRAXAS, Stretty, ciggyholster, Justinn.c
 
 ## How the site works
 
-There are two versions of the page, and visitors are routed automatically:
+There are two versions of the page:
 
 | File | Role |
 |------|------|
 | `index.html` | **Main site** (split build: HTML + `style.css` + `script.js`) |
 | `mobile.html` | **Mobile site** (one-page build with CSS inlined) |
 
-Phones (screens ≤ 820px) landing on `index.html` are redirected to `mobile.html`, and desktops landing on `mobile.html` are sent to `index.html`. The landing page footer has a "Mobile site" / "Desktop site" link that overrides the automatic choice.
+There is no automatic redirect between the two: every visitor gets `index.html`, and the footer "Mobile site" / "Desktop site" link is the only way across. (The width redirect was retired in September 2026 — it cost phones a second page load for a copy that differs only by inlined CSS.)
 
 `mobile.html` is **generated from** `index.html` + `style.css` — don't edit it by hand. After changing `index.html` or `style.css`, run `npm run build:mobile` (see below).
 
@@ -107,9 +107,8 @@ A future sync would need the Spotify Web API with client credentials in Actions 
 ## Regenerating mobile.html
 
 `mobile.html` is a **generated file** — never edit it directly. It is
-`index.html` with `style.css` inlined, the `data-page` redirect flipped to
-the mobile side, the footer view-toggle pointed back at the desktop page,
-and one phone-chrome rule appended.
+`index.html` with `style.css` inlined, `data-page` flipped to `mobile`,
+and the footer view-toggle pointed back at the desktop page.
 
 After editing `index.html` or `style.css`, rebuild it:
 

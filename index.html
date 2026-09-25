@@ -13,24 +13,11 @@
     // Disarm if script.js never reaches its reveal (404, parse error, early
     // throw): after 2.5s the .fade-in content shows without the animation.
     setTimeout(function () { if (!window.__htgRevealArmed) document.documentElement.classList.remove('js'); }, 2500);
-    // Desktop/mobile split: phones land on mobile.html, desktops on
-    // index.html. ?desktop / ?mobile (set by the switch links) pins a choice.
-    // build-mobile.js rewrites data-page to "mobile" in the generated copy.
-    // Sits directly after the viewport meta (never before it — matchMedia
-    // needs the real layout viewport) so the redirect fires before the
-    // preload scanner starts fetching this page's stylesheet and scripts.
-    (function () {
-      var page = document.currentScript.getAttribute('data-page');
-      try {
-        var params = new URLSearchParams(location.search);
-        if (params.has('desktop')) sessionStorage.setItem('abx-view', 'desktop');
-        if (params.has('mobile')) sessionStorage.setItem('abx-view', 'mobile');
-        var pref = sessionStorage.getItem('abx-view');
-        var narrow = window.matchMedia('(max-width: 820px)').matches;
-        if (page === 'desktop' && pref !== 'desktop' && narrow) location.replace('mobile.html' + location.search + location.hash);
-        if (page === 'mobile' && pref !== 'mobile' && !narrow) location.replace('index.html' + location.search + location.hash);
-      } catch (e) { /* storage blocked — stay on this page */ }
-    })();
+    // data-page is a marker only: build-mobile.js flips it to "mobile" in
+    // the generated copy and nothing reads it. The width redirect between
+    // index.html and mobile.html that used to live here was retired — it
+    // cost every phone visitor a second document; the footer toggle is the
+    // only way between the two pages now.
   </script>
   <title>HTG — Hex The Government</title>
   <meta name="description" content="HTG — Hex The Government. ABRAXAS, Stretty, ciggyholster, Justinn.clout." />
@@ -39,7 +26,6 @@
   <meta name="copyright" content="© HTG — Hex The Government. All rights reserved." />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <link rel="canonical" href="https://www.htg.productions/" />
-  <link rel="alternate" media="only screen and (max-width: 820px)" href="https://www.htg.productions/mobile.html" />
   <link rel="manifest" href="site.webmanifest" />
   <link rel="author" href="humans.txt" />
   <meta property="og:title" content="HTG — Hex The Government" />
@@ -606,7 +592,7 @@
                 <img alt="" data-cover="https://open.spotify.com/track/21miJ7OVY8YvuA5E4wUbD0" />
                 <img alt="" data-cover="https://open.spotify.com/track/415XlPsdKVSi1KXJSWJSnT" />
               </span>
-              <img class="door-logo" src="assets/logos/ciggyholster-hollow-768.webp" srcset="assets/logos/ciggyholster-hollow-768.webp 768w, assets/logos/ciggyholster-hollow-1152.webp 1152w" sizes="(max-width: 26rem) 92vw, 384px" alt="" width="768" height="231" loading="lazy" decoding="async" fetchpriority="low" />
+              <img class="door-logo" src="assets/logos/ciggyholster-hollow-768.webp" srcset="assets/logos/ciggyholster-hollow-768.webp 768w, assets/logos/ciggyholster-hollow-1152.webp 1152w" sizes="(max-width: 26rem) 92vw, 384px" alt="" width="768" height="295" loading="lazy" decoding="async" fetchpriority="low" />
               <span class="door-name door-name--logo">CIGGYHOLSTER</span>
             </a>
 
@@ -753,7 +739,7 @@
                 <a class="inline-link" href="game.html">Suit Purge</a>
                 <a class="inline-link" href="hexboy.html">HexBoy</a>
                 <a class="inline-link" href="contact.html">Contact</a>
-                <a class="inline-link view-toggle" href="mobile.html?mobile=1">Mobile site</a>
+                <a class="inline-link view-toggle" href="mobile.html">Mobile site</a>
               </div>
             </div>
             <!-- Fallback hrefs mirror config.socials; render.js re-applies them and

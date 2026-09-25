@@ -235,16 +235,15 @@ window.ABRAXAS_CONFIG = {
       links: []
     },
     graveboy: {
-      email: "",
+      email: "Bookings@htg.productions",
       store: "",
       embeds: [],
-      /* Stretty's own desk. Every package here is work already done on this
-         site or for the roster; no prices, quoted per job. */
+      /* Stretty's own desk: what Stretty does, no prices, quoted per job. */
       packages: [
         {
           name: "Site",
           summary: "A site like this one. Static, no framework, no tracking.",
-          includes: ["Design and build", "Domain, DNS, hosting", "Share cards, structured data, sitemap, llms.txt", "Phone and desktop"],
+          includes: ["Design and build", "Domain, DNS, hosting", "Share cards, structured data, sitemap", "Phone and desktop"],
           service: "Graveboy · Sites"
         },
         {
@@ -256,7 +255,7 @@ window.ABRAXAS_CONFIG = {
         {
           name: "Store",
           summary: "Shopify wired to a site.",
-          includes: ["Products and variants", "Checkout links from the page", "Store domain"],
+          includes: ["Products and variants", "Checkout links from the page"],
           service: "Graveboy · Store"
         },
         {
