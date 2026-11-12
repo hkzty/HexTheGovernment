@@ -379,9 +379,17 @@ a request to rebuild a commercial racer from its binary was declined.
 - **`quality` steps down by itself**: after 2.5 s of frames over 30 ms it
   drops the mirror pass, then renders at 0.7 scale. Never remove it; the
   full pipeline is too heavy for a weak phone.
+- **Exit goes to the game's own menu** (`toMenu()`), not to the home page:
+  that is where the garage is. Exit, Reset and the HUD are hidden while the
+  stage has `.is-menu`.
+- **The countdown parks the car** (`IDLE` has `hold: true`, handbrake, no
+  brake). It used to hold the brake, and brake at a standstill selects
+  reverse, so every run started rolling backwards. Reverse now needs the
+  brake held for 0.45 s at a standstill.
 - **Garage:** `PARTS` x three levels, folded into a car's figures by
-  `tuned()`; `stepCar` only reads the tuned spec. Cash comes from laps and
-  drift points, lives in `localStorage` (`htg.street.garage`), and is
+  `tuned()`; `stepCar` only reads the tuned spec. Cash comes from laps
+  ($200, +$250 for a best) and from each slide when it ends clean
+  (`bankDrift()`, points / 6; touching a barrier loses the slide in progress), lives in `localStorage` (`htg.street.garage`), and is
   in-game only: never attach real money to it.
 - **Physics:** 120 Hz bicycle model in `stepCar` — magic-formula lateral
   force, longitudinal load transfer, friction circle on the driven axle,

@@ -189,7 +189,10 @@
 
     // reverse: hold the brake at a standstill
     var thr = clamp(inp.thr, 0, 1), brk = clamp(inp.brk, 0, 1);
-    if (!car.rev && spd < 0.6 && brk > 0.2 && thr < 0.05) car.rev = true;
+    // reverse needs the brake held at a standstill for a moment, so stopping is not selecting reverse
+    car.revT = (!car.rev && spd < 0.6 && brk > 0.2 && thr < 0.05 && !inp.hold) ? (car.revT || 0) + dt : 0;
+    if (car.revT > 0.45) { car.rev = true; car.revT = 0; }
+    if (inp.hold) { car.rev = false; brk = 0; }
     if (car.rev && (thr > 0.05 || vx > 1)) car.rev = false;
 
     // engine and gearbox
@@ -241,6 +244,7 @@
     var capF = muF * fzf, capR = muR * fzr, spin = 0;
     fxf = clamp(fxf, -capF, capF);
     var locked = inp.hb && spd > 0.5;
+    if (inp.hold) { vx *= 0.8; vy *= 0.8; r *= 0.8; }
     if (locked) fxr = -sgn * capR * 0.5;
     if (Math.abs(fxr) > capR * 0.97) { spin = 1; fxr = clamp(fxr, -capR * 0.93, capR * 0.93); }
     // friction circle: what the tyre spends on drive or braking it cannot spend sideways
@@ -914,7 +918,7 @@
   var count = 0, lapT = 0, lap = 0, half = false, lastLap = 0, drift = 0, driftRun = 0, driftCool = 0;
   var rec = [], recT = 0, ghost = null, best = 0, acc = 0, last = 0, visible = true, raf = 0;
   var START = T.N - 14;
-  var hud = { speed: $('hudSpeed'), gear: $('hudGear'), lap: $('hudLap'), best: $('hudBest'), drift: $('hudDrift'), nos: $('hudNos') }, hudV = {};
+  var hud = { speed: $('hudSpeed'), gear: $('hudGear'), lap: $('hudLap'), best: $('hudBest'), drift: $('hudDrift'), nos: $('hudNos'), cash: $('hudCash') }, hudV = {};
   var shopEl = $('streetShop'), cashEl = $('streetCash'), toastEl = $('streetToast'), nosCell = $('hudNosCell'), nosPad = $('streetNos');
   var toastT = 0, lapDrift = 0;
   function toast(msg) { if (!toastEl) return; toastEl.textContent = msg; toastEl.hidden = false; toastT = 3; }
@@ -961,7 +965,7 @@
     car = newCar(carKey); placeCar(car, START); cam.yaw = car.psi;
     loadBest(); lap = 0; lapT = 0; half = false; lastLap = 0; drift = 0; driftRun = 0; rec = []; recT = 0; steerK = 0;
     count = 3.2; state = 'count'; acc = 0; hudV = {}; px = car.x; pz = car.z; ppsi = car.psi;
-    overlay.hidden = true; canvas.classList.add('is-playing'); document.body.classList.add('game-active'); stage.classList.add('is-live');
+    overlay.hidden = true; canvas.classList.add('is-playing'); document.body.classList.add('game-active'); stage.classList.add('is-live'); stage.classList.remove('is-menu');
     initAudio(); if (actx && actx.state === 'suspended') actx.resume();
     frameStage();
     setHud('best', fmt(best)); setHud('lap', fmt(0)); setHud('drift', '0');
@@ -971,6 +975,15 @@
   function frameStage() { // on a phone the stage can sit half below the fold: bring all of it on screen
     var r = stage.getBoundingClientRect(), vh = window.innerHeight;
     if (r.top < 0 || r.bottom > vh + 1) { try { stage.scrollIntoView({ block: r.height >= vh ? 'start' : 'center' }); } catch (e) { stage.scrollIntoView(); } }
+  }
+  function toMenu() {
+    if (state === 'menu') return;
+    if (state === 'run') bankDrift();
+    state = 'menu'; overlay.hidden = false; overlayTitle.textContent = 'HEX STREET'; overlayText.textContent = 'Beat your own ghost.';
+    playBtn.textContent = 'Play'; canvas.classList.remove('is-playing'); stage.classList.remove('is-live'); stage.classList.add('is-menu');
+    document.body.classList.remove('game-active'); audioFrame(car, false);
+    if (toastEl) toastEl.hidden = true;
+    car = newCar(carKey); placeCar(car, START); cam.yaw = car.psi; hudV = {}; drawShop(); menuLoop();
   }
   function pause() {
     if (state !== 'run' && state !== 'count') return;
@@ -986,18 +999,24 @@
     document.body.classList.add('game-active'); if (actx && actx.state === 'suspended') actx.resume(); frameStage(); loop(true);
   }
 
+  function bankDrift() { // a finished slide turns into points and cash
+    var pts = Math.round(driftRun), pay = Math.round(pts / 6);
+    driftRun = 0; if (pts <= 0) return;
+    drift += pts;
+    if (pay > 0) { garage.cash += pay; saveGarage(); if (pay >= 5) toast('DRIFT ' + pts + ' · +$' + pay); }
+  }
   function gameStep(inp, dt) {
     var prev = car.idx;
     stepCar(car, inp, dt);
-    if (car.hit > 1.5) { thud(car.hit); driftRun = 0; }
+    if (car.hit > 1.5) { thud(car.hit); driftRun = 0; }   // touch a barrier and the slide in progress is lost
     var N = T.N, i = car.idx;
     if (i > N * 0.45 && i < N * 0.55) half = true;
     if (prev > N * 0.9 && i < N * 0.1) {
       if (lap === 0) { lap = 1; lapT = 0; rec = []; recT = 0; half = false; }
       else if (half) {
         lastLap = lapT;
-        var pb = !best || lapT < best, pay = 200 + (pb ? 250 : 0) + Math.min(400, Math.round((drift + driftRun - lapDrift) / 8));
-        garage.cash += pay; saveGarage(); lapDrift = drift + driftRun;
+        var pb = !best || lapT < best, pay = 200 + (pb ? 250 : 0);
+        garage.cash += pay; saveGarage();
         toast((pb ? 'BEST ' : 'LAP ') + fmt(lapT) + ' · +$' + pay);
         if (pb) { best = lapT; ghost = rec.slice(); saveBest(); setHud('best', fmt(best)); }
         lap++; lapT = 0; rec = []; recT = 0; half = false;
@@ -1009,7 +1028,7 @@
     }
     // drift points: angle times speed, banked when the slide ends clean
     if (Math.abs(car.beta) > 0.16 && car.speed > 9) { driftRun += Math.abs(car.beta) * car.speed * dt * 12; driftCool = 1.4; }
-    else if (driftRun > 0) { driftCool -= dt; if (driftCool <= 0) { drift += Math.round(driftRun); driftRun = 0; } }
+    else if (driftRun > 0) { driftCool -= dt; if (driftCool <= 0) bankDrift(); }
   }
 
   function adapt(dt) { // step quality down after 2.5 s of slow frames
@@ -1027,7 +1046,7 @@
   }
   function menuLoop() { if (!menuRaf && state === 'menu' && visible && !document.hidden) { menuLast = performance.now(); menuRaf = requestAnimationFrame(menuFrame); } }
   var px = 0, pz = 0, ppsi = 0;
-  var IDLE = { steer: 0, thr: 0, brk: 1, hb: false, nos: false };
+  var IDLE = { steer: 0, thr: 0, brk: 0, hb: true, nos: false, hold: true };   // countdown: parked on the handbrake
   function frame(now) {
     raf = 0;
     if (state !== 'run' && state !== 'count') return;
@@ -1048,6 +1067,7 @@
     setHud('gear', state === 'count' ? String(Math.max(1, Math.ceil(count))) : car.rev ? 'R' : String(car.gear));
     setHud('lap', fmt(lap > 0 ? lapT : 0));
     setHud('drift', String(drift + Math.round(driftRun)));
+    setHud('cash', '$' + garage.cash);
     if (car.S.nos) setHud('nos', String(Math.round(car.tank * 100)));
     if (toastT > 0) { toastT -= dt; if (toastT <= 0 && toastEl) toastEl.hidden = true; }
     drawMapCar();
@@ -1104,6 +1124,8 @@
   });
   if (playBtn) playBtn.addEventListener('click', function () { if (state === 'pause') resume(); else startRun(); });
   if (resetBtn) resetBtn.addEventListener('click', function () { if (state === 'run') resetCar(); });
+  var exitBtn = $('streetExit');
+  if (exitBtn) exitBtn.addEventListener('click', toMenu);
   if (muteBtn) muteBtn.addEventListener('click', function () {
     muted = !muted; muteBtn.setAttribute('aria-pressed', muted ? 'true' : 'false'); muteBtn.textContent = muted ? 'Sound off' : 'Sound on';
     if (eng) eng.master.gain.value = muted ? 0 : 0.5; else if (!muted && state !== 'menu') initAudio();
@@ -1115,6 +1137,7 @@
     if (window.console) console.error(e);
     return;
   }
+  stage.classList.add('is-menu');
   placeCar(car, START); cam.yaw = car.psi; resize(); drawShop(); menuLoop();
 
   if (DEBUG) {
