@@ -6,12 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="dark" />
   <title>Hex Street — HTG</title>
-  <meta name="description" content="Hex Street — a free browser street racer by HTG, Hex The Government. Night time attack in a V6 sedan or an I6 ute." />
+  <meta name="description" content="Hex Street — a free open-world browser drift game by HTG, Hex The Government. A low-poly Canberra at night in a V6 sedan or an I6 ute." />
   <meta name="theme-color" content="#1f0335" />
   <link rel="manifest" href="site.webmanifest" />
   <link rel="author" href="humans.txt" />
   <meta property="og:title" content="Hex Street — HTG" />
-  <meta property="og:description" content="Night time attack in a V6 sedan or an I6 ute. A free browser street racer by HTG." />
+  <meta property="og:description" content="Open-world night drifting through a low-poly Canberra in a V6 sedan or an I6 ute. A free browser game by HTG." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.htg.productions/street.html" />
   <meta property="og:site_name" content="HTG — Hex The Government" />
@@ -25,7 +25,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
   <link rel="canonical" href="https://www.htg.productions/street.html" />
   <meta name="twitter:title" content="Hex Street — HTG" />
-  <meta name="twitter:description" content="Night time attack in a V6 sedan or an I6 ute. A free browser street racer by HTG." />
+  <meta name="twitter:description" content="Open-world night drifting through a low-poly Canberra in a V6 sedan or an I6 ute. A free browser game by HTG." />
   <!-- schema.org structured data for search engines and AI agents. Static on
        purpose: most crawlers never run render.js. Keep it in step with
        config.js and the page copy; never add a title, date or name that
@@ -43,10 +43,21 @@
         "name": "Hex Street",
         "url": "https://www.htg.productions/street.html",
         "image": "https://www.htg.productions/assets/og/htg.png",
-        "description": "Browser street racer: night time attack on an original city circuit in a V6 sedan or an I6 ute, against the ghost of your best lap. Circuit, cars, shaders and sound are generated in code at runtime; no downloads, no third-party assets, no real car names or badges.",
+        "description": "Open-world browser drift game: a low-poly Canberra at night in a V6 sedan or an I6 ute, with three sprints run against the ghost of your best time. City, cars, shaders and sound are generated in code at runtime; no downloads, no third-party assets, no real car names or badges.",
         "genre": [
-          "Racing"
+          "Racing",
+          "Driving"
         ],
+        "contentLocation": {
+          "@type": "City",
+          "name": "Canberra",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Canberra",
+            "addressRegion": "ACT",
+            "addressCountry": "AU"
+          }
+        },
         "gamePlatform": "Web browser",
         "applicationCategory": "GameApplication",
         "operatingSystem": "Any",
@@ -74,7 +85,7 @@
         "@id": "https://www.htg.productions/street.html",
         "url": "https://www.htg.productions/street.html",
         "name": "Hex Street — HTG",
-        "description": "Hex Street, the HTG night street racer. Free, dependency-free, original cars and circuit.",
+        "description": "Hex Street, the HTG open-world drift game set in a low-poly Canberra. Free, dependency-free, original cars and city.",
         "isPartOf": {
           "@id": "https://www.htg.productions/#website"
         },
@@ -159,6 +170,9 @@
     #streetGas { right: 0.8rem; } #streetBrake { right: calc(0.8rem + 78px); }
     #streetHb { right: 0.8rem; bottom: calc(0.9rem + 78px); width: 56px; height: 56px; }
     #streetNos { right: calc(0.8rem + 78px); bottom: calc(0.9rem + 78px); width: 56px; height: 56px; }
+    .street-place { position: absolute; left: 0.8rem; bottom: 0.7rem; margin: 0; display: none; font-size: 0.62rem; letter-spacing: 0.16rem; text-transform: uppercase; color: var(--dim); pointer-events: none; }
+    .street-stage.is-live .street-place { display: block; }
+    @media (pointer: coarse) { .street-stage.is-live .street-place { display: none; } }
     .street-toast { position: absolute; left: 50%; top: 22%; transform: translateX(-50%); margin: 0; padding: 0.45rem 0.9rem; border-radius: 999px; border: 1px solid var(--line-strong); background: rgba(14, 14, 14, 0.8); color: var(--accent); font-size: 0.72rem; letter-spacing: 0.14rem; white-space: nowrap; pointer-events: none; }
     .street-stage .game-overlay { overflow-y: auto; align-content: safe center; gap: 0.6rem; background: linear-gradient(rgba(6, 6, 10, 0.62), rgba(6, 6, 10, 0.12) 42%, rgba(6, 6, 10, 0.2) 60%, rgba(6, 6, 10, 0.78)); }
     .street-cars .game-chip:disabled { opacity: 0.45; cursor: default; }
@@ -202,7 +216,7 @@
 
     <header class="standalone-head">
       <h1>HEX STREET</h1>
-      <p class="game-disclaimer">Fiction. Closed circuit, unbadged cars, no car maker involved. <a href="legal.html#satire">Fiction notice</a>.</p>
+      <p class="game-disclaimer">Fiction. A stylised Canberra, unbadged cars, no car maker involved. <a href="legal.html#satire">Fiction notice</a>.</p>
     </header>
 
     <main>
@@ -212,14 +226,15 @@
       <div class="game-hud" id="streetHud" aria-hidden="true">
         <div class="hud-cell"><span>km/h</span><b id="hudSpeed">0</b></div>
         <div class="hud-cell"><span>Gear</span><b id="hudGear">1</b></div>
-        <div class="hud-cell"><span>Lap</span><b id="hudLap">0:00.00</b></div>
-        <div class="hud-cell"><span>Best</span><b id="hudBest">--:--.--</b></div>
+        <div class="hud-cell"><span>Sprint</span><b id="hudLap">--</b></div>
+        <div class="hud-cell"><span>Best</span><b id="hudBest">--</b></div>
         <div class="hud-cell"><span>Drift</span><b id="hudDrift">0</b></div>
         <div class="hud-cell street-cash"><span>Cash</span><b id="hudCash">$0</b></div>
         <div class="hud-cell" id="hudNosCell" hidden><span>N2O</span><b id="hudNos">100</b></div>
       </div>
 
       <p class="street-toast" id="streetToast" aria-live="polite" hidden></p>
+      <p class="street-place" id="streetPlace" aria-hidden="true"></p>
 
       <canvas id="streetMap" class="street-map" width="264" height="216" aria-hidden="true"></canvas>
 
@@ -235,7 +250,7 @@
       <div class="game-overlay" id="streetOverlay">
         <p class="game-kicker">HTG</p>
         <h2 id="streetOverlayTitle">HEX STREET</h2>
-        <p class="game-lead" id="streetOverlayText">Beat your own ghost.</p>
+        <p class="game-lead" id="streetOverlayText">Canberra, after dark.</p>
         <div class="street-cars">
           <button class="game-chip" type="button" data-street-car="sedan" aria-pressed="true">V6 Sedan</button>
           <button class="game-chip" type="button" data-street-car="ute" aria-pressed="false">I6 Ute</button>
@@ -252,7 +267,7 @@
         <button class="game-chip" type="button" id="streetMute" aria-pressed="false">Sound on</button>
       </div>
     </div>
-    <p class="about">Hex Street is a free browser street racer by HTG — Hex The Government. One night circuit, two rear-wheel-drive cars: a sky blue V6 sedan and an inline-six ute. Time attack against the ghost of your own best lap, with drift points for holding a slide. A finished lap pays cash, a best lap pays more, and every slide pays when it ends clean. Exit returns to the garage: exhaust, turbo, gearbox, tyres, weight, brakes and nitrous, three levels each. The circuit, both cars, the lighting and the engine sound are generated in code at runtime; nothing is downloaded and no real car names or badges are used. Also by HTG: <a href="game.html">Suit Purge</a>.</p>
+    <p class="about">Hex Street is a free open-world browser drift game by HTG — Hex The Government. A low-poly Canberra at night, at about one third scale: the Parliamentary Triangle, Lake Burley Griffin and its two bridges, Civic, Braddon, Kingston, Russell, Anzac Parade, Black Mountain and Mount Ainslie, and the roundabouts. Two rear-wheel-drive cars: a sky blue V6 sedan and an inline-six ute. Three sprints run against the ghost of your own best time; slides pay drift points, doubled on a roundabout. Every slide pays when it ends clean and each sprint pays on the finish; Exit returns to the garage: exhaust, turbo, gearbox, tyres, weight, brakes and nitrous, three levels each. The city, both cars, the lighting and the engine sound are generated in code at runtime; nothing is downloaded and no real car names or badges are used. Also by HTG: <a href="game.html">Suit Purge</a>.</p>
     </main>
 
     <footer class="standalone-foot">

@@ -42,11 +42,11 @@ Three games ship inside the site. Every wall, sprite, weapon and sound is genera
 | [![Suit Purge](docs/screenshots/suit-purge.jpg)](https://www.htg.productions/game.html) | [![Jars](docs/screenshots/jars.jpg)](https://www.htg.productions/rain.html) |
 | Original raycaster shooter. Four enemy types, ramping waves, shared top-ten board on a Cloudflare Worker + KV. [`game.js`](game.js) | Catch-and-defend on the glyph rain. Fill jars, sell them, upgrade the fort. Hidden — unlocked from the Suit Purge page. [`rain.js`](rain.js) |
 
-**Hex Street** — night street time attack in hand-written WebGL: an original circuit, a V6 sedan and an I6 ute, a tyre-model physics core, wet-road reflections and bloom, an upgrade garage (turbo, nitrous, gearbox and more), and the ghost of your best lap. [`street.js`](street.js) · [play](https://www.htg.productions/street.html)
+**Hex Street** — open-world night drifting through a low-poly Canberra in hand-written WebGL: the Parliamentary Triangle, the lake and its bridges, Civic to Kingston, every roundabout a drift zone; a V6 sedan and an I6 ute on a tyre-model physics core, wet-road and lake reflections, bloom, an upgrade garage (turbo, nitrous, gearbox and more), and three sprints against the ghost of your best time. [`street.js`](street.js) · [play](https://www.htg.productions/street.html)
 
 [![Hex Street](docs/screenshots/hex-street.jpg)](https://www.htg.productions/street.html)
 
-All three are fiction. No real person, car brand or place is depicted.
+All three are fiction. No real person or car brand is depicted; Hex Street's Canberra is a stylised map of public places and street names only.
 
 ## What's in here
 
