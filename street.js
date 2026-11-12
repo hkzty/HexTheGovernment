@@ -352,7 +352,7 @@
 
   function newCar(key) {
     return { key: key, S: tuned(key), boost: 0, tank: 1, nosOn: 0, x: 0, z: 0, psi: 0, vx: 0, vz: 0, r: 0, delta: 0, af: 0, ar: 0,
-             ax: 0, ay: 0, gear: 1, rpm: 800, shiftT: 0, rev: false, slip: 0, spin: 0, wheelRot: 0,
+             ax: 0, ay: 0, gear: 1, rpm: 800, shiftT: 0, rev: false, slip: 0, spin: 0, wheelRot: 0, rearRot: 0, burnout: 0,
              idx: 0, rd: 0, lat: 0, hit: 0, thr: 0, brk: 0, beta: 0, speed: 0, sf: 1, sr: 1, wet: 0, sink: 0, y: 0, road: '' };
   }
   function placeAt(car, x, z, psi) {
@@ -430,18 +430,22 @@
 
     // longitudinal forces at each axle
     var bmax = S.m * G * 1.12 * S.bk;
-    var fxf = -sgn * brk * bmax * 0.64, fxr = drive - sgn * brk * bmax * 0.36;
+    // brake stand: handbrake, brake and throttle together light the rears up while the
+    // fronts only half hold, so the car creeps, swings and can be steered out of it
+    var burnout = inp.hb && brk > 0.2 && thr > 0.3 && !car.rev && !inp.hold;
+    var fxf = -sgn * brk * bmax * 0.64 * (burnout ? 0.28 : 1), fxr = burnout ? drive * 1.6 : drive - sgn * brk * bmax * 0.36;
     if (car.rev) fxf = thr > 0 ? 0 : fxf;
     var capF = muF * fzf, capR = muR * fzr, spin = 0;
     fxf = clamp(fxf, -capF, capF);
-    var locked = inp.hb && spd > 0.5;
+    var locked = inp.hb && spd > 0.5 && !burnout;
     if (inp.hold) { vx *= 0.8; vy *= 0.8; r *= 0.8; }
     if (locked) fxr = -sgn * capR * 0.5;
+    if (burnout) spin = 1;
     if (Math.abs(fxr) > capR * 0.97) { spin = 1; fxr = clamp(fxr, -capR * 0.93, capR * 0.93); }
     // friction circle: what the tyre spends on drive or braking it cannot spend sideways
     var kf = Math.sqrt(Math.max(0.06, 1 - (fxf / capF) * (fxf / capF)));
     var ur = 0.86 * fxr / capR;
-    var kr = locked ? 0.3 : spin ? 0.46 : Math.sqrt(Math.max(0.2, 1 - ur * ur));
+    var kr = locked ? 0.3 : burnout ? 0.3 : spin ? 0.46 : Math.sqrt(Math.max(0.2, 1 - ur * ur));
     var slide = clamp((Math.abs(beta) - 0.17) / 0.2, 0, 1);
     if (!locked) kr *= 1 - 0.42 * slide * thr;          // once it is sideways, throttle holds it there
     var fyf = tyre(car.af, fzf, muF, fzf0) * kf;
@@ -463,6 +467,7 @@
 
     // below walking pace the tyre model is ill-conditioned: blend to pure rolling
     var w = clamp((Math.abs(vx) - 0.5) / 3.5, 0, 1), kq = (1 - w) * Math.min(1, 12 * dt);
+    if (burnout) kq *= 0.12;   // spinning rears can swing the car on the spot
     r += (vx * Math.tan(dl) / L - r) * kq; vy += -vy * kq;
     if (spd < 0.35 && thr < 0.02 && !car.rev) { vx *= 0.8; vy *= 0.8; r *= 0.8; }
 
@@ -472,10 +477,13 @@
     car.x += car.vx * dt; car.z += car.vz * dt;
     car.ax += (axB - car.ax) * Math.min(1, dt * 10); car.ay += (ayB - car.ay) * Math.min(1, dt * 10);
     car.wheelRot -= vx / S.rw * dt;
+    // rear wheels: frozen on the handbrake, spinning faster than the road in a burnout or wheelspin
+    car.rearRot -= (locked ? 0 : spin ? Math.max(Math.abs(vx), 9) + 4 : vx) / S.rw * dt * (spin && vx < 0 ? -1 : 1);
     car.speed = Math.hypot(vx, vy); car.beta = car.speed > 3 ? Math.atan2(vy, Math.abs(vx)) : 0;
-    car.thr = thr; car.brk = car.rev ? 0 : brk; car.spin = spin;
+    car.thr = thr; car.brk = car.rev ? 0 : brk; car.spin = spin; car.burnout = burnout ? 1 : 0;
     var sl = Math.max(Math.abs(car.af), Math.abs(car.ar)) - 0.09;
     car.slip = clamp(sl * 5 + (spin || locked ? 0.5 : 0), 0, 1) * clamp(car.speed / 6, 0, 1);
+    if (burnout) car.slip = Math.max(car.slip, 0.8);
 
     // surface under each axle for the next step: grass takes grip and adds drag
     car.sf = surfaceAt(car.x + c * S.a, car.z + s * S.a); car.sr = surfaceAt(car.x - c * S.b, car.z - s * S.b);
@@ -1119,7 +1127,7 @@
     bind(bufs.wheel);
     var zw = S.width / 2 - 0.09, pos = [[S.a, zw, 1], [S.a, -zw, 1], [-S.b, zw, 0], [-S.b, -zw, 0]], i;
     for (i = 0; i < 4; i++) {
-      var w = mul(base, mul(yawM(pos[i][2] ? (pose.delta || 0) : 0, pos[i][0], S.rw, pos[i][1]), spinM(pose.wheelRot || 0, 0, 0, 0)));
+      var w = mul(base, mul(yawM(pos[i][2] ? (pose.delta || 0) : 0, pos[i][0], S.rw, pos[i][1]), spinM((pos[i][2] ? pose.wheelRot : pose.rearRot) || 0, 0, 0, 0)));
       gl.uniformMatrix4fv(U.uM, false, w); gl.drawArrays(gl.TRIANGLES, 0, bufs.wheel.n);
     }
   }

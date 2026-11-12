@@ -415,6 +415,12 @@ telco's name), and `legal.html` §5 says so — keep that wording.
   just stop"):** past about 10 degrees of slip, 62% of the speed the tyres
   scrub is given back, throttle cuts rear lateral grip so a slide holds,
   and the handbrake only uses half the rear's grip to slow the car.
+- **Brake stand (`burnout` in `stepCar`):** handbrake + brake + throttle
+  together does not lock the rears; it drives them at 1.6× into wheelspin
+  with the fronts holding at 28%, rear lateral grip at 0.3 and the
+  low-speed rolling blend mostly off, so the car creeps, swings on full
+  lock and can be rolled into a slide. The rear wheels draw from their own
+  `rearRot` (frozen on the handbrake, over-spun on wheelspin).
 - **Driveline figures are the real cars'**: gear ratios, axle ratio, tyre
   radius and torque curve. The sedan must upshift near 66 / 124 / 202 km/h.
   The automatic barely engine-brakes; do not put coasting drag back.
