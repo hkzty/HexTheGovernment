@@ -222,7 +222,9 @@ the page.
 Keep it a showcase. Maintenance instructions live in `docs/editing.md`.
 The screenshots in `docs/screenshots/` are Playwright captures of the real
 pages (1280x720 at 2x, JPEG q78; the games captured mid-play from
-`.game-stage`). Recapture them after a visible redesign.
+`.game-stage`). Recapture them after a visible redesign. `banner.png` is
+`assets/logos/htg-logo.webp` composited on a `#050505` tile (the mark is
+white on transparent, invisible on GitHub's light theme).
 
 ## The real Spotify artist
 
