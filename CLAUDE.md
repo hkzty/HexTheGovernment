@@ -167,6 +167,16 @@ back. Concretely:
   out of `stretty.html`, the JSON-LD and `llms.txt`.
 - Meta descriptions, `og:description`, `aria-label`s, iframe titles and
   form placeholders follow the same rule: name the thing, don't sell it.
+- **The one exception: the `.about` paragraph** (owner-requested, November
+  2026, after a search audit flagged every page as thin at 30-85 words).
+  Each page ends `<main>` with one small muted `<p class="about">` of plain
+  facts: who the artist or page is, the label, Sydney, the tracks or
+  packages named on the page, internal links. Facts only, taken from
+  `llms.txt` and `config.js`; no pitch, no adjectives, nothing invented.
+  Check a claim against config before writing it (the Suit Purge shared
+  board is off while `config.game.scoresEndpoint` is empty). The image-only
+  `<h1>`s carry the name as `<span class="vh">` text with `alt=""` on the
+  logo, so crawlers that ignore alt text still read a heading.
 
 ## Discoverability layer — machine-readable, not visible
 

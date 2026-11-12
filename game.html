@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="dark" />
   <title>Suit Purge — HTG</title>
-  <meta name="description" content="Suit Purge — a browser shooter by HTG. All characters are fictional." />
+  <meta name="description" content="Suit Purge — a free browser first-person shooter by HTG, Hex The Government. All characters are fictional." />
   <meta name="theme-color" content="#1f0335" />
   <link rel="manifest" href="site.webmanifest" />
   <link rel="author" href="humans.txt" />
@@ -143,6 +143,9 @@
     .standalone-foot a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
     .standalone-foot a:hover { border-color: var(--accent); color: var(--accent); }
     @media (max-width: 560px) { .standalone-foot { flex-direction: column; } }
+  
+    .about { max-width: 68ch; margin: 3rem auto 2rem; padding: 0 1.25rem; font-size: 0.78rem; line-height: 1.75; color: #8f8f8f; letter-spacing: 0.02em; text-align: center; }
+    .about a { color: inherit; }
   </style>
 </head>
 <body data-rain="purple">
@@ -187,6 +190,7 @@
         <button class="game-chip" type="button" id="gameMute" aria-pressed="false">Sound on</button>
       </div>
     </div>
+    <p class="about">Suit Purge is a free browser first-person shooter by HTG — Hex The Government. Walls, sprites, the weapon and all sound are generated in code at runtime; nothing is downloaded and no third-party assets ship. Enemies are four fictional archetypes: Politician, Billionaire, Trillionaire and High Command. Later waves bring tougher enemies.</p>
     </main>
 
     <footer class="standalone-foot">
