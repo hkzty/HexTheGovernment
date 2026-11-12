@@ -353,6 +353,13 @@ its metadata, and keep the `legal.html` §5 wording that says so. Reference
 photos were looked at, not shipped; do not commit any. It is not a port of any existing game:
 a request to rebuild a commercial racer from its binary was declined.
 
+- **Arrow chain:** the top-line arrows run HTG → Roster → Music → Gallery →
+  The Sequence → Suit Purge → Hex Street → Contact → HTG, back and forward.
+  A new standalone page goes into that chain on both neighbours.
+- **Phones:** portrait uses the shared 68dvh stage; a phone on its side
+  (`max-height: 520px` landscape) gets a full-screen stage with the minimap
+  top-centre so it clears the pads. `frameStage()` scrolls the stage fully
+  on screen when a run starts.
 - **Menu:** a showroom orbit renders behind the translucent overlay while
   `state === 'menu'`; `__street.orbit = angle` freezes it and
   `__street.lockQuality()` pins full quality, both for screenshots.
@@ -381,14 +388,31 @@ a request to rebuild a commercial racer from its binary was declined.
   engine torque curve through an automatic gearbox, handbrake. Side-positive
   convention: a car's side vector is the driver's right, and steer, slip
   and lateral force are positive that way.
-- **The limit balance is tuned, not accidental.** `muF = 0.95`, `muR = 1.06`,
-  the steering lock is capped at the Ackermann angle for the tightest
+- **The limit balance is tuned, not accidental.** Per-car `gf` / `gr` grip
+  bias (sedan 0.95 / 1.06; the ute 0.93 / 1.12, because its empty tub made
+  it undriveable at the sedan's bias), the steering lock is capped at the Ackermann angle for the tightest
   corner the tyres can hold plus peak slip, and yaw is damped once the car
   is properly sideways. Without those three the car spun at half lock.
+- **Driveline figures are the real cars'**: gear ratios, axle ratio, tyre
+  radius and torque curve. The sedan must upshift near 66 / 124 / 202 km/h.
+  The automatic barely engine-brakes; do not put coasting drag back.
+- **Drift feel (owner feedback: "momentum is to carry while off gas, not
+  just stop"):** past about 10 degrees of slip, 62% of the speed the tyres
+  scrub is given back, throttle cuts rear lateral grip so a slide holds,
+  and the handbrake only uses half the rear's grip to slow the car. A
+  drift-holding controller should keep 40-45 degrees for six seconds at
+  75-85 km/h; an off-throttle slide entered at 90 km/h should still be
+  above 80 km/h two seconds later.
+- **Frames are interpolated** between 120 Hz physics ticks (`px`, `pz`,
+  `ppsi`). Without it a 144 Hz display stutters.
+- **Engine voice:** one `PeriodicWave` oscillator at the engine-cycle
+  frequency (rpm / 120). Harmonic 6 is the firing note; the V6 voice leans
+  on harmonics 3 and 9 for its burble, the inline six on 6, 12 and 18.
+  Nobody has heard this through the sandbox: tune it from owner feedback.
 - **Check handling after any tuning change** with `?streetdebug=1`, which
   exposes `window.__street` (`stepCar`, `newCar`, `placeCar`, the track):
   drive it with a pursuit controller in a headless page and confirm both
-  cars lap clean (64-67 s stock, about 57 s fully upgraded) and a handbrake
+  cars lap clean (63-67 s stock, about 57 s fully upgraded) and a handbrake
   slide recovers.
 - The track is `CTRL` (Catmull-Rom control points). Buildings are placed
   procedurally and rejected where they would sit on another stretch of
