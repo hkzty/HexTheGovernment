@@ -343,11 +343,19 @@ Non-obvious things in the code:
 Night street time attack, linked from the home footer and from Suit Purge.
 Same rules as the other two games: nothing downloaded, no third-party
 assets. **No real car names, badges or liveries, and no real circuit** —
-the cars are "V6 Sedan" and "I6 Ute"; the owner asked for a sky blue early
-90s V6 sedan and a late 90s inline-six ute, and the game carries that
-spirit without the trademarks. It is not a port of any existing game:
+the cars are "V6 Sedan" and "I6 Ute". The owner asked for a sky blue VP
+Commodore and an AU Falcon ute and for the models to look like them, so
+`buildCar` lofts two unbadged bodies in those styles (wedge nose, slim
+wrap-around lamps and a six-window glasshouse; round nose, teardrop lamps,
+single cab, separate tub with upright lamps). Shapes only: never add the
+maker or model names, badges or logos anywhere in the game, the page or
+its metadata, and keep the `legal.html` §5 wording that says so. Reference
+photos were looked at, not shipped; do not commit any. It is not a port of any existing game:
 a request to rebuild a commercial racer from its binary was declined.
 
+- **Menu:** a showroom orbit renders behind the translucent overlay while
+  `state === 'menu'`; `__street.orbit = angle` freezes it and
+  `__street.lockQuality()` pins full quality, both for screenshots.
 - **Renderer:** raw WebGL1, one program, 13 floats per vertex
   (pos, normal, uv, colour + seed, material id). Road markings, light
   pools, building windows and neon are drawn in the fragment shader from
@@ -356,6 +364,18 @@ a request to rebuild a commercial racer from its binary was declined.
 - **Per-object seeds are quantised in the shader** (`floor(vC.a*997.0+0.5)`).
   Hashing the raw interpolated varying amplified float jitter into
   per-pixel noise on every window.
+- **Frame:** scene to an offscreen target (sky, the city mirrored in y, the
+  road blended over it for the wet look, the city, cars), then bloom at
+  quarter size and a composite pass with edge anti-aliasing, speed blur and
+  vignette. Attribute slots are fixed (`bindAttribLocation`), and
+  `fullscreen()` disables slots 1-4 before each post pass.
+- **`quality` steps down by itself**: after 2.5 s of frames over 30 ms it
+  drops the mirror pass, then renders at 0.7 scale. Never remove it; the
+  full pipeline is too heavy for a weak phone.
+- **Garage:** `PARTS` x three levels, folded into a car's figures by
+  `tuned()`; `stepCar` only reads the tuned spec. Cash comes from laps and
+  drift points, lives in `localStorage` (`htg.street.garage`), and is
+  in-game only: never attach real money to it.
 - **Physics:** 120 Hz bicycle model in `stepCar` — magic-formula lateral
   force, longitudinal load transfer, friction circle on the driven axle,
   engine torque curve through an automatic gearbox, handbrake. Side-positive
@@ -368,14 +388,16 @@ a request to rebuild a commercial racer from its binary was declined.
 - **Check handling after any tuning change** with `?streetdebug=1`, which
   exposes `window.__street` (`stepCar`, `newCar`, `placeCar`, the track):
   drive it with a pursuit controller in a headless page and confirm both
-  cars lap clean (64-67 s) and a handbrake slide recovers.
+  cars lap clean (64-67 s stock, about 57 s fully upgraded) and a handbrake
+  slide recovers.
 - The track is `CTRL` (Catmull-Rom control points). Buildings are placed
   procedurally and rejected where they would sit on another stretch of
   road, so moving a control point needs no manual city edit.
 - Best lap and its ghost are stored per car in `localStorage`
   (`htg.street.<car>`); `legal.html` §6 discloses it.
-- Headless Chromium renders it with SwiftShader at about 18 fps, so
-  real-time keyboard tests crawl; position the car through the debug hook.
+- Headless Chromium renders it with SwiftShader at about 4 fps, so
+  real-time keyboard tests crawl: wait on `__street.state` rather than a
+  timeout, and position the car through the debug hook.
 
 ## The HTG mark
 

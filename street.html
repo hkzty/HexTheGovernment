@@ -158,9 +158,18 @@
     #streetLeft { left: 0.8rem; } #streetRight { left: calc(0.8rem + 78px); }
     #streetGas { right: 0.8rem; } #streetBrake { right: calc(0.8rem + 78px); }
     #streetHb { right: 0.8rem; bottom: calc(0.9rem + 78px); width: 56px; height: 56px; }
+    #streetNos { right: calc(0.8rem + 78px); bottom: calc(0.9rem + 78px); width: 56px; height: 56px; }
+    .street-toast { position: absolute; left: 50%; top: 22%; transform: translateX(-50%); margin: 0; padding: 0.45rem 0.9rem; border-radius: 999px; border: 1px solid var(--line-strong); background: rgba(14, 14, 14, 0.8); color: var(--accent); font-size: 0.72rem; letter-spacing: 0.14rem; white-space: nowrap; pointer-events: none; }
+    .street-stage .game-overlay { overflow-y: auto; align-content: safe center; gap: 0.6rem; background: linear-gradient(rgba(6, 6, 10, 0.62), rgba(6, 6, 10, 0.12) 42%, rgba(6, 6, 10, 0.2) 60%, rgba(6, 6, 10, 0.78)); }
+    .street-cars .game-chip:disabled { opacity: 0.45; cursor: default; }
+    #streetCash { color: var(--accent); }
     @media (pointer: fine) { .street-pads { display: none !important; } }
     @media (max-width: 820px) {
       .street-map { top: 8.4rem; bottom: auto; width: 96px; height: 80px; }
+      .street-stage .game-overlay { gap: 0.45rem; padding: 0.8rem; }
+      .street-stage .game-overlay .game-keys, .street-stage .game-overlay .game-lead { display: none; }
+      .street-stage .game-overlay h2 { font-size: 1.9rem; }
+      .street-cars .game-chip { min-height: 34px; padding: 0 0.6rem; font-size: 0.56rem; letter-spacing: 0.08rem; }
       .game-stage.street-stage .game-bar,
       .game-stage.street-stage .game-canvas.is-playing ~ .game-bar { top: 5.5rem; left: 0.6rem; right: auto; bottom: auto; }
     }
@@ -177,7 +186,7 @@
 
     <header class="standalone-head">
       <h1>HEX STREET</h1>
-      <p class="game-disclaimer">Fiction. Closed circuit, original cars. <a href="legal.html#satire">Fiction notice</a>.</p>
+      <p class="game-disclaimer">Fiction. Closed circuit, unbadged cars, no car maker involved. <a href="legal.html#satire">Fiction notice</a>.</p>
     </header>
 
     <main>
@@ -190,7 +199,10 @@
         <div class="hud-cell"><span>Lap</span><b id="hudLap">0:00.00</b></div>
         <div class="hud-cell"><span>Best</span><b id="hudBest">--:--.--</b></div>
         <div class="hud-cell"><span>Drift</span><b id="hudDrift">0</b></div>
+        <div class="hud-cell" id="hudNosCell" hidden><span>N2O</span><b id="hudNos">100</b></div>
       </div>
+
+      <p class="street-toast" id="streetToast" aria-live="polite" hidden></p>
 
       <canvas id="streetMap" class="street-map" width="264" height="216" aria-hidden="true"></canvas>
 
@@ -200,6 +212,7 @@
         <button class="street-pad" id="streetBrake" type="button" tabindex="-1">BRK</button>
         <button class="street-pad" id="streetGas" type="button" tabindex="-1">GAS</button>
         <button class="street-pad" id="streetHb" type="button" tabindex="-1">HB</button>
+        <button class="street-pad" id="streetNos" type="button" tabindex="-1" hidden>N2O</button>
       </div>
 
       <div class="game-overlay" id="streetOverlay">
@@ -211,7 +224,9 @@
           <button class="game-chip" type="button" data-street-car="ute" aria-pressed="false">I6 Ute</button>
         </div>
         <button class="btn btn-primary" type="button" id="streetPlay">Play</button>
-        <p class="game-keys"><b>Desktop</b> WASD or arrows &middot; Space handbrake &middot; R reset &middot; Esc pause. <b>Pad</b> stick, triggers, A handbrake. <b>Phone</b> on-screen pads.</p>
+        <p class="game-kicker">Garage <b id="streetCash">$0</b></p>
+        <div class="street-cars" id="streetShop"></div>
+        <p class="game-keys"><b>Desktop</b> WASD or arrows &middot; Space handbrake &middot; Shift nitrous &middot; R reset &middot; Esc pause. <b>Pad</b> stick, triggers, A handbrake, X nitrous. <b>Phone</b> on-screen pads.</p>
       </div>
 
       <div class="game-bar">
@@ -220,7 +235,7 @@
         <button class="game-chip" type="button" id="streetMute" aria-pressed="false">Sound on</button>
       </div>
     </div>
-    <p class="about">Hex Street is a free browser street racer by HTG — Hex The Government. One night circuit, two rear-wheel-drive cars: a sky blue V6 sedan and an inline-six ute. Time attack against the ghost of your own best lap, with drift points for holding a slide. The circuit, both cars, the lighting and the engine sound are generated in code at runtime; nothing is downloaded and no real car names or badges are used. Also by HTG: <a href="game.html">Suit Purge</a>.</p>
+    <p class="about">Hex Street is a free browser street racer by HTG — Hex The Government. One night circuit, two rear-wheel-drive cars: a sky blue V6 sedan and an inline-six ute. Time attack against the ghost of your own best lap, with drift points for holding a slide. Laps and slides pay cash for the garage: exhaust, turbo, gearbox, tyres, weight, brakes and nitrous, three levels each. The circuit, both cars, the lighting and the engine sound are generated in code at runtime; nothing is downloaded and no real car names or badges are used. Also by HTG: <a href="game.html">Suit Purge</a>.</p>
     </main>
 
     <footer class="standalone-foot">
