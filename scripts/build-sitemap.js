@@ -35,6 +35,7 @@ const PAGES = [
   ['sequence.html', 'sequence.html', '0.8', 'monthly'],
   ['game.html', 'game.html', '0.7', 'monthly'],
   ['rain.html', 'rain.html', '0.6', 'monthly'],
+  ['street.html', 'street.html', '0.7', 'monthly'],
   ['roster.html', 'roster.html', '0.8', 'monthly'],
   ['music.html', 'music.html', '0.8', 'monthly'],
   ['gallery.html', 'gallery.html', '0.6', 'monthly'],
