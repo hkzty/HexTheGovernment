@@ -409,7 +409,35 @@ telco's name), and `legal.html` §5 says so — keep that wording.
   a checkpoint there (a straight line between two checkpoints is not
   always a road).
 - **Drift:** angle × speed while sideways, ×2 inside a small ring
-  (`zoneMul`), banked to cash when the slide ends clean, lost on a hit.
+  (`zoneMul`), banked to cash (points / 6, `bankDrift()`) when the slide
+  ends clean, lost on a hit. Sprints pay $400, +$300 for a best.
+- **Drift feel (owner feedback: "momentum is to carry while off gas, not
+  just stop"):** past about 10 degrees of slip, 62% of the speed the tyres
+  scrub is given back, throttle cuts rear lateral grip so a slide holds,
+  and the handbrake only uses half the rear's grip to slow the car.
+- **Driveline figures are the real cars'**: gear ratios, axle ratio, tyre
+  radius and torque curve. The sedan must upshift near 66 / 124 / 202 km/h.
+  The automatic barely engine-brakes; do not put coasting drag back.
+- **Exit goes to the game's own menu** (`toMenu()`), not to the home page:
+  that is where the garage is. Exit, Reset and the HUD are hidden while the
+  stage has `.is-menu`.
+- **The countdown parks the car** (`IDLE` has `hold: true`, handbrake, no
+  brake). It used to hold the brake, and brake at a standstill selects
+  reverse, so every run started rolling backwards. Reverse now needs the
+  brake held for 0.45 s at a standstill.
+- **Frames are interpolated** between 120 Hz physics ticks (`px`, `pz`,
+  `ppsi`). Without it a 144 Hz display stutters.
+- **Engine voice:** one `PeriodicWave` oscillator at the engine-cycle
+  frequency (rpm / 120). Harmonic 6 is the firing note; the V6 voice leans
+  on harmonics 3 and 9 for its burble, the inline six on 6, 12 and 18.
+  Nobody has heard this through the sandbox: tune it from owner feedback.
+- **Arrow chain:** the top-line arrows run HTG → Roster → Music → Gallery →
+  The Sequence → Suit Purge → Hex Street → Contact → HTG, back and forward.
+  A new standalone page goes into that chain on both neighbours.
+- **Phones:** portrait uses the shared 68dvh stage; a phone on its side
+  (`max-height: 520px` landscape) gets a full-screen stage with the minimap
+  top-centre so it clears the pads. `frameStage()` scrolls the stage fully
+  on screen when a run starts.
 - **Garage:** `PARTS` × three levels, folded into a car's figures by
   `tuned()`; `stepCar` only reads the tuned spec. Cash lives in
   `localStorage` (`htg.street.garage`) and is in-game only: never attach
@@ -419,8 +447,9 @@ telco's name), and `legal.html` §5 says so — keep that wording.
   engine torque curve through an automatic gearbox, handbrake. Side-positive
   convention: a car's side vector is the driver's right, and steer, slip
   and lateral force are positive that way.
-- **The limit balance is tuned, not accidental.** `muF = 0.95`, `muR = 1.06`,
-  the steering lock is capped at the Ackermann angle for the tightest
+- **The limit balance is tuned, not accidental.** Per-car `gf` / `gr` grip
+  bias (sedan 0.95 / 1.06; the ute 0.93 / 1.12, because its empty tub made
+  it undriveable at the sedan's bias), the steering lock is capped at the Ackermann angle for the tightest
   corner the tyres can hold plus peak slip, and yaw is damped once the car
   is properly sideways. Without those three the car spun at half lock.
 - **Check handling and the map after any change** with `?streetdebug=1`,

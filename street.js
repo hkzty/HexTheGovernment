@@ -295,19 +295,21 @@
   var CARS = {
     sedan: {
       label: 'V6 Sedan', paint: [0.42, 0.74, 0.93], glow: [0.62, 0.36, 1.0],
-      m: 1350, a: 1.25, b: 1.48, h: 0.55, iz: 2550, width: 1.81, track: 1.52, rw: 0.31, hub: [0.62, 0.63, 0.66],
+      m: 1350, a: 1.25, b: 1.48, h: 0.55, iz: 2550, width: 1.81, track: 1.52, rw: 0.324, hub: [0.62, 0.63, 0.66],
       front: 2.20, rear: -2.66, mu: 1.04, cda: 0.44, steer: 0.56,
-      gears: [2.48, 1.48, 1.0, 0.70], fd: 3.08, eff: 0.86, idle: 750, stall: 2100, red: 5500, up: 5200,
-      tq: [[700, 230], [1500, 265], [2600, 290], [3600, 296], [4400, 280], [4800, 253], [5500, 210]],
-      cyl: 3.0, tone: 'sawtooth', ute: false
+      // four-speed automatic: 3.06 / 1.63 / 1.00 / 0.70 on a 3.08 axle, 205/65R15
+      gears: [3.06, 1.63, 1.0, 0.70], fd: 3.08, eff: 0.82, idle: 700, stall: 2000, red: 5400, up: 5100,
+      tq: [[700, 225], [1500, 262], [2400, 284], [3200, 293], [4000, 284], [4800, 253], [5400, 205]],
+      cyl: 3.0, voice: 'v6', ute: false, gf: 0.95, gr: 1.06
     },
     ute: {
       label: 'I6 Ute', paint: [0.8, 0.8, 0.78], glow: [0.12, 0.8, 0.9],
-      m: 1560, a: 1.36, b: 1.74, h: 0.58, iz: 3350, width: 1.87, track: 1.56, rw: 0.32, hub: [0.2, 0.2, 0.22],
+      m: 1560, a: 1.36, b: 1.74, h: 0.58, iz: 3350, width: 1.87, track: 1.56, rw: 0.332, hub: [0.2, 0.2, 0.22],
       front: 2.29, rear: -2.79, mu: 1.02, cda: 0.50, steer: 0.54,
-      gears: [3.25, 1.99, 1.29, 1.0, 0.72], fd: 3.23, eff: 0.87, idle: 700, stall: 1900, red: 5700, up: 5300,
-      tq: [[700, 280], [1500, 330], [3000, 357], [3800, 350], [4900, 306], [5700, 250]],
-      cyl: 3.0, tone: 'square', ute: true
+      // five-speed: 3.25 / 1.99 / 1.29 / 1.00 / 0.73 on a 3.23 axle, 215/60R16
+      gears: [3.25, 1.99, 1.29, 1.0, 0.73], fd: 3.23, eff: 0.86, idle: 650, stall: 1700, red: 5600, up: 5200,
+      tq: [[650, 280], [1500, 332], [3000, 357], [3800, 348], [4900, 306], [5600, 255]],
+      cyl: 3.0, voice: 'i6', ute: true, gf: 0.93, gr: 1.12   // an empty tub: more rear bias to stay driveable
     }
   };
   var G = 9.81;
@@ -345,7 +347,7 @@
   // Magic-formula lateral force. D carries a mild load sensitivity.
   function tyre(alpha, fz, mu, fz0) {
     var x = 11.5 * alpha, m = mu * (1 - 0.07 * (fz / fz0 - 1));
-    return m * fz * Math.sin(1.32 * Math.atan(x - 0.2 * (x - Math.atan(x))));
+    return m * fz * Math.sin(1.38 * Math.atan(x - 0.2 * (x - Math.atan(x))));
   }
 
   function newCar(key) {
@@ -378,13 +380,17 @@
 
     // reverse: hold the brake at a standstill
     var thr = clamp(inp.thr, 0, 1), brk = clamp(inp.brk, 0, 1);
-    if (!car.rev && spd < 0.6 && brk > 0.2 && thr < 0.05) car.rev = true;
+    // reverse needs the brake held at a standstill for a moment, so stopping is not selecting reverse
+    car.revT = (!car.rev && spd < 0.6 && brk > 0.2 && thr < 0.05 && !inp.hold) ? (car.revT || 0) + dt : 0;
+    if (car.revT > 0.45) { car.rev = true; car.revT = 0; }
+    if (inp.hold) { car.rev = false; brk = 0; }
     if (car.rev && (thr > 0.05 || vx > 1)) car.rev = false;
 
     // engine and gearbox
     var ratio = S.gears[car.gear - 1] * S.fd;
     var wheelRpm = Math.abs(vx) / S.rw * ratio * 9.5493;
-    var rpm = Math.max(wheelRpm, S.idle + (S.stall - S.idle) * thr);
+    // torque converter: revs flare off the line and sit a little above the wheels under load
+    var rpm = Math.max(wheelRpm + thr * 420 * clamp(1 - wheelRpm / 4200, 0, 1), S.idle + (S.stall - S.idle) * thr);
     if (car.shiftT > 0) car.shiftT -= dt;
     if (!car.rev && car.shiftT <= 0) {
       if (rpm > S.up && car.gear < S.gears.length) { car.gear++; car.shiftT = S.shift; }
@@ -404,8 +410,8 @@
       car.boost += (want - car.boost) * Math.min(1, dt * (want > car.boost ? 2.4 : 7));
       car.nosOn = inp.nos && S.nos && car.tank > 0 && thr > 0.5 ? 1 : 0;
       if (car.nosOn) car.tank = Math.max(0, car.tank - dt / S.nosTime); else car.tank = Math.min(1, car.tank + dt / 22);
-      var tq = wheelRpm >= S.red ? 0 : torque(S, rpm) * thr * (car.shiftT > 0 ? 0.25 : 1) * S.tqMul * (1 + S.boostGain * car.boost) * (car.nosOn ? 1.38 : 1);
-      if (thr < 0.02 && vx > 1) tq = -(28 + rpm * 0.012);
+      var tq = wheelRpm >= S.red ? 0 : torque(S, rpm) * thr * (car.shiftT > 0 ? 0.55 : 1) * S.tqMul * (1 + S.boostGain * car.boost) * (car.nosOn ? 1.38 : 1);
+      if (thr < 0.02 && vx > 1) tq = -(8 + rpm * 0.0035);   // an automatic coasts: it barely engine-brakes
       drive = tq * ratio * S.eff / S.rw;
     }
 
@@ -413,7 +419,7 @@
     var fzf0 = S.m * G * S.b / L, fzr0 = S.m * G * S.a / L;
     var tr = S.m * car.ax * S.h / L;
     var fzf = Math.max(600, fzf0 - tr), fzr = Math.max(600, fzr0 + tr);
-    var muF = S.mu * 0.95 * (car.sf ? 1 : 0.6), muR = S.mu * 1.06 * (car.sr ? 1 : 0.6);   // grass under an axle takes its grip
+    var muF = S.mu * S.gf * (car.sf ? 1 : 0.6), muR = S.mu * S.gr * (car.sr ? 1 : 0.6);   // per-car bias; grass under an axle takes its grip
 
     // slip angles, relaxed for stability
     var fvx = vx * cd + (vy + S.a * r) * sd, fvy = (vy + S.a * r) * cd - vx * sd;
@@ -429,20 +435,29 @@
     var capF = muF * fzf, capR = muR * fzr, spin = 0;
     fxf = clamp(fxf, -capF, capF);
     var locked = inp.hb && spd > 0.5;
-    if (locked) fxr = -sgn * capR * 0.92;
+    if (inp.hold) { vx *= 0.8; vy *= 0.8; r *= 0.8; }
+    if (locked) fxr = -sgn * capR * 0.5;
     if (Math.abs(fxr) > capR * 0.97) { spin = 1; fxr = clamp(fxr, -capR * 0.93, capR * 0.93); }
     // friction circle: what the tyre spends on drive or braking it cannot spend sideways
     var kf = Math.sqrt(Math.max(0.06, 1 - (fxf / capF) * (fxf / capF)));
     var ur = 0.86 * fxr / capR;
     var kr = locked ? 0.3 : spin ? 0.46 : Math.sqrt(Math.max(0.2, 1 - ur * ur));
+    var slide = clamp((Math.abs(beta) - 0.17) / 0.2, 0, 1);
+    if (!locked) kr *= 1 - 0.42 * slide * thr;          // once it is sideways, throttle holds it there
     var fyf = tyre(car.af, fzf, muF, fzf0) * kf;
     var fyr = tyre(car.ar, fzr, muR, fzr0) * kr;
 
-    var drag = S.cda * vx * Math.abs(vx) + (spd > 0.3 ? sgn * (0.015 + 0.02 * (2 - car.sf - car.sr)) * S.m * G : 0);
+    var drag = S.cda * vx * Math.abs(vx) + (spd > 0.3 ? sgn * (0.011 + 0.02 * (2 - car.sf - car.sr)) * S.m * G : 0);
     var FX = fxr + fxf * cd - fyf * sd - drag;
     var FY = fyr + fyf * cd + fxf * sd;
     var MZ = S.a * (fyf * cd + fxf * sd) - S.b * fyr;
-    MZ -= S.iz * r * 0.9 * clamp(Math.abs(beta) * 2.2 - 0.15, 0, 1);   // damping once it is properly sideways
+    MZ -= S.iz * r * 0.7 * clamp(Math.abs(beta) * 2.2 - 0.15, 0, 1);   // damping once it is properly sideways
+    // Tyres at a big angle scrub speed hard. Give most of that back while sliding so the
+    // car carries its momentum through a drift instead of stopping in it.
+    if (spd > 4 && slide > 0 && brk < 0.05) {
+      var alongV = (FX * vx + FY * vy) / spd;
+      if (alongV < 0) { var back = -alongV * 0.62 * slide; FX += back * vx / spd; FY += back * vy / spd; }
+    }
     var axB = FX / S.m, ayB = FY / S.m;
     vx += (axB + vy * r) * dt; vy += (ayB - vx * r) * dt; r += MZ / S.iz * dt;
 
@@ -1197,25 +1212,49 @@
     try {
       actx = new AC();
       var master = actx.createGain(); master.gain.value = 0.5; master.connect(actx.destination);
+      // The oscillator runs once per engine cycle (two revs); harmonic 6 is the firing note of
+      // a six. A 90-degree V6 leans on the half orders (3, 9) for its gruff, lumpy burble, with
+      // some unevenness lower down; an inline six is almost all firing note and its octaves.
+      function wave(amps) {
+        var n = 26, re = new Float32Array(n), im = new Float32Array(n), q;
+        for (q = 1; q < n; q++) im[q] = (amps[q] || 0) * (q % 2 ? 1 : -1);
+        return actx.createPeriodicWave(re, im);
+      }
+      var waves = {
+        v6: wave({ 1: 0.2, 2: 0.14, 3: 0.95, 4: 0.12, 5: 0.1, 6: 1.0, 7: 0.1, 9: 0.6, 12: 0.42, 15: 0.3, 18: 0.2, 21: 0.12, 24: 0.08 }),
+        i6: wave({ 3: 0.12, 6: 1.0, 12: 0.55, 18: 0.34, 24: 0.2 })
+      };
       var o1 = actx.createOscillator(), o2 = actx.createOscillator(), lp = actx.createBiquadFilter(), g = actx.createGain();
-      o1.type = 'sawtooth'; o2.type = 'square'; lp.type = 'lowpass'; lp.Q.value = 1.2; g.gain.value = 0;
-      o1.connect(lp); o2.connect(lp); lp.connect(g); g.connect(master); o1.start(); o2.start();
+      var sh = actx.createWaveShaper(), cv = new Float32Array(257), ci;
+      for (ci = 0; ci < 257; ci++) { var xx = ci / 128 - 1; cv[ci] = Math.tanh(xx * 2.4); }
+      sh.curve = cv;
+      o1.setPeriodicWave(waves.v6); o2.type = 'sine'; lp.type = 'lowpass'; lp.Q.value = 1.6; g.gain.value = 0;
+      var og = actx.createGain(); og.gain.value = 0.35;                      // sub: the body of the exhaust
+      o1.connect(sh); sh.connect(lp); o2.connect(og); og.connect(lp); lp.connect(g); g.connect(master); o1.start(); o2.start();
+      // induction and valvetrain thrash that comes in with revs and throttle
+      var th = actx.createBiquadFilter(), tg = actx.createGain(); th.type = 'bandpass'; th.frequency.value = 900; th.Q.value = 0.8; tg.gain.value = 0;
       var len = actx.sampleRate, nb = actx.createBuffer(1, len, len), d = nb.getChannelData(0), i;
       for (i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
       var ns = actx.createBufferSource(), bp = actx.createBiquadFilter(), sg = actx.createGain();
       ns.buffer = nb; ns.loop = true; bp.type = 'bandpass'; bp.frequency.value = 1500; bp.Q.value = 3; sg.gain.value = 0;
-      ns.connect(bp); bp.connect(sg); sg.connect(master); ns.start();
+      ns.connect(bp); bp.connect(sg); sg.connect(master); ns.connect(th); th.connect(tg); tg.connect(master); ns.start();
       var wh = actx.createOscillator(), wg = actx.createGain(); wh.type = 'sine'; wg.gain.value = 0; wh.connect(wg); wg.connect(master); wh.start();
-      eng = { master: master, o1: o1, o2: o2, lp: lp, g: g, sg: sg, bp: bp, noise: nb, wh: wh, wg: wg, lastBoost: 0 };
+      eng = { master: master, o1: o1, o2: o2, lp: lp, g: g, sg: sg, bp: bp, noise: nb, wh: wh, wg: wg, lastBoost: 0, waves: waves, voice: 'v6', th: th, tg: tg, lastThr: 0 };
     } catch (e) { actx = null; eng = null; }
   }
   function audioFrame(car, live) {
     if (!eng) return;
-    var t = actx.currentTime, f = car.rpm / 60 * car.S.cyl;
-    eng.o1.type = car.S.tone;
-    eng.o1.frequency.setTargetAtTime(f, t, 0.03); eng.o2.frequency.setTargetAtTime(f * 0.5, t, 0.03);
-    eng.lp.frequency.setTargetAtTime(300 + car.rpm * 0.45 + car.thr * 900 + car.S.ex * 520 + car.nosOn * 600, t, 0.05);
-    eng.g.gain.setTargetAtTime(live ? (0.045 + car.thr * 0.085) * (1 + car.S.ex * 0.22) : 0, t, 0.06);
+    var t = actx.currentTime, cyc = car.rpm / 120, rv = clamp(car.rpm / car.S.red, 0, 1);
+    if (eng.voice !== car.S.voice) { eng.voice = car.S.voice; eng.o1.setPeriodicWave(eng.waves[car.S.voice]); }
+    eng.o1.frequency.setTargetAtTime(cyc, t, 0.03); eng.o2.frequency.setTargetAtTime(cyc * 3, t, 0.03);
+    // closed throttle is muffled; opening it and a freer exhaust both let the top end out
+    eng.lp.frequency.setTargetAtTime(170 + car.rpm * 0.22 + car.thr * (520 + car.rpm * 0.2) + car.S.ex * 380 + car.nosOn * 500, t, 0.05);
+    eng.g.gain.setTargetAtTime(live ? (0.07 + car.thr * 0.1 + rv * 0.03) * (1 + car.S.ex * 0.25) : 0, t, 0.06);
+    eng.th.frequency.setTargetAtTime(600 + car.rpm * 0.28, t, 0.08);
+    eng.tg.gain.setTargetAtTime(live ? rv * rv * (0.012 + car.thr * 0.045) * (car.S.voice === 'v6' ? 1.5 : 0.8) : 0, t, 0.08);
+    // a freer exhaust pops when you lift at revs
+    if (live && car.S.ex > 1 && eng.lastThr > 0.6 && car.thr < 0.1 && rv > 0.55) pop(car.S.ex);
+    eng.lastThr = car.thr;
     eng.wh.frequency.setTargetAtTime(2200 + car.boost * 3800, t, 0.08);
     eng.wg.gain.setTargetAtTime(live && car.S.turbo ? car.boost * car.boost * 0.012 * car.S.turbo : 0, t, 0.08);
     if (live && car.S.turbo && eng.lastBoost > 0.55 && car.thr < 0.1) { vent(); eng.lastBoost = 0; } else if (car.thr > 0.1) eng.lastBoost = car.boost;
@@ -1228,6 +1267,16 @@
     s2.buffer = eng.noise; hp.type = 'highpass'; hp.frequency.value = 2600;
     g2.gain.setValueAtTime(0.16, t); g2.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
     s2.connect(hp); hp.connect(g2); g2.connect(eng.master); s2.start(t); s2.stop(t + 0.32);
+  }
+  function pop(level) { // overrun crackle
+    if (!eng || muted) return;
+    var n = 1 + level, q, t = actx.currentTime;
+    for (q = 0; q < n; q++) {
+      var s3 = actx.createBufferSource(), g3 = actx.createGain(), f3 = actx.createBiquadFilter(), at = t + 0.05 + q * (0.07 + Math.random() * 0.08);
+      s3.buffer = eng.noise; f3.type = 'bandpass'; f3.frequency.value = 260 + Math.random() * 300; f3.Q.value = 1.2;
+      g3.gain.setValueAtTime(0.22, at); g3.gain.exponentialRampToValueAtTime(0.001, at + 0.06);
+      s3.connect(f3); f3.connect(g3); g3.connect(eng.master); s3.start(at, Math.random() * 0.5); s3.stop(at + 0.07);
+    }
   }
   function thud(v) {
     if (!eng || muted) return;
@@ -1260,7 +1309,8 @@
   touchPad('streetLeft', 'l'); touchPad('streetRight', 'r'); touchPad('streetGas', 'gas'); touchPad('streetBrake', 'brk'); touchPad('streetHb', 'hb'); touchPad('streetNos', 'nos');
   function readInput(dt) {
     var l = keys.l || pad.l, r = keys.r || pad.r, raw = (r ? 1 : 0) - (l ? 1 : 0);
-    steerK += clamp(raw - steerK, -dt * 4.5, dt * (raw === 0 ? 6 : 4.5));
+    var kr2 = dt * (raw === 0 || raw * steerK < 0 ? 11 : 6.5);
+    steerK += clamp(raw - steerK, -kr2, kr2);
     var inp = { steer: steerK, thr: (keys.gas || pad.gas) ? 1 : 0, brk: (keys.brk || pad.brk) ? 1 : 0, hb: !!(keys.hb || pad.hb), nos: !!(keys.nos || pad.nos) };
     var gps = navigator.getGamepads ? navigator.getGamepads() : [], i;
     for (i = 0; i < gps.length; i++) {
@@ -1284,7 +1334,7 @@
   var SPAWN = along(CITY, CAP, 150), SPAWN_PSI = Math.atan2(CAP[1] - CITY[1], CAP[0] - CITY[0]);
   var count = 0, drift = 0, driftRun = 0, driftCool = 0, driftZone = 0, acc = 0, last = 0, visible = true, raf = 0;
   var route = null, cp = 0, runT = 0, rec = [], recT = 0, ghost = null, best = 0, cooldown = 0;
-  var hud = { speed: $('hudSpeed'), gear: $('hudGear'), lap: $('hudLap'), best: $('hudBest'), drift: $('hudDrift'), nos: $('hudNos') }, hudV = {};
+  var hud = { speed: $('hudSpeed'), gear: $('hudGear'), lap: $('hudLap'), best: $('hudBest'), drift: $('hudDrift'), nos: $('hudNos'), cash: $('hudCash') }, hudV = {};
   var shopEl = $('streetShop'), cashEl = $('streetCash'), toastEl = $('streetToast'), nosCell = $('hudNosCell'), nosPad = $('streetNos'), placeEl = $('streetPlace');
   var toastT = 0;
   function toast(msg) { if (!toastEl) return; toastEl.textContent = msg; toastEl.hidden = false; toastT = 3; }
@@ -1335,12 +1385,26 @@
   function startRun() {
     car = newCar(carKey); placeAt(car, SPAWN[0], SPAWN[1], SPAWN_PSI); cam.yaw = car.psi;
     endSprint(); drift = 0; driftRun = 0; rec = []; recT = 0; steerK = 0; cooldown = 0;
-    count = 3.2; state = 'count'; acc = 0; hudV = {};
-    overlay.hidden = true; canvas.classList.add('is-playing'); document.body.classList.add('game-active'); stage.classList.add('is-live');
+    count = 3.2; state = 'count'; acc = 0; hudV = {}; px = car.x; pz = car.z; ppsi = car.psi;
+    overlay.hidden = true; canvas.classList.add('is-playing'); document.body.classList.add('game-active'); stage.classList.add('is-live'); stage.classList.remove('is-menu');
     initAudio(); if (actx && actx.state === 'suspended') actx.resume();
+    frameStage();
     setHud('best', '--'); setHud('lap', '--'); setHud('drift', '0');
     if (nosCell) nosCell.hidden = !car.S.nos; if (nosPad) nosPad.hidden = !car.S.nos;
     loop(true);
+  }
+  function frameStage() { // on a phone the stage can sit half below the fold: bring all of it on screen
+    var r = stage.getBoundingClientRect(), vh = window.innerHeight;
+    if (r.top < 0 || r.bottom > vh + 1) { try { stage.scrollIntoView({ block: r.height >= vh ? 'start' : 'center' }); } catch (e) { stage.scrollIntoView(); } }
+  }
+  function toMenu() { // Exit: back to the garage, not the home page
+    if (state === 'menu') return;
+    if (state === 'run' && driftRun > 0) bankDrift();
+    state = 'menu'; overlay.hidden = false; overlayTitle.textContent = 'HEX STREET'; overlayText.textContent = 'Canberra, after dark.';
+    playBtn.textContent = 'Play'; canvas.classList.remove('is-playing'); stage.classList.remove('is-live'); stage.classList.add('is-menu');
+    document.body.classList.remove('game-active'); audioFrame(car, false);
+    if (toastEl) toastEl.hidden = true;
+    endSprint(); car = newCar(carKey); placeAt(car, SPAWN[0], SPAWN[1], SPAWN_PSI); cam.yaw = car.psi; hudV = {}; drawShop(); menuLoop();
   }
   function pause() {
     if (state !== 'run' && state !== 'count') return;
@@ -1353,7 +1417,7 @@
     if (state !== 'pause') return;
     car.S = tuned(car.key); if (nosCell) nosCell.hidden = !car.S.nos; if (nosPad) nosPad.hidden = !car.S.nos;
     state = count > 0 ? 'count' : 'run'; overlay.hidden = true; canvas.classList.add('is-playing'); stage.classList.add('is-live');
-    document.body.classList.add('game-active'); if (actx && actx.state === 'suspended') actx.resume(); loop(true);
+    document.body.classList.add('game-active'); if (actx && actx.state === 'suspended') actx.resume(); frameStage(); loop(true);
   }
   // roundabouts double the drift rate: inside a small ring's asphalt
   function zoneMul(x, z) {
@@ -1367,12 +1431,11 @@
     return 1;
   }
   (function () { var r, i; for (r = 0; r < roads.length; r++) { var R = roads[r], sx = 0, sz = 0; for (i = 0; i < R.N; i++) { sx += R.x[i]; sz += R.z[i]; } R.cx = sx / R.N; R.cz = sz / R.N; } })();
-  function bankDrift() {
-    var pts = Math.round(driftRun), pay = Math.min(500, Math.round(pts / 10));
+  function bankDrift() { // a finished slide turns into points and cash
+    var pts = Math.round(driftRun), pay = Math.round(pts / 6), zone = driftZone > 1;
+    driftRun = 0; driftZone = 1; if (pts <= 0) return;
     drift += pts;
-    if (pay > 0) { garage.cash += pay; saveGarage(); }
-    if (pts >= 250) toast('DRIFT ' + pts + (driftZone > 1 ? ' · ROUNDABOUT' : '') + ' · +$' + pay);
-    driftRun = 0; driftZone = 1;
+    if (pay > 0) { garage.cash += pay; saveGarage(); if (pay >= 5) toast('DRIFT ' + pts + (zone ? ' · ROUNDABOUT' : '') + ' · +$' + pay); }
   }
 
   function gameStep(inp, dt) {
@@ -1412,7 +1475,7 @@
     // drift points: angle times speed, doubled on a roundabout, banked when the slide ends clean
     if (Math.abs(car.beta) > 0.16 && car.speed > 9 && !car.wet) {
       var zm = zoneMul(car.x, car.z); if (zm > driftZone) driftZone = zm;
-      driftRun += Math.abs(car.beta) * car.speed * dt * 12 * zm; driftCool = 0.9;
+      driftRun += Math.abs(car.beta) * car.speed * dt * 12 * zm; driftCool = 1.4;
     } else if (driftRun > 0) { driftCool -= dt; if (driftCool <= 0) bankDrift(); }
   }
 
@@ -1430,7 +1493,8 @@
     menuLoop();
   }
   function menuLoop() { if (!menuRaf && state === 'menu' && visible && !document.hidden) { menuLast = performance.now(); menuRaf = requestAnimationFrame(menuFrame); } }
-  var IDLE = { steer: 0, thr: 0, brk: 0, hb: false, nos: false };   // brake here put the car into reverse during the countdown
+  var px = 0, pz = 0, ppsi = 0;
+  var IDLE = { steer: 0, thr: 0, brk: 0, hb: true, nos: false, hold: true };   // countdown: parked on the handbrake
   function nextCp() {
     if (!route) return null;
     return route.loop && cp === route.pts.length ? route.pts[0] : route.pts[cp];
@@ -1442,14 +1506,20 @@
     var inp = readInput(dt);
     if (state === 'count') { count -= dt; if (count <= 0) { state = 'run'; } }
     acc += dt;
-    while (acc >= 1 / 120) { gameStep(state === 'run' ? inp : IDLE, 1 / 120); acc -= 1 / 120; }
+    while (acc >= 1 / 120) { px = car.x; pz = car.z; ppsi = car.psi; gameStep(state === 'run' ? inp : IDLE, 1 / 120); acc -= 1 / 120; }
+    // The physics ticks at 120 Hz and the screen at whatever it likes: draw the car where it
+    // is between ticks, or a 144 Hz display shows an uneven shuffle.
+    var k = acc * 120, cx0 = car.x, cz0 = car.z, cp0 = car.psi;
+    car.x = px + (cx0 - px) * k; car.z = pz + (cz0 - pz) * k; car.psi = ppsi + wrapPi(cp0 - ppsi) * k;
     render(car, ghostAt(runT), dt, undefined, nextCp());
+    car.x = cx0; car.z = cz0; car.psi = cp0;
     adapt(dt);
     audioFrame(car, true);
     setHud('speed', String(Math.round(car.speed * 3.6)));
     setHud('gear', state === 'count' ? String(Math.max(1, Math.ceil(count))) : car.rev ? 'R' : String(car.gear));
     if (route) setHud('lap', fmt(runT));
     setHud('drift', String(drift + Math.round(driftRun)));
+    setHud('cash', '$' + garage.cash);
     if (car.S.nos) setHud('nos', String(Math.round(car.tank * 100)));
     if (placeEl && hudV.place !== car.road) { hudV.place = car.road; placeEl.textContent = car.road || ''; }
     if (toastT > 0) { toastT -= dt; if (toastT <= 0 && toastEl) toastEl.hidden = true; }
@@ -1521,6 +1591,8 @@
   });
   if (playBtn) playBtn.addEventListener('click', function () { if (state === 'pause') resume(); else startRun(); });
   if (resetBtn) resetBtn.addEventListener('click', function () { if (state === 'run') resetCar(); });
+  var exitBtn = $('streetExit');
+  if (exitBtn) exitBtn.addEventListener('click', toMenu);
   if (muteBtn) muteBtn.addEventListener('click', function () {
     muted = !muted; muteBtn.setAttribute('aria-pressed', muted ? 'true' : 'false'); muteBtn.textContent = muted ? 'Sound off' : 'Sound on';
     if (eng) eng.master.gain.value = muted ? 0 : 0.5; else if (!muted && state !== 'menu') initAudio();
@@ -1532,6 +1604,7 @@
     if (window.console) console.error(e);
     return;
   }
+  stage.classList.add('is-menu');
   placeAt(car, SPAWN[0], SPAWN[1], SPAWN_PSI); cam.yaw = car.psi; resize(); drawShop(); menuLoop();
 
   if (DEBUG) {
@@ -1539,7 +1612,7 @@
       roads: roads, patches: patches, ROUTES: ROUTES, CARS: CARS, garage: garage, tuned: tuned, newCar: newCar, placeAt: placeAt, stepCar: stepCar,
       nearestRoad: nearestRoad, surfaceAt: surfaceAt, inLake: inLake, pushOut: pushOut, SPAWN: SPAWN,
       get car() { return car; }, get state() { return state; }, get route() { return route; }, get cp() { return cp; }, get best() { return best; },
-      get runT() { return runT; }, get drift() { return drift; }, get quality() { return quality; }, get boxes() { return boxes.length / 6; }, get verts() { return worldBuf.n + flatBuf.n; },
+      get runT() { return runT; }, get drift() { return drift; }, get quality() { return quality; }, get audioOk() { return !!eng; }, get boxes() { return boxes.length / 6; }, get verts() { return worldBuf.n + flatBuf.n; },
       set orbit(a) { orbitFix = a; }, lockQuality: function () { lockQ = true; quality = 0; resize(); }, step: function (inp, dt) { gameStep(inp, dt); }, resetRoute: function () { endSprint(); cooldown = 0; }
     };
   }
