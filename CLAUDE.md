@@ -415,12 +415,19 @@ telco's name), and `legal.html` §5 says so — keep that wording.
   just stop"):** past about 10 degrees of slip, 62% of the speed the tyres
   scrub is given back, throttle cuts rear lateral grip so a slide holds,
   and the handbrake only uses half the rear's grip to slow the car.
-- **Brake stand (`burnout` in `stepCar`):** handbrake + brake + throttle
-  together does not lock the rears; it drives them at 1.6× into wheelspin
-  with the fronts holding at 28%, rear lateral grip at 0.3 and the
-  low-speed rolling blend mostly off, so the car creeps, swings on full
-  lock and can be rolled into a slide. The rear wheels draw from their own
-  `rearRot` (frozen on the handbrake, over-spun on wheelspin).
+- **Handbrake + throttle is a clutch kick (`kick` in `stepCar`), never a
+  lock:** the rears are driven at 1.6× into wheelspin with lateral grip at
+  0.5 (the throttle grip cut does not stack on it), so the car keeps
+  driving through the slide (owner report: "I use the handbrake and drive
+  forward into the slide and the car stops moving" — the lock used to
+  override the throttle). Handbrake alone still locks and slows. Add the
+  brake and it is a brake stand (`burnout`): fronts hold at 28%, the
+  low-speed rolling blend is mostly off, the car creeps and swings on the
+  spot. Yaw damping doubles past 40° of slip so a held slide settles at
+  45-60° instead of spinning. Check: from 70 km/h, handbrake + full
+  throttle + counter-steer must stay above 65 km/h for 4 s. The rear
+  wheels draw from their own `rearRot` (frozen on the handbrake,
+  over-spun on wheelspin).
 - **Driveline figures are the real cars'**: gear ratios, axle ratio, tyre
   radius and torque curve. The sedan must upshift near 66 / 124 / 202 km/h.
   The automatic barely engine-brakes; do not put coasting drag back.

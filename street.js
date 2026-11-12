@@ -430,24 +430,25 @@
 
     // longitudinal forces at each axle
     var bmax = S.m * G * 1.12 * S.bk;
-    // brake stand: handbrake, brake and throttle together light the rears up while the
-    // fronts only half hold, so the car creeps, swings and can be steered out of it
-    var burnout = inp.hb && brk > 0.2 && thr > 0.3 && !car.rev && !inp.hold;
-    var fxf = -sgn * brk * bmax * 0.64 * (burnout ? 0.28 : 1), fxr = burnout ? drive * 1.6 : drive - sgn * brk * bmax * 0.36;
+    // Handbrake with throttle never locks the rears: it lights them up (a clutch kick), so
+    // the car keeps driving through the slide instead of stopping in it. Add the brake and
+    // it is a brake stand: fronts only part hold, the car creeps and swings on the spot.
+    var kick = inp.hb && thr > 0.3 && !car.rev && !inp.hold, burnout = kick && brk > 0.2;
+    var fxf = -sgn * brk * bmax * 0.64 * (burnout ? 0.28 : 1), fxr = kick ? drive * 1.6 : drive - sgn * brk * bmax * 0.36;
     if (car.rev) fxf = thr > 0 ? 0 : fxf;
     var capF = muF * fzf, capR = muR * fzr, spin = 0;
     fxf = clamp(fxf, -capF, capF);
-    var locked = inp.hb && spd > 0.5 && !burnout;
+    var locked = inp.hb && spd > 0.5 && !kick;
     if (inp.hold) { vx *= 0.8; vy *= 0.8; r *= 0.8; }
     if (locked) fxr = -sgn * capR * 0.5;
-    if (burnout) spin = 1;
+    if (kick) spin = 1;
     if (Math.abs(fxr) > capR * 0.97) { spin = 1; fxr = clamp(fxr, -capR * 0.93, capR * 0.93); }
     // friction circle: what the tyre spends on drive or braking it cannot spend sideways
     var kf = Math.sqrt(Math.max(0.06, 1 - (fxf / capF) * (fxf / capF)));
     var ur = 0.86 * fxr / capR;
-    var kr = locked ? 0.3 : burnout ? 0.3 : spin ? 0.46 : Math.sqrt(Math.max(0.2, 1 - ur * ur));
+    var kr = locked ? 0.3 : kick ? 0.5 : spin ? 0.46 : Math.sqrt(Math.max(0.2, 1 - ur * ur));
     var slide = clamp((Math.abs(beta) - 0.17) / 0.2, 0, 1);
-    if (!locked) kr *= 1 - 0.42 * slide * thr;          // once it is sideways, throttle holds it there
+    if (!locked && !kick) kr *= 1 - 0.42 * slide * thr;  // once it is sideways, throttle holds it there (a kick already has the rears lit)
     var fyf = tyre(car.af, fzf, muF, fzf0) * kf;
     var fyr = tyre(car.ar, fzr, muR, fzr0) * kr;
 
@@ -455,10 +456,10 @@
     var FX = fxr + fxf * cd - fyf * sd - drag;
     var FY = fyr + fyf * cd + fxf * sd;
     var MZ = S.a * (fyf * cd + fxf * sd) - S.b * fyr;
-    MZ -= S.iz * r * 0.7 * clamp(Math.abs(beta) * 2.2 - 0.15, 0, 1);   // damping once it is properly sideways
+    MZ -= S.iz * r * (0.7 + 0.9 * clamp((Math.abs(beta) - 0.7) / 0.5, 0, 1)) * clamp(Math.abs(beta) * 2.2 - 0.15, 0, 1);   // damping once it is properly sideways, hard past 40 degrees
     // Tyres at a big angle scrub speed hard. Give most of that back while sliding so the
     // car carries its momentum through a drift instead of stopping in it.
-    if (spd > 4 && slide > 0 && brk < 0.05) {
+    if (spd > 4 && slide > 0 && (brk < 0.05 || kick)) {
       var alongV = (FX * vx + FY * vy) / spd;
       if (alongV < 0) { var back = -alongV * 0.62 * slide; FX += back * vx / spd; FY += back * vy / spd; }
     }
@@ -483,7 +484,7 @@
     car.thr = thr; car.brk = car.rev ? 0 : brk; car.spin = spin; car.burnout = burnout ? 1 : 0;
     var sl = Math.max(Math.abs(car.af), Math.abs(car.ar)) - 0.09;
     car.slip = clamp(sl * 5 + (spin || locked ? 0.5 : 0), 0, 1) * clamp(car.speed / 6, 0, 1);
-    if (burnout) car.slip = Math.max(car.slip, 0.8);
+    if (kick) car.slip = Math.max(car.slip, 0.8);
 
     // surface under each axle for the next step: grass takes grip and adds drag
     car.sf = surfaceAt(car.x + c * S.a, car.z + s * S.a); car.sr = surfaceAt(car.x - c * S.b, car.z - s * S.b);
