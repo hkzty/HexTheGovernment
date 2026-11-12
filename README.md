@@ -35,14 +35,18 @@
 
 ## The games
 
-Two games ship inside the site. Every wall, sprite, weapon and sound is generated in code at runtime — nothing is downloaded, no third-party assets.
+Three games ship inside the site. Every wall, sprite, weapon and sound is generated in code at runtime — nothing is downloaded, no third-party assets.
 
 | Suit Purge | Jars |
 |---|---|
 | [![Suit Purge](docs/screenshots/suit-purge.jpg)](https://www.htg.productions/game.html) | [![Jars](docs/screenshots/jars.jpg)](https://www.htg.productions/rain.html) |
 | Original raycaster shooter. Four enemy types, ramping waves, shared top-ten board on a Cloudflare Worker + KV. [`game.js`](game.js) | Catch-and-defend on the glyph rain. Fill jars, sell them, upgrade the fort. Hidden — unlocked from the Suit Purge page. [`rain.js`](rain.js) |
 
-Both are fiction. No real person is depicted.
+**Hex Street** — night street time attack in hand-written WebGL: an original circuit, a V6 sedan and an I6 ute, a tyre-model physics core, and the ghost of your best lap. [`street.js`](street.js) · [play](https://www.htg.productions/street.html)
+
+[![Hex Street](docs/screenshots/hex-street.jpg)](https://www.htg.productions/street.html)
+
+All three are fiction. No real person, car brand or place is depicted.
 
 ## What's in here
 
@@ -60,7 +64,7 @@ index.html            home: hero, roster, music, gallery
 roster.html  music.html  gallery.html  sequence.html  contact.html
 abraxas.html  stretty.html  ciggie.html  justin.html      artist decks
 hexboy.html  graveboy.html                                service desks
-game.html  rain.html                                      Suit Purge, Jars
+game.html  rain.html  street.html                         Suit Purge, Jars, Hex Street
 legal.html  404.html
 mobile.html           generated from index.html + style.css
 
@@ -68,7 +72,7 @@ config.js             content: links, the Sequence, gallery, shop, contact
 render.js             builds markup from config.js
 script.js             nav, reveals, lightbox, contact form
 matrix.js             glyph rain
-game.js  rain.js      the games
+game.js  rain.js  street.js   the games
 desk.js               service desks
 style.css             one stylesheet for every page
 

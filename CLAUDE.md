@@ -338,6 +338,45 @@ Non-obvious things in the code:
   `resize()` so the measurement is of the wrapped row.
 - HUD and shop buttons only write to the DOM on change, as in `game.js`.
 
+## Hex Street (`street.js`, `street.html`) — the racer
+
+Night street time attack, linked from the home footer and from Suit Purge.
+Same rules as the other two games: nothing downloaded, no third-party
+assets. **No real car names, badges or liveries, and no real circuit** —
+the cars are "V6 Sedan" and "I6 Ute"; the owner asked for a sky blue early
+90s V6 sedan and a late 90s inline-six ute, and the game carries that
+spirit without the trademarks. It is not a port of any existing game:
+a request to rebuild a commercial racer from its binary was declined.
+
+- **Renderer:** raw WebGL1, one program, 13 floats per vertex
+  (pos, normal, uv, colour + seed, material id). Road markings, light
+  pools, building windows and neon are drawn in the fragment shader from
+  uv, so the whole city is one static buffer. `MAT` ids must match the
+  `vM<n.5` ladder in `FS`.
+- **Per-object seeds are quantised in the shader** (`floor(vC.a*997.0+0.5)`).
+  Hashing the raw interpolated varying amplified float jitter into
+  per-pixel noise on every window.
+- **Physics:** 120 Hz bicycle model in `stepCar` — magic-formula lateral
+  force, longitudinal load transfer, friction circle on the driven axle,
+  engine torque curve through an automatic gearbox, handbrake. Side-positive
+  convention: a car's side vector is the driver's right, and steer, slip
+  and lateral force are positive that way.
+- **The limit balance is tuned, not accidental.** `muF = 0.95`, `muR = 1.06`,
+  the steering lock is capped at the Ackermann angle for the tightest
+  corner the tyres can hold plus peak slip, and yaw is damped once the car
+  is properly sideways. Without those three the car spun at half lock.
+- **Check handling after any tuning change** with `?streetdebug=1`, which
+  exposes `window.__street` (`stepCar`, `newCar`, `placeCar`, the track):
+  drive it with a pursuit controller in a headless page and confirm both
+  cars lap clean (64-67 s) and a handbrake slide recovers.
+- The track is `CTRL` (Catmull-Rom control points). Buildings are placed
+  procedurally and rejected where they would sit on another stretch of
+  road, so moving a control point needs no manual city edit.
+- Best lap and its ghost are stored per car in `localStorage`
+  (`htg.street.<car>`); `legal.html` §6 discloses it.
+- Headless Chromium renders it with SwiftShader at about 18 fps, so
+  real-time keyboard tests crawl; position the car through the debug hook.
+
 ## The HTG mark
 
 `assets/htg-mark.svg` is the label's drawn sigil — a hexagon holding an H

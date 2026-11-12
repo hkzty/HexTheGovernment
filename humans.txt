@@ -26,7 +26,7 @@
 /* SITE */
 	Standards: HTML, CSS, JavaScript. No framework, no build, no tracking.
 	Fonts: New Rocker, IBM Plex Mono (SIL OFL 1.1)
-	Games: Suit Purge (/game.html), Jars (/rain.html). Drawn in code. Fiction.
+	Games: Suit Purge (/game.html), Jars (/rain.html), Hex Street (/street.html). Drawn in code. Fiction.
 	Machine deck: /llms.txt · /sitemap.xml · /robots.txt
 	Source: https://github.com/hkzty/HexTheGovernment
 
