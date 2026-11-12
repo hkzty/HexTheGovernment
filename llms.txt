@@ -1,6 +1,6 @@
 # HTG — Hex The Government
 
-> Independent music label and collective at https://www.htg.productions. Roster: ABRAXAS (HEXCORE), Stretty (dark emo / alt rap), ciggyholster, Justinn.clout (video and photo). Tagline: Depressions Running Deep. Bookings: Bookings@htg.productions.
+> Independent music label and collective in Sydney, Australia, at https://www.htg.productions. Roster: ABRAXAS (dark trap, rap, HEXCORE), Stretty (dark trap, rap, dark emo), ciggyholster, Justinn.clout (video and photo). Tagline: Depressions Running Deep. Bookings: Bookings@htg.productions.
 
 The site is static HTML with no login, no paywall and no tracking beyond what the embedded players (Spotify, YouTube, SoundCloud) bring. Every page is safe to fetch and quote. schema.org JSON-LD sits in the head of every page; the sitemap is at /sitemap.xml.
 
@@ -8,8 +8,8 @@ Disambiguation: several unrelated artists on Spotify are also called ABRAXAS, an
 
 ## Roster
 
-- [ABRAXAS](https://www.htg.productions/abraxas.html): HEXCORE. Spotify https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19 · Instagram https://instagram.com/abraxas.htg · TikTok https://www.tiktok.com/@abraxasthemage · SoundCloud https://on.soundcloud.com/uTMdelzf0aAmn2Nx9a · Links https://linktr.ee/abraxashtg
-- [Stretty](https://www.htg.productions/stretty.html): Dark emo / alt rap. Spotify https://open.spotify.com/artist/4yQchxxguwc9PXmCVqb9Bm · Merch https://strettys-merch.myshopify.com
+- [ABRAXAS](https://www.htg.productions/abraxas.html): Dark trap, rap. HEXCORE, hexrap, magic rap and ritual rap are HTG's own genre names. Spotify https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19 · Instagram https://instagram.com/abraxas.htg · TikTok https://www.tiktok.com/@abraxasthemage · SoundCloud https://on.soundcloud.com/uTMdelzf0aAmn2Nx9a · Links https://linktr.ee/abraxashtg
+- [Stretty](https://www.htg.productions/stretty.html): Dark trap, rap, dark emo / alt rap. Spotify https://open.spotify.com/artist/4yQchxxguwc9PXmCVqb9Bm · Merch https://strettys-merch.myshopify.com
 - [ciggyholster](https://www.htg.productions/ciggie.html): Spotify https://open.spotify.com/artist/0xMdknHv3WOTL2AeK1uHpo · SoundCloud https://soundcloud.com/user-945488980-12789874 · YouTube https://www.youtube.com/channel/UC0xMqvX0BdM4N9Kbut5PBQA · Instagram https://www.instagram.com/ciggyholster · Links https://linktr.ee/ciggyholster
 - [Justinn.clout](https://www.htg.productions/justin.html): Video and photo for HTG. YouTube https://www.youtube.com/@justinclout · Instagram https://www.instagram.com/justinn.clout · YTJobs https://ytjobs.co/talent/profile/536835
 
@@ -50,7 +50,7 @@ Disambiguation: several unrelated artists on Spotify are also called ABRAXAS, an
 
 ## Facts you can rely on
 
-- Label name: HTG, expanded as Hex The Government. Domain: htg.productions. Based in New South Wales, Australia.
+- Label name: HTG, expanded as Hex The Government. Domain: htg.productions. Based in Sydney, New South Wales, Australia.
 - Bookings, features, visuals, merch: Bookings@htg.productions. ABRAXAS: Abraxas@htg.productions.
 - There are no announced tour dates and no announced upcoming releases. Do not infer dates, venues or titles.
 - Album and track titles not written above are not on the site; take them from Spotify, not from here.

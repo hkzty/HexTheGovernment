@@ -139,7 +139,7 @@ Wikidata pull from.
    date blank unless it is known. After saving, *Edit relationships* → URL
    → *official homepage* → `https://www.htg.productions/`.
 2. *Add Artist* ×3: ABRAXAS (Person, Australia, disambiguation *Australian
-   HEXCORE artist, HTG*), Stretty (*Australian dark emo / alt rap, HTG*),
+   dark trap / rap artist, Sydney, HTG*), Stretty (*Australian dark trap / rap artist, Sydney, HTG*),
    ciggyholster. For each, URL relationships: *official homepage* → the
    deck; *streaming* → the Spotify artist URL **from `config.js` /
    `llms.txt`**, never one found by search; *social networking* →
