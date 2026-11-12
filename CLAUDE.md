@@ -338,44 +338,82 @@ Non-obvious things in the code:
   `resize()` so the measurement is of the wrapped row.
 - HUD and shop buttons only write to the DOM on change, as in `game.js`.
 
-## Hex Street (`street.js`, `street.html`) — the racer
+## Hex Street (`street.js`, `street.html`) — the open-world drift game
 
-Night street time attack, linked from the home footer and from Suit Purge.
+Open-world night drive through a low-poly Canberra, linked from the home
+footer and from Suit Purge. It replaced the closed-circuit time attack in
+November 2026 (the owner asked for an open world; a request to port a
+commercial open-world game from a reverse-engineered repo was declined:
+no such source exists for that title and the assets are not ours to ship).
 Same rules as the other two games: nothing downloaded, no third-party
-assets. **No real car names, badges or liveries, and no real circuit** —
-the cars are "V6 Sedan" and "I6 Ute". The owner asked for a sky blue VP
-Commodore and an AU Falcon ute and for the models to look like them, so
-`buildCar` lofts two unbadged bodies in those styles (wedge nose, slim
-wrap-around lamps and a six-window glasshouse; round nose, teardrop lamps,
-single cab, separate tub with upright lamps). Shapes only: never add the
-maker or model names, badges or logos anywhere in the game, the page or
-its metadata, and keep the `legal.html` §5 wording that says so. Reference
-photos were looked at, not shipped; do not commit any. It is not a port of any existing game:
-a request to rebuild a commercial racer from its binary was declined.
+assets. **No real car names, badges or liveries** — the cars are "V6
+Sedan" and "I6 Ute", unbadged bodies in the two requested styles (wedge
+nose, six-window sedan; round nose, single-cab ute). **The map is public
+places and street names only**: Parliamentary Triangle, Lake Burley
+Griffin, Civic, Braddon, Kingston, Russell, Anzac Parade, Black Mountain,
+Mount Ainslie, the avenues and roundabouts, at about one third scale.
+Every building is invented; no business, institution, brand or person is
+named or drawn (the tower is "the tower on Black Mountain", never a
+telco's name), and `legal.html` §5 says so — keep that wording.
 
-- **Menu:** a showroom orbit renders behind the translucent overlay while
-  `state === 'menu'`; `__street.orbit = angle` freezes it and
-  `__street.lockQuality()` pins full quality, both for screenshots.
+- **World data:** `ROADS` (name, half width, points, loop) and `LAKE`
+  (polygon) at the top of the file; `ring()`/`ray()`/`toward()` build the
+  circles and avenues off `CITY`, `CAP`, `RUS`, `WAR`. Roads are
+  Catmull-Rom polylines sampled every 2 m into a 16 m grid (`rgrid`).
+  **Junctions are found from the geometry, not declared:** a sample that
+  lies within another road's half width is "covered", covered samples are
+  clustered by union-find, each cluster becomes a plain asphalt patch
+  (`patches`, drawn as a fan at y = 0.02) and the road quads under it are
+  not drawn. Add a road and its junctions appear; nothing else to wire.
+  A road that should end on a ring must end on the ring's centreline
+  (`toward(centre, ..., radius)`), or it gets no patch.
+- **Surfaces:** `surfaceAt` is asphalt within `hw + 0.9` of a sample or
+  inside a patch, grass otherwise; grass takes 40 % of an axle's grip and
+  adds drag (`car.sf` / `car.sr`, one step lagged). Samples inside the lake
+  polygon are bridges: they get rails and the old lateral barrier clamp.
+  Off a bridge or over a bank the car is `wet`, sinks for 1.6 s and resets
+  to the nearest road.
+- **Collision:** buildings and monuments are oriented boxes, trees and
+  islands and hills are discs, all in a 32 m grid (`ogrid`; discs wider
+  than a cell go in `bigDiscs`). Two discs over the axles are pushed out
+  per step with a yaw impulse (`pushOut`). The map edge is `BOUND`.
 - **Renderer:** raw WebGL1, one program, 13 floats per vertex
   (pos, normal, uv, colour + seed, material id). Road markings, light
   pools, building windows and neon are drawn in the fragment shader from
-  uv, so the whole city is one static buffer. `MAT` ids must match the
-  `vM<n.5` ladder in `FS`.
+  uv, so the whole city is one static buffer (~500 k vertices; the
+  mirror pass draws it twice). Road vertex colour carries `[hw, patch]`:
+  the shader reads the half width from it (avenues over 8.5 m get a
+  grassed median and lane dashes) and a patch flag that drops markings.
+  `MAT.WATER` is the lake: near black, the mirrored city showing through
+  while the mirror pass is on. `MAT` ids must match the `vM<n.5` ladder
+  in `FS`.
 - **Per-object seeds are quantised in the shader** (`floor(vC.a*997.0+0.5)`).
   Hashing the raw interpolated varying amplified float jitter into
   per-pixel noise on every window.
 - **Frame:** scene to an offscreen target (sky, the city mirrored in y, the
-  road blended over it for the wet look, the city, cars), then bloom at
-  quarter size and a composite pass with edge anti-aliasing, speed blur and
-  vignette. Attribute slots are fixed (`bindAttribLocation`), and
-  `fullscreen()` disables slots 1-4 before each post pass.
+  ground / water / roads blended over it for the wet look, the city, cars,
+  the checkpoint beacon), then bloom at quarter size and a composite pass
+  with edge anti-aliasing, speed blur and vignette. Attribute slots are
+  fixed (`bindAttribLocation`), and `fullscreen()` disables slots 1-4
+  before each post pass.
 - **`quality` steps down by itself**: after 2.5 s of frames over 30 ms it
   drops the mirror pass, then renders at 0.7 scale. Never remove it; the
   full pipeline is too heavy for a weak phone.
-- **Garage:** `PARTS` x three levels, folded into a car's figures by
-  `tuned()`; `stepCar` only reads the tuned spec. Cash comes from laps and
-  drift points, lives in `localStorage` (`htg.street.garage`), and is
-  in-game only: never attach real money to it.
+- **Sprints (`ROUTES`):** drive through a gate (two purple pillars) to
+  start; checkpoints are 18 m circles in order, the next one shown as a
+  green beacon; a loop route finishes back at its gate. Best time and
+  ghost per car per route in `localStorage` (`htg.street.<car>.<route>`);
+  `legal.html` §7 discloses it. Straying 650 m from the next checkpoint
+  or pressing Reset cancels the sprint. Checkpoints should sit on
+  straights, never on a ring, and a route that turns at a junction wants
+  a checkpoint there (a straight line between two checkpoints is not
+  always a road).
+- **Drift:** angle × speed while sideways, ×2 inside a small ring
+  (`zoneMul`), banked to cash when the slide ends clean, lost on a hit.
+- **Garage:** `PARTS` × three levels, folded into a car's figures by
+  `tuned()`; `stepCar` only reads the tuned spec. Cash lives in
+  `localStorage` (`htg.street.garage`) and is in-game only: never attach
+  real money to it.
 - **Physics:** 120 Hz bicycle model in `stepCar` — magic-formula lateral
   force, longitudinal load transfer, friction circle on the driven axle,
   engine torque curve through an automatic gearbox, handbrake. Side-positive
@@ -385,19 +423,17 @@ a request to rebuild a commercial racer from its binary was declined.
   the steering lock is capped at the Ackermann angle for the tightest
   corner the tyres can hold plus peak slip, and yaw is damped once the car
   is properly sideways. Without those three the car spun at half lock.
-- **Check handling after any tuning change** with `?streetdebug=1`, which
-  exposes `window.__street` (`stepCar`, `newCar`, `placeCar`, the track):
-  drive it with a pursuit controller in a headless page and confirm both
-  cars lap clean (64-67 s stock, about 57 s fully upgraded) and a handbrake
-  slide recovers.
-- The track is `CTRL` (Catmull-Rom control points). Buildings are placed
-  procedurally and rejected where they would sit on another stretch of
-  road, so moving a control point needs no manual city edit.
-- Best lap and its ghost are stored per car in `localStorage`
-  (`htg.street.<car>`); `legal.html` §6 discloses it.
+- **Check handling and the map after any change** with `?streetdebug=1`,
+  which exposes `window.__street` (`stepCar`, `step` = one game step,
+  `placeAt`, `nearestRoad`, `surfaceAt`, `pushOut`, `roads`, `patches`,
+  `ROUTES`): drive the three sprints with a pursuit controller over
+  road-following waypoints in a headless page and confirm both cars finish
+  (about 63 s, 115 s and 55 s at a 32 m/s cap) without leaving the asphalt.
 - Headless Chromium renders it with SwiftShader at about 4 fps, so
   real-time keyboard tests crawl: wait on `__street.state` rather than a
-  timeout, and position the car through the debug hook.
+  timeout, and position the car through `placeAt`.
+- The HUD place label (`#streetPlace`) is the nearest road's name — a
+  geographic name, the one bit of text the game shows while driving.
 
 ## The HTG mark
 

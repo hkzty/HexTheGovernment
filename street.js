@@ -1,14 +1,17 @@
 /* ============================================================
-   HEX STREET — night street time attack. Self-contained IIFE.
+   HEX STREET — open-world night drive through a low-poly Canberra.
+   Self-contained IIFE.
 
-   Original game: the circuit, both cars, every mesh, shader and sound
-   are generated in code at runtime. Nothing is downloaded and no
-   third-party assets, names or badges ship. See CLAUDE.md.
+   Original game: the city, both cars, every mesh, shader and sound are
+   generated in code at runtime. Nothing is downloaded and no third-party
+   assets, names or badges ship. The map is a stylised Canberra at about
+   one third scale — public places and street names only, no business,
+   brand or person. See CLAUDE.md.
 
-   Layout: world is the (x, z) plane, y up. A car's forward vector is
-   (cos psi, sin psi); its side vector (-sin psi, cos psi) is the
-   driver's RIGHT on screen. Steering, slip angles and lateral forces
-   are all positive toward that side.
+   Layout: world is the (x, z) plane, y up; x runs east, z runs south.
+   A car's forward vector is (cos psi, sin psi); its side vector
+   (-sin psi, cos psi) is the driver's RIGHT on screen. Steering, slip
+   angles and lateral forces are all positive toward that side.
    ============================================================ */
 (function () {
   'use strict';
@@ -41,60 +44,249 @@
   var seed = 93;
   function rnd() { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }
 
+
   /* ============================================================
-     TRACK — closed Catmull-Rom loop, resampled by arc length
+     WORLD — a low-poly Canberra at about one third scale.
+     Origin is on Lake Burley Griffin between the two bridges; x east,
+     z south, metres. Roads are polylines resampled every 2 m. Junctions
+     are found from the geometry: where one road runs into another the
+     road quads are cut back and a plain asphalt patch covers the join.
      ============================================================ */
-  var HW = 6.5;            // half road width, metres
-  var SHOULDER = 1.6;      // kerb strip out to the barrier
-  var LAMP = 28;           // lamp spacing along the road, metres
-  var CTRL = [
-    [0, 0], [220, 0], [330, 30], [380, 120], [340, 210], [240, 230], [180, 170],
-    [110, 200], [60, 280], [-40, 300], [-130, 250], [-150, 150], [-90, 90],
-    [-140, 30], [-80, 0]
+  var SHOULDER = 1.6;      // kerb strip beyond the asphalt, metres
+  var LAMP = 28;           // lamp spacing along a road, metres
+  var BOUND = 1350;        // half size of the drivable square
+  var CITY = [0, -360], CAP = [210, 520], RUS = [720, -110], WAR = [560, -600], WODEN = [-520, 1000];
+  var BLACKMT = [-640, -720], AINSLIE = [720, -880], REDHILL = [260, 900];
+  function toward(a, b, d) { var dx = b[0] - a[0], dz = b[1] - a[1], l = Math.hypot(dx, dz); return [a[0] + dx / l * d, a[1] + dz / l * d]; }
+  function ray(a, b, r0, r1) { var l = Math.hypot(b[0] - a[0], b[1] - a[1]); return [toward(a, b, r0), toward(a, b, l - r1)]; }
+  function ring(c, r) { var p = [], i; for (i = 0; i < 16; i++) p.push([c[0] + Math.cos(i / 16 * 6.2832) * r, c[1] + Math.sin(i / 16 * 6.2832) * r]); return p; }
+  function along(a, b, s) { return toward(a, b, s); }
+  var COMM = ray(CITY, CAP, 40, 85), KINGS = ray(CAP, RUS, 85, 26), CONST = ray(CITY, RUS, 40, 26);
+  var ANZAC0 = [385, -40], ANZAC1 = toward(WAR, ANZAC0, 24);
+  /* name, half width, points, loop. Avenues wider than 8.5 m get a median. */
+  var ROADS = [
+    { name: 'Vernon Circle', hw: 7, pts: ring(CITY, 40), loop: true },
+    { name: 'London Circuit', hw: 6, pts: ring(CITY, 115), loop: true },
+    { name: 'Capital Circle', hw: 6, pts: ring(CAP, 85), loop: true },
+    { name: 'State Circle', hw: 7, pts: ring(CAP, 150), loop: true },
+    { name: 'Russell', hw: 6, pts: ring(RUS, 26), loop: true },
+    { name: 'Anzac Parade', hw: 6, pts: ring(WAR, 24), loop: true },
+    { name: 'Woden', hw: 6, pts: ring(WODEN, 30), loop: true },
+    { name: 'Northbourne Avenue', hw: 9, pts: [[0, -400], [0, -700], [0, -1050], [0, -1150]] },
+    { name: 'Federal Highway', hw: 6, pts: [[0, -1050], [120, -1140], [260, -1240]] },
+    { name: 'Barton Highway', hw: 6, pts: [[0, -1050], [-150, -1150], [-300, -1240]] },
+    { name: 'Commonwealth Avenue', hw: 9, pts: COMM },
+    { name: 'Kings Avenue', hw: 9, pts: KINGS },
+    { name: 'Constitution Avenue', hw: 9, pts: CONST },
+    { name: 'Anzac Parade', hw: 12, pts: [ANZAC0, ANZAC1] },
+    { name: 'Parkes Way', hw: 8, pts: [[-900, -140], [-650, -150], [-350, -150], [-100, -175], [100, -150], [300, -110], [480, -70], [650, -60], toward(RUS, [650, -60], 26)] },
+    { name: 'Lady Denman Drive', hw: 6, pts: [[145, 250], [0, 290], [-200, 260], [-420, 230], [-650, 170], [-880, 120]] },
+    { name: 'King Edward Terrace', hw: 6, pts: [[145, 250], [270, 275], [387, 300]] },
+    { name: 'Adelaide Avenue', hw: 9, pts: [toward(CAP, [-520, 1000], 150), [-60, 700], [-250, 830], toward(WODEN, [-250, 830], 30)] },
+    { name: 'Canberra Avenue', hw: 8, pts: [toward(CAP, [820, 900], 150), [560, 780], [820, 900], [980, 980]] },
+    { name: 'Brisbane Avenue', hw: 6, pts: [toward(CAP, [600, 560], 150), [600, 560]] },
+    { name: 'Wentworth Avenue', hw: 6, pts: [[600, 560], [520, 420], [387, 300]] },
+    { name: 'Giles Street', hw: 5, pts: [[520, 640], [820, 640]] },
+    { name: 'Eyre Street', hw: 5, pts: [[520, 720], [820, 720]] },
+    { name: 'Kennedy Street', hw: 5, pts: [[560, 560], [560, 780]] },
+    { name: 'Jardine Street', hw: 5, pts: [[680, 540], [680, 780]] },
+    { name: 'Cunningham Street', hw: 5, pts: [[760, 560], [760, 820]] },
+    { name: 'Bowen Drive', hw: 6, pts: [toward(RUS, [760, 100], 26), [760, 100], [720, 260], [680, 420], [680, 540]] },
+    { name: 'Morshead Drive', hw: 6, pts: [toward(RUS, [1000, -170], 26), [1000, -170]] },
+    { name: 'Limestone Avenue', hw: 6, pts: [toward(WAR, [400, -760], 24), [400, -760], [200, -900], [0, -1050]] },
+    { name: 'Ainslie Avenue', hw: 6, pts: [toward(CITY, WAR, 115), [300, -480], toward(WAR, CITY, 24)] },
+    { name: 'Fairbairn Avenue', hw: 6, pts: [toward(WAR, [900, -480], 24), [900, -480], [1100, -440]] },
+    { name: 'Barry Drive', hw: 7, pts: [toward(CITY, [-400, -380], 115), [-400, -380], [-520, -440]] },
+    { name: 'Lonsdale Street', hw: 5, pts: [[70, -470], [70, -920]] },
+    { name: 'Mort Street', hw: 5, pts: [[140, -480], [140, -900]] },
+    { name: 'Condamine Street', hw: 5, pts: [[-70, -470], [-70, -920]] },
+    { name: 'Watson Street', hw: 5, pts: [[-140, -480], [-140, -900]] },
+    { name: 'Girrahween Street', hw: 5, pts: [[-170, -620], [170, -620]] },
+    { name: 'Elouera Street', hw: 5, pts: [[-170, -760], [170, -760]] },
+    { name: 'Wakefield Avenue', hw: 5, pts: [[-170, -880], [170, -880]] },
+    { name: 'Lawson Crescent', hw: 5, pts: [[-300, -150], [-330, -60], [-290, 10]] },
+    { name: 'Dunrossil Drive', hw: 5, pts: [[-650, 170], [-600, 330], [-500, 420]] },
+    { name: 'Novar Street', hw: 5, pts: [[-300, 260], [-300, 560]] },
+    { name: 'Hopetoun Circuit', hw: 5, pts: [[-420, 230], [-420, 520]] },
+    { name: 'Schlich Street', hw: 5, pts: [[-500, 400], [-200, 400]] },
+    { name: 'Bentham Street', hw: 5, pts: [[-500, 500], [-200, 500]] },
+    { name: 'Melrose Drive', hw: 6, pts: [toward(WODEN, [-200, 1150], 30), [-200, 1150], [0, 1200]] },
+    { name: 'Yamba Drive', hw: 6, pts: [toward(WODEN, [-700, 1150], 30), [-700, 1150]] },
+    { name: 'Lake shore', hw: 5, pts: [[-880, 120], [-920, 0], [-900, -140]] }
   ];
-  var T = (function () {
-    var n = CTRL.length, dense = [], i, j;
+  /* Lake Burley Griffin, clockwise from the dam. Point-in-polygon decides water. */
+  var LAKE = [[-900, 60], [-760, -20], [-600, -60], [-430, -80], [-330, 20], [-250, 40], [-200, -60], [-60, -120], [60, -90], [200, -60], [330, -20], [420, 0],
+    [520, 60], [600, 60], [680, 20], [760, 20], [820, 80], [860, 180], [800, 300], [700, 360], [600, 330], [520, 300], [460, 290], [400, 230], [330, 200],
+    [240, 220], [150, 230], [40, 250], [-100, 220], [-300, 200], [-450, 180], [-650, 120], [-820, 110]];
+  function inLake(x, z) {
+    var inside = false, i, j, n = LAKE.length;
+    for (i = 0, j = n - 1; i < n; j = i++) {
+      var a = LAKE[i], b = LAKE[j];
+      if ((a[1] > z) !== (b[1] > z) && x < (b[0] - a[0]) * (z - a[1]) / (b[1] - a[1]) + a[0]) inside = !inside;
+    }
+    return inside;
+  }
+  var HILLS = [[BLACKMT[0], BLACKMT[1], 280, 150], [AINSLIE[0], AINSLIE[1], 260, 115], [REDHILL[0], REDHILL[1], 150, 70]]; // x z radius height
+
+  /* ---------- roads: sample, hash, find junctions ---------- */
+  var roads = [], CELL = 16, rgrid = {};
+  function cellKey(x, z) { return (Math.floor((x + 2000) / CELL) << 10) + Math.floor((z + 2000) / CELL); }
+  function sampleRoad(def) {
+    var P = def.pts, n = P.length, dense = [], i, j;
     function cr(p0, p1, p2, p3, t) {
       var t2 = t * t, t3 = t2 * t;
       return 0.5 * ((2 * p1) + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t2 + (-p0 + 3 * p1 - 3 * p2 + p3) * t3);
     }
-    for (i = 0; i < n; i++) {
-      var a = CTRL[(i + n - 1) % n], b = CTRL[i], c = CTRL[(i + 1) % n], d = CTRL[(i + 2) % n];
-      for (j = 0; j < 24; j++) dense.push([cr(a[0], b[0], c[0], d[0], j / 24), cr(a[1], b[1], c[1], d[1], j / 24)]);
+    var segs = def.loop ? n : n - 1;
+    for (i = 0; i < segs; i++) {
+      var a = P[def.loop ? (i + n - 1) % n : Math.max(0, i - 1)], b = P[i], c = P[(i + 1) % n], d = P[def.loop ? (i + 2) % n : Math.min(n - 1, i + 2)];
+      var steps = Math.max(4, Math.round(Math.hypot(c[0] - b[0], c[1] - b[1]) / 8));
+      for (j = 0; j < steps; j++) dense.push([cr(a[0], b[0], c[0], d[0], j / steps), cr(a[1], b[1], c[1], d[1], j / steps)]);
     }
-    var cum = [0], len = 0, m = dense.length;
-    for (i = 1; i <= m; i++) {
-      var p = dense[i % m], q = dense[i - 1];
-      len += Math.hypot(p[0] - q[0], p[1] - q[1]); cum.push(len);
-    }
-    var N = Math.round(len / 2), ds = len / N;
-    var x = new Float32Array(N), z = new Float32Array(N), tx = new Float32Array(N), tz = new Float32Array(N);
-    var k = 0;
+    if (!def.loop) dense.push([P[n - 1][0], P[n - 1][1]]);
+    var m = dense.length, cum = [0], len = 0, last = def.loop ? m : m - 1;
+    for (i = 1; i <= last; i++) { var p = dense[i % m], q = dense[i - 1]; len += Math.hypot(p[0] - q[0], p[1] - q[1]); cum.push(len); }
+    var N = Math.max(2, Math.round(len / 2)), ds = len / N, k = 0;
+    if (!def.loop) N++;
+    var x = new Float32Array(N), z = new Float32Array(N), tx = new Float32Array(N), tz = new Float32Array(N), fl = new Uint8Array(N);
     for (i = 0; i < N; i++) {
-      var s = i * ds;
+      var s = Math.min(i * ds, len - 1e-6);
       while (cum[k + 1] < s) k++;
       var f = (s - cum[k]) / (cum[k + 1] - cum[k]), p0 = dense[k % m], p1 = dense[(k + 1) % m];
       x[i] = lerp(p0[0], p1[0], f); z[i] = lerp(p0[1], p1[1], f);
     }
     for (i = 0; i < N; i++) {
-      var ax = x[(i + 1) % N] - x[(i + N - 1) % N], az = z[(i + 1) % N] - z[(i + N - 1) % N], l = Math.hypot(ax, az);
+      var i0 = def.loop ? (i + N - 1) % N : Math.max(0, i - 1), i1 = def.loop ? (i + 1) % N : Math.min(N - 1, i + 1);
+      var ax = x[i1] - x[i0], az = z[i1] - z[i0], l = Math.hypot(ax, az) || 1;
       tx[i] = ax / l; tz[i] = az / l;
     }
-    return { N: N, ds: ds, len: len, x: x, z: z, tx: tx, tz: tz };
+    return { name: def.name, hw: def.hw, loop: !!def.loop, N: N, ds: ds, len: len, x: x, z: z, tx: tx, tz: tz, fl: fl };
+  }
+  // fl bits: 1 covered by a junction patch, 2 bridge
+  var patches = [];   // [x, z, r]
+  (function buildRoads() {
+    var i, r, R;
+    ROADS.forEach(function (def) { roads.push(sampleRoad(def)); });
+    for (r = 0; r < roads.length; r++) {
+      R = roads[r];
+      for (i = 0; i < R.N; i++) {
+        var k = cellKey(R.x[i], R.z[i]);
+        (rgrid[k] || (rgrid[k] = [])).push(r, i);
+        if (inLake(R.x[i], R.z[i])) R.fl[i] |= 2;
+      }
+    }
+    // union-find over samples that lie on another road
+    var ids = [], base = [];
+    for (r = 0; r < roads.length; r++) { base.push(ids.length); for (i = 0; i < roads[r].N; i++) ids.push(ids.length); }
+    function find(a) { while (ids[a] !== a) { ids[a] = ids[ids[a]]; a = ids[a]; } return a; }
+    function union(a, b) { a = find(a); b = find(b); if (a !== b) ids[a] = b; }
+    for (r = 0; r < roads.length; r++) {
+      R = roads[r];
+      for (i = 0; i < R.N; i++) {
+        var cx = Math.floor((R.x[i] + 2000) / CELL), cz = Math.floor((R.z[i] + 2000) / CELL), dx, dz;
+        for (dx = -1; dx <= 1; dx++) for (dz = -1; dz <= 1; dz++) {
+          var cell = rgrid[((cx + dx) << 10) + cz + dz], q;
+          if (!cell) continue;
+          for (q = 0; q < cell.length; q += 2) {
+            var r2 = cell[q], i2 = cell[q + 1];
+            if (r2 === r) continue;
+            var O = roads[r2], d = Math.hypot(R.x[i] - O.x[i2], R.z[i] - O.z[i2]);
+            if (d < O.hw + 1.5) { R.fl[i] |= 1; union(base[r] + i, base[r2] + i2); }
+            else if (d < R.hw + 1.5) union(base[r] + i, base[r2] + i2);
+          }
+        }
+      }
+    }
+    for (r = 0; r < roads.length; r++) {
+      R = roads[r];
+      for (i = 1; i < R.N; i++) if ((R.fl[i] & 1) && (R.fl[i - 1] & 1)) union(base[r] + i, base[r] + i - 1);
+      if (R.loop && (R.fl[0] & 1) && (R.fl[R.N - 1] & 1)) union(base[r], base[r] + R.N - 1);
+    }
+    var cl = {};
+    for (r = 0; r < roads.length; r++) {
+      R = roads[r];
+      for (i = 0; i < R.N; i++) if (R.fl[i] & 1) {
+        var root = find(base[r] + i), c = cl[root] || (cl[root] = { sx: 0, sz: 0, n: 0, m: [] });
+        c.sx += R.x[i]; c.sz += R.z[i]; c.n++; c.m.push(r, i);
+      }
+    }
+    Object.keys(cl).forEach(function (key) {
+      var c = cl[key], cx = c.sx / c.n, cz = c.sz / c.n, rad = 0, q;
+      for (q = 0; q < c.m.length; q += 2) {
+        var Q = roads[c.m[q]], j = c.m[q + 1];
+        rad = Math.max(rad, Math.hypot(Q.x[j] - cx, Q.z[j] - cz) + Q.hw + Q.ds + 0.4);
+      }
+      patches.push([cx, cz, rad]);
+    });
   })();
-  // side (right-hand) normal of sample i is (-tz, tx)
 
-  function nearest(px, pz, hint) {
-    var best = 1e18, bi = 0, i, j, dx, dz, d;
-    if (hint < 0) {
-      for (i = 0; i < T.N; i++) { dx = px - T.x[i]; dz = pz - T.z[i]; d = dx * dx + dz * dz; if (d < best) { best = d; bi = i; } }
-      return bi;
+  /* nearest road sample to a point: [road, index, distance] or null */
+  var nrOut = [0, 0, 0];
+  function nearestRoad(px, pz, reach) {
+    var cx = Math.floor((px + 2000) / CELL), cz = Math.floor((pz + 2000) / CELL), best = 1e18, br = -1, bi = 0, dx, dz, q;
+    reach = reach || 1;
+    for (dx = -reach; dx <= reach; dx++) for (dz = -reach; dz <= reach; dz++) {
+      var cell = rgrid[((cx + dx) << 10) + cz + dz];
+      if (!cell) continue;
+      for (q = 0; q < cell.length; q += 2) {
+        var R = roads[cell[q]], i = cell[q + 1], ex = px - R.x[i], ez = pz - R.z[i], d = ex * ex + ez * ez;
+        if (d < best) { best = d; br = cell[q]; bi = i; }
+      }
     }
-    for (j = -6; j <= 18; j++) {
-      i = (hint + j + T.N) % T.N; dx = px - T.x[i]; dz = pz - T.z[i]; d = dx * dx + dz * dz;
-      if (d < best) { best = d; bi = i; }
+    if (br < 0) {
+      if (reach < 8) return nearestRoad(px, pz, reach * 2);
+      for (q = 0; q < roads.length; q++) { var S = roads[q], j; for (j = 0; j < S.N; j += 3) { var fx = px - S.x[j], fz = pz - S.z[j], e = fx * fx + fz * fz; if (e < best) { best = e; br = q; bi = j; } } }
     }
-    return bi;
+    nrOut[0] = br; nrOut[1] = bi; nrOut[2] = Math.sqrt(best);
+    return nrOut;
+  }
+  // 1 on asphalt, 0 on grass
+  function surfaceAt(px, pz) {
+    var n = nearestRoad(px, pz), i;
+    if (n[0] >= 0 && n[2] < roads[n[0]].hw + 0.9) return 1;
+    for (i = 0; i < patches.length; i++) { var p = patches[i], dx = px - p[0], dz = pz - p[1]; if (dx * dx + dz * dz < p[2] * p[2]) return 1; }
+    return 0;
+  }
+
+  /* ---------- obstacles: boxes in a grid, big discs in a list ---------- */
+  var OCELL = 32, ogrid = {}, boxes = [], discs = [], bigDiscs = []; // bigDiscs: too large for the grid, checked every step
+  function addBox(cx, cz, tx, tz, hl, hd) {
+    var id = boxes.length; boxes.push(cx, cz, tx, tz, hl, hd);
+    var e = Math.max(hl, hd) + 2, x0 = Math.floor((cx - e + 2000) / OCELL), x1 = Math.floor((cx + e + 2000) / OCELL), z0 = Math.floor((cz - e + 2000) / OCELL), z1 = Math.floor((cz + e + 2000) / OCELL), x, z;
+    for (x = x0; x <= x1; x++) for (z = z0; z <= z1; z++) (ogrid[(x << 10) + z] || (ogrid[(x << 10) + z] = [])).push(id);
+  }
+  function addDisc(cx, cz, r) {
+    if (r > OCELL - 4) { bigDiscs.push(cx, cz, r); return; }
+    var id = -1 - discs.length; discs.push(cx, cz, r);
+    var x0 = Math.floor((cx - r - 2 + 2000) / OCELL), x1 = Math.floor((cx + r + 2 + 2000) / OCELL), z0 = Math.floor((cz - r - 2 + 2000) / OCELL), z1 = Math.floor((cz + r + 2 + 2000) / OCELL), x, z;
+    for (x = x0; x <= x1; x++) for (z = z0; z <= z1; z++) (ogrid[(x << 10) + z] || (ogrid[(x << 10) + z] = [])).push(id);
+  }
+  // push a disc (px, pz, rad) out of the obstacles; returns [nx, nz, depth] or null
+  var hitOut = [0, 0, 0];
+  function pushOut(px, pz, rad) {
+    var cx = Math.floor((px + 2000) / OCELL), cz = Math.floor((pz + 2000) / OCELL), dx, dz, q, best = 0, bx = 0, bz = 0;
+    function disc(ox, oz, r) {
+      var ex = px - ox, ez = pz - oz, d = Math.hypot(ex, ez), pen = r + rad - d;
+      if (pen > best && d > 1e-6) { best = pen; bx = ex / d; bz = ez / d; }
+    }
+    for (dx = -1; dx <= 1; dx++) for (dz = -1; dz <= 1; dz++) {
+      var cell = ogrid[((cx + dx) << 10) + cz + dz];
+      if (!cell) continue;
+      for (q = 0; q < cell.length; q++) {
+        var id = cell[q];
+        if (id < 0) { id = -1 - id; disc(discs[id], discs[id + 1], discs[id + 2]); continue; }
+        var ox = boxes[id], oz = boxes[id + 1], tx = boxes[id + 2], tz = boxes[id + 3], hl = boxes[id + 4], hd = boxes[id + 5];
+        var ex = px - ox, ez = pz - oz, l = ex * tx + ez * tz, d = -ex * tz + ez * tx;
+        var pl = hl + rad - Math.abs(l), pd = hd + rad - Math.abs(d);
+        if (pl <= 0 || pd <= 0) continue;
+        if (pl < pd) { if (pl > best) { best = pl; bx = l > 0 ? tx : -tx; bz = l > 0 ? tz : -tz; } }
+        else if (pd > best) { best = pd; bx = d > 0 ? -tz : tz; bz = d > 0 ? tx : -tx; }
+      }
+    }
+    for (q = 0; q < bigDiscs.length; q += 3) disc(bigDiscs[q], bigDiscs[q + 1], bigDiscs[q + 2]);
+    if (best <= 0) return null;
+    hitOut[0] = bx; hitOut[1] = bz; hitOut[2] = best;
+    return hitOut;
   }
 
   /* ============================================================
@@ -159,14 +351,13 @@
   function newCar(key) {
     return { key: key, S: tuned(key), boost: 0, tank: 1, nosOn: 0, x: 0, z: 0, psi: 0, vx: 0, vz: 0, r: 0, delta: 0, af: 0, ar: 0,
              ax: 0, ay: 0, gear: 1, rpm: 800, shiftT: 0, rev: false, slip: 0, spin: 0, wheelRot: 0,
-             idx: 0, lat: 0, hit: 0, thr: 0, brk: 0, beta: 0, speed: 0 };
+             idx: 0, rd: 0, lat: 0, hit: 0, thr: 0, brk: 0, beta: 0, speed: 0, sf: 1, sr: 1, wet: 0, sink: 0, y: 0, road: '' };
   }
-  function placeCar(car, idx, back) {
-    idx = ((idx % T.N) + T.N) % T.N;
-    car.x = T.x[idx]; car.z = T.z[idx]; car.psi = Math.atan2(T.tz[idx], T.tx[idx]);
+  function placeAt(car, x, z, psi) {
+    car.x = x; car.z = z; car.psi = psi;
     car.vx = car.vz = car.r = car.delta = car.af = car.ar = car.ax = car.ay = 0;
-    car.gear = 1; car.rpm = car.S.idle; car.rev = false; car.idx = idx; car.lat = 0; car.slip = 0; car.shiftT = 0;
-    void back;
+    car.gear = 1; car.rpm = car.S.idle; car.rev = false; car.lat = 0; car.slip = 0; car.shiftT = 0; car.sink = 0; car.y = 0; car.wet = 0; car.sf = car.sr = 1;
+    var n = nearestRoad(x, z); car.rd = n[0]; car.idx = n[1]; car.road = roads[n[0]].name;
   }
 
   /* One fixed physics step. inp: {steer -1..1, thr 0..1, brk 0..1, hb bool} */
@@ -222,7 +413,7 @@
     var fzf0 = S.m * G * S.b / L, fzr0 = S.m * G * S.a / L;
     var tr = S.m * car.ax * S.h / L;
     var fzf = Math.max(600, fzf0 - tr), fzr = Math.max(600, fzr0 + tr);
-    var muF = S.mu * 0.95, muR = S.mu * 1.06;
+    var muF = S.mu * 0.95 * (car.sf ? 1 : 0.6), muR = S.mu * 1.06 * (car.sr ? 1 : 0.6);   // grass under an axle takes its grip
 
     // slip angles, relaxed for stability
     var fvx = vx * cd + (vy + S.a * r) * sd, fvy = (vy + S.a * r) * cd - vx * sd;
@@ -247,7 +438,7 @@
     var fyf = tyre(car.af, fzf, muF, fzf0) * kf;
     var fyr = tyre(car.ar, fzr, muR, fzr0) * kr;
 
-    var drag = S.cda * vx * Math.abs(vx) + (spd > 0.3 ? sgn * 0.015 * S.m * G : 0);
+    var drag = S.cda * vx * Math.abs(vx) + (spd > 0.3 ? sgn * (0.015 + 0.02 * (2 - car.sf - car.sr)) * S.m * G : 0);
     var FX = fxr + fxf * cd - fyf * sd - drag;
     var FY = fyr + fyf * cd + fxf * sd;
     var MZ = S.a * (fyf * cd + fxf * sd) - S.b * fyr;
@@ -271,29 +462,57 @@
     var sl = Math.max(Math.abs(car.af), Math.abs(car.ar)) - 0.09;
     car.slip = clamp(sl * 5 + (spin || locked ? 0.5 : 0), 0, 1) * clamp(car.speed / 6, 0, 1);
 
-    // barriers: keep the car between the walls
-    car.idx = nearest(car.x, car.z, car.idx);
-    var i = car.idx, nx = -T.tz[i], nz = T.tx[i];
-    var lat = (car.x - T.x[i]) * nx + (car.z - T.z[i]) * nz, lim = HW + SHOULDER - 1.05;
-    car.lat = lat; car.hit = 0;
-    if (Math.abs(lat) > lim) {
-      var sd2 = lat > 0 ? 1 : -1, over = Math.abs(lat) - lim, vn = (car.vx * nx + car.vz * nz) * sd2;
-      car.x -= nx * sd2 * over; car.z -= nz * sd2 * over;
-      if (vn > 0) {
-        car.vx -= nx * sd2 * vn * 1.25; car.vz -= nz * sd2 * vn * 1.25;
-        car.vx *= 0.97; car.vz *= 0.97; car.r *= 0.6; car.hit = vn;
-        var along = Math.atan2(T.tz[i], T.tx[i]);
-        if (Math.cos(car.psi - along) < 0) along += Math.PI;
-        car.psi = wrapPi(car.psi + wrapPi(along - car.psi) * Math.min(0.25, vn * 0.03));
+    // surface under each axle for the next step: grass takes grip and adds drag
+    car.sf = surfaceAt(car.x + c * S.a, car.z + s * S.a); car.sr = surfaceAt(car.x - c * S.b, car.z - s * S.b);
+    car.hit = 0;
+    var nr = nearestRoad(car.x, car.z); car.rd = nr[0]; car.idx = nr[1];
+    var R = roads[car.rd], i = car.idx;
+    car.road = R.name;
+    car.lat = (car.x - R.x[i]) * -R.tz[i] + (car.z - R.z[i]) * R.tx[i];
+    // bridges: rails keep the car on the deck
+    if ((R.fl[i] & 2) && nr[2] < R.hw + SHOULDER + 2) {
+      var nx = -R.tz[i], nz = R.tx[i], lat = car.lat, lim = R.hw + SHOULDER - 1.05;
+      if (Math.abs(lat) > lim) {
+        var sd2 = lat > 0 ? 1 : -1, over = Math.abs(lat) - lim, vn = (car.vx * nx + car.vz * nz) * sd2;
+        car.x -= nx * sd2 * over; car.z -= nz * sd2 * over;
+        if (vn > 0) {
+          car.vx -= nx * sd2 * vn * 1.25; car.vz -= nz * sd2 * vn * 1.25;
+          car.vx *= 0.97; car.vz *= 0.97; car.r *= 0.6; car.hit = vn;
+          var alongA = Math.atan2(R.tz[i], R.tx[i]);
+          if (Math.cos(car.psi - alongA) < 0) alongA += Math.PI;
+          car.psi = wrapPi(car.psi + wrapPi(alongA - car.psi) * Math.min(0.25, vn * 0.03));
+        }
       }
     }
+    // buildings, trees, monuments, hills: two discs, one over each axle
+    var k;
+    for (k = 0; k < 2; k++) {
+      var off = k ? -S.b : S.a, px = car.x + c * off, pz = car.z + s * off, h = pushOut(px, pz, 0.95);
+      if (!h) continue;
+      var hx = h[0], hz = h[1], dep = h[2];
+      car.x += hx * dep; car.z += hz * dep;
+      var vn2 = car.vx * hx + car.vz * hz;
+      if (vn2 < 0) {
+        car.vx -= hx * vn2 * 1.4; car.vz -= hz * vn2 * 1.4; car.vx *= 0.96; car.vz *= 0.96;
+        var side = -s * hx + c * hz;              // which flank took it
+        car.r += off * side * -vn2 * 0.22 * S.m / S.iz; car.r *= 0.7;
+        car.hit = Math.max(car.hit, -vn2);
+      }
+    }
+    // the edge of the map
+    if (Math.abs(car.x) > BOUND) { var ex = car.x > 0 ? 1 : -1; car.x = ex * BOUND; if (car.vx * ex > 0) { car.hit = Math.max(car.hit, Math.abs(car.vx)); car.vx *= -0.4; } }
+    if (Math.abs(car.z) > BOUND) { var ez = car.z > 0 ? 1 : -1; car.z = ez * BOUND; if (car.vz * ez > 0) { car.hit = Math.max(car.hit, Math.abs(car.vz)); car.vz *= -0.4; } }
+    // water: off a bridge or over the bank and the car goes under
+    car.wet = inLake(car.x, car.z) && !car.sf && !car.sr ? 1 : 0;
+    if (car.wet) { car.sink += dt; car.vx *= 1 - 2.5 * dt; car.vz *= 1 - 2.5 * dt; car.r *= 1 - 3 * dt; car.y = -Math.min(1.6, car.sink * 1.1); }
+    else { car.sink = 0; car.y = 0; }
   }
 
   /* ============================================================
      MESH BUILDING — 13 floats per vertex:
      pos3 normal3 uv2 colour4 (a = per-object seed) material1
      ============================================================ */
-  var MAT = { PAINT: 0, ROAD: 1, BUILDING: 2, EMISSIVE: 3, GROUND: 4, BRAKE: 5, BARRIER: 6, GLASS: 7 };
+  var MAT = { PAINT: 0, ROAD: 1, BUILDING: 2, EMISSIVE: 3, GROUND: 4, BRAKE: 5, BARRIER: 6, GLASS: 7, WATER: 8 };
   function Mesh() { this.v = []; }
   Mesh.prototype.vert = function (p, n, u, v, col, mat) {
     this.v.push(p[0], p[1], p[2], n[0], n[1], n[2], u, v, col[0], col[1], col[2], col.length > 3 ? col[3] : 0, mat);
@@ -340,63 +559,255 @@
     }
   };
 
+  Mesh.prototype.fan = function (cx, cz, r, y, n, col, mat) {
+    var i;
+    for (i = 0; i < n; i++) {
+      var a0 = i / n * 6.2832, a1 = (i + 1) / n * 6.2832;
+      this.vert([cx, y, cz], [0, 1, 0], 0, 0, col, mat);
+      this.vert([cx + Math.cos(a0) * r, y, cz + Math.sin(a0) * r], [0, 1, 0], 0, 0, col, mat);
+      this.vert([cx + Math.cos(a1) * r, y, cz + Math.sin(a1) * r], [0, 1, 0], 0, 0, col, mat);
+    }
+  };
+  // tapered cylinder, open at the bottom, lid on top when r1 > 0
+  Mesh.prototype.cyl = function (cx, cz, r0, r1, y0, y1, n, col, mat) {
+    var i;
+    for (i = 0; i < n; i++) {
+      var a0 = i / n * 6.2832, a1 = (i + 1) / n * 6.2832, c0 = Math.cos(a0), s0 = Math.sin(a0), c1 = Math.cos(a1), s1 = Math.sin(a1);
+      var nx = (c0 + c1) / 2, nz = (s0 + s1) / 2, ny = (r0 - r1) / Math.max(1e-3, y1 - y0), nl = Math.hypot(nx, ny, nz);
+      this.quad([cx + c0 * r0, y0, cz + s0 * r0], [cx + c1 * r0, y0, cz + s1 * r0], [cx + c1 * r1, y1, cz + s1 * r1], [cx + c0 * r1, y1, cz + s0 * r1],
+                [nx / nl, ny / nl, nz / nl], col, mat, [0, y0, (a1 - a0) * r0, y0, (a1 - a0) * r0, y1, 0, y1]);
+    }
+    if (r1 > 0) this.fan(cx, cz, r1, y1, n, col, mat);
+  };
+
+  /* Sprints: a start gate and checkpoints, best time and ghost kept per car. */
+  var ROUTES = [
+    { id: 'northbourne', name: 'Northbourne Run', pts: [[0, -980], [0, -760], [0, -560], [40, -360], along(CITY, CAP, 160), along(CITY, CAP, 460), along(CITY, CAP, 700)] },
+    { id: 'triangle', name: 'The Triangle', loop: true,
+      pts: [along(CITY, CAP, 110), along(CITY, CAP, 460), along(CITY, CAP, 700), [249, 375], along(CAP, RUS, 290), along(CAP, RUS, 580),
+            along(CITY, RUS, 500), along(CITY, RUS, 250)] },
+    { id: 'anzac', name: 'Anzac Dash', pts: [along(ANZAC0, WAR, 500), along(ANZAC0, WAR, 300), along(ANZAC0, WAR, 100), [399, -87], [300, -110], [100, -150], [-100, -175], [-350, -150], [-600, -150]] }
+  ];
+
+  var GREEN = [0.02, 0.05, 0.022, 0], DARKGREEN = [0.015, 0.04, 0.018, 0];
   function buildWorld() {
-    var m = new Mesh(), fl = new Mesh(), i, N = T.N;
-    var road = [0, 0, 0, 0], edge = HW + SHOULDER;
-    // road surface and barriers
-    for (i = 0; i < N; i++) {
-      var j = (i + 1) % N, s0 = i * T.ds, s1 = (i + 1) * T.ds;
-      var ax = T.x[i], az = T.z[i], bx = T.x[j], bz = T.z[j];
-      var anx = -T.tz[i], anz = T.tx[i], bnx = -T.tz[j], bnz = T.tx[j];
-      fl.quad([ax - anx * edge, 0, az - anz * edge], [ax + anx * edge, 0, az + anz * edge],
-             [bx + bnx * edge, 0, bz + bnz * edge], [bx - bnx * edge, 0, bz - bnz * edge],
-             [0, 1, 0], road, MAT.ROAD, [-edge, s0, edge, s0, edge, s1, -edge, s1]);
-      for (var sd = -1; sd <= 1; sd += 2) {
-        var a0 = [ax + anx * edge * sd, 0, az + anz * edge * sd], b0 = [bx + bnx * edge * sd, 0, bz + bnz * edge * sd];
-        m.quad(a0, b0, [b0[0], 0.95, b0[2]], [a0[0], 0.95, a0[2]], [-anx * sd, 0, -anz * sd], [0.3, 0.3, 0.32, sd], MAT.BARRIER,
-               [s0, 0, s1, 0, s1, 0.95, s0, 0.95]);
+    var m = new Mesh(), fl = new Mesh(), lamps = [], i, j, r, R, q;
+    var ROADC = function (hw, patch) { return [hw, patch, 0, 0]; };
+
+    /* ground and water on one grid: 48 m cells, split to 8 m along the shore */
+    var BIG = 48, SMALL = 8, gx, gz, G = BOUND + 150;
+    function groundCell(x0, z0, size) {
+      var inside = 0, corners = [[x0, z0], [x0 + size, z0], [x0, z0 + size], [x0 + size, z0 + size], [x0 + size / 2, z0 + size / 2]], c;
+      for (c = 0; c < 5; c++) if (inLake(corners[c][0], corners[c][1])) inside++;
+      if (inside === 0 || size <= SMALL) {
+        var water = inside >= 3 || (size <= SMALL && inside >= 1 && inLake(x0 + size / 2, z0 + size / 2));
+        var y = water ? -0.01 : -0.03, col = water ? [0, 0, 0, 0] : [0, 0, 0, 0], mat = water ? MAT.WATER : MAT.GROUND;
+        fl.quad([x0, y, z0], [x0 + size, y, z0], [x0 + size, y, z0 + size], [x0, y, z0 + size], [0, 1, 0], col, mat);
+        return;
+      }
+      if (inside === 5) { fl.quad([x0, -0.01, z0], [x0 + size, -0.01, z0], [x0 + size, -0.01, z0 + size], [x0, -0.01, z0 + size], [0, 1, 0], [0, 0, 0, 0], MAT.WATER); return; }
+      var n = size / SMALL, a, b;
+      for (a = 0; a < n; a++) for (b = 0; b < n; b++) groundCell(x0 + a * SMALL, z0 + b * SMALL, SMALL);
+    }
+    for (gx = -G; gx < G; gx += BIG) for (gz = -G; gz < G; gz += BIG) groundCell(gx, gz, BIG);
+
+    /* roads: surface quads where no junction covers them, rails on the bridges, lamps */
+    for (r = 0; r < roads.length; r++) {
+      R = roads[r];
+      var edge = R.hw + SHOULDER, last = R.loop ? R.N : R.N - 1, rc = ROADC(R.hw, 0);
+      for (i = 0; i < last; i++) {
+        j = (i + 1) % R.N;
+        if ((R.fl[i] & 1) || (R.fl[j] & 1)) continue;
+        var s0 = i * R.ds, s1 = (i + 1) * R.ds, ax = R.x[i], az = R.z[i], bx = R.x[j], bz = R.z[j];
+        var anx = -R.tz[i], anz = R.tx[i], bnx = -R.tz[j], bnz = R.tx[j];
+        fl.quad([ax - anx * edge, 0, az - anz * edge], [ax + anx * edge, 0, az + anz * edge], [bx + bnx * edge, 0, bz + bnz * edge], [bx - bnx * edge, 0, bz - bnz * edge],
+                [0, 1, 0], rc, MAT.ROAD, [-edge, s0, edge, s0, edge, s1, -edge, s1]);
+        if ((R.fl[i] & 2) && (R.fl[j] & 2)) {
+          for (var sd = -1; sd <= 1; sd += 2) {
+            var a0 = [ax + anx * edge * sd, 0, az + anz * edge * sd], b0 = [bx + bnx * edge * sd, 0, bz + bnz * edge * sd];
+            m.quad(a0, b0, [b0[0], 0.95, b0[2]], [a0[0], 0.95, a0[2]], [-anx * sd, 0, -anz * sd], [0.3, 0.3, 0.32, sd], MAT.BARRIER, [s0, 0, s1, 0, s1, 0.95, s0, 0.95]);
+          }
+          // deck face down to the water
+          fl.quad([ax - anx * edge, -0.6, az - anz * edge], [ax - anx * edge, 0, az - anz * edge], [bx - bnx * edge, 0, bz - bnz * edge], [bx - bnx * edge, -0.6, bz - bnz * edge], [-anx, 0, -anz], [0.05, 0.05, 0.06, 0], MAT.GROUND);
+          fl.quad([ax + anx * edge, 0, az + anz * edge], [ax + anx * edge, -0.6, az + anz * edge], [bx + bnx * edge, -0.6, bz + bnz * edge], [bx + bnx * edge, 0, bz + bnz * edge], [anx, 0, anz], [0.05, 0.05, 0.06, 0], MAT.GROUND);
+        }
+      }
+      var per = Math.round(LAMP / R.ds);
+      for (i = Math.round(per / 2); i < R.N; i += per) {
+        if (R.fl[i] & 1) continue;
+        var side = (Math.floor((i * R.ds) / LAMP) % 2) * 2 - 1;
+        var lx = R.x[i] - R.tz[i] * (edge + 0.5) * side, lz = R.z[i] + R.tx[i] * (edge + 0.5) * side;
+        m.box(lx, lz, R.tx[i], R.tz[i], 0.09, 0.09, 0, 6.2, [0.12, 0.12, 0.14, 0], MAT.GROUND);
+        var hx = lx + R.tz[i] * 1.3 * side, hz = lz - R.tx[i] * 1.3 * side;
+        m.box(hx, hz, R.tx[i], R.tz[i], 0.35, 0.7, 6.1, 6.28, [1.0, 0.66, 0.3, 0], MAT.EMISSIVE);
+        lamps.push([hx, hz]);
       }
     }
-    // ground
-    fl.quad([-700, -0.03, -500], [900, -0.03, -500], [900, -0.03, 800], [-700, -0.03, 800], [0, 1, 0], [0, 0, 0, 0], MAT.GROUND);
-    // lamps: alternate sides, matching the light pools the road shader draws
-    var lamps = [], per = Math.round(LAMP / T.ds), k = 0;
-    for (i = Math.round(per / 2); i < N; i += per, k++) {
-      var side = (Math.floor((i * T.ds) / LAMP) % 2) * 2 - 1;
-      var lx = T.x[i] - T.tz[i] * (edge + 0.5) * side, lz = T.z[i] + T.tx[i] * (edge + 0.5) * side;
-      m.box(lx, lz, T.tx[i], T.tz[i], 0.09, 0.09, 0, 6.2, [0.12, 0.12, 0.14, 0], MAT.GROUND);
-      var hx = lx + T.tz[i] * 1.3 * side, hz = lz - T.tx[i] * 1.3 * side;
-      m.box(hx, hz, T.tx[i], T.tz[i], 0.35, 0.7, 6.1, 6.28, [1.0, 0.66, 0.3, 0], MAT.EMISSIVE);
-      lamps.push([hx, hz]);
+    for (i = 0; i < patches.length; i++) fl.fan(patches[i][0], patches[i][1], patches[i][2], 0.02, 28, ROADC(0, 1), MAT.ROAD);
+    // roundabout islands: raised grass inside the small rings
+    for (r = 0; r < roads.length; r++) {
+      R = roads[r];
+      if (!R.loop || R.len > 2 * Math.PI * 92) continue;
+      var rr = R.len / (2 * Math.PI), cx0 = 0, cz0 = 0;
+      for (i = 0; i < R.N; i++) { cx0 += R.x[i] / R.N; cz0 += R.z[i] / R.N; }
+      var ri = rr - R.hw - 2.6;   // room to turn in off a road that ends on the ring
+      if (rr > 80) continue;                     // Capital Circle holds Parliament House
+      m.cyl(cx0, cz0, ri, ri, 0, 0.22, 24, GREEN, MAT.GROUND);
+      addDisc(cx0, cz0, ri);
+      if (rr < 30) m.cyl(cx0, cz0, 0.5, 0.5, 0, 9, 6, [0.55, 0.55, 0.6, 0], MAT.EMISSIVE); // a floodlit mast
     }
-    // buildings on both sides, never over another stretch of road
-    var placed = [], tints = [[0.16, 0.14, 0.2], [0.12, 0.13, 0.17], [0.2, 0.16, 0.16], [0.1, 0.1, 0.13]];
-    for (var sdb = -1; sdb <= 1; sdb += 2) {
-      var s = rnd() * 10;
-      while (s < T.len - 8) {
-        var hl = 5 + rnd() * 6, hd = 5 + rnd() * 6, ht = 7 + Math.pow(rnd(), 2.2) * 46;
-        var ii = Math.round((s + hl) / T.ds) % N, off = edge + 3.2 + hd;
-        var cx = T.x[ii] - T.tz[ii] * off * sdb, cz = T.z[ii] + T.tx[ii] * off * sdb, ok = true, q;
-        for (q = 0; q < N && ok; q += 2) {
-          var dx = cx - T.x[q], dz = cz - T.z[q];
-          if (dx * dx + dz * dz < (off - 0.6) * (off - 0.6)) ok = false;
+
+    /* hills: low-poly cones, solid to drive against */
+    for (i = 0; i < HILLS.length; i++) {
+      var H = HILLS[i];
+      m.cyl(H[0], H[1], H[2], H[2] * 0.55, 0, H[3] * 0.55, 14, DARKGREEN, MAT.GROUND);
+      m.cyl(H[0], H[1], H[2] * 0.55, H[2] * 0.12, H[3] * 0.55, H[3], 14, [0.012, 0.03, 0.015, 0], MAT.GROUND);
+      addDisc(H[0], H[1], H[2] - 6);
+    }
+    var STONE = [0.5, 0.48, 0.42, 0], WHITE = [0.62, 0.62, 0.6, 0], STEEL = [0.42, 0.44, 0.5, 0];
+    // the tower on Black Mountain
+    var bm = BLACKMT, bt = HILLS[0][3];
+    m.cyl(bm[0], bm[1], 7, 5, bt, bt + 70, 10, [0.16, 0.16, 0.18, 0], MAT.GROUND);
+    m.cyl(bm[0], bm[1], 16, 16, bt + 40, bt + 52, 12, [0.2, 0.2, 0.24, 0], MAT.BUILDING);
+    m.cyl(bm[0], bm[1], 11, 11, bt + 52, bt + 58, 12, STEEL, MAT.GROUND);
+    m.cyl(bm[0], bm[1], 0.6, 0.6, bt + 70, bt + 118, 6, [0.7, 0.7, 0.75, 0], MAT.EMISSIVE);
+    m.box(bm[0], bm[1], 1, 0, 0.9, 0.9, bt + 118, bt + 120, [1.0, 0.12, 0.1, 0], MAT.EMISSIVE);
+
+    /* Parliament House on Capital Hill: a grassed mound, a low pale block, the four-legged mast */
+    m.cyl(CAP[0], CAP[1], 72, 58, 0, 9, 24, GREEN, MAT.GROUND);
+    m.box(CAP[0], CAP[1], 1, 0, 36, 30, 9, 15, STONE, MAT.EMISSIVE, [0.08, 0.08, 0.09, 0]);
+    m.box(CAP[0], CAP[1], 1, 0, 12, 34, 9, 17, WHITE, MAT.EMISSIVE, [0.08, 0.08, 0.09, 0]);
+    addDisc(CAP[0], CAP[1], 72);
+    var apex = [CAP[0], 15 + 70, CAP[1]], leg;
+    for (leg = 0; leg < 4; leg++) {
+      var lx0 = CAP[0] + (leg & 1 ? 30 : -30), lz0 = CAP[1] + (leg & 2 ? 30 : -30), w = 0.9;
+      m.quad([lx0 - w, 9, lz0], [lx0 + w, 9, lz0], [apex[0] + w * 0.3, apex[1], apex[2]], [apex[0] - w * 0.3, apex[1], apex[2]], [0, 0, 1], STEEL, MAT.EMISSIVE);
+      m.quad([lx0, 9, lz0 - w], [lx0, 9, lz0 + w], [apex[0], apex[1], apex[2] + w * 0.3], [apex[0], apex[1], apex[2] - w * 0.3], [1, 0, 0], STEEL, MAT.EMISSIVE);
+    }
+    m.box(CAP[0], CAP[1], 1, 0, 0.3, 0.3, apex[1], apex[1] + 12, STEEL, MAT.EMISSIVE);
+    m.box(CAP[0] + 4, CAP[1], 1, 0, 4, 0.1, apex[1] + 7, apex[1] + 11, [0.05, 0.12, 0.5, 0], MAT.EMISSIVE);
+
+    /* the land axis: Old Parliament House, the lake and the War Memorial */
+    var AX = toward(CAP, WAR, 1), ad = [(WAR[0] - CAP[0]), (WAR[1] - CAP[1])], al = Math.hypot(ad[0], ad[1]); ad = [ad[0] / al, ad[1] / al];
+    var oph = toward(CAP, WAR, 200);
+    m.box(oph[0], oph[1], -ad[1], ad[0], 42, 11, 0, 9, WHITE, MAT.EMISSIVE, [0.1, 0.1, 0.1, 0]);
+    m.box(oph[0], oph[1], -ad[1], ad[0], 14, 16, 0, 12, WHITE, MAT.EMISSIVE, [0.1, 0.1, 0.1, 0]);
+    addBox(oph[0], oph[1], -ad[1], ad[0], 42, 16);
+    void AX;
+    var wm = toward(WAR, AINSLIE, 72);
+    m.box(wm[0], wm[1], -ad[1], ad[0], 26, 20, 0, 10, STONE, MAT.EMISSIVE, [0.14, 0.14, 0.13, 0]);
+    m.box(wm[0], wm[1], -ad[1], ad[0], 14, 14, 10, 15, STONE, MAT.EMISSIVE, [0.14, 0.14, 0.13, 0]);
+    m.cyl(wm[0], wm[1], 11, 7, 15, 20, 12, [0.3, 0.42, 0.36, 0], MAT.EMISSIVE);
+    m.cyl(wm[0], wm[1], 7, 0, 20, 25, 12, [0.3, 0.42, 0.36, 0], MAT.EMISSIVE);
+    addBox(wm[0], wm[1], -ad[1], ad[0], 26, 20);
+    // the carillon on its island, and the jet in the central basin
+    var cari = [430, 150];
+    m.cyl(cari[0], cari[1], 18, 18, -0.4, 0.5, 16, GREEN, MAT.GROUND);
+    for (q = 0; q < 3; q++) { var ca = q / 3 * 6.2832 + 0.5, px = cari[0] + Math.cos(ca) * 4.5, pz = cari[1] + Math.sin(ca) * 4.5; m.box(px, pz, Math.cos(ca), Math.sin(ca), 2.2, 1.6, 0.5, 50, WHITE, MAT.EMISSIVE); }
+    addDisc(cari[0], cari[1], 18);
+    m.cyl(200, 60, 1.4, 0.4, -0.3, 95, 8, [0.62, 0.7, 0.8, 0], MAT.EMISSIVE);
+    m.cyl(200, 60, 9, 6, -0.3, 1.2, 12, [0.3, 0.36, 0.42, 0], MAT.EMISSIVE);
+    // the column at Russell
+    m.cyl(RUS[0], RUS[1], 1.8, 1.4, 0.2, 52, 8, STEEL, MAT.EMISSIVE);
+    m.box(RUS[0], RUS[1], 1, 0, 3, 1.2, 52, 55, [0.55, 0.5, 0.35, 0], MAT.EMISSIVE);
+    // library, gallery and court on the south shore
+    m.box(90, 310, 1, 0, 26, 15, 0, 13, WHITE, MAT.EMISSIVE, [0.1, 0.1, 0.1, 0]); addBox(90, 310, 1, 0, 26, 15);
+    m.box(330, 245, 0.96, 0.27, 20, 15, 0, 20, [0.11, 0.12, 0.15, 0.4], MAT.BUILDING, [0.05, 0.05, 0.07, 0]); addBox(330, 245, 0.96, 0.27, 20, 15);
+    m.box(255, 232, 0.96, 0.27, 16, 10, 0, 9, [0.13, 0.11, 0.1, 0.1], MAT.BUILDING, [0.05, 0.05, 0.07, 0]); addBox(255, 232, 0.96, 0.27, 16, 10);
+    // Scrivener Dam at the west end of the lake
+    m.box(-895, 35, 0.3, 0.95, 45, 3, -0.5, 1.5, [0.2, 0.2, 0.21, 0], MAT.GROUND); addBox(-895, 35, 0.3, 0.95, 45, 3);
+
+    /* sprint gates: two pillars across the road at each start */
+    for (i = 0; i < ROUTES.length; i++) {
+      var g = ROUTES[i].pts[0], nr = nearestRoad(g[0], g[1]), GR = roads[nr[0]], gi = nr[1], gw = GR.hw + 1.0;
+      for (q = -1; q <= 1; q += 2) m.box(g[0] - GR.tz[gi] * gw * q, g[1] + GR.tx[gi] * gw * q, GR.tx[gi], GR.tz[gi], 0.35, 0.35, 0, 7, [0.71, 0.47, 1.0, 0], MAT.EMISSIVE);
+      var fwd = (ROUTES[i].pts[1][0] - g[0]) * GR.tx[gi] + (ROUTES[i].pts[1][1] - g[1]) * GR.tz[gi] < 0 ? -1 : 1;
+      ROUTES[i].tx = GR.tx[gi] * fwd; ROUTES[i].tz = GR.tz[gi] * fwd;   // points the way the sprint runs
+    }
+
+    /* buildings and trees on a jittered grid, each kept clear of the roads, the lake and the hills */
+    var tints = [[0.16, 0.14, 0.2], [0.12, 0.13, 0.17], [0.2, 0.16, 0.16], [0.1, 0.1, 0.13]];
+    var houseT = [[0.14, 0.1, 0.09], [0.12, 0.11, 0.1], [0.1, 0.09, 0.1], [0.15, 0.13, 0.11]];
+    var placed = [], trees = 0, pgrid = {};
+    function pkey(x, z) { return (Math.floor((x + 2000) / 40) << 10) + Math.floor((z + 2000) / 40); }
+    function clearOf(x, z, rad) {
+      var cx = Math.floor((x + 2000) / 40), cz = Math.floor((z + 2000) / 40), dx, dz, k;
+      for (dx = -1; dx <= 1; dx++) for (dz = -1; dz <= 1; dz++) {
+        var cell = pgrid[((cx + dx) << 10) + cz + dz];
+        if (!cell) continue;
+        for (k = 0; k < cell.length; k++) { var p = placed[cell[k]]; if (Math.hypot(x - p[0], z - p[1]) < rad + p[2]) return false; }
+      }
+      return true;
+    }
+    function mark(x, z, rad) { placed.push([x, z, rad]); (pgrid[pkey(x, z)] || (pgrid[pkey(x, z)] = [])).push(placed.length - 1); }
+    function zoneAt(x, z) {
+      var dc = Math.hypot(x - CITY[0], z - CITY[1]), dp = Math.hypot(x - CAP[0], z - CAP[1]);
+      if (inLake(x, z)) return null;
+      for (var h = 0; h < HILLS.length; h++) if (Math.hypot(x - HILLS[h][0], z - HILLS[h][1]) < HILLS[h][2] + 14) return null;
+      if (dp < 180) return null;
+      if (dc < 150) return 'civic';
+      if (dc < 330 && z < -380) return 'town';
+      if (Math.hypot(x - WODEN[0], z - WODEN[1]) < 170) return 'civic';
+      if (Math.hypot(x - RUS[0], z - RUS[1]) < 170) return 'offices';
+      if (z > 230 && z < 500 && x > -20 && x < 520) return 'offices';
+      if (x > 480 && x < 860 && z > 470 && z < 800) return 'town';
+      if (z > -150 && z < 20 && x > -480 && x < 760) return 'park';
+      if (Math.hypot(x - WAR[0], z - WAR[1]) < 160) return 'park';
+      return 'suburb';
+    }
+    var STEP = 20;
+    for (gx = -BOUND; gx < BOUND; gx += STEP) for (gz = -BOUND; gz < BOUND; gz += STEP) {
+      var x = gx + rnd() * STEP, z = gz + rnd() * STEP, zone = zoneAt(x, z);
+      if (!zone) continue;
+      var nr2 = nearestRoad(x, z), RR = roads[nr2[0]], d = nr2[2] - RR.hw - SHOULDER, ti = nr2[1], tx = RR.tx[ti], tz = RR.tz[ti];
+      if (d < 2.5) continue;
+      var hl, hd, ht, col, t2, dens, isHouse = false;
+      if (zone === 'civic') { hl = 7 + rnd() * 8; hd = 7 + rnd() * 8; ht = 12 + Math.pow(rnd(), 1.8) * 46; dens = 0.9; }
+      else if (zone === 'town') { hl = 6 + rnd() * 6; hd = 5 + rnd() * 6; ht = 6 + rnd() * 9; dens = 0.75; }
+      else if (zone === 'offices') { hl = 12 + rnd() * 16; hd = 9 + rnd() * 10; ht = 10 + rnd() * 14; dens = 0.35; }
+      else if (zone === 'park') { hl = 0; dens = 0; }
+      else { hl = 4 + rnd() * 3.5; hd = 3.5 + rnd() * 3; ht = 3.4 + rnd() * 1.6; dens = 0.42; isHouse = true; }
+      var treeP = zone === 'park' ? 0.5 : zone === 'suburb' ? 0.3 : zone === 'offices' ? 0.25 : 0.06;
+      if (hl && rnd() < dens) {
+        // sit the block back from the kerb, long side along the road
+        var off = RR.hw + SHOULDER + 2.5 + hd, nx = -tz, nz = tx, sgn = (x - RR.x[ti]) * nx + (z - RR.z[ti]) * nz > 0 ? 1 : -1;
+        var cx = RR.x[ti] + nx * off * sgn, cz = RR.z[ti] + nz * off * sgn;
+        if (nr2[2] > 70) { cx = x; cz = z; }
+        var rad = Math.max(hl, hd), okP = clearOf(cx, cz, rad + 1.5) && zoneAt(cx, cz) === zone;
+        for (q = -1; q <= 1 && okP; q += 2) for (var q2 = -1; q2 <= 1 && okP; q2 += 2) {
+          var kx = cx + tx * hl * q + nx * hd * q2, kz = cz + tz * hl * q + nz * hd * q2, n2 = nearestRoad(kx, kz);
+          if (n2[2] < roads[n2[0]].hw + SHOULDER + 1.2 || inLake(kx, kz)) okP = false;
         }
-        for (q = 0; q < placed.length && ok; q++) {
-          if (Math.hypot(cx - placed[q][0], cz - placed[q][1]) < hl + placed[q][2] - 1) ok = false;
-        }
-        if (ok) {
-          var t = tints[Math.floor(rnd() * tints.length)];
-          m.box(cx, cz, T.tx[ii], T.tz[ii], hl, hd, 0, ht, [t[0], t[1], t[2], 0.05 + rnd() * 0.95], MAT.BUILDING, [0.05, 0.05, 0.07, 0]);
-          placed.push([cx, cz, Math.max(hl, hd)]);
-          // neon blade on the street face, and a beacon on the tall ones
-          if (rnd() < 0.5) {
-            var inks = [[0.71, 0.47, 1.0], [0.18, 0.83, 0.88], [1.0, 0.2, 0.6], [0.3, 1.0, 0.55]], ik = inks[Math.floor(rnd() * 4)];
-            var so = (rnd() - 0.5) * hl * 1.4, sx = cx + T.tx[ii] * so + T.tz[ii] * (hd + 0.3) * sdb, sz = cz + T.tz[ii] * so - T.tx[ii] * (hd + 0.3) * sdb;
-            m.box(sx, sz, T.tx[ii], T.tz[ii], 0.5 + rnd() * 0.5, 0.14, 4.6, Math.min(ht - 0.5, 7.5 + rnd() * 7), [ik[0], ik[1], ik[2], 0], MAT.EMISSIVE);
+        for (q = 0; q < patches.length && okP; q++) if (Math.hypot(cx - patches[q][0], cz - patches[q][1]) < patches[q][2] + rad) okP = false;
+        if (okP) {
+          {
+            if (isHouse) {
+              t2 = houseT[Math.floor(rnd() * houseT.length)];
+              m.box(cx, cz, tx, tz, hl, hd, 0, ht, [t2[0], t2[1], t2[2], 0], MAT.GROUND, [0.06, 0.045, 0.04, 0]);
+              if (rnd() < 0.45) m.box(cx - nx * (hd + 0.1) * sgn, cz - nz * (hd + 0.1) * sgn, tx, tz, 0.5, 0.08, 1.4, 2.2, [1.0, 0.8, 0.5, 0], MAT.EMISSIVE);
+            } else {
+              t2 = tints[Math.floor(rnd() * tints.length)];
+              m.box(cx, cz, tx, tz, hl, hd, 0, ht, [t2[0], t2[1], t2[2], 0.05 + rnd() * 0.95], MAT.BUILDING, [0.05, 0.05, 0.07, 0]);
+              if (zone === 'civic' && ht > 34) m.box(cx, cz, tx, tz, 0.3, 0.3, ht, ht + 0.6, [1.0, 0.12, 0.1, 0], MAT.EMISSIVE);
+              if (zone === 'town' && rnd() < 0.4) {
+                var inks = [[0.71, 0.47, 1.0], [0.18, 0.83, 0.88], [1.0, 0.2, 0.6], [0.3, 1.0, 0.55]], ik = inks[Math.floor(rnd() * 4)];
+                var so = (rnd() - 0.5) * hl * 1.2, sx = cx + tx * so - nx * (hd + 0.3) * sgn, sz = cz + tz * so - nz * (hd + 0.3) * sgn;
+                m.box(sx, sz, tx, tz, 0.5 + rnd() * 0.5, 0.14, 3.6, Math.min(ht - 0.4, 5.5 + rnd() * 3), [ik[0], ik[1], ik[2], 0], MAT.EMISSIVE);
+              }
+            }
+            addBox(cx, cz, tx, tz, hl, hd); mark(cx, cz, rad);
+            continue;
           }
-          if (ht > 30) m.box(cx, cz, T.tx[ii], T.tz[ii], 0.3, 0.3, ht, ht + 0.6, [1.0, 0.12, 0.1, 0], MAT.EMISSIVE);
         }
-        s += hl * 2 + 1.5 + rnd() * 5;
+      }
+      if (trees < 1500 && rnd() < treeP && d > 3 && clearOf(x, z, 3)) {
+        var okT = true;
+        for (q = 0; q < patches.length; q++) if (Math.hypot(x - patches[q][0], z - patches[q][1]) < patches[q][2] + 3) { okT = false; break; }
+        if (!okT) continue;
+        var th = 5 + rnd() * 5, cw = 1.6 + rnd() * 1.8, ang = rnd() * 3.14, ctx = Math.cos(ang), ctz = Math.sin(ang);
+        m.cyl(x, z, 0.3, 0.22, 0, th * 0.4, 4, [0.09, 0.07, 0.06, 0], MAT.GROUND);
+        m.cyl(x, z, cw, cw * 0.18, th * 0.32, th, 6, [0.024, 0.062, 0.027, 0], MAT.GROUND);
+        addDisc(x, z, 0.55); mark(x, z, cw); trees++;
       }
     }
     return { mesh: m, flat: fl, lamps: lamps };
@@ -544,30 +955,33 @@
     'vec3 light=amb+dif*vec3(0.5,0.5,0.85)+hl*vec3(1.0,0.94,0.8);' +
     'if(vM<0.5){float fr=pow(1.0-max(dot(n,V),0.0),3.0);light+=vec3(0.24,0.24,0.28)+nl*vec3(1.0,0.62,0.3)*(0.2+0.5*max(n.y,0.0));' +
     'col=min(vC.rgb*light,vec3(0.8))+env(reflect(-V,n))*(0.16+0.7*fr);}' +
-    'else if(vM<1.5){float u=vU.x;float v=vU.y;float au=abs(u);float base=0.055+0.03*h(floor(vP.xz*5.0));' +
-    'float k=floor(v/uLamp);float dv=v-(k+0.5)*uLamp;float sd=mod(k,2.0)*2.0-1.0;float du=u-sd*(uHW+0.8);' +
-    'light+=1.5*exp(-(du*du+dv*dv)/75.0)*vec3(1.0,0.62,0.28);' +
+    'else if(vM<1.5){float u=vU.x;float v=vU.y;float au=abs(u);float hw=vC.r;float mk=1.0-vC.g;float base=0.055+0.03*h(floor(vP.xz*5.0));' +
+    'float k=floor(v/uLamp);float dv=v-(k+0.5)*uLamp;float sd=mod(k,2.0)*2.0-1.0;float du=u-sd*(hw+0.8);' +
+    'light+=mk*1.5*exp(-(du*du+dv*dv)/75.0)*vec3(1.0,0.62,0.28)+(1.0-mk)*nl*0.45*vec3(1.0,0.62,0.3);' +
     // underglow and brake light spill
     'vec2 cd=vP.xz-uCar.xz;float ca=dot(cd,uFwd);float cl=dot(cd,vec2(-uFwd.y,uFwd.x));' +
     'light+=uGlow*1.1*exp(-(ca*ca/6.5+cl*cl/1.5));light+=vec3(1.0,0.08,0.05)*uBrake*0.5*exp(-((ca+3.6)*(ca+3.6)/3.0+cl*cl/1.6));' +
-    'float line=step(au,0.09)*step(fract(v/9.0),0.42)+step(abs(au-(uHW-0.3)),0.08);' +
-    'float chk=step(abs(v-1.0),1.0)*step(au,uHW)*step(0.5,fract(floor(u)*0.5+floor(v)*0.5));' +
-    'float sh=step(uHW,au);float kerb=sh*step(0.5,fract(v/3.0));' +
-    'vec3 alb=mix(vec3(base),vec3(0.55),clamp(line+chk,0.0,1.0));alb=mix(alb,mix(vec3(0.11),vec3(0.32,0.07,0.16),kerb),sh);col=alb*light;' +
+    // markings: a dashed centre line on streets, lane dashes and a grassed median on the avenues
+    'float wide=step(8.5,hw);float dash=step(fract(v/9.0),0.42);' +
+    'float line=(1.0-wide)*step(au,0.09)*dash+wide*step(abs(au-hw*0.52),0.07)*dash+step(abs(au-(hw-0.3)),0.08);float med=wide*step(au,1.7);' +
+    'float sh=step(hw,au);float kerb=sh*step(0.5,fract(v/3.0));' +
+    'vec3 alb=mix(vec3(base),vec3(0.55),clamp(line*mk,0.0,1.0));alb=mix(alb,vec3(0.03,0.06,0.03),med*mk);alb=mix(alb,mix(vec3(0.11),vec3(0.32,0.07,0.16),kerb),sh*mk);col=alb*light;' +
     // wet asphalt: the shallower the view, the more it mirrors
-    'alpha=mix(0.93,0.46,pow(1.0-max(V.y,0.0),2.5))+0.1*h(floor(vP.xz*3.0));alpha=mix(1.0,clamp(alpha+sh*0.3+(line+chk)*0.4,0.0,1.0),uWet);}' +
+    'alpha=mix(0.93,0.46,pow(1.0-max(V.y,0.0),2.5))+0.1*h(floor(vP.xz*3.0));alpha=mix(1.0,clamp(alpha+(sh*0.3+line*0.4)*mk,0.0,1.0),uWet);}' +
     'else if(vM<2.5){float sv=floor(vC.a*997.0+0.5);vec2 g=vec2(vU.x/2.4,vU.y/3.2);vec2 c=floor(g);vec2 f=fract(g);' +
     'float win=step(0.18,f.x)*step(f.x,0.82)*step(0.24,f.y)*step(f.y,0.78)*step(1.0,c.y)*step(abs(n.y),0.5);' +
     'float far=clamp((dist-70.0)/150.0,0.0,1.0);win=mix(win,0.36*step(1.0,c.y)*step(abs(n.y),0.5),far);float lit=mix(step(0.7,h(c+sv)),0.3,far);vec3 wc=mix(vec3(1.0,0.76,0.42),vec3(0.55,0.72,1.0),h(c.yx+sv*3.0));' +
     'float band=step(3.3,vU.y)*step(vU.y,3.75)*step(0.45,vC.a)*step(abs(n.y),0.5);' +
     'col=vC.rgb*light*0.8+win*(lit*wc*0.85+(1.0-lit)*vec3(0.012,0.014,0.03))+band*ink(fract(sv*0.137))*1.1;emis=max(win*lit,band)*0.6;}' +
     'else if(vM<3.5){col=vC.rgb*1.12;emis=1.0;}' +
-    'else if(vM<4.5){col=(vC.rgb+vec3(0.03+0.02*h(floor(vP.xz*2.0))))*light;alpha=0.93;}' +
+    'else if(vM<4.5){col=(vC.rgb+vec3(0.025,0.04,0.025)*(0.7+0.6*h(floor(vP.xz*2.0))))*light;alpha=0.93;}' +
     'else if(vM<5.5){col=vC.rgb*(0.4+1.7*uBrake);emis=1.0;}' +
     'else if(vM<6.5){float st=step(0.5,vU.y)*step(vU.y,0.74)*step(0.5,fract(vU.x/3.0+0.25*vC.a));' +
     'col=vC.rgb*light*0.6+st*vec3(1.0,0.2,0.62)*(0.1+hl*0.9);emis=st*0.3;}' +
-    'else{float fr=pow(1.0-max(dot(n,V),0.0),3.0);col=vC.rgb*light+env(reflect(-V,n))*(0.12+0.88*fr)+vC.rgb*nl*vec3(1.0,0.62,0.3)*0.6;}' +
-    'float fog=1.0-exp(-dist*0.0058);col=mix(col,vec3(0.045,0.02,0.085),fog*(1.0-emis*0.45));' +
+    'else if(vM<7.5){float fr=pow(1.0-max(dot(n,V),0.0),3.0);col=vC.rgb*light+env(reflect(-V,n))*(0.12+0.88*fr)+vC.rgb*nl*vec3(1.0,0.62,0.3)*0.6;}' +
+    // the lake: near black, the mirrored city showing through where the road pass is on
+    'else{float fr=pow(1.0-max(dot(n,V),0.0),2.0);col=vec3(0.012,0.02,0.05)*light*2.0+env(reflect(-V,n))*(0.06+0.3*fr);alpha=mix(0.96,0.3,uWet)+0.03*h(floor(vP.xz*2.0));}' +
+    'float fog=1.0-exp(-dist*0.0034);col=mix(col,vec3(0.045,0.02,0.085),fog*(1.0-emis*0.45));' +
     'if(uGhost>0.5){gl_FragColor=vec4(vec3(0.3,0.9,1.0)*(0.35+0.4*max(n.y,0.0)),0.3);}else{gl_FragColor=vec4(col,alpha);}}';
   var SKY_VS = 'attribute vec2 aP;varying vec2 vQ;void main(){vQ=aP;gl_Position=vec4(aP,0.999,1.0);}';
   var SKY_FS = 'precision mediump float;varying vec2 vQ;uniform float uYaw;uniform float uHor;' +
@@ -576,7 +990,7 @@
     'vec3 col=mix(glow,top,clamp(pow(max(y,0.0)*1.4,0.5),0.0,1.0));' +
     'vec2 g=floor(vec2(vQ.x*90.0+uYaw*153.0,vQ.y*60.0));float st=step(0.995,h(g))*step(0.2,y);col+=st*vec3(0.6,0.6,0.8)*h(g+1.0);' +
     // a skyline that turns with the camera
-    'float cx=floor(vQ.x*34.0+uYaw*58.0);float ht=0.04+0.2*pow(h(vec2(cx,3.0)),2.0);float tw=step(y,ht)*step(0.0,y);' +
+    'float cx=floor(vQ.x*34.0+uYaw*58.0);float ht=0.03+0.1*pow(h(vec2(cx,3.0)),2.0);float tw=step(y,ht)*step(0.0,y);' +
     'vec2 wq=vec2(fract(vQ.x*34.0+uYaw*58.0)*5.0,y*70.0);float wl=step(0.82,h(floor(wq)+cx))*step(0.25,fract(wq.x))*step(0.3,fract(wq.y));' +
     'col=mix(col,vec3(0.02,0.012,0.045)+wl*vec3(0.5,0.38,0.22),tw);col=mix(col,vec3(0.045,0.02,0.085),step(y,0.0));gl_FragColor=vec4(col,1.0);}';
   var BLOOM_FS = 'precision mediump float;varying vec2 vQ;uniform sampler2D uS;uniform vec2 uDir;uniform float uThr;' +
@@ -606,7 +1020,7 @@
     return p;
   }
   function locs(p, names) { var o = {}; names.forEach(function (n) { o[n] = gl.getUniformLocation(p, n); }); return o; }
-  var prog, sky, bloomP, postP, U = {}, skyU = {}, bloomU = {}, postU = {}, skyBuf, worldBuf, flatBuf, carBufs = {}, lamps = [];
+  var prog, sky, bloomP, postP, U = {}, skyU = {}, bloomU = {}, postU = {}, skyBuf, worldBuf, flatBuf, carBufs = {}, lamps = [], beaconBuf = null;
   var rt = { scene: null, a: null, b: null, w: 0, h: 0 };
   var STRIDE = 13 * 4;
   function upload(mesh) {
@@ -648,12 +1062,13 @@
   function initGL() {
     prog = program(VS, FS, ['aP', 'aN', 'aU', 'aC', 'aM']); sky = program(SKY_VS, SKY_FS, ['aP']);
     bloomP = program(SKY_VS, BLOOM_FS, ['aP']); postP = program(SKY_VS, POST_FS, ['aP']);
-    U = locs(prog, ['uVP', 'uM', 'uMirror', 'uCam', 'uCar', 'uFwd', 'uBrake', 'uHW', 'uLamp', 'uGhost', 'uNear', 'uGlow', 'uWet']);
+    U = locs(prog, ['uVP', 'uM', 'uMirror', 'uCam', 'uCar', 'uFwd', 'uBrake', 'uLamp', 'uGhost', 'uNear', 'uGlow', 'uWet']);
     skyU = locs(sky, ['uYaw', 'uHor']); bloomU = locs(bloomP, ['uS', 'uDir', 'uThr']); postU = locs(postP, ['uS', 'uB', 'uPx', 'uSpd']);
     skyBuf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, skyBuf);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
     var w = buildWorld(); worldBuf = upload(w.mesh); flatBuf = upload(w.flat); lamps = w.lamps;
     Object.keys(CARS).forEach(function (k) { carBufs[k] = { body: upload(buildCar(CARS[k])), wheel: upload(buildWheel(CARS[k])) }; });
+    var bm = new Mesh(); bm.box(0, 0, 1, 0, 0.45, 0.45, 0, 60, [0.3, 1.0, 0.55, 0], MAT.EMISSIVE); bm.cyl(0, 0, 18, 18, 0.05, 0.45, 24, [0.3, 1.0, 0.55, 0], MAT.EMISSIVE); beaconBuf = upload(bm);
     rt.scene = rt.a = rt.b = null; rt.w = rt.h = 0;
   }
 
@@ -682,7 +1097,7 @@
   var quality = 0, slowT = 0, frames = 0;
   function drawCar(pose, S, ghost, brake) {
     var bufs = carBufs[pose.key];
-    var base = yawM(pose.psi, pose.x, 0, pose.z);
+    var base = yawM(pose.psi, pose.x, pose.y || 0, pose.z);
     var lean = pitchRoll(clamp((pose.ax || 0) * 0.0035, -0.04, 0.04), clamp(-(pose.ay || 0) * 0.005, -0.05, 0.05));
     gl.uniform1f(U.uGhost, ghost ? 1 : 0); gl.uniform1f(U.uBrake, brake);
     gl.uniformMatrix4fv(U.uM, false, mul(base, lean)); bind(bufs.body); gl.drawArrays(gl.TRIANGLES, 0, bufs.body.n);
@@ -700,7 +1115,7 @@
     gl.bindBuffer(gl.ARRAY_BUFFER, skyBuf); gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
     gl.drawArrays(gl.TRIANGLES, 0, 3); void n;
   }
-  function render(car, ghostPose, dt, orbit) {
+  function render(car, ghostPose, dt, orbit, beacon) {
     var W = canvas.width, H = canvas.height, i;
     sizeTargets(W, H);
     // chase camera: follows the direction of travel, so a slide shows as a slide
@@ -708,7 +1123,7 @@
     if (car.speed > 4) aim = car.psi + clamp(wrapPi(Math.atan2(car.vz, car.vx) - car.psi), -0.6, 0.6) * 0.55;
     cam.yaw = wrapPi(cam.yaw + wrapPi(aim - cam.yaw) * Math.min(1, dt * 5.5));
     var fx = Math.cos(cam.yaw), fz = Math.sin(cam.yaw), back = 7.6 + car.speed * 0.035;
-    var sh = car.speed * 0.0006, eye = [car.x - fx * back, 3.0 + Math.sin(car.wheelRot * 0.7) * sh, car.z - fz * back], tgt = [car.x + fx * 3.5, 1.15, car.z + fz * 3.5];
+    var sh = car.speed * 0.0006, eye = [car.x - fx * back, 3.0 + Math.sin(car.wheelRot * 0.7) * sh, car.z - fz * back], tgt = [car.x + fx * 3.5, 1.15 + car.y * 0.5, car.z + fz * 3.5];
     var fov = (58 + clamp(car.speed / 45, 0, 1) * 18) * Math.PI / 180;
     var pitch = Math.atan2(eye[1] - tgt[1], back + 3.5);
     if (orbit !== undefined && orbit !== null) {
@@ -716,7 +1131,7 @@
       eye = [car.x + Math.cos(oa) * od, 1.75, car.z + Math.sin(oa) * od]; tgt = [car.x, 0.72, car.z];
       fov = 40 * Math.PI / 180; pitch = Math.atan2(eye[1] - tgt[1], od); cam.yaw = wrapPi(oa + Math.PI);
     }
-    var vp = mul(persp(fov, W / H, 0.3, 900), lookAt(eye, tgt));
+    var vp = mul(persp(fov, W / H, 0.3, 1600), lookAt(eye, tgt));
 
     gl.bindFramebuffer(gl.FRAMEBUFFER, rt.scene.fb); gl.viewport(0, 0, W, H);
     gl.disable(gl.DEPTH_TEST); gl.disable(gl.BLEND);
@@ -731,13 +1146,14 @@
     gl.uniformMatrix4fv(U.uVP, false, vp);
     gl.uniform3f(U.uCam, eye[0], eye[1], eye[2]); gl.uniform3f(U.uCar, car.x, 0, car.z);
     gl.uniform2f(U.uFwd, Math.cos(car.psi), Math.sin(car.psi));
-    gl.uniform1f(U.uHW, HW); gl.uniform1f(U.uLamp, LAMP); gl.uniform3f(U.uNear, near[0], 6, near[1]);
+    gl.uniform1f(U.uLamp, LAMP); gl.uniform3f(U.uNear, near[0], 6, near[1]);
     gl.uniform3f(U.uGlow, car.S.glow[0], car.S.glow[1], car.S.glow[2]);
     var brake = car.brk > 0.05 ? 1 : 0;
     function solids(mirror) {
       gl.uniform1f(U.uMirror, mirror); gl.uniform1f(U.uGhost, 0); gl.uniform1f(U.uBrake, brake);
       gl.uniformMatrix4fv(U.uM, false, ID); bind(worldBuf); gl.drawArrays(gl.TRIANGLES, 0, worldBuf.n);
       drawCar(car, car.S, false, brake);
+      if (beacon) { gl.uniformMatrix4fv(U.uM, false, yawM(0, beacon[0], 0, beacon[1])); bind(beaconBuf); gl.drawArrays(gl.TRIANGLES, 0, beaconBuf.n); }
     }
     // 1. the city upside down, 2. the wet road over it, 3. the city
     gl.uniform1f(U.uWet, quality < 1 ? 1 : 0);
@@ -862,15 +1278,15 @@
   }
 
   /* ============================================================
-     GAME — time attack against your own best lap
+     GAME — free roam, drift runs, sprints against your own ghost
      ============================================================ */
   var state = 'menu', carKey = 'sedan', car = newCar('sedan');
-  var count = 0, lapT = 0, lap = 0, half = false, lastLap = 0, drift = 0, driftRun = 0, driftCool = 0;
-  var rec = [], recT = 0, ghost = null, best = 0, acc = 0, last = 0, visible = true, raf = 0;
-  var START = T.N - 14;
+  var SPAWN = along(CITY, CAP, 150), SPAWN_PSI = Math.atan2(CAP[1] - CITY[1], CAP[0] - CITY[0]);
+  var count = 0, drift = 0, driftRun = 0, driftCool = 0, driftZone = 0, acc = 0, last = 0, visible = true, raf = 0;
+  var route = null, cp = 0, runT = 0, rec = [], recT = 0, ghost = null, best = 0, cooldown = 0;
   var hud = { speed: $('hudSpeed'), gear: $('hudGear'), lap: $('hudLap'), best: $('hudBest'), drift: $('hudDrift'), nos: $('hudNos') }, hudV = {};
-  var shopEl = $('streetShop'), cashEl = $('streetCash'), toastEl = $('streetToast'), nosCell = $('hudNosCell'), nosPad = $('streetNos');
-  var toastT = 0, lapDrift = 0;
+  var shopEl = $('streetShop'), cashEl = $('streetCash'), toastEl = $('streetToast'), nosCell = $('hudNosCell'), nosPad = $('streetNos'), placeEl = $('streetPlace');
+  var toastT = 0;
   function toast(msg) { if (!toastEl) return; toastEl.textContent = msg; toastEl.hidden = false; toastT = 3; }
   function drawShop() {
     if (cashEl) cashEl.textContent = '$' + garage.cash;
@@ -885,45 +1301,50 @@
         var cur = lvl(carKey, part.id);
         if (cur >= 3 || garage.cash < COST[cur]) return;
         garage.cash -= COST[cur]; garage.up[carKey][part.id] = cur + 1; saveGarage(); drawShop();
-        if (state === 'menu') { car = newCar(carKey); placeCar(car, START); cam.yaw = car.psi; }
+        if (state === 'menu') { car = newCar(carKey); placeAt(car, SPAWN[0], SPAWN[1], SPAWN_PSI); cam.yaw = car.psi; }
       });
       shopEl.appendChild(b);
     });
   }
   function setHud(k, v) { if (hudV[k] !== v && hud[k]) { hudV[k] = v; hud[k].textContent = v; } }
   function fmt(t) { if (!t) return '--:--.--'; var m = Math.floor(t / 60), s = t - m * 60; return m + ':' + (s < 10 ? '0' : '') + s.toFixed(2); }
-  function storeKey() { return 'htg.street.' + carKey; }
-  function loadBest() {
+  function storeKey(rt) { return 'htg.street.' + carKey + '.' + rt.id; }
+  function loadBest(rt) {
     best = 0; ghost = null;
     try {
-      var d = JSON.parse(localStorage.getItem(storeKey()) || 'null');
+      var d = JSON.parse(localStorage.getItem(storeKey(rt)) || 'null');
       if (d && d.t > 0 && d.g && d.g.length > 30) { best = d.t; ghost = d.g; }
     } catch (e) {}
   }
-  function saveBest() { try { localStorage.setItem(storeKey(), JSON.stringify({ t: best, g: ghost })); } catch (e) {} }
+  function saveBest(rt) { try { localStorage.setItem(storeKey(rt), JSON.stringify({ t: best, g: ghost })); } catch (e) {} }
   function ghostAt(t) {
-    if (!ghost || lap < 1) return null;
+    if (!ghost || !route) return null;
     var f = t / 0.1, i = Math.floor(f) * 3; if (i + 5 >= ghost.length) return null;
     var k = f - Math.floor(f);
     return { key: carKey, x: lerp(ghost[i], ghost[i + 3], k), z: lerp(ghost[i + 1], ghost[i + 4], k),
              psi: ghost[i + 2] + wrapPi(ghost[i + 5] - ghost[i + 2]) * k };
   }
+  function endSprint(msg) { route = null; cp = 0; ghost = null; best = 0; setHud('lap', '--'); setHud('best', '--'); if (msg) toast(msg); }
   function resetCar() {
-    var i = car.idx; placeCar(car, i); steerK = 0;
+    // back onto the nearest road, facing the way you were going
+    var n = nearestRoad(car.x, car.z), R = roads[n[0]], i = n[1], psi = Math.atan2(R.tz[i], R.tx[i]);
+    if (Math.cos(car.psi - psi) < 0) psi += Math.PI;
+    placeAt(car, R.x[i], R.z[i], psi); steerK = 0; driftRun = 0;
+    if (route) endSprint('SPRINT OFF');
   }
   function startRun() {
-    car = newCar(carKey); placeCar(car, START); cam.yaw = car.psi;
-    loadBest(); lap = 0; lapT = 0; half = false; lastLap = 0; drift = 0; driftRun = 0; rec = []; recT = 0; steerK = 0;
+    car = newCar(carKey); placeAt(car, SPAWN[0], SPAWN[1], SPAWN_PSI); cam.yaw = car.psi;
+    endSprint(); drift = 0; driftRun = 0; rec = []; recT = 0; steerK = 0; cooldown = 0;
     count = 3.2; state = 'count'; acc = 0; hudV = {};
     overlay.hidden = true; canvas.classList.add('is-playing'); document.body.classList.add('game-active'); stage.classList.add('is-live');
     initAudio(); if (actx && actx.state === 'suspended') actx.resume();
-    setHud('best', fmt(best)); setHud('lap', fmt(0)); setHud('drift', '0');
-    if (nosCell) nosCell.hidden = !car.S.nos; if (nosPad) nosPad.hidden = !car.S.nos; lapDrift = 0;
-    drawMapBase(); loop(true);
+    setHud('best', '--'); setHud('lap', '--'); setHud('drift', '0');
+    if (nosCell) nosCell.hidden = !car.S.nos; if (nosPad) nosPad.hidden = !car.S.nos;
+    loop(true);
   }
   function pause() {
     if (state !== 'run' && state !== 'count') return;
-    state = 'pause'; overlay.hidden = false; overlayTitle.textContent = 'PAUSED'; overlayText.textContent = fmt(best) === '--:--.--' ? '' : 'Best ' + fmt(best);
+    state = 'pause'; overlay.hidden = false; overlayTitle.textContent = 'PAUSED'; overlayText.textContent = route ? route.name + (best ? ' · best ' + fmt(best) : '') : '';
     drawShop();
     playBtn.textContent = 'Resume'; canvas.classList.remove('is-playing'); stage.classList.remove('is-live');
     document.body.classList.remove('game-active'); audioFrame(car, false);
@@ -934,31 +1355,65 @@
     state = count > 0 ? 'count' : 'run'; overlay.hidden = true; canvas.classList.add('is-playing'); stage.classList.add('is-live');
     document.body.classList.add('game-active'); if (actx && actx.state === 'suspended') actx.resume(); loop(true);
   }
+  // roundabouts double the drift rate: inside a small ring's asphalt
+  function zoneMul(x, z) {
+    var r;
+    for (r = 0; r < roads.length; r++) {
+      var R = roads[r];
+      if (!R.loop || R.len > 2 * Math.PI * 92) continue;
+      var rr = R.len / (2 * Math.PI), d = Math.hypot(x - R.cx, z - R.cz);
+      if (d > rr - R.hw - 3 && d < rr + R.hw + 4) return 2;
+    }
+    return 1;
+  }
+  (function () { var r, i; for (r = 0; r < roads.length; r++) { var R = roads[r], sx = 0, sz = 0; for (i = 0; i < R.N; i++) { sx += R.x[i]; sz += R.z[i]; } R.cx = sx / R.N; R.cz = sz / R.N; } })();
+  function bankDrift() {
+    var pts = Math.round(driftRun), pay = Math.min(500, Math.round(pts / 10));
+    drift += pts;
+    if (pay > 0) { garage.cash += pay; saveGarage(); }
+    if (pts >= 250) toast('DRIFT ' + pts + (driftZone > 1 ? ' · ROUNDABOUT' : '') + ' · +$' + pay);
+    driftRun = 0; driftZone = 1;
+  }
 
   function gameStep(inp, dt) {
-    var prev = car.idx;
     stepCar(car, inp, dt);
-    if (car.hit > 1.5) { thud(car.hit); driftRun = 0; }
-    var N = T.N, i = car.idx;
-    if (i > N * 0.45 && i < N * 0.55) half = true;
-    if (prev > N * 0.9 && i < N * 0.1) {
-      if (lap === 0) { lap = 1; lapT = 0; rec = []; recT = 0; half = false; }
-      else if (half) {
-        lastLap = lapT;
-        var pb = !best || lapT < best, pay = 200 + (pb ? 250 : 0) + Math.min(400, Math.round((drift + driftRun - lapDrift) / 8));
-        garage.cash += pay; saveGarage(); lapDrift = drift + driftRun;
-        toast((pb ? 'BEST ' : 'LAP ') + fmt(lapT) + ' · +$' + pay);
-        if (pb) { best = lapT; ghost = rec.slice(); saveBest(); setHud('best', fmt(best)); }
-        lap++; lapT = 0; rec = []; recT = 0; half = false;
+    if (car.hit > 1.5) { thud(car.hit); if (driftRun > 0) { driftRun = 0; driftZone = 1; } }
+    if (car.sink > 1.6) { resetCar(); toast('IN THE LAKE'); if (driftRun > 0) { driftRun = 0; driftZone = 1; } }
+    // sprints: a gate starts one, checkpoints in order, the last one stops the clock
+    var i, g;
+    if (cooldown > 0) cooldown -= dt;
+    if (!route && cooldown <= 0 && car.speed > 3) {
+      for (i = 0; i < ROUTES.length; i++) {
+        g = ROUTES[i].pts[0];
+        var ax = car.x - g[0], az = car.z - g[1], alongG = ax * ROUTES[i].tx + az * ROUTES[i].tz, across = -ax * ROUTES[i].tz + az * ROUTES[i].tx;
+        if (Math.abs(alongG) < 3 && Math.abs(across) < roads[nearestRoad(g[0], g[1])[0]].hw + 1) {
+          route = ROUTES[i]; cp = 1; runT = 0; rec = []; recT = 0; loadBest(route);
+          toast(route.name.toUpperCase()); setHud('best', fmt(best)); hudV.lap = null;
+          break;
+        }
       }
     }
-    if (lap > 0) {
-      lapT += dt; recT -= dt;
+    if (route) {
+      runT += dt; recT -= dt;
       if (recT <= 0) { recT += 0.1; rec.push(Math.round(car.x * 100) / 100, Math.round(car.z * 100) / 100, Math.round(car.psi * 1000) / 1000); }
+      var tgt = route.loop && cp === route.pts.length ? route.pts[0] : route.pts[cp];
+      if (Math.hypot(car.x - tgt[0], car.z - tgt[1]) < 18) {
+        cp++;
+        if (cp >= route.pts.length + (route.loop ? 1 : 0)) {
+          var pb = !best || runT < best, pay = 400 + (pb ? 300 : 0);
+          garage.cash += pay; saveGarage();
+          if (pb) { best = runT; ghost = rec.slice(); saveBest(route); }
+          toast((pb ? 'BEST ' : '') + fmt(runT) + ' · +$' + pay);
+          var done = route.name; route = null; cp = 0; cooldown = 4; void done;
+          setHud('lap', fmt(runT)); setHud('best', fmt(best)); ghost = null; best = 0;
+        }
+      } else if (Math.hypot(car.x - tgt[0], car.z - tgt[1]) > 650) endSprint('SPRINT OFF');
     }
-    // drift points: angle times speed, banked when the slide ends clean
-    if (Math.abs(car.beta) > 0.16 && car.speed > 9) { driftRun += Math.abs(car.beta) * car.speed * dt * 12; driftCool = 0.9; }
-    else if (driftRun > 0) { driftCool -= dt; if (driftCool <= 0) { drift += Math.round(driftRun); driftRun = 0; } }
+    // drift points: angle times speed, doubled on a roundabout, banked when the slide ends clean
+    if (Math.abs(car.beta) > 0.16 && car.speed > 9 && !car.wet) {
+      var zm = zoneMul(car.x, car.z); if (zm > driftZone) driftZone = zm;
+      driftRun += Math.abs(car.beta) * car.speed * dt * 12 * zm; driftCool = 0.9;
+    } else if (driftRun > 0) { driftCool -= dt; if (driftCool <= 0) bankDrift(); }
   }
 
   function adapt(dt) { // step quality down after 2.5 s of slow frames
@@ -971,11 +1426,15 @@
     menuRaf = 0;
     if (state !== 'menu' && state !== 'pause') return;
     var dt = Math.min(0.1, (now - menuLast) / 1000 || 0); menuLast = now;
-    if (state === 'menu') { orbitA = wrapPi(orbitA + dt * 0.35); render(car, null, dt, orbitFix === null ? orbitA : orbitFix); adapt(dt); }
+    if (state === 'menu') { orbitA = wrapPi(orbitA + dt * 0.35); render(car, null, dt, orbitFix === null ? orbitA : orbitFix, null); adapt(dt); }
     menuLoop();
   }
   function menuLoop() { if (!menuRaf && state === 'menu' && visible && !document.hidden) { menuLast = performance.now(); menuRaf = requestAnimationFrame(menuFrame); } }
-  var IDLE = { steer: 0, thr: 0, brk: 1, hb: false, nos: false };
+  var IDLE = { steer: 0, thr: 0, brk: 0, hb: false, nos: false };   // brake here put the car into reverse during the countdown
+  function nextCp() {
+    if (!route) return null;
+    return route.loop && cp === route.pts.length ? route.pts[0] : route.pts[cp];
+  }
   function frame(now) {
     raf = 0;
     if (state !== 'run' && state !== 'count') return;
@@ -984,16 +1443,17 @@
     if (state === 'count') { count -= dt; if (count <= 0) { state = 'run'; } }
     acc += dt;
     while (acc >= 1 / 120) { gameStep(state === 'run' ? inp : IDLE, 1 / 120); acc -= 1 / 120; }
-    render(car, ghostAt(lapT), dt);
+    render(car, ghostAt(runT), dt, undefined, nextCp());
     adapt(dt);
     audioFrame(car, true);
     setHud('speed', String(Math.round(car.speed * 3.6)));
     setHud('gear', state === 'count' ? String(Math.max(1, Math.ceil(count))) : car.rev ? 'R' : String(car.gear));
-    setHud('lap', fmt(lap > 0 ? lapT : 0));
+    if (route) setHud('lap', fmt(runT));
     setHud('drift', String(drift + Math.round(driftRun)));
     if (car.S.nos) setHud('nos', String(Math.round(car.tank * 100)));
+    if (placeEl && hudV.place !== car.road) { hudV.place = car.road; placeEl.textContent = car.road || ''; }
     if (toastT > 0) { toastT -= dt; if (toastT <= 0 && toastEl) toastEl.hidden = true; }
-    drawMapCar();
+    drawMap();
     loop(false);
   }
   function loop(restart) {
@@ -1001,24 +1461,38 @@
     if (!raf && visible && !document.hidden) raf = requestAnimationFrame(frame);
   }
 
-  /* ---------- minimap ---------- */
-  var mapCtx = mapCanvas ? mapCanvas.getContext('2d') : null, mapBase = null, mapS = 1, mapOx = 0, mapOz = 0, mapTick = 0;
-  function drawMapBase() {
-    if (!mapCtx) return;
-    var w = mapCanvas.width, h = mapCanvas.height, i, minX = 1e9, maxX = -1e9, minZ = 1e9, maxZ = -1e9;
-    for (i = 0; i < T.N; i++) { minX = Math.min(minX, T.x[i]); maxX = Math.max(maxX, T.x[i]); minZ = Math.min(minZ, T.z[i]); maxZ = Math.max(maxZ, T.z[i]); }
-    mapS = Math.min((w - 16) / (maxX - minX), (h - 16) / (maxZ - minZ));
-    mapOx = (w - (maxX - minX) * mapS) / 2 - minX * mapS; mapOz = (h - (maxZ - minZ) * mapS) / 2 - minZ * mapS;
-    mapCtx.clearRect(0, 0, w, h); mapCtx.lineJoin = 'round'; mapCtx.lineWidth = 3; mapCtx.strokeStyle = 'rgba(180,120,255,0.75)';
-    mapCtx.beginPath();
-    for (i = 0; i <= T.N; i += 2) { var k = i % T.N; mapCtx[i ? 'lineTo' : 'moveTo'](T.x[k] * mapS + mapOx, T.z[k] * mapS + mapOz); }
-    mapCtx.closePath(); mapCtx.stroke();
-    mapBase = mapCtx.getImageData(0, 0, w, h);
-  }
-  function drawMapCar() {
-    if (!mapCtx || !mapBase || (mapTick++ % 4)) return;
-    mapCtx.putImageData(mapBase, 0, 0);
-    mapCtx.fillStyle = '#fff'; mapCtx.beginPath(); mapCtx.arc(car.x * mapS + mapOx, car.z * mapS + mapOz, 3.2, 0, 6.2832); mapCtx.fill();
+  /* ---------- minimap: north up, centred on the car ---------- */
+  var mapCtx = mapCanvas ? mapCanvas.getContext('2d') : null, mapTick = 0, MAPS = 0.3;   // px per metre on the backing store
+  function drawMap() {
+    if (!mapCtx || (mapTick++ % 3)) return;
+    var w = mapCanvas.width, h = mapCanvas.height, ox = w / 2 - car.x * MAPS, oz = h / 2 - car.z * MAPS, i, r;
+    mapCtx.clearRect(0, 0, w, h);
+    mapCtx.fillStyle = 'rgba(40, 60, 120, 0.55)'; mapCtx.beginPath();
+    for (i = 0; i < LAKE.length; i++) mapCtx[i ? 'lineTo' : 'moveTo'](LAKE[i][0] * MAPS + ox, LAKE[i][1] * MAPS + oz);
+    mapCtx.closePath(); mapCtx.fill();
+    mapCtx.fillStyle = 'rgba(60, 90, 50, 0.45)';
+    for (i = 0; i < HILLS.length; i++) { mapCtx.beginPath(); mapCtx.arc(HILLS[i][0] * MAPS + ox, HILLS[i][1] * MAPS + oz, HILLS[i][2] * MAPS, 0, 6.2832); mapCtx.fill(); }
+    mapCtx.lineJoin = 'round'; mapCtx.lineCap = 'round'; mapCtx.strokeStyle = 'rgba(180,120,255,0.8)';
+    for (r = 0; r < roads.length; r++) {
+      var R = roads[r], step = 4;
+      if (Math.abs(R.cx - car.x) > 1200 || Math.abs(R.cz - car.z) > 1200) continue;
+      mapCtx.lineWidth = Math.max(1.2, R.hw * 2 * MAPS); mapCtx.beginPath();
+      for (i = 0; i < R.N; i += step) mapCtx[i ? 'lineTo' : 'moveTo'](R.x[i] * MAPS + ox, R.z[i] * MAPS + oz);
+      if (R.loop) mapCtx.closePath(); else mapCtx.lineTo(R.x[R.N - 1] * MAPS + ox, R.z[R.N - 1] * MAPS + oz);
+      mapCtx.stroke();
+    }
+    mapCtx.fillStyle = 'rgba(180,120,255,0.9)';
+    for (i = 0; i < ROUTES.length; i++) { var g = ROUTES[i].pts[0]; mapCtx.beginPath(); mapCtx.arc(g[0] * MAPS + ox, g[1] * MAPS + oz, 3, 0, 6.2832); mapCtx.fill(); }
+    var t = nextCp();
+    if (t) {
+      var tx = clamp(t[0] * MAPS + ox, 5, w - 5), tz = clamp(t[1] * MAPS + oz, 5, h - 5);
+      mapCtx.fillStyle = '#4dff8c'; mapCtx.beginPath(); mapCtx.arc(tx, tz, 4, 0, 6.2832); mapCtx.fill();
+    }
+    mapCtx.fillStyle = '#fff'; mapCtx.beginPath();
+    mapCtx.moveTo(w / 2 + Math.cos(car.psi) * 6, h / 2 + Math.sin(car.psi) * 6);
+    mapCtx.lineTo(w / 2 + Math.cos(car.psi + 2.5) * 4.5, h / 2 + Math.sin(car.psi + 2.5) * 4.5);
+    mapCtx.lineTo(w / 2 + Math.cos(car.psi - 2.5) * 4.5, h / 2 + Math.sin(car.psi - 2.5) * 4.5);
+    mapCtx.closePath(); mapCtx.fill();
   }
 
   /* ---------- sizing, visibility, buttons ---------- */
@@ -1026,7 +1500,7 @@
     var r = canvas.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, r.width < 700 ? 1.5 : 2) * (quality > 1 ? 0.7 : 1);
     var w = Math.max(2, Math.round(r.width * dpr)), h = Math.max(2, Math.round(r.height * dpr));
     if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
-    if (state === 'menu') render(car, null, 0.016, orbitFix === null ? orbitA : orbitFix); else if (state === 'pause') render(car, null, 0.016);
+    if (state === 'menu') render(car, null, 0.016, orbitFix === null ? orbitA : orbitFix, null); else if (state === 'pause') render(car, null, 0.016, undefined, nextCp());
   }
   window.addEventListener('resize', resize);
   document.addEventListener('visibilitychange', function () { if (document.hidden) pause(); else menuLoop(); });
@@ -1041,7 +1515,7 @@
       if (state !== 'menu') return;
       carKey = b.getAttribute('data-street-car');
       Array.prototype.forEach.call(document.querySelectorAll('[data-street-car]'), function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
-      if (state === 'menu') { car = newCar(carKey); placeCar(car, START); cam.yaw = car.psi; }
+      car = newCar(carKey); placeAt(car, SPAWN[0], SPAWN[1], SPAWN_PSI); cam.yaw = car.psi;
       drawShop();
     });
   });
@@ -1058,13 +1532,15 @@
     if (window.console) console.error(e);
     return;
   }
-  placeCar(car, START); cam.yaw = car.psi; resize(); drawShop(); menuLoop();
+  placeAt(car, SPAWN[0], SPAWN[1], SPAWN_PSI); cam.yaw = car.psi; resize(); drawShop(); menuLoop();
 
   if (DEBUG) {
     window.__street = {
-      T: T, CARS: CARS, garage: garage, tuned: tuned, newCar: newCar, placeCar: placeCar, stepCar: stepCar, START: START, HW: HW,
-      get car() { return car; }, get state() { return state; }, get lap() { return lap; }, get best() { return best; },
-      get lapT() { return lapT; }, get drift() { return drift; }, get quality() { return quality; }, set orbit(a) { orbitFix = a; }, lockQuality: function () { lockQ = true; quality = 0; resize(); }
+      roads: roads, patches: patches, ROUTES: ROUTES, CARS: CARS, garage: garage, tuned: tuned, newCar: newCar, placeAt: placeAt, stepCar: stepCar,
+      nearestRoad: nearestRoad, surfaceAt: surfaceAt, inLake: inLake, pushOut: pushOut, SPAWN: SPAWN,
+      get car() { return car; }, get state() { return state; }, get route() { return route; }, get cp() { return cp; }, get best() { return best; },
+      get runT() { return runT; }, get drift() { return drift; }, get quality() { return quality; }, get boxes() { return boxes.length / 6; }, get verts() { return worldBuf.n + flatBuf.n; },
+      set orbit(a) { orbitFix = a; }, lockQuality: function () { lockQ = true; quality = 0; resize(); }, step: function (inp, dt) { gameStep(inp, dt); }, resetRoute: function () { endSprint(); cooldown = 0; }
     };
   }
 })();
