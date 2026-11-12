@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://www.htg.productions"><img src="assets/og/htg.png" alt="HTG — Hex The Government" width="820"></a>
+  <a href="https://www.htg.productions"><img src="docs/screenshots/banner.png" alt="HTG — Hex The Government" width="820"></a>
 </p>
 
 <p align="center">
