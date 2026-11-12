@@ -200,7 +200,10 @@ too tells Google the two are one entity) and a `logo` on a dark tile
 (`assets/icons/icon-512.png`): Google draws the logo on white, where the
 white-on-transparent wordmark is invisible. Location: `legal.html` is governed by NSW law, so every page
 carries `og:locale` `en_AU` and the Organization node an `address` of
-NSW, AU. The only priced things on the site are HexBoy's packages, which are real rate-card prices; the game is `isAccessibleForFree`. `mobile.html` keeps its canonical pointing at `index.html`
+Sydney, NSW, AU (owner-confirmed, November 2026). Genres are owner-stated:
+ABRAXAS and Stretty are dark trap / rap; HEXCORE, hexrap, magic rap and
+ritual rap are HTG's own coined names and sit on ABRAXAS only. Never add
+another artist's name (Lil Peep, Ghostemane, $uicideboy$) as a keyword. The only priced things on the site are HexBoy's packages, which are real rate-card prices; the game is `isAccessibleForFree`. `mobile.html` keeps its canonical pointing at `index.html`
 so it is never indexed as a duplicate; `index.html` no longer advertises
 it as a phone alternate (that pattern describes a redirect, and the
 redirect is gone). Share cards are in

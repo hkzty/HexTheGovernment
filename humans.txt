@@ -1,7 +1,7 @@
 /* TEAM */
 	Label: HTG — Hex The Government
 	Site: https://www.htg.productions
-	Location: New South Wales, Australia
+	Location: Sydney, New South Wales, Australia
 
 	Artist: ABRAXAS
 	Deck: https://www.htg.productions/abraxas.html
