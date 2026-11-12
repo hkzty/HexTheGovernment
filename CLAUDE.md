@@ -353,6 +353,13 @@ its metadata, and keep the `legal.html` §5 wording that says so. Reference
 photos were looked at, not shipped; do not commit any. It is not a port of any existing game:
 a request to rebuild a commercial racer from its binary was declined.
 
+- **Arrow chain:** the top-line arrows run HTG → Roster → Music → Gallery →
+  The Sequence → Suit Purge → Hex Street → Contact → HTG, back and forward.
+  A new standalone page goes into that chain on both neighbours.
+- **Phones:** portrait uses the shared 68dvh stage; a phone on its side
+  (`max-height: 520px` landscape) gets a full-screen stage with the minimap
+  top-centre so it clears the pads. `frameStage()` scrolls the stage fully
+  on screen when a run starts.
 - **Menu:** a showroom orbit renders behind the translucent overlay while
   `state === 'menu'`; `__street.orbit = angle` freezes it and
   `__street.lockQuality()` pins full quality, both for screenshots.

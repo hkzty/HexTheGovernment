@@ -917,9 +917,14 @@
     count = 3.2; state = 'count'; acc = 0; hudV = {};
     overlay.hidden = true; canvas.classList.add('is-playing'); document.body.classList.add('game-active'); stage.classList.add('is-live');
     initAudio(); if (actx && actx.state === 'suspended') actx.resume();
+    frameStage();
     setHud('best', fmt(best)); setHud('lap', fmt(0)); setHud('drift', '0');
     if (nosCell) nosCell.hidden = !car.S.nos; if (nosPad) nosPad.hidden = !car.S.nos; lapDrift = 0;
     drawMapBase(); loop(true);
+  }
+  function frameStage() { // on a phone the stage can sit half below the fold: bring all of it on screen
+    var r = stage.getBoundingClientRect(), vh = window.innerHeight;
+    if (r.top < 0 || r.bottom > vh + 1) { try { stage.scrollIntoView({ block: r.height >= vh ? 'start' : 'center' }); } catch (e) { stage.scrollIntoView(); } }
   }
   function pause() {
     if (state !== 'run' && state !== 'count') return;
@@ -932,7 +937,7 @@
     if (state !== 'pause') return;
     car.S = tuned(car.key); if (nosCell) nosCell.hidden = !car.S.nos; if (nosPad) nosPad.hidden = !car.S.nos;
     state = count > 0 ? 'count' : 'run'; overlay.hidden = true; canvas.classList.add('is-playing'); stage.classList.add('is-live');
-    document.body.classList.add('game-active'); if (actx && actx.state === 'suspended') actx.resume(); loop(true);
+    document.body.classList.add('game-active'); if (actx && actx.state === 'suspended') actx.resume(); frameStage(); loop(true);
   }
 
   function gameStep(inp, dt) {
