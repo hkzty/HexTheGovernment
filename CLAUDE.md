@@ -216,6 +216,14 @@ and the sitemap (`npm run build:sitemap`) in the same commit. Anything
 that reads as a pitch belongs in `llms.txt` or structured data, not in
 the page.
 
+## README and `docs/`
+
+`README.md` is the repo's front page: banner, screenshots, links, structure.
+Keep it a showcase. Maintenance instructions live in `docs/editing.md`.
+The screenshots in `docs/screenshots/` are Playwright captures of the real
+pages (1280x720 at 2x, JPEG q78; the games captured mid-play from
+`.game-stage`). Recapture them after a visible redesign.
+
 ## The real Spotify artist
 
 `https://open.spotify.com/artist/24hLqvYHqzi1eL2ZzpjO19` — in
