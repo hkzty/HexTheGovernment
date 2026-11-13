@@ -415,6 +415,25 @@ telco's name), and `legal.html` §5 says so — keep that wording.
   just stop"):** past about 10 degrees of slip, 62% of the speed the tyres
   scrub is given back, throttle cuts rear lateral grip so a slide holds,
   and the handbrake only uses half the rear's grip to slow the car.
+- **Drift assist (`car.da`, `car.bt` in `stepCar`) — the part that makes it
+  driftable on a keyboard.** Owner said "the drifting physics are still
+  wrong" three times; measured with on/off inputs the cause was plain: a
+  handbrake flick at 86 km/h produced 10 degrees and no slide, holding
+  opposite lock ran away to a spin, and power-over spun to 73 degrees. A
+  slide is now flown by angle. Handbrake + a steering key (or any slide past
+  15 degrees) engages `da`; the held steering key asks for about 39 degrees
+  toward that side (17 off the throttle, 0 on the brake), no key lets it
+  fall at 0.5 rad/s, the other key swings it across. A PD yaw moment holds
+  `beta` on `bt`, the rear runs at reduced lateral grip, and the front
+  wheels are steered for the player onto the travel direction plus a few
+  degrees into the corner (visible opposite lock). Grip driving never trips
+  it. **Check with on/off inputs, not a smooth controller** (a controller
+  hides exactly this): handbrake 0.4 s + steer + throttle from 86 km/h must
+  reach 30 degrees by 1 s and hold 37-41 above 85 km/h; releasing the key
+  must straighten in about 1.5 s; the other key must settle on the far side
+  within 1.5 s; full lock + throttle with no handbrake at 80 km/h must stay
+  under 9 degrees; pursuit laps of State Circle, London Circuit and Capital
+  Circle must leave `da` at 0 and never leave the asphalt.
 - **Handbrake + throttle is a clutch kick (`kick` in `stepCar`), never a
   lock:** the rears are driven at 1.6× into wheelspin with lateral grip at
   0.5 (the throttle grip cut does not stack on it), so the car keeps
