@@ -351,7 +351,7 @@
   }
 
   function newCar(key) {
-    return { key: key, S: tuned(key), boost: 0, tank: 1, nosOn: 0, x: 0, z: 0, psi: 0, vx: 0, vz: 0, r: 0, delta: 0, af: 0, ar: 0,
+    return { key: key, S: tuned(key), da: 0, bt: 0, pb: 0, dbf: 0, boost: 0, tank: 1, nosOn: 0, x: 0, z: 0, psi: 0, vx: 0, vz: 0, r: 0, delta: 0, af: 0, ar: 0,
              ax: 0, ay: 0, gear: 1, rpm: 800, shiftT: 0, rev: false, slip: 0, spin: 0, wheelRot: 0, rearRot: 0, burnout: 0,
              idx: 0, rd: 0, lat: 0, hit: 0, thr: 0, brk: 0, beta: 0, speed: 0, sf: 1, sr: 1, wet: 0, sink: 0, y: 0, road: '' };
   }
@@ -359,6 +359,7 @@
     car.x = x; car.z = z; car.psi = psi;
     car.vx = car.vz = car.r = car.delta = car.af = car.ar = car.ax = car.ay = 0;
     car.gear = 1; car.rpm = car.S.idle; car.rev = false; car.lat = 0; car.slip = 0; car.shiftT = 0; car.sink = 0; car.y = 0; car.wet = 0; car.sf = car.sr = 1;
+    car.da = car.bt = car.pb = car.dbf = 0;
     var n = nearestRoad(x, z); car.rd = n[0]; car.idx = n[1]; car.road = roads[n[0]].name;
   }
 
@@ -370,11 +371,34 @@
     var spd = Math.hypot(vx, vy), sgn = vx >= 0 ? 1 : -1;
     var beta = spd > 2 ? Math.atan2(vy, Math.abs(vx)) : 0;
 
+    // Drift assist. Keys are on or off, so a slide is flown by angle, not by wheel: the
+    // handbrake with steering (or a real slide) engages it, the steering key then asks for
+    // an angle toward that side, letting go lets it straighten, the other key swings it
+    // across. `da` is how engaged it is, `bt` the slip angle being asked for.
+    var stIn = clamp(inp.steer, -1, 1), thrIn = clamp(inp.thr, 0, 1), brkIn = clamp(inp.brk, 0, 1);
+    var wantD = (inp.hb && spd > 7 && Math.abs(stIn) > 0.2) || Math.abs(beta) > 0.26 || (car.da > 0.1 && (Math.abs(car.bt) > 0.07 || Math.abs(beta) > 0.07));
+    if (spd < 5 || car.rev || inp.hold || vx < 0) wantD = false;
+    car.da += ((wantD ? 1 : 0) - car.da) * Math.min(1, dt * (wantD ? 9 : 3.5));
+    if (car.da < 0.04) { car.bt = beta; car.pb = beta; }
+    else {
+      var amp = brkIn > 0.3 ? 0 : thrIn > 0.2 ? 0.68 : 0.3, tgtB = -stIn * amp;
+      var grow = Math.abs(tgtB) > Math.abs(car.bt) && tgtB * car.bt >= 0;
+      var br = (grow ? 1.7 : stIn !== 0 ? 2.4 : thrIn > 0.2 ? 0.5 : 1.0) * dt;
+      car.bt += clamp(tgtB - car.bt, -br, br);
+    }
+
     // steering: less lock with speed, but always enough to catch a slide
     var lock = Math.min(S.steer, Math.atan(L * S.mu * G * 1.1 / Math.max(spd * spd, 1)) + 0.1);
     lock = Math.max(lock, Math.min(S.steer, Math.abs(beta) + 0.12));
-    var target = clamp(inp.steer, -1, 1) * lock;
-    var rate = (2.2 + 1.6 * clamp(1 - spd / 40, 0, 1)) * dt;
+    var target = stIn * lock;
+    // in a slide the front wheels do what a driver's hands would: point down the road the
+    // car is travelling, a few degrees into the corner (opposite lock), so they keep pulling
+    if (car.da > 0.04 && spd > 5) {
+      var thF = Math.atan2(vy + S.a * r, Math.max(Math.abs(vx), 2)), side = car.bt < -0.02 ? 1 : car.bt > 0.02 ? -1 : 0;
+      var assistD = clamp(thF + side * (0.06 + 0.1 * Math.abs(stIn)), -S.steer, S.steer);
+      target += (assistD - target) * car.da;
+    }
+    var rate = (2.2 + 1.6 * clamp(1 - spd / 40, 0, 1) + 3 * car.da) * dt;
     car.delta += clamp(target - car.delta, -rate, rate);
     var dl = car.delta, cd = Math.cos(dl), sd = Math.sin(dl);
 
@@ -448,7 +472,7 @@
     var ur = 0.86 * fxr / capR;
     var kr = locked ? 0.3 : kick ? 0.5 : spin ? 0.46 : Math.sqrt(Math.max(0.2, 1 - ur * ur));
     var slide = clamp((Math.abs(beta) - 0.17) / 0.2, 0, 1);
-    if (!locked && !kick) kr *= 1 - 0.42 * slide * thr;  // once it is sideways, throttle holds it there (a kick already has the rears lit)
+    if (!locked && !kick) kr *= 1 - Math.max(0.42 * slide * thr, 0.38 * car.da * (0.45 + 0.55 * thr));  // sideways, the rear stays loose (a kick already has the rears lit)
     var fyf = tyre(car.af, fzf, muF, fzf0) * kf;
     var fyr = tyre(car.ar, fzr, muR, fzr0) * kr;
 
@@ -457,11 +481,17 @@
     var FY = fyr + fyf * cd + fxf * sd;
     var MZ = S.a * (fyf * cd + fxf * sd) - S.b * fyr;
     MZ -= S.iz * r * (0.7 + 0.9 * clamp((Math.abs(beta) - 0.7) / 0.5, 0, 1)) * clamp(Math.abs(beta) * 2.2 - 0.15, 0, 1);   // damping once it is properly sideways, hard past 40 degrees
+    if (car.da > 0.04) {
+      var dB = (beta - car.pb) / dt; car.dbf = (car.dbf || 0) + (dB - (car.dbf || 0)) * Math.min(1, dt * 25);
+      MZ += S.iz * car.da * (8 * (beta - car.bt) + 3.2 * car.dbf);
+    }
+    car.pb = beta;
     // Tyres at a big angle scrub speed hard. Give most of that back while sliding so the
     // car carries its momentum through a drift instead of stopping in it.
-    if (spd > 4 && slide > 0 && (brk < 0.05 || kick)) {
+    var carry = Math.max(slide, car.da * clamp((Math.abs(beta) - 0.08) / 0.15, 0, 1));
+    if (spd > 4 && carry > 0 && (brk < 0.05 || kick)) {
       var alongV = (FX * vx + FY * vy) / spd;
-      if (alongV < 0) { var back = -alongV * 0.62 * slide; FX += back * vx / spd; FY += back * vy / spd; }
+      if (alongV < 0) { var back = -alongV * 0.62 * carry; FX += back * vx / spd; FY += back * vy / spd; }
     }
     var axB = FX / S.m, ayB = FY / S.m;
     vx += (axB + vy * r) * dt; vy += (ayB - vx * r) * dt; r += MZ / S.iz * dt;
