@@ -674,6 +674,20 @@
     for (i = 0; i < MAXSHOW; i++) S.ux[i] += (S.px - S.ux[i]) * Math.min(1, dt * (16 - i * 0.22));
     if (S.n <= 0 && S.mode === 'play') die();
   }
+  // After the run ends only coins and pops move: no shots, hits, pay or progress.
+  function settle(dt) {
+    var i, c;
+    S.t += dt;
+    if (S.shake > 0) S.shake -= dt;
+    if (S.hurt > 0) S.hurt -= dt;
+    S.bullets.length = 0;
+    for (i = 0; i < S.coins.length; i++) {
+      c = S.coins[i]; c.life -= dt; c.vy -= 20 * dt; c.x += c.vx * dt; c.y += c.vy * dt; c.z += c.vz * dt;
+      if (c.y < 0.15) { c.y = 0.15; c.vy *= -0.45; }
+    }
+    for (i = 0; i < S.pops.length; i++) { S.pops[i].life -= dt; S.pops[i].y += dt * 1.6; }
+    S.coins = S.coins.filter(living); S.pops = S.pops.filter(living);
+  }
   function alive(o) { return !o.dead; }
   function living(o) { return o.life > 0; }
 
@@ -916,10 +930,7 @@
     // step the resolution down on a device that cannot hold the frame
     if (dt > 0.03) { slow += dt; if (slow > 2.5 && dprCap > 0.75) { dprCap = dprCap > 1 ? 1 : 0.75; slow = 0; resize(); } } else slow = Math.max(0, slow - dt * 0.5);
     if (S.mode === 'play') update(dt);
-    else {
-      // after the end: let coins and pops settle
-      S.t += dt; var keep = S.mode; S.fire = 9; S.mode = 'x'; var n = S.n; update(dt); S.t -= dt; S.n = n; S.mode = keep;
-    }
+    else settle(dt);
     hudWrite(); render();
     requestAnimationFrame(frame);
   }
@@ -929,7 +940,7 @@
 
   if (/[?&]taxdebug=1/.test(location.search)) {
     window.__tax = {
-      get S() { return S; }, save: save, step: update, render: render, start: start, tierName: tierName,
+      get S() { return S; }, save: save, step: update, settle: settle, render: render, start: start, tierName: tierName,
       preview: function (tier, boss) { S.objs.push(enemy('rich', 0, S.dist + 9, tier, boss)); }
     };
   }
