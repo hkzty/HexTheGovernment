@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<!-- reading the source, human or otherwise: /llms.txt has the facts, /humans.txt the hands. 44657072657373696f6e732052756e6e696e672044656570 -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <title>Hex Keep — HTG</title>
+  <meta name="description" content="Hex Keep — a tower defence by HTG. Towers, gold, endless waves. All characters are fictional." />
+  <meta name="theme-color" content="#1f0335" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="author" href="humans.txt" />
+  <meta property="og:title" content="Hex Keep — HTG" />
+  <meta property="og:description" content="A tower defence by HTG. Towers, gold, endless waves. All characters are fictional." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.htg.productions/keep.html" />
+  <meta property="og:site_name" content="HTG — Hex The Government" />
+  <meta property="og:locale" content="en_AU" />
+  <meta property="og:image" content="https://www.htg.productions/assets/og/htg.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="HTG — Hex The Government" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://www.htg.productions/assets/og/htg.png" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://www.htg.productions/keep.html" />
+  <meta name="twitter:title" content="Hex Keep — HTG" />
+  <meta name="twitter:description" content="A tower defence by HTG. Towers, gold, endless waves. All characters are fictional." />
+  <!-- schema.org structured data for search engines and AI agents. Static on
+       purpose: most crawlers never run render.js. Keep it in step with
+       config.js and the page copy; never add a title, date or name that
+       is not already real on the site. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "VideoGame",
+          "SoftwareApplication"
+        ],
+        "@id": "https://www.htg.productions/keep.html#keep",
+        "name": "Hex Keep",
+        "url": "https://www.htg.productions/keep.html",
+        "image": "https://www.htg.productions/assets/og/htg.png",
+        "description": "Browser tower defence on a night field: five towers (Archer, Hex, Bombard, Totem, Ballista) with three levels each hold the road to the keep against endless waves. Everything is drawn and sounded in code at runtime; no downloads, no third-party assets. The marchers are four fictional medieval archetypes: Courtier, Merchant, Knight and King. No real person is named, depicted or targeted.",
+        "genre": [
+          "Tower defense",
+          "Fantasy"
+        ],
+        "gamePlatform": "Web browser",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "Any",
+        "playMode": "https://schema.org/SinglePlayer",
+        "isAccessibleForFree": true,
+        "author": {
+          "@id": "https://www.htg.productions/stretty.html#artist"
+        },
+        "publisher": {
+          "@id": "https://www.htg.productions/#org"
+        },
+        "isPartOf": {
+          "@id": "https://www.htg.productions/#website"
+        },
+        "mainEntityOfPage": "https://www.htg.productions/keep.html"
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://www.htg.productions/#org",
+        "name": "HTG — Hex The Government",
+        "url": "https://www.htg.productions/"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://www.htg.productions/keep.html",
+        "url": "https://www.htg.productions/keep.html",
+        "name": "Hex Keep — HTG",
+        "description": "Hex Keep, the HTG tower defence. Free, dependency-free, fictional enemies only.",
+        "isPartOf": {
+          "@id": "https://www.htg.productions/#website"
+        },
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://www.htg.productions/assets/og/htg.png"
+        },
+        "inLanguage": "en",
+        "about": {
+          "@id": "https://www.htg.productions/keep.html#keep"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "HTG",
+            "item": "https://www.htg.productions/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Hex Keep",
+            "item": "https://www.htg.productions/keep.html"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="assets/htg-mark.svg" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <script>document.documentElement.classList.add('js');</script>
+  <!-- Self-hosted (assets/fonts/fonts.css): New Rocker display=block, Plex Mono
+       display=swap — keep that split, see CLAUDE.md. Only the block face is
+       preloaded; it is the one that gates heading paint. -->
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/NewRocker-Regular.woff2" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --bg: #1f0335;
+      --bg-soft: #10011c;
+      --line: rgba(180, 120, 255, 0.20);
+      --line-strong: rgba(180, 120, 255, 0.45);
+      --line-neutral: rgba(180, 120, 255, 0.12);
+      --accent: #b478ff;
+      --accent-soft: #2a0b40;
+      --shadow: 0 0 0 1px rgba(180, 120, 255, 0.18), 0 24px 60px rgba(0, 0, 0, 0.6);
+      --ink: var(--text);
+      --dim: var(--muted);
+    }
+    .standalone-shell { position: relative; z-index: 2; width: min(72rem, 92vw); margin: 0 auto; padding: 1.4rem 0 3rem; }
+    .standalone-topline { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0 1.6rem; font-size: 0.72rem; letter-spacing: 0.14em; font-family: "IBM Plex Mono", ui-monospace, monospace; color: var(--ink); }
+    .standalone-topline a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); padding: 0.6rem 0 2px; display: inline-block; }
+    .standalone-topline a:hover { border-color: var(--accent); color: var(--accent); }
+    .standalone-topline .tag { color: var(--dim); letter-spacing: 0.3em; text-transform: uppercase; }
+    .standalone-head { padding-bottom: 1.4rem; }
+    .standalone-head h1 { font-family: "New Rocker", "IBM Plex Mono", serif; font-weight: 400; font-size: clamp(2.2rem, 8vw, 4.5rem); text-shadow: 0 0 34px rgba(180, 120, 255, 0.35); }
+    .standalone-head p { max-width: 44rem; margin-top: 0.8rem; color: var(--dim); font-size: 0.95rem; }
+    .standalone-foot { margin-top: 2.4rem; padding-top: 1.4rem; border-top: 1px solid var(--line); font-size: 0.74rem; color: var(--dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .standalone-foot a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+    .standalone-foot a:hover { border-color: var(--accent); color: var(--accent); }
+    @media (max-width: 560px) { .standalone-foot { flex-direction: column; } }
+  
+    .about { max-width: 68ch; margin: 3rem auto 2rem; padding: 0 1.25rem; font-size: 0.78rem; line-height: 1.75; color: #8f8f8f; letter-spacing: 0.02em; text-align: center; }
+    .about a { color: inherit; }
+    .keep-shop .game-chip:disabled { opacity: 0.45; cursor: default; }
+    .keep-shop .game-chip[aria-pressed="true"], .keep-shop .keep-wave:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .keep-shop .game-chip:active:not(:disabled) { background: var(--accent-soft); }
+    @media (max-width: 820px) {
+      /* Taller than the shared 68dvh stage: the field is drawn transposed on a
+         phone and its cell (the tap target) is set by the height left over. */
+      .keep-stage { height: 100vh; height: 100dvh; }
+      .keep-shop .game-chip { padding: 0 0.6rem; letter-spacing: 0.08rem; }
+    }
+    @media (max-height: 520px) and (orientation: landscape) {
+      .keep-stage { height: 96vh; height: 96dvh; }
+    }
+  </style>
+</head>
+<body data-rain="purple">
+  <canvas id="matrix-rain" aria-hidden="true"></canvas>
+  <div class="standalone-shell">
+    <div class="standalone-topline">
+      <a href="street.html">← Hex Street</a>
+      <span class="tag">Hex The Government</span>
+      <a href="tax.html">Tax Season →</a>
+    </div>
+
+    <header class="standalone-head">
+      <h1>HEX KEEP</h1>
+      <p class="game-disclaimer">Fiction. No real person is depicted. <a href="legal.html#satire">Fiction notice</a>.</p>
+    </header>
+
+    <main>
+    <div class="game-stage keep-stage">
+      <canvas id="keepCanvas" class="game-canvas" role="img" aria-label="Hex Keep"></canvas>
+
+      <div class="game-hud" id="keepHud" aria-hidden="true">
+        <div class="hud-cell"><span>Gold</span><b id="hudGold">170</b></div>
+        <div class="hud-cell"><span>Keep</span><b id="hudLives">20</b></div>
+        <div class="hud-cell"><span>Wave</span><b id="hudWave">0</b></div>
+      </div>
+
+      <div class="game-overlay" id="keepOverlay">
+        <p class="game-kicker">HTG</p>
+        <h2 id="keepOverlayTitle">HEX KEEP</h2>
+        <p class="game-lead" id="keepOverlayText">The court is on the road. Hold the keep.</p>
+        <button class="btn btn-primary" type="button" id="keepPlay">Play</button>
+        <p class="game-keys" id="keepKeys"><b>Desktop</b> 1&ndash;5 pick a tower &middot; click the field to build &middot; click a tower, U upgrades, X sells &middot; Space sends the wave &middot; F speed &middot; Esc pause. <b>Phone</b> tap.</p>
+      </div>
+
+      <div class="jar-shop keep-shop" id="keepShop" hidden></div>
+
+      <div class="game-bar">
+        <button class="game-chip" type="button" id="keepExit">Exit</button>
+        <button class="game-chip" type="button" id="keepMute" aria-pressed="false">Sound on</button>
+      </div>
+    </div>
+    <p class="about">Hex Keep is a free browser tower defence by HTG — Hex The Government. A court of four fictional archetypes (Courtier, Merchant, Knight and King) marches down the road to the keep; gold from each one buys and upgrades five towers: Archer, Hex, Bombard, Totem and Ballista, three levels each. Waves are endless and the best run is kept on your device. The field, the keep, every tower, figure and sound are generated in code at runtime; nothing is downloaded. Also by HTG: <a href="game.html">Suit Purge</a> and <a href="street.html">Hex Street</a>.</p>
+    </main>
+
+    <footer class="standalone-foot">
+      <span>© <span id="legal-year">2026</span> ABRAXAS · HTG — <a href="legal.html">Legal &amp; Privacy</a></span>
+      <span><a href="game.html">Suit Purge</a> · <a href="street.html">Hex Street</a> · <a href="index.html">HTG</a> · <a href="legal.html#satire">Fiction notice</a></span>
+    </footer>
+    <script>(function(){var y=document.getElementById('legal-year');if(y)y.textContent=new Date().getFullYear();})();</script>
+  </div>
+
+  <script src="keep.js"></script>
+  <script>
+    (function () {
+      var exitBtn = document.getElementById('keepExit');
+      if (exitBtn) exitBtn.addEventListener('click', function () {
+        window.location.href = 'index.html';
+      });
+    })();
+  </script>
+  <script src="matrix.js"></script>
+  <script src="config.js?v=20260922"></script>
+  <script src="analytics.js"></script>
+</body>
+</html>

@@ -35,7 +35,7 @@
 
 ## The games
 
-Three games ship inside the site. Every wall, sprite, weapon and sound is generated in code at runtime — nothing is downloaded, no third-party assets.
+Four games ship inside the site. Every wall, sprite, weapon and sound is generated in code at runtime — nothing is downloaded, no third-party assets.
 
 | Suit Purge | Jars |
 |---|---|
@@ -45,6 +45,10 @@ Three games ship inside the site. Every wall, sprite, weapon and sound is genera
 **Hex Street** — open-world night drifting through a low-poly Canberra in hand-written WebGL: the Parliamentary Triangle, the lake and its bridges, Civic to Kingston, every roundabout a drift zone; a V6 sedan and an I6 ute on a tyre-model physics core, wet-road and lake reflections, bloom, an upgrade garage (turbo, nitrous, gearbox and more), and three sprints against the ghost of your best time. [`street.js`](street.js) · [play](https://www.htg.productions/street.html)
 
 [![Hex Street](docs/screenshots/hex-street.jpg)](https://www.htg.productions/street.html)
+
+**Hex Keep** — tower defence on a night field: Archer, Hex, Bombard, Totem and Ballista, three levels each, against endless waves of a marching court. [`keep.js`](keep.js)
+
+[![Hex Keep](docs/screenshots/hex-keep.jpg)](https://www.htg.productions/keep.html)
 
 **Tax Season** — lane-runner shooter in hand-written WebGL: a crew that fires on its own, gates that grow or cut it, a fork in the road, lobbies that keep spawning suits, and a boss per bracket who is richer, bigger and uglier than the last. Every model is a smooth-shaded lathe built in code. [`tax.js`](tax.js)
 
@@ -68,7 +72,7 @@ index.html            home: hero, roster, music, gallery
 roster.html  music.html  gallery.html  sequence.html  contact.html
 abraxas.html  stretty.html  ciggie.html  justin.html      artist decks
 hexboy.html  graveboy.html                                service desks
-game.html  rain.html  street.html  tax.html               Suit Purge, Jars, Hex Street, Tax Season
+game.html  rain.html  street.html  keep.html  tax.html    Suit Purge, Jars, Hex Street, Hex Keep, Tax Season
 legal.html  404.html
 mobile.html           generated from index.html + style.css
 
@@ -76,7 +80,7 @@ config.js             content: links, the Sequence, gallery, shop, contact
 render.js             builds markup from config.js
 script.js             nav, reveals, lightbox, contact form
 matrix.js             glyph rain
-game.js  rain.js  street.js   the games
+game.js  rain.js  street.js  keep.js   the games
 desk.js               service desks
 style.css             one stylesheet for every page
 
