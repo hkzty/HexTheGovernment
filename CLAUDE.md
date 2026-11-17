@@ -27,6 +27,7 @@ Deployed by GitHub Pages straight from `main` (see `CNAME`). Merging to
 | `game.js` | Suit Purge — the in-page shooter. Self-contained IIFE. |
 | `worker/` | Cloudflare Worker + KV for the Suit Purge shared highscores. Not served by Pages. |
 | `analytics.js` | Loads Cloudflare Web Analytics only when `config.analytics.cloudflareToken` is set. Off by default; enabling it changes `legal.html` §6/§7 (see the comment in `config.js`). |
+| `keep.js`, `keep.html` | Hex Keep — the tower defence. Self-contained IIFE. |
 | `rain.js`, `rain.html` | Jars — the second hidden game, on the rain. Self-contained IIFE. Unlocked only from `game.html`. |
 | `index.html` | Desktop page: hero, roster, music, gallery, donation + legal footer. Everything else is a standalone page. The hero is a full-screen gate (`body.hero-gate`, `script.js`): the page is locked on it until the first wheel / swipe / tap / key, which scrolls to the roster. |
 | `roster.html`, `music.html`, `gallery.html` | Standalone copies of the home sections in the `sequence.html` shell; the nav links here, the home page keeps the sections for scrolling. They embed the same markup as `index.html` — edit both. |
@@ -464,7 +465,7 @@ telco's name), and `legal.html` §5 says so — keep that wording.
   on harmonics 3 and 9 for its burble, the inline six on 6, 12 and 18.
   Nobody has heard this through the sandbox: tune it from owner feedback.
 - **Arrow chain:** the top-line arrows run HTG → Roster → Music → Gallery →
-  The Sequence → Suit Purge → Hex Street → Contact → HTG, back and forward.
+  The Sequence → Suit Purge → Hex Street → Hex Keep → Contact → HTG, back and forward.
   A new standalone page goes into that chain on both neighbours.
 - **Phones:** portrait uses the shared 68dvh stage; a phone on its side
   (`max-height: 520px` landscape) gets a full-screen stage with the minimap
@@ -495,6 +496,40 @@ telco's name), and `legal.html` §5 says so — keep that wording.
   timeout, and position the car through `placeAt`.
 - The HUD place label (`#streetPlace`) is the nearest road's name — a
   geographic name, the one bit of text the game shows while driving.
+
+## Hex Keep (`keep.js`, `keep.html`) — the tower defence
+
+An original tower defence, linked from the home footer and the arrow chain
+(after Hex Street). The owner first asked for a remake of a commercial
+tower defence dressed in another commercial game's icons, graphics and
+weapon stats; both halves were declined (not ours to copy or ship) and
+this is the original built instead. **Do not port either game's towers,
+upgrade trees, maps, rounds, names, items or art into it.** Same rules as
+the other games: nothing downloaded, no third-party assets, **no real
+person**.
+
+- **Towers (`TOWERS`):** Archer, Hex (splash, ignores armour), Bombard
+  (big splash), Totem (slow aura; level 3 also burns), Ballista (line
+  pierce). Three levels each; a tower sells for 70% of what was spent.
+- **Marchers (`ENEMIES`):** Courtier, Merchant (fast), Knight (armour),
+  King (every fifth wave, one more each time; totems slow him half as
+  much). Four fictional medieval archetypes; `legal.html` §5 names them.
+- **All rules run in landscape cell units (16 × 9).** A stage taller than
+  wide is drawn transposed; only `toScreenX/Y` and `toCell` know. The road
+  is `WAY`; `blocked` (road, keep, its two flanking cells) is derived from
+  it, so a new road needs nothing else wired.
+- **`resize()` measures the HUD, the bar and the shop row** and fits the
+  field between them; `start()` sets chip labels before `resize()`, as in
+  Jars. The field is a static buffer repainted only on resize.
+- **Fixed 60 Hz step with an accumulator**; x2 speed runs two steps a
+  frame. HUD and chips only write to the DOM on change.
+- **Balance check:** `?keepdebug=1` exposes `window.__keep` (`step`,
+  `place`, `sendWave`, `select`, `upgrade`, `S`). A greedy bot (24 towers
+  along the road, cheapest upgrade first) should hold wave 5's first king
+  most runs and fall between waves 30 and 35; a player who builds nothing
+  falls on wave 2. `hpScale` is touchy: `0.2 / 1.06` killed the bot by
+  wave 8, `0.14 / 1.045` never touched it before 30.
+- Best run in `localStorage` (`htg.keep.best`); `legal.html` §8 discloses it.
 
 ## The HTG mark
 
