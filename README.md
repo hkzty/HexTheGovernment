@@ -35,7 +35,7 @@
 
 ## The games
 
-Three games ship inside the site. Every wall, sprite, weapon and sound is generated in code at runtime — nothing is downloaded, no third-party assets.
+Four games ship inside the site. Every wall, sprite, weapon and sound is generated in code at runtime — nothing is downloaded, no third-party assets.
 
 | Suit Purge | Jars |
 |---|---|
@@ -46,7 +46,11 @@ Three games ship inside the site. Every wall, sprite, weapon and sound is genera
 
 [![Hex Street](docs/screenshots/hex-street.jpg)](https://www.htg.productions/street.html)
 
-All three are fiction. No real person or car brand is depicted; Hex Street's Canberra is a stylised map of public places and street names only.
+**Hex Keep** — tower defence on a night field: Archer, Hex, Bombard, Totem and Ballista, three levels each, against endless waves of a marching court. [`keep.js`](keep.js)
+
+[![Hex Keep](docs/screenshots/hex-keep.jpg)](https://www.htg.productions/keep.html)
+
+All four are fiction. No real person or car brand is depicted; Hex Street's Canberra is a stylised map of public places and street names only.
 
 ## What's in here
 
@@ -64,7 +68,7 @@ index.html            home: hero, roster, music, gallery
 roster.html  music.html  gallery.html  sequence.html  contact.html
 abraxas.html  stretty.html  ciggie.html  justin.html      artist decks
 hexboy.html  graveboy.html                                service desks
-game.html  rain.html  street.html                         Suit Purge, Jars, Hex Street
+game.html  rain.html  street.html  keep.html              Suit Purge, Jars, Hex Street, Hex Keep
 legal.html  404.html
 mobile.html           generated from index.html + style.css
 
@@ -72,7 +76,7 @@ config.js             content: links, the Sequence, gallery, shop, contact
 render.js             builds markup from config.js
 script.js             nav, reveals, lightbox, contact form
 matrix.js             glyph rain
-game.js  rain.js  street.js   the games
+game.js  rain.js  street.js  keep.js   the games
 desk.js               service desks
 style.css             one stylesheet for every page
 
