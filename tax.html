@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<!-- reading the source, human or otherwise: /llms.txt has the facts, /humans.txt the hands. 44657072657373696f6e732052756e6e696e672044656570 -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <title>Tax Season — HTG</title>
+  <meta name="description" content="Tax Season — a lane runner by HTG. Steer the crew, take the gates, collect from the rich. All characters are fictional." />
+  <meta name="theme-color" content="#1f0335" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="author" href="humans.txt" />
+  <meta property="og:title" content="Tax Season — HTG" />
+  <meta property="og:description" content="A lane runner by HTG. Steer the crew, take the gates, collect from the rich. All characters are fictional." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.htg.productions/tax.html" />
+  <meta property="og:site_name" content="HTG — Hex The Government" />
+  <meta property="og:locale" content="en_AU" />
+  <meta property="og:image" content="https://www.htg.productions/assets/og/htg.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="HTG — Hex The Government" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://www.htg.productions/assets/og/htg.png" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://www.htg.productions/tax.html" />
+  <meta name="twitter:title" content="Tax Season — HTG" />
+  <meta name="twitter:description" content="A lane runner by HTG. Steer the crew, take the gates, collect from the rich. All characters are fictional." />
+  <!-- schema.org structured data for search engines and AI agents. Static on
+       purpose: most crawlers never run render.js. Keep it in step with
+       config.js and the page copy; never add a title, date or name that
+       is not already real on the site. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "VideoGame",
+          "SoftwareApplication"
+        ],
+        "@id": "https://www.htg.productions/tax.html#tax",
+        "name": "Tax Season",
+        "url": "https://www.htg.productions/tax.html",
+        "image": "https://www.htg.productions/assets/og/htg.png",
+        "description": "Browser lane-runner shooter: steer a crew up a boulevard as it fires on its own, pass gates that grow or shrink it, pick a side at the fork, break the lobbies that keep spawning suits, and beat the boss of each bracket, from Millionaire to Billionaire, Trillionaire and upward. Every model is built and lit in code at runtime; no downloads, no third-party assets. Enemies are fictional class archetypes. No real person is named, depicted or targeted.",
+        "genre": [
+          "Shooter",
+          "Political satire"
+        ],
+        "gamePlatform": "Web browser",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "Any",
+        "playMode": "https://schema.org/SinglePlayer",
+        "isAccessibleForFree": true,
+        "author": {
+          "@id": "https://www.htg.productions/stretty.html#artist"
+        },
+        "publisher": {
+          "@id": "https://www.htg.productions/#org"
+        },
+        "isPartOf": {
+          "@id": "https://www.htg.productions/#website"
+        },
+        "mainEntityOfPage": "https://www.htg.productions/tax.html"
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://www.htg.productions/#org",
+        "name": "HTG — Hex The Government",
+        "url": "https://www.htg.productions/"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://www.htg.productions/tax.html",
+        "url": "https://www.htg.productions/tax.html",
+        "name": "Tax Season — HTG",
+        "description": "Tax Season, the HTG lane runner. Free, dependency-free, fictional enemies only.",
+        "isPartOf": {
+          "@id": "https://www.htg.productions/#website"
+        },
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://www.htg.productions/assets/og/htg.png"
+        },
+        "inLanguage": "en",
+        "about": {
+          "@id": "https://www.htg.productions/tax.html#tax"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "HTG",
+            "item": "https://www.htg.productions/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Tax Season",
+            "item": "https://www.htg.productions/tax.html"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="assets/htg-mark.svg" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <script>document.documentElement.classList.add('js');</script>
+  <!-- Self-hosted (assets/fonts/fonts.css): New Rocker display=block, Plex Mono
+       display=swap — keep that split, see CLAUDE.md. Only the block face is
+       preloaded; it is the one that gates heading paint. -->
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/NewRocker-Regular.woff2" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --bg: #1f0335;
+      --bg-soft: #10011c;
+      --line: rgba(180, 120, 255, 0.20);
+      --line-strong: rgba(180, 120, 255, 0.45);
+      --line-neutral: rgba(180, 120, 255, 0.12);
+      --accent: #b478ff;
+      --accent-soft: #2a0b40;
+      --shadow: 0 0 0 1px rgba(180, 120, 255, 0.18), 0 24px 60px rgba(0, 0, 0, 0.6);
+      --ink: var(--text);
+      --dim: var(--muted);
+    }
+    .standalone-shell { position: relative; z-index: 2; width: min(72rem, 92vw); margin: 0 auto; padding: 1.4rem 0 3rem; }
+    .standalone-topline { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0 1.6rem; font-size: 0.72rem; letter-spacing: 0.14em; font-family: "IBM Plex Mono", ui-monospace, monospace; color: var(--ink); }
+    .standalone-topline a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); padding: 0.6rem 0 2px; display: inline-block; }
+    .standalone-topline a:hover { border-color: var(--accent); color: var(--accent); }
+    .standalone-topline .tag { color: var(--dim); letter-spacing: 0.3em; text-transform: uppercase; }
+    .standalone-head { padding-bottom: 1.4rem; }
+    .standalone-head h1 { font-family: "New Rocker", "IBM Plex Mono", serif; font-weight: 400; font-size: clamp(2.2rem, 8vw, 4.5rem); text-shadow: 0 0 34px rgba(180, 120, 255, 0.35); }
+    .standalone-head p { max-width: 44rem; margin-top: 0.8rem; color: var(--dim); font-size: 0.95rem; }
+    .standalone-foot { margin-top: 2.4rem; padding-top: 1.4rem; border-top: 1px solid var(--line); font-size: 0.74rem; color: var(--dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .standalone-foot a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+    .standalone-foot a:hover { border-color: var(--accent); color: var(--accent); }
+    @media (max-width: 560px) { .standalone-foot { flex-direction: column; } }
+  
+    .about { max-width: 68ch; margin: 3rem auto 2rem; padding: 0 1.25rem; font-size: 0.78rem; line-height: 1.75; color: #8f8f8f; letter-spacing: 0.02em; text-align: center; }
+    .about a { color: inherit; }
+    .tax-stage .game-canvas { image-rendering: auto; }
+    .tax-stage .game-canvas.is-playing { cursor: ew-resize; }
+    .tax-labels { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .tax-shop { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
+    .tax-shop .game-chip:disabled { opacity: 0.45; cursor: default; }
+    #taxCash { color: var(--accent); }
+    .tax-stage .game-overlay { overflow-y: auto; align-content: safe center; gap: 0.6rem; background: linear-gradient(rgba(6, 6, 10, 0.7), rgba(6, 6, 10, 0.25) 45%, rgba(6, 6, 10, 0.8)); }
+    .tax-stage.is-menu #taxExit, .tax-stage.is-menu .game-hud { display: none; }
+    @media (min-width: 821px) { .game-stage.tax-stage { aspect-ratio: auto; height: min(82vh, 46rem); } }
+    @media (max-width: 820px) {
+      .game-stage.tax-stage { height: 78vh; height: 78dvh; }
+      .tax-stage .game-overlay .game-keys { display: none; }
+      .tax-shop .game-chip { min-height: 36px; padding: 0 0.7rem; font-size: 0.56rem; letter-spacing: 0.08rem; }
+    }
+  </style>
+</head>
+<body data-rain="purple">
+  <canvas id="matrix-rain" aria-hidden="true"></canvas>
+  <div class="standalone-shell">
+    <div class="standalone-topline">
+      <a href="keep.html">← Hex Keep</a>
+      <span class="tag">Hex The Government</span>
+      <a href="contact.html">Contact →</a>
+    </div>
+
+    <header class="standalone-head">
+      <h1>TAX SEASON</h1>
+      <p class="game-disclaimer">Fiction. No real person is depicted. <a href="legal.html#satire">Satire notice</a>.</p>
+    </header>
+
+    <main>
+    <div class="game-stage tax-stage is-menu">
+      <canvas id="taxCanvas" class="game-canvas" role="img" aria-label="Tax Season"></canvas>
+      <canvas id="taxLabels" class="tax-labels" aria-hidden="true"></canvas>
+
+      <div class="game-hud" id="taxHud" aria-hidden="true">
+        <div class="hud-cell"><span>Crew</span><b id="hudCrew">0</b></div>
+        <div class="hud-cell"><span>Bracket</span><b id="hudBracket">1</b></div>
+        <div class="hud-cell"><span>Cash</span><b id="hudCash">$0</b></div>
+      </div>
+
+      <div class="game-overlay" id="taxOverlay">
+        <p class="game-kicker">HTG</p>
+        <h2 id="taxOverlayTitle">TAX SEASON</h2>
+        <p class="game-lead" id="taxOverlayText">Bracket 1 · Millionaire</p>
+        <button class="btn btn-primary" type="button" id="taxPlay">Play</button>
+        <p class="game-kicker">Cash <b id="taxCash">$0</b></p>
+        <div class="tax-shop" id="taxShop"></div>
+        <p class="game-keys"><b>Desktop</b> mouse or A/D steer &middot; Esc pause. <b>Phone</b> drag to steer.</p>
+      </div>
+
+      <div class="game-bar">
+        <button class="game-chip" type="button" id="taxExit">Exit</button>
+        <button class="game-chip" type="button" id="taxMute" aria-pressed="false">Sound on</button>
+      </div>
+    </div>
+    <p class="about">Tax Season is a free browser lane-runner shooter by HTG — Hex The Government. A crew marches up a five-lane boulevard and fires on its own; steering is the whole control. Gates add to the crew, double it, raise its fire rate or damage, or cut it down, and shooting a gate raises its number. Vaults pay out crew or a better weapon, lobbies keep spawning Politicians until they are broken, and a fork splits the road into a guarded path and a quiet one. Each bracket ends on a boss one step richer, bigger and uglier than the last: Millionaire, Billionaire, Trillionaire, Quadrillionaire and upward. Cash buys damage, fire rate, crew and income between brackets. Every model is built and lit in code at runtime; nothing is downloaded. Also by HTG: <a href="game.html">Suit Purge</a> and <a href="street.html">Hex Street</a>.</p>
+    </main>
+
+    <footer class="standalone-foot">
+      <span>© <span id="legal-year">2026</span> ABRAXAS · HTG — <a href="legal.html">Legal &amp; Privacy</a></span>
+      <span><a href="game.html">Suit Purge</a> · <a href="street.html">Hex Street</a> · <a href="keep.html">Hex Keep</a> · <a href="index.html">HTG</a> · <a href="legal.html#satire">Fiction notice</a></span>
+    </footer>
+    <script>(function(){var y=document.getElementById('legal-year');if(y)y.textContent=new Date().getFullYear();})();</script>
+  </div>
+
+  <script src="tax.js"></script>
+  <script src="matrix.js"></script>
+  <script src="config.js?v=20260922"></script>
+  <script src="analytics.js"></script>
+</body>
+</html>

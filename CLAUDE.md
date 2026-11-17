@@ -28,6 +28,7 @@ Deployed by GitHub Pages straight from `main` (see `CNAME`). Merging to
 | `worker/` | Cloudflare Worker + KV for the Suit Purge shared highscores. Not served by Pages. |
 | `analytics.js` | Loads Cloudflare Web Analytics only when `config.analytics.cloudflareToken` is set. Off by default; enabling it changes `legal.html` §6/§7 (see the comment in `config.js`). |
 | `keep.js`, `keep.html` | Hex Keep — the tower defence. Self-contained IIFE. |
+| `tax.js`, `tax.html` | Tax Season — the lane runner. Self-contained IIFE. |
 | `rain.js`, `rain.html` | Jars — the second hidden game, on the rain. Self-contained IIFE. Unlocked only from `game.html`. |
 | `index.html` | Desktop page: hero, roster, music, gallery, donation + legal footer. Everything else is a standalone page. The hero is a full-screen gate (`body.hero-gate`, `script.js`): the page is locked on it until the first wheel / swipe / tap / key, which scrolls to the roster. |
 | `roster.html`, `music.html`, `gallery.html` | Standalone copies of the home sections in the `sequence.html` shell; the nav links here, the home page keeps the sections for scrolling. They embed the same markup as `index.html` — edit both. |
@@ -465,7 +466,7 @@ telco's name), and `legal.html` §5 says so — keep that wording.
   on harmonics 3 and 9 for its burble, the inline six on 6, 12 and 18.
   Nobody has heard this through the sandbox: tune it from owner feedback.
 - **Arrow chain:** the top-line arrows run HTG → Roster → Music → Gallery →
-  The Sequence → Suit Purge → Hex Street → Hex Keep → Contact → HTG, back and forward.
+  The Sequence → Suit Purge → Hex Street → Hex Keep → Tax Season → Contact → HTG, back and forward.
   A new standalone page goes into that chain on both neighbours.
 - **Phones:** portrait uses the shared 68dvh stage; a phone on its side
   (`max-height: 520px` landscape) gets a full-screen stage with the minimap
@@ -530,6 +531,48 @@ person**.
   falls on wave 2. `hpScale` is touchy: `0.2 / 1.06` killed the bot by
   wave 8, `0.14 / 1.045` never touched it before 30.
 - Best run in `localStorage` (`htg.keep.best`); `legal.html` §8 discloses it.
+
+## Tax Season (`tax.js`, `tax.html`) — the lane runner
+
+Lane-runner shooter, linked from the home footer, Suit Purge and Hex
+Street. The owner asked for an "OSRS version" of a named mobile game; that
+was declined (Jagex's assets and look are not ours, and the site ships no
+clone of someone else's game). This is an original in the same genre with
+the Suit Purge cast. Same rules as the other games: nothing downloaded, no
+third-party assets, **no real person**, and never RuneScape names, models,
+items or look.
+
+- **Loop:** the crew marches and fires on its own; the player only steers
+  (mouse follows, finger drags, A/D). Gates (`add`, `mul`, `rate`, `dmg`)
+  apply to the half of the road the crew crosses; shooting an `add` gate
+  raises its number up to `cap`. Vaults (`crate`) pay crew or a weapon
+  level, lobbies spawn Politicians until broken, one `fork` per bracket
+  walls the road into a guarded path that pays and a quiet one that does
+  not. A boss ends each bracket; its tier is the bracket number, named by
+  `TIERS` (Millionaire upward, endless).
+- **"Richer, bigger, uglier" is `buildRich(t)`**: every tier adds girth,
+  chins, warts, stacked hats, rings and chains, and the skin goes sicklier.
+  Owner asked for high-poly, not low-poly: the rich are 28-segment lathes
+  and ellipsoids with smooth normals. Keep them smooth; do not swap in flat
+  boxes. Tier meshes are built on first use and cached (`richMesh`).
+- **Renderer:** raw WebGL1, one program, 10 floats per vertex (pos, normal,
+  colour, part). Limbs swing in the vertex shader by `aPart` (1/2 legs, 3/4
+  arms) about the mesh's `piv`; a character is one draw call. `uMat`
+  ladder in `FS`: 0 lit, 1 road (markings and lamp pools drawn from world
+  x/z), 2 emissive, 3 shadow blob, 4 gate panel. A vertex colour above 1
+  reads as a light. Numbers (gate values, hit points, crew count, boss bar)
+  are drawn on the 2D `#taxLabels` canvas over the stage.
+- **The view matrix is mirrored** so +x is screen right. Culling is off for
+  that reason; do not turn it on.
+- **A narrow stage backs the camera off** (`camera()`, `k`) until the road
+  fits, and the boss pulls it back further (`S.zoom`).
+- **Saved:** `localStorage` `htg.tax` (bracket, cash, upgrades), disclosed
+  in `legal.html` §7. Cash is in-game only: never attach real money.
+- **Check after changes** with `?taxdebug=1` (`window.__tax`: `S`, `step`,
+  `start`, `preview(tier, boss)`): step a steering bot at 1/60 and confirm
+  bracket 1 clears with no upgrades. Nobody has heard the sound through the
+  sandbox; tune it from owner feedback.
+- **Arrow chain:** Hex Keep → Tax Season → Contact.
 
 ## The HTG mark
 
