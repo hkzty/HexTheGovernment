@@ -464,7 +464,7 @@ telco's name), and `legal.html` §5 says so — keep that wording.
   on harmonics 3 and 9 for its burble, the inline six on 6, 12 and 18.
   Nobody has heard this through the sandbox: tune it from owner feedback.
 - **Arrow chain:** the top-line arrows run HTG → Roster → Music → Gallery →
-  The Sequence → Suit Purge → Hex Street → Contact → HTG, back and forward.
+  The Sequence → Suit Purge → Hex Street → Tax Season → Contact → HTG, back and forward.
   A new standalone page goes into that chain on both neighbours.
 - **Phones:** portrait uses the shared 68dvh stage; a phone on its side
   (`max-height: 520px` landscape) gets a full-screen stage with the minimap
@@ -495,6 +495,48 @@ telco's name), and `legal.html` §5 says so — keep that wording.
   timeout, and position the car through `placeAt`.
 - The HUD place label (`#streetPlace`) is the nearest road's name — a
   geographic name, the one bit of text the game shows while driving.
+
+## Tax Season (`tax.js`, `tax.html`) — the lane runner
+
+Lane-runner shooter, linked from the home footer, Suit Purge and Hex
+Street. The owner asked for an "OSRS version" of a named mobile game; that
+was declined (Jagex's assets and look are not ours, and the site ships no
+clone of someone else's game). This is an original in the same genre with
+the Suit Purge cast. Same rules as the other games: nothing downloaded, no
+third-party assets, **no real person**, and never RuneScape names, models,
+items or look.
+
+- **Loop:** the crew marches and fires on its own; the player only steers
+  (mouse follows, finger drags, A/D). Gates (`add`, `mul`, `rate`, `dmg`)
+  apply to the half of the road the crew crosses; shooting an `add` gate
+  raises its number up to `cap`. Vaults (`crate`) pay crew or a weapon
+  level, lobbies spawn Politicians until broken, one `fork` per bracket
+  walls the road into a guarded path that pays and a quiet one that does
+  not. A boss ends each bracket; its tier is the bracket number, named by
+  `TIERS` (Millionaire upward, endless).
+- **"Richer, bigger, uglier" is `buildRich(t)`**: every tier adds girth,
+  chins, warts, stacked hats, rings and chains, and the skin goes sicklier.
+  Owner asked for high-poly, not low-poly: the rich are 28-segment lathes
+  and ellipsoids with smooth normals. Keep them smooth; do not swap in flat
+  boxes. Tier meshes are built on first use and cached (`richMesh`).
+- **Renderer:** raw WebGL1, one program, 10 floats per vertex (pos, normal,
+  colour, part). Limbs swing in the vertex shader by `aPart` (1/2 legs, 3/4
+  arms) about the mesh's `piv`; a character is one draw call. `uMat`
+  ladder in `FS`: 0 lit, 1 road (markings and lamp pools drawn from world
+  x/z), 2 emissive, 3 shadow blob, 4 gate panel. A vertex colour above 1
+  reads as a light. Numbers (gate values, hit points, crew count, boss bar)
+  are drawn on the 2D `#taxLabels` canvas over the stage.
+- **The view matrix is mirrored** so +x is screen right. Culling is off for
+  that reason; do not turn it on.
+- **A narrow stage backs the camera off** (`camera()`, `k`) until the road
+  fits, and the boss pulls it back further (`S.zoom`).
+- **Saved:** `localStorage` `htg.tax` (bracket, cash, upgrades), disclosed
+  in `legal.html` §7. Cash is in-game only: never attach real money.
+- **Check after changes** with `?taxdebug=1` (`window.__tax`: `S`, `step`,
+  `start`, `preview(tier, boss)`): step a steering bot at 1/60 and confirm
+  bracket 1 clears with no upgrades. Nobody has heard the sound through the
+  sandbox; tune it from owner feedback.
+- **Arrow chain:** Hex Street → Tax Season → Contact.
 
 ## The HTG mark
 

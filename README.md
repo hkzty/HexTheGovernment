@@ -46,7 +46,11 @@ Three games ship inside the site. Every wall, sprite, weapon and sound is genera
 
 [![Hex Street](docs/screenshots/hex-street.jpg)](https://www.htg.productions/street.html)
 
-All three are fiction. No real person or car brand is depicted; Hex Street's Canberra is a stylised map of public places and street names only.
+**Tax Season** — lane-runner shooter in hand-written WebGL: a crew that fires on its own, gates that grow or cut it, a fork in the road, lobbies that keep spawning suits, and a boss per bracket who is richer, bigger and uglier than the last. Every model is a smooth-shaded lathe built in code. [`tax.js`](tax.js)
+
+[![Tax Season](docs/screenshots/tax-season.jpg)](https://www.htg.productions/tax.html)
+
+All four are fiction. No real person or car brand is depicted; Hex Street's Canberra is a stylised map of public places and street names only.
 
 ## What's in here
 
@@ -64,7 +68,7 @@ index.html            home: hero, roster, music, gallery
 roster.html  music.html  gallery.html  sequence.html  contact.html
 abraxas.html  stretty.html  ciggie.html  justin.html      artist decks
 hexboy.html  graveboy.html                                service desks
-game.html  rain.html  street.html                         Suit Purge, Jars, Hex Street
+game.html  rain.html  street.html  tax.html               Suit Purge, Jars, Hex Street, Tax Season
 legal.html  404.html
 mobile.html           generated from index.html + style.css
 
